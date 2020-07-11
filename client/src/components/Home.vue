@@ -1,15 +1,13 @@
 <template>
   <div>
-    <h1>This is Home page</h1>
+    <h1>this is home page</h1>
   </div>
 </template>
 
 <script>
-
 export default {
   name: "Home",
-  components: {
-  },
+  components: {}
 };
 </script>
 

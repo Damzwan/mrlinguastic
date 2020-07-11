@@ -31,7 +31,7 @@
 
     <ul class="sidenav invesible-top green darken-4">
       <li>
-        <router-link to="/vocabulary" v-on:click="closesidenav">
+        <router-link to="/vocabulary">
           <span class="white-text center">Vocabulary</span>
           <i class="material-icons left">translate</i>
         </router-link>
@@ -211,16 +211,11 @@ export default {
   methods: {
     opensidenav: function() {
       sidenav.open();
-    },
-    closesidenav: function() {
-      console.log("fuck");
-      sidenav.close();
     }
   },
   watch: {
     $route() {
-      console.log("fuck");
-      sidenav.close();
+      sidenav.close()
     }
   }
 };
