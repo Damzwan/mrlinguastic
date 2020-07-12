@@ -27,7 +27,9 @@
         </div>
 
         <div class="col l4 m5 s12">
-          <VocCard title="Sample Card" wordAmount="5000" fromLang="belgium" toLang="france"></VocCard>
+          <VocCard title="Italian Sample Card" wordAmount="5000" fromLang="belgium" toLang="italy"></VocCard>
+          <VocCard title="French Card" wordAmount="2000" fromLang="belgium" toLang="france"></VocCard>
+          <VocCard title="Greek Card" wordAmount="1000" fromLang="greece" toLang="france"></VocCard>
         </div>
       </div>
     </div>
