@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="z-index: 1005">
     <nav>
       <div class="nav-wrapper green darken-4">
         <a href="/" class="brand-logo center hide-on-med-and-down">Learn Language Now</a>

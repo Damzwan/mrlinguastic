@@ -1,14 +1,21 @@
 <template>
-  <div>lit</div>
+  <div>
+    <ConfigModal></ConfigModal>
+    <!-- <a href="#configuration" class="waves-effect waves-light btn modal-trigger">Yes</a> -->
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent, ref } from "@vue/composition-api";
+import ConfigModal from "./ConfigModal.vue";
 
 export default defineComponent({
-  //   components: {
-  //   },
-  setup() {console.log("lit")},
+  components: {
+    ConfigModal,
+  },
+  setup() {
+    console.log("fuck");
+  },
 });
 </script>
 
