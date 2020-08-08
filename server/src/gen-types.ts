@@ -24,6 +24,35 @@ export type AdditionalEntityFields = {
   type?: Maybe<Scalars['String']>;
 };
 
+export enum Collections {
+  Users = 'Users',
+  Voclists = 'Voclists'
+}
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createUser?: Maybe<Scalars['Boolean']>;
+  addVoclist?: Maybe<Scalars['Boolean']>;
+  updateVoclist?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type MutationCreateUserArgs = {
+  UserInput: UserInput;
+};
+
+
+export type MutationAddVoclistArgs = {
+  userId: Scalars['ID'];
+  list: VoclistInput;
+};
+
+
+export type MutationUpdateVoclistArgs = {
+  vocId: Scalars['ID'];
+  newList: VoclistInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   user?: Maybe<User>;
@@ -36,21 +65,40 @@ export type QueryUserArgs = {
 
 export type User = {
   __typename?: 'User';
+  _id: Scalars['ID'];
   username: Scalars['String'];
   voclists?: Maybe<Array<Voclist>>;
 };
 
+export type UserInput = {
+  username: Scalars['String'];
+};
+
 export type Voclist = {
   __typename?: 'Voclist';
-  title?: Maybe<Scalars['String']>;
+  _id: Scalars['ID'];
+  title: Scalars['String'];
   description?: Maybe<Scalars['String']>;
-  fromLanguage?: Maybe<Scalars['String']>;
-  toLanguage?: Maybe<Scalars['String']>;
+  from: Scalars['String'];
+  to: Scalars['String'];
   words?: Maybe<Array<Word>>;
+};
+
+export type VoclistInput = {
+  title: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  from: Scalars['String'];
+  to: Scalars['String'];
+  words?: Maybe<Array<WordInput>>;
 };
 
 export type Word = {
   __typename?: 'Word';
+  from: Scalars['String'];
+  to: Scalars['String'];
+};
+
+export type WordInput = {
   from: Scalars['String'];
   to: Scalars['String'];
 };
@@ -135,10 +183,16 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  User: ResolverTypeWrapper<User>;
+  User: ResolverTypeWrapper<UserDbObject>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
   Voclist: ResolverTypeWrapper<Voclist>;
   Word: ResolverTypeWrapper<Word>;
+  Mutation: ResolverTypeWrapper<{}>;
+  UserInput: UserInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  VoclistInput: VoclistInput;
+  WordInput: WordInput;
+  Collections: Collections;
   AdditionalEntityFields: AdditionalEntityFields;
 };
 
@@ -146,10 +200,15 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Query: {};
   String: Scalars['String'];
-  User: User;
+  User: UserDbObject;
+  ID: Scalars['ID'];
   Voclist: Voclist;
   Word: Word;
+  Mutation: {};
+  UserInput: UserInput;
   Boolean: Scalars['Boolean'];
+  VoclistInput: VoclistInput;
+  WordInput: WordInput;
   AdditionalEntityFields: AdditionalEntityFields;
 };
 
@@ -188,21 +247,29 @@ export type MapDirectiveArgs = {   path: Scalars['String']; };
 
 export type MapDirectiveResolver<Result, Parent, ContextType = any, Args = MapDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'UserInput'>>;
+  addVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddVoclistArgs, 'userId' | 'list'>>;
+  updateVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUpdateVoclistArgs, 'vocId' | 'newList'>>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'username'>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   voclists?: Resolver<Maybe<Array<ResolversTypes['Voclist']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
 export type VoclistResolvers<ContextType = any, ParentType extends ResolversParentTypes['Voclist'] = ResolversParentTypes['Voclist']> = {
-  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  fromLanguage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  toLanguage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  from?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  to?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   words?: Resolver<Maybe<Array<ResolversTypes['Word']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
@@ -214,6 +281,7 @@ export type WordResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type Resolvers<ContextType = any> = {
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   Voclist?: VoclistResolvers<ContextType>;
@@ -244,3 +312,23 @@ export type DirectiveResolvers<ContextType = any> = {
  */
 export type IDirectiveResolvers<ContextType = any> = DirectiveResolvers<ContextType>;
 import { ObjectID } from 'mongodb';
+export type UserDbObject = {
+  _id: ObjectID,
+  username: string,
+  voclists?: Maybe<Array<VoclistDbObject['_id']>>,
+};
+
+export type VoclistDbObject = {
+  _id: ObjectID,
+  title: string,
+  description?: Maybe<string>,
+  from: string,
+  to: string,
+  words?: Maybe<Array<WordDbObject>>,
+};
+
+export type WordDbObject = {
+  from: string,
+  to: string,
+};
+

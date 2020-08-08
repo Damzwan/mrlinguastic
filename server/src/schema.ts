@@ -1,27 +1,57 @@
-const { gql } = require('apollo-server');
+const { gql } = require('apollo-server-express');
 
 export const typeDefs = gql`
+
+    enum Collections {
+        Users,
+        Voclists
+    }
 
     type Query{
         user(username: String!): User
     }
 
-    type User{
-        username: String!,
-        voclists: [Voclist!]
+    type Mutation{
+        createUser(UserInput: UserInput!): Boolean
+        addVoclist(userId: ID!, list: VoclistInput!): Boolean
+        updateVoclist(vocId: ID!, newList: VoclistInput!): Boolean
     }
 
-    type Voclist{
-        title: String
-        description: String,
-        fromLanguage: String,
-        toLanguage: String,
-        words: [Word!]
+    type User @entity{
+        _id: ID! @id
+        username: String! @column
+        voclists: [Voclist!] @link
     }
 
-    type Word{
-        from: String!,
-        to: String!,
+    input UserInput{
+        username: String!
+    }
+
+    type Voclist @entity{
+        _id: ID! @id
+        title: String! @column
+        description: String @column
+        from: String! @column
+        to: String! @column
+        words: [Word!] @embedded
+    }
+
+    input VoclistInput{
+        title: String!
+        description: String
+        from: String!
+        to: String!
+        words: [WordInput!]
+    }
+
+    type Word @entity(embedded: true){
+        from: String! @column
+        to: String! @column
+    }
+
+    input WordInput{
+        from: String!
+        to: String!
     }
 
 `;

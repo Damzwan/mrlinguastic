@@ -1,0 +1,11 @@
+query getUser($username: String!) {
+  user(username: $username) {
+    username
+    voclists {
+      title
+      description
+      from
+      to
+    }
+  }
+}

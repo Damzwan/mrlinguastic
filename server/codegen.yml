@@ -7,3 +7,12 @@ generates:
       - "typescript-resolvers"
       - "typescript-mongodb"
       - "typescript-operations"
+    config:
+      mappers:
+        User: UserDbObject
+  ../client/src/gen-types.ts:
+    documents: "src/queries/*.graphql"
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-vue-apollo"

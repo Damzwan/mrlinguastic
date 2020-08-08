@@ -30,68 +30,14 @@
     </nav>
 
     <ul class="sidenav invesible-top green darken-4">
-      <li>
-        <router-link to="/vocabulary">
-          <span class="white-text center">Vocabulary</span>
-          <i class="material-icons left">translate</i>
-        </router-link>
-      </li>
-      <li>
-        <a href="/vocabulary">
-          <span class="white-text">Grammar</span>
-          <span class="badge">Coming soon</span>
-          <i class="material-icons left">border_color</i>
-        </a>
-      </li>
-      <li>
-        <a href="#!">
-          <span class="white-text">Reading</span>
-          <span class="badge">Coming soon</span>
-          <i class="material-icons left">library_books</i>
-        </a>
-      </li>
-      <li>
-        <a href="#!">
-          <span class="white-text">Listening</span>
-          <span class="badge">Coming soon</span>
-          <i class="material-icons left">hearing</i>
-        </a>
-      </li>
-      <li>
-        <a href="#!">
-          <span class="white-text">Videos</span>
-          <span class="badge">Coming soon</span>
-          <i class="material-icons left">ondemand_video</i>
-        </a>
-      </li>
-      <li>
-        <a href="#!">
-          <span class="white-text">Stats</span>
-          <span class="badge">Coming soon</span>
-          <i class="material-icons left">assessment</i>
-        </a>
-      </li>
-      <li>
-        <div class="divider light-green darken-4"></div>
-      </li>
+      <li v-for="(item, index) in sidenavObjects" :key="index" v-on:click="closesidenav">
+        <div class="divider light-green darken-4" v-if="item.title == 'Install'"></div>
 
-      <li>
-        <a href="/install">
-          <span class="white-text center">Install</span>
-          <i class="material-icons left">file_download</i>
-        </a>
-      </li>
-      <li>
-        <a href="/donate">
-          <span class="white-text center">Donate</span>
-          <i class="material-icons left">attach_money</i>
-        </a>
-      </li>
-      <li>
-        <a href="/about">
-          <span class="white-text center">About</span>
-          <i class="material-icons left">info</i>
-        </a>
+        <router-link to="/vocabulary">
+          <span class="white-text center">{{item.title}}</span>
+          <span class="badge" v-if="item.badge">Coming soon</span>
+          <i class="material-icons left">{{item.icon}}</i>
+        </router-link>
       </li>
     </ul>
 
@@ -195,31 +141,37 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, onMounted } from "@vue/composition-api";
 import M from "materialize-css";
-var sidenav = null;
+import router from "@/router";
 
-export default {
-  name: "Nav",
-  components: {},
-  props: {},
-  mounted() {
-    M.AutoInit();
-    var elems = document.querySelectorAll(".sidenav")[0];
-    sidenav = M.Sidenav.init(elems, { closeOnClick: true });
-  },
-  methods: {
-    opensidenav: function() {
+export default defineComponent({
+  setup() {
+    let sidenav: any = null;
+    onMounted(() => {
+      M.AutoInit();
+      const elems = document.querySelectorAll(".sidenav")[0];
+      sidenav = M.Sidenav.init(elems);
+    });
+
+    function opensidenav() {
       sidenav.open();
     }
-  },
-  watch: {
-    $route() {
-      sidenav.close()
-    }
-  }
-};
-</script>
 
-<style>
-</style>
+    function closesidenav() {
+      sidenav.close();
+    }
+
+    const sidenavObjects = [
+      { title: "Vocabulary", icon: "translate", badge: false },
+      { title: "Grammer", icon: "border_color", badge: true },
+      { title: "Install", icon: "file_download", badge: false },
+      { title: "Donate", icon: "attach_money", badge: false },
+      { title: "About", icon: "info", badge: false },
+    ];
+
+    return { sidenav, opensidenav, closesidenav, sidenavObjects };
+  },
+});
+</script>

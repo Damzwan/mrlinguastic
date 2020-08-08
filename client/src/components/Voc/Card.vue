@@ -5,24 +5,31 @@
         {{ title }}
         <i class="material-icons right activator" style="font-size: 35;">more_vert</i>
       </span>
+      <p
+        style="margin-top: -5px; margin-bottom: 10px"
+      >A small description to give more info about the list</p>
+
       <div class="row">
-        <div class="col s4">
+        <div class="col s5">
           <p style="font-weight: bold; font-size: 15px;">{{ wordAmount }} words</p>
         </div>
-        <div class="col s1" style="margin-left: -30px">
-          <img :src="getPic(fromLang)" width="25px" height="25px" />
+        <div class="col s1" style="margin-right: 10px">
+          <img :src="getPic(fromLang)" v-if="fromLang" width="25px" height="25px" />
         </div>
         <div class="col s1">
-          <img :src="getPic(toLang)" width="25px" height="25px" />
+          <img :src="getPic(toLang)" v-if="toLang" width="25px" height="25px" />
         </div>
       </div>
+
+      <p class="footer">Created by Damian</p>
+      <p class="footer" style="right: 5%">08/08/2020 12:50</p>
     </div>
 
     <div class="card-reveal unselectable" style="overflow: hidden; width: 100%; height: 100%">
       <div class="action-row" style="top: 0px">
         <div
           class="action-item"
-          v-for="(card_item, index) in card_items_top"
+          v-for="(card_item, index) in itemsTop"
           :key="index"
           v-on:click="actionHandler(card_item)"
         >
@@ -34,7 +41,7 @@
       <div class="action-row" style="top: 50%">
         <div
           class="action-item"
-          v-for="(card_item, index) in card_items_bot"
+          v-for="(card_item, index) in itemsBot"
           :key="index"
           v-on:click="actionHandler(card_item)"
         >
@@ -50,55 +57,79 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "Voc_Card",
-  components: {},
+<script lang="ts">
+import { defineComponent } from "@vue/composition-api";
+
+export default defineComponent({
   props: {
     title: String,
     wordAmount: String,
     fromLang: String,
-    toLang: String
+    toLang: String,
   },
-  data() {
-    return {
-      card_items_top: [
-        { icon: "mode_edit", title: "Edit", action: "edit" },
-        { icon: "text_fields", title: "Rename", action: "rename" },
-        { icon: "share", title: "Share", action: "share" }
-      ],
-      card_items_bot: [
-        { icon: "picture_as_pdf", title: "Export", action: "toPdf" },
-        { icon: "delete", title: "Delete", action: "delete" },
-        { icon: "arrow_back", title: "Back", action: "back" }
-      ]
-    };
-  },
-  methods: {
-    actionHandler(item) {
+  setup() {
+    const itemsTop = [
+      { icon: "mode_edit", title: "Edit", action: "edit" },
+      { icon: "text_fields", title: "Rename", action: "rename" },
+      { icon: "share", title: "Share", action: "share" },
+    ];
+    const itemsBot = [
+      { icon: "picture_as_pdf", title: "Export", action: "toPdf" },
+      { icon: "delete", title: "Delete", action: "delete" },
+      { icon: "arrow_back", title: "Back", action: "back" },
+    ];
+
+    function edit() {
+      console.log("should be editing");
+    }
+    function rename() {
+      console.log("should be renaming");
+    }
+    function share() {
+      console.log("should be sharing");
+    }
+    function toPdf() {
+      console.log("should be pdfing");
+    }
+    function del() {
+      console.log("should be deleting");
+    }
+
+    function actionHandler(item: any) {
       if (item.action == "edit") edit();
       else if (item.action == "rename") rename();
       else if (item.action == "share") share();
       else if (item.action == "toPdf") toPdf();
       else if (item.action == "delete") del();
-    },
-    getPic(lang) {
-      var images = require.context("../../assets/country-flags/", false, /\.svg$/);
+    }
+
+    function getPic(lang: string) {
+      const images = require.context(
+        "../../assets/country-flags/",
+        false,
+        /\.svg$/
+      );
+
       return images("./" + lang + ".svg");
     }
-  }
-};
 
-function edit() {
-  console.log("should be editing");
-}
-function rename() {}
-function share() {}
-function toPdf() {}
-function del() {}
+    return {
+      itemsTop,
+      itemsBot,
+      actionHandler,
+      getPic,
+      edit,
+      rename,
+      share,
+      toPdf,
+      del,
+    };
+  },
+});
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
+
 <style scoped>
 .action-row {
   left: 0px;
@@ -110,17 +141,17 @@ function del() {}
 .action-item {
   display: inline-block;
   text-align: center;
-  background-color: #f44336;
+  background-color: #2e7d32;
   width: 33.33%;
   height: 100%;
 }
 
 .action-item:hover {
-  background-color: #e53935;
+  background-color: #1b5e20;
 }
 
 .icon {
-  margin-top: 5%;
+  margin-top: 15%;
   color: white;
   font-size: 30px;
 }
@@ -130,6 +161,12 @@ function del() {}
   font-weight: bold;
   color: white;
   position: relative;
-  top: -40%;
+  top: -30%;
+}
+
+.footer {
+  position: absolute;
+  color: gray;
+  font-size: 12px;
 }
 </style>

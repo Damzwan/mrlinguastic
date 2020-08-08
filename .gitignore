@@ -104,3 +104,6 @@ dist
 .tern-port
 
 server/environment.js
+client/src/gen-types.ts
+server/src/gen-types.ts
+.env

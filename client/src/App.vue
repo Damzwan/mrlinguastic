@@ -1,23 +1,19 @@
 <template>
   <div id="app">
-    <Nav></Nav>
-    <router-view></router-view>
+    <div id="nav">
+      <Nav></Nav>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
-<script>
-import Nav from "./components/Nav";
-// import io from "socket.io-client";
-// var socket = io.connect("http://localhost:3000");
-// console.log(socket)
+<script lang="ts">
+import Vue from "vue";
+import Nav from "./components/Nav.vue";
 
-export default {
-  name: "App",
+export default Vue.extend({
   components: {
-    Nav
-  }
-};
+    Nav,
+  },
+});
 </script>
-
-<style>
-</style>
