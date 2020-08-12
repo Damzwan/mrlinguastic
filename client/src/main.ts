@@ -11,12 +11,15 @@ import "./assets/global.css"
 
 import 'materialize-css/dist/css/materialize.min.css'
 import 'material-design-icons/iconfont/material-icons.css'
+import { directive as onClickaway } from "vue-clickaway";
 
 Vue.config.productionTip = false
 
 const apolloClient = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
 })
+
+Vue.directive("onClickaway", onClickaway)
 
 Vue.use(VueApollo)
 new Vue({

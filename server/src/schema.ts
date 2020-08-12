@@ -8,7 +8,9 @@ export const typeDefs = gql`
     }
 
     type Query{
-        user(username: String!): User
+        user(username: String!): User!
+        translateWord(word: String!, fromLang: String!, toLang: String!): String
+        getImages(word: String!, lang: String!): [String!]
     }
 
     type Mutation{
@@ -47,6 +49,7 @@ export const typeDefs = gql`
     type Word @entity(embedded: true){
         from: String! @column
         to: String! @column
+        imgUrl: String! @column
     }
 
     input WordInput{

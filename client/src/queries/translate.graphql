@@ -1,0 +1,3 @@
+query translateWord($word: String!, $fromLang: String!, $toLang: String!) {
+  translateWord(word: $word, fromLang: $fromLang, toLang: $toLang)
+}

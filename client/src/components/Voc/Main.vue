@@ -6,9 +6,9 @@
         <h4 class="center-align hide-on-med-and-down">🐉 Choose or create a voc list 🐉</h4>
       </div>
 
-      <div class="fixed-action-btn hide-on-large-only">
+      <div class="fixed-action-btn">
         <router-link to="/vocabulary/create" class="btn-floating btn-large red">
-          <i class="large material-icons" style="font-size: 35;">add</i>
+          <i class="large material-icons" style="font-size: 35px;">add</i>
         </router-link>
       </div>
 

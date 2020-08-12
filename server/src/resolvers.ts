@@ -15,10 +15,15 @@ export const resolv: Resolvers = {
     Query: {
         user: async (_: any, args) =>
             await mongoAPI.getUser(args.username),
+        translateWord: async (_: any, args, { dataSources }: { dataSources: any }) =>
+            await dataSources.translatorAPI.translateWord(args.word, args.fromLang, args.toLang),
+        getImages: async (_: any, args, { dataSources }: { dataSources: any }) =>
+            await dataSources.pixabayAPI.getImages(args.word, args.lang)
+
     },
     Mutation: {
         createUser: async (_: any, args) => {
-            const user = { username: args.UserInput.username, voclists: [] }
+            const user = { username: args.UserInput.username, voclists: [typeof String] }
             await mongoAPI.addEntity(Collections.Voclists, user);
             return true;
         },
@@ -30,8 +35,7 @@ export const resolv: Resolvers = {
         updateVoclist: async (_: any, args) => {
             mongoAPI.updateEntity(Collections.Voclists, new ObjectID(args.vocId), args.newList)
             return true;
-        }
-
+        },
     },
     User: {
         voclists: async (_user, _args) => {

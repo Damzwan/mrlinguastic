@@ -55,12 +55,27 @@ export type MutationUpdateVoclistArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  user?: Maybe<User>;
+  user: User;
+  translateWord?: Maybe<Scalars['String']>;
+  getImages?: Maybe<Array<Scalars['String']>>;
 };
 
 
 export type QueryUserArgs = {
   username: Scalars['String'];
+};
+
+
+export type QueryTranslateWordArgs = {
+  word: Scalars['String'];
+  fromLang: Scalars['String'];
+  toLang: Scalars['String'];
+};
+
+
+export type QueryGetImagesArgs = {
+  word: Scalars['String'];
+  lang: Scalars['String'];
 };
 
 export type User = {
@@ -96,6 +111,7 @@ export type Word = {
   __typename?: 'Word';
   from: Scalars['String'];
   to: Scalars['String'];
+  imgUrl: Scalars['String'];
 };
 
 export type WordInput = {
@@ -254,7 +270,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'username'>>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'username'>>;
+  translateWord?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryTranslateWordArgs, 'word' | 'fromLang' | 'toLang'>>;
+  getImages?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType, RequireFields<QueryGetImagesArgs, 'word' | 'lang'>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -277,6 +295,7 @@ export type VoclistResolvers<ContextType = any, ParentType extends ResolversPare
 export type WordResolvers<ContextType = any, ParentType extends ResolversParentTypes['Word'] = ResolversParentTypes['Word']> = {
   from?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   to?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  imgUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
@@ -330,5 +349,6 @@ export type VoclistDbObject = {
 export type WordDbObject = {
   from: string,
   to: string,
+  imgUrl: string,
 };
 

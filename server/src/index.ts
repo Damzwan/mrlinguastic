@@ -1,25 +1,24 @@
 import { ApolloServer, AuthenticationError } from 'apollo-server-express';
-import * as express from "express";
+import express from "express";
 import { resolv } from "./resolvers";
 import { typeDefs } from "./schema";
 
 import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
-import mongoose = require("mongoose")
-import { MongoAPI } from './datasources/mongodb';
+import { TranslatorAPI } from './datasources/translator';
+import { PixabayAPI } from './datasources/pixabay';
 require('dotenv').config()
 
 const app = express()
 
-// const client = new MongoClient(process.env.MONGO_URI);
-// client.connect()
-
-
 const dataSources = () => ({
+    translatorAPI: new TranslatorAPI(),
+    pixabayAPI: new PixabayAPI(),
 });
 
 const server = new ApolloServer({
     typeDefs: [DIRECTIVES, typeDefs],
     resolvers: resolv,
+    dataSources,
     introspection: true,
     playground: true,
     engine: {

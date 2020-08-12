@@ -6,7 +6,7 @@
         <a href="/" class="brand-logo center hide-on-large-only">LLN</a>
         <ul class="left">
           <li>
-            <a href="#" v-on:click="opensidenav">
+            <a href="#" v-on:click="openSideNav">
               <i class="material-icons" style="font-size: 30px;">menu</i>
             </a>
           </li>
@@ -30,13 +30,13 @@
     </nav>
 
     <ul class="sidenav invesible-top green darken-4">
-      <li v-for="(item, index) in sidenavObjects" :key="index" v-on:click="closesidenav">
+      <li v-for="(item, index) in sidenavObjects" :key="index" v-on:click="closeSideNav">
         <div class="divider light-green darken-4" v-if="item.title == 'Install'"></div>
 
         <router-link to="/vocabulary">
-          <span class="white-text center">{{item.title}}</span>
+          <span class="white-text center">{{ item.title }}</span>
           <span class="badge" v-if="item.badge">Coming soon</span>
-          <i class="material-icons left">{{item.icon}}</i>
+          <i class="material-icons left">{{ item.icon }}</i>
         </router-link>
       </li>
     </ul>
@@ -50,14 +50,14 @@
             <div class="row">
               <div class="input-field col s12">
                 <i class="material-icons prefix">account_circle</i>
-                <input id="username" type="text" class="validate" onchange="allFieldsLogin()" />
+                <input id="username" type="text" class="validate" onchange="allFieldsLogin()"/>
                 <label for="username">Username</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
                 <i class="material-icons prefix">lock</i>
-                <input id="password" type="password" class="validate" onchange="allFieldsLogin()" />
+                <input id="password" type="password" class="validate" onchange="allFieldsLogin()"/>
                 <label for="password">Password</label>
               </div>
             </div>
@@ -66,14 +66,14 @@
       </div>
       <div class="modal-footer">
         <a
-          href="#register"
-          class="modal-close waves-effect waves-green btn-flat modal-trigger"
+            href="#register"
+            class="modal-close waves-effect waves-green btn-flat modal-trigger"
         >Register</a>
         <a
-          href="#!"
-          id="loginbutton"
-          onclick="LoginCLient()"
-          class="modal-close waves-effect waves-green btn-flat disabled"
+            href="#!"
+            id="loginbutton"
+            onclick="LoginCLient()"
+            class="modal-close waves-effect waves-green btn-flat disabled"
         >Log in</a>
       </div>
     </div>
@@ -88,10 +88,10 @@
               <div class="input-field col s12">
                 <i class="material-icons prefix">account_circle</i>
                 <input
-                  id="create-username"
-                  type="text"
-                  class="validate"
-                  onchange="allFieldsFilledIn();"
+                    id="create-username"
+                    type="text"
+                    class="validate"
+                    onchange="allFieldsFilledIn();"
                 />
                 <label for="create-username">Username</label>
               </div>
@@ -100,10 +100,10 @@
               <div class="input-field col s12">
                 <i class="material-icons prefix">lock</i>
                 <input
-                  id="create-password"
-                  type="password"
-                  class="validate"
-                  onchange="checkpasswords(); allFieldsFilledIn();"
+                    id="create-password"
+                    type="password"
+                    class="validate"
+                    onchange="checkpasswords(); allFieldsFilledIn();"
                 />
                 <label for="create-password">Password</label>
               </div>
@@ -112,16 +112,16 @@
               <div class="input-field col s12">
                 <i class="material-icons prefix">lock</i>
                 <input
-                  id="repeat-create-password"
-                  type="password"
-                  class="validate"
-                  onchange="checkpasswords(); allFieldsFilledIn();"
+                    id="repeat-create-password"
+                    type="password"
+                    class="validate"
+                    onchange="checkpasswords(); allFieldsFilledIn();"
                 />
                 <label for="repeat-create-password">Repeat Password</label>
                 <span
-                  class="helper-text"
-                  data-error="Seems like you made a typo"
-                  data-success="Good Job"
+                    class="helper-text"
+                    data-error="Seems like you made a typo"
+                    data-success="Good Job"
                 >Both passwords need to be the same</span>
               </div>
             </div>
@@ -131,10 +131,10 @@
       <div class="modal-footer">
         <a href="#login" class="modal-close waves-effect waves-green btn-flat modal-trigger">Go Back</a>
         <a
-          href="#!"
-          id="register-button"
-          onclick="Register()"
-          class="modal-close waves-effect waves-green btn-flat disabled"
+            href="#!"
+            id="register-button"
+            onclick="Register()"
+            class="modal-close waves-effect waves-green btn-flat disabled"
         >Register</a>
       </div>
     </div>
@@ -142,36 +142,36 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "@vue/composition-api";
+import {defineComponent, onMounted, ref} from "@vue/composition-api";
 import M from "materialize-css";
 import router from "@/router";
 
 export default defineComponent({
   setup() {
-    let sidenav: any = null;
+    const sidenav = ref<M.Sidenav>(null);
+
     onMounted(() => {
-      M.AutoInit();
-      const elems = document.querySelectorAll(".sidenav")[0];
-      sidenav = M.Sidenav.init(elems);
+      //M.AutoInit();
+      sidenav.value = M.Sidenav.init(document.querySelectorAll(".sidenav")[0]);
     });
 
-    function opensidenav() {
-      sidenav.open();
+    function openSideNav() {
+      sidenav.value.open();
     }
 
-    function closesidenav() {
-      sidenav.close();
+    function closeSideNav() {
+      sidenav.value.close();
     }
 
     const sidenavObjects = [
-      { title: "Vocabulary", icon: "translate", badge: false },
-      { title: "Grammer", icon: "border_color", badge: true },
-      { title: "Install", icon: "file_download", badge: false },
-      { title: "Donate", icon: "attach_money", badge: false },
-      { title: "About", icon: "info", badge: false },
+      {title: "Vocabulary", icon: "translate", badge: false},
+      {title: "Grammer", icon: "border_color", badge: true},
+      {title: "Install", icon: "file_download", badge: false},
+      {title: "Donate", icon: "attach_money", badge: false},
+      {title: "About", icon: "info", badge: false},
     ];
 
-    return { sidenav, opensidenav, closesidenav, sidenavObjects };
+    return {sidenav, openSideNav, closeSideNav, sidenavObjects};
   },
 });
 </script>

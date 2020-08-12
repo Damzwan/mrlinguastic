@@ -1,0 +1,74 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Mutation {
+    addVoclist(list: VoclistInput!, userId: ID!): Boolean
+    createUser(UserInput: UserInput!): Boolean
+    updateVoclist(newList: VoclistInput!, vocId: ID!): Boolean
+}
+
+type Query {
+    getImages(lang: String!, word: String!): [String!]
+    translateWord(fromLang: String!, toLang: String!, word: String!): String
+    user(username: String!): User!
+}
+
+type User {
+    _id: ID!
+    username: String!
+    voclists: [Voclist!]
+}
+
+type Voclist {
+    _id: ID!
+    description: String
+    from: String!
+    title: String!
+    to: String!
+    words: [Word!]
+}
+
+type Word {
+    from: String!
+    to: String!
+}
+
+enum CacheControlScope {
+    PRIVATE
+    PUBLIC
+}
+
+enum Collections {
+    Users
+    Voclists
+}
+
+input AdditionalEntityFields {
+    path: String
+    type: String
+}
+
+input UserInput {
+    username: String!
+}
+
+input VoclistInput {
+    description: String
+    from: String!
+    title: String!
+    to: String!
+    words: [WordInput!]
+}
+
+input WordInput {
+    from: String!
+    to: String!
+}
+
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload

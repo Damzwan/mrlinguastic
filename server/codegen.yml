@@ -11,7 +11,7 @@ generates:
       mappers:
         User: UserDbObject
   ../client/src/gen-types.ts:
-    documents: "src/queries/*.graphql"
+    documents: "../client/src/queries/*.graphql"
     plugins:
       - "typescript"
       - "typescript-operations"
