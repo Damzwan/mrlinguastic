@@ -1,17 +1,28 @@
-import { ApolloServer, AuthenticationError } from 'apollo-server-express';
+import {ApolloServer, AuthenticationError} from 'apollo-server-express';
 import express from "express";
-import { resolv } from "./resolvers";
-import { typeDefs } from "./schema";
+import {resolv} from "./resolvers";
+import {typeDefs} from "./schema";
 
-import { DIRECTIVES } from '@graphql-codegen/typescript-mongodb';
-import { TranslatorAPI } from './datasources/translator';
-import { PixabayAPI } from './datasources/pixabay';
+import {DIRECTIVES} from '@graphql-codegen/typescript-mongodb';
+import {azureAPI} from './datasources/azure';
+import {PixabayAPI} from './datasources/pixabay';
+
 require('dotenv').config()
 
+const cors = require('cors')
 const app = express()
+app.use(cors())
+
+const azure = new azureAPI()
+azure.getVoices();
+app.get("/speech", async function (req, res) {
+    azure.textToSpeech(<string>req.query.word, <string>req.query.lang, <string>req.query.voice, res)
+    //const stream = await azure.textToSpeech();
+    //stream.pipe(res);
+})
 
 const dataSources = () => ({
-    translatorAPI: new TranslatorAPI(),
+    azureAPI: azure,
     pixabayAPI: new PixabayAPI(),
 });
 
@@ -23,9 +34,9 @@ const server = new ApolloServer({
     playground: true,
     engine: {
         reportSchema: true,
-    }
+    },
 });
 
-server.applyMiddleware({ app })
+server.applyMiddleware({app})
 
-app.listen({ port: 4000 }, () => console.log(`Server ready at http://localhost:4000${server.graphqlPath}`))
+app.listen({port: 4000}, () => console.log(`Server ready at http://localhost:4000${server.graphqlPath}`))

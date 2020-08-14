@@ -12,21 +12,28 @@
         <div class="collapsible-body">
           <!-- hack to prevent collapsible from closing -->
           <span style="visibility: hidden">"</span>
+          <div style="margin-top: 10px"></div>
 
-          <i class="material-icons left unselectable tooltipped word-btn" data-tooltip="Remove" @click="remove"
+          <i class="material-icons left unselectable tooltipped word-btn" data-tooltip="Remove" @click="playFromAudio"
              style="margin-left: 10px">volume_up</i>
           <i class="material-icons left unselectable tooltipped word-btn" data-tooltip="Remove"
-             @click="remove">volume_up</i>
+             @click="playToAudio">volume_up</i>
           <i class="material-icons right unselectable tooltipped word-btn" data-tooltip="Remove" @click="remove"
              style="margin-right: 10px; color: #8b0000">close</i>
+
           <i class="material-icons right unselectable tooltipped word-btn" data-tooltip="Select Image"
+             v-if="!value.imgUrl"
              @click="getImage">image</i>
+          <div v-else class="right unselectable" style="margin-top: -33px; margin-left: 15px" @click="getImage"><img
+              :src="value.imgUrl" style="width: 35px; height: 35px;" class="circle"></div>
+
           <i class="material-icons right unselectable tooltipped word-btn" data-tooltip="Example Sentences"
              @click="getExamples">format_list_numbered</i>
 
           <div class="back-container" @click="closeCollapsible" v-if="!state.disabled">
             <i class="material-icons center unselectable tooltipped back-btn" data-tooltip="Close">arrow_upward</i>
           </div>
+
         </div>
       </li>
     </ul>
@@ -43,8 +50,6 @@ import {
   reactive,
 } from "@vue/composition-api";
 import M, {Collapsible} from "materialize-css";
-import Modal = M.Modal;
-import {useImageSearch, useTranslate} from "@/use/voc";
 import {Word} from "@/gen-types";
 
 //TODO merge with Create
@@ -101,6 +106,19 @@ export default defineComponent({
       context.emit('input', {from: props.value.from, to: $event.target.value})
     }
 
+    const fromAudio = document.createElement("audio");
+    fromAudio.src = props.value.fromAudio;
+    const toAudio = document.createElement("audio");
+    toAudio.src = props.value.toAudio;
+    toAudio.play();
+
+    function playFromAudio() {
+      fromAudio.play();
+    }
+
+    function playToAudio() {
+      toAudio.play();
+    }
 
     return {
       closeCollapsible,
@@ -110,7 +128,9 @@ export default defineComponent({
       getImage: openImgModal,
       getExamples: openExamplesModal,
       updateFrom,
-      updateTo
+      updateTo,
+      playFromAudio,
+      playToAudio
     };
   },
 });
@@ -143,7 +163,7 @@ export default defineComponent({
 
 .word-btn {
   font-size: 35px;
-  margin-top: -10px;
+  margin-top: -30px;
 }
 
 .non-clickable {

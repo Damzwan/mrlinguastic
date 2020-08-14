@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.graphqlconfig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/server.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TTSOutput.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/datasources/azure.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/ConfigModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/ConfigModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Create.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/WordItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/WordItem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/queries/translate.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/queries/translate.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/voc.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/voc.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/translator.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen-types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resolvers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/resolvers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/schema.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1g2ICuRdGqvOmMS9cXtNIStii6v" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../client" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="C:\Users\damia\Documents\mrlinguastic\server\node_modules\typescript\lib" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="" />
+      <created>1597306136195</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1597306136195</updated>
+      <workItem from="1597306138423" duration="14057000" />
+      <workItem from="1597327968859" duration="131000" />
+      <workItem from="1597395833758" duration="14900000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="359" y="265" width="726" height="522" key="#com.intellij.ide.util.TreeDirectoryChooserDialog" timestamp="1597308839047">
+      <screen x="0" y="0" width="1504" height="1003" />
+    </state>
+    <state x="359" y="265" width="726" height="522" key="#com.intellij.ide.util.TreeDirectoryChooserDialog/0.0.1504.1003/198.-1080.1920.1080@0.0.1504.1003" timestamp="1597308839047" />
+    <state x="533" y="257" key="FileChooserDialogImpl" timestamp="1597395852727">
+      <screen x="0" y="0" width="1504" height="1003" />
+    </state>
+    <state x="533" y="257" key="FileChooserDialogImpl/0.0.1504.1003/198.-1080.1920.1080@0.0.1504.1003" timestamp="1597395852727" />
+    <state x="254" y="147" key="SettingsEditor" timestamp="1597309057802">
+      <screen x="0" y="0" width="1504" height="1003" />
+    </state>
+    <state x="254" y="147" key="SettingsEditor/0.0.1504.1003/198.-1080.1920.1080@0.0.1504.1003" timestamp="1597309057802" />
+    <state x="415" y="216" width="672" height="678" key="search.everywhere.popup" timestamp="1597306538405">
+      <screen x="0" y="0" width="1504" height="1003" />
+    </state>
+    <state x="415" y="216" width="672" height="678" key="search.everywhere.popup/0.0.1504.1003/198.-1080.1920.1080@0.0.1504.1003" timestamp="1597306538405" />
+  </component>
+</project>

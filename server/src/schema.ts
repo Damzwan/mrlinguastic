@@ -1,7 +1,7 @@
-const { gql } = require('apollo-server-express');
+const {gql} = require('apollo-server-express');
 
 export const typeDefs = gql`
-
+    
     enum Collections {
         Users,
         Voclists
@@ -11,6 +11,8 @@ export const typeDefs = gql`
         user(username: String!): User!
         translateWord(word: String!, fromLang: String!, toLang: String!): String
         getImages(word: String!, lang: String!): [String!]
+        getAudio(word: String!, lang: String!, voice: String!): String
+        getVoices: [Voice]
     }
 
     type Mutation{
@@ -50,11 +52,19 @@ export const typeDefs = gql`
         from: String! @column
         to: String! @column
         imgUrl: String! @column
+        fromAudio: String! @column
+        toAudio: String! @column
     }
 
     input WordInput{
         from: String!
         to: String!
+    }
+    
+    type Voice{
+        DisplayName: String
+        Gender: String
+        ShortName: String
     }
 
 `;

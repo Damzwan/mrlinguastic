@@ -12,7 +12,9 @@ type Mutation {
 }
 
 type Query {
+    getAudio(lang: String!, voice: String!, word: String!): String
     getImages(lang: String!, word: String!): [String!]
+    getVoices: [Voice]
     translateWord(fromLang: String!, toLang: String!, word: String!): String
     user(username: String!): User!
 }
@@ -32,9 +34,18 @@ type Voclist {
     words: [Word!]
 }
 
+type Voice {
+    DisplayName: String
+    Gender: String
+    ShortName: String
+}
+
 type Word {
     from: String!
+    fromAudio: String!
+    imgUrl: String!
     to: String!
+    toAudio: String!
 }
 
 enum CacheControlScope {

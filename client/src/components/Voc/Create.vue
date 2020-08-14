@@ -15,14 +15,14 @@
         </div>
         <div class="input-field col s12">
           <input v-bind:placeholder="getExampleWord(state.langSettings[2])" type="text" class="validate"
-                 v-model="state.to"
+                 v-model="state.to" id="to"
                  v-on:keyup.enter="insertEntry" ref="toInput"/>
           <img role="img" :src="require(`@/assets/country-flags/${getCountry(state.langSettings[2])}.svg`)"
                class="flag-icon" alt="From Flag"/>
         </div>
         <div class="divider col s12"></div>
       </div>
-      <div class="reverse-order">
+      <div class="reverse-order" style="margin-bottom: 10%">
         <WordItem div v-for="(word, index) in state.words" :key="index" v-model="state.words[index]"
                   v-on:openImgModal="openImgModal" v-on:removeWord="removeWord"></WordItem>
       </div>
@@ -141,27 +141,37 @@ export default defineComponent({
       toInput.value.focus();
     }
 
-    async function insertEntry() {
-      const from = state.from;
-      state.words.push({from: cleanWord(state.from), to: cleanWord(state.to), imgUrl: null});
-      state.from = "";
-      state.to = "";
-      fromInput.value.focus();
-
-      await executeImageSearch({word: from, lang: state.langSettings[0]})
-      allImgUrls[from] = imgUrls.value.getImages;
-    }
-
     function fillImgModal() {
       state.imagesToLoad = [];
       state.imagesLoaded = false;
       for (const url of allImgUrls[state.selectedWord.from]) state.imagesToLoad.push(url);
     }
 
+    async function insertEntry() {
+      const word = {
+        from: cleanWord(state.from),
+        to: cleanWord(state.to),
+        imgUrl: null,
+        fromAudio: `https://8f585606e10f.ngrok.io/speech?word=${state.from}&lang=${state.langSettings[0]}&voice=${state.langSettings[1]}`,
+        toAudio: `https://8f585606e10f.ngrok.io/speech?word=${state.to}&lang=${state.langSettings[2]}&voice=${state.langSettings[3]}`
+      };
+      state.words.push(word);
+      state.from = "";
+      fromInput.value.focus();
+      state.to = "";
+
+      await executeImageSearch({word: word.from, lang: state.langSettings[0]})
+      allImgUrls[word.from] = imgUrls.value.getImages;
+      state.selectedWord = word;
+
+      fillImgModal();
+      state.selectedWord.imgUrl = allImgUrls[word.from][0]; //auto select the first image
+    }
+
     function openImgModal(word: Word) {
       const prevWord = state.selectedWord;
       state.selectedWord = word;
-      if (word.imgUrl == null || prevWord != word) fillImgModal()
+      if (prevWord != word) fillImgModal()
       imgModalInstance.value.open();
     }
 
@@ -184,7 +194,7 @@ export default defineComponent({
       state.selectedWord.imgUrl = null;
     }
 
-    function removeWord(fromWord: string){
+    function removeWord(fromWord: string) {
       state.words = state.words.filter(word => word.from != fromWord)
     }
 

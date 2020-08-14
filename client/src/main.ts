@@ -16,7 +16,7 @@ import { directive as onClickaway } from "vue-clickaway";
 Vue.config.productionTip = false
 
 const apolloClient = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'https://8f585606e10f.ngrok.io/graphql',
 })
 
 Vue.directive("onClickaway", onClickaway)
