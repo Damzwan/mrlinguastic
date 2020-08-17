@@ -87,6 +87,12 @@ export type QueryGetAudioArgs = {
   voice: Scalars['String'];
 };
 
+export type Sentence = {
+  __typename?: 'Sentence';
+  from: Scalars['String'];
+  to?: Maybe<Array<Scalars['String']>>;
+};
+
 export type User = {
   __typename?: 'User';
   _id: Scalars['ID'];
@@ -130,6 +136,7 @@ export type Word = {
   imgUrl: Scalars['String'];
   fromAudio: Scalars['String'];
   toAudio: Scalars['String'];
+  sentences?: Maybe<Array<Sentence>>;
 };
 
 export type WordInput = {
@@ -221,6 +228,7 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Voclist: ResolverTypeWrapper<Voclist>;
   Word: ResolverTypeWrapper<Word>;
+  Sentence: ResolverTypeWrapper<Sentence>;
   Voice: ResolverTypeWrapper<Voice>;
   Mutation: ResolverTypeWrapper<{}>;
   UserInput: UserInput;
@@ -239,6 +247,7 @@ export type ResolversParentTypes = {
   ID: Scalars['ID'];
   Voclist: Voclist;
   Word: Word;
+  Sentence: Sentence;
   Voice: Voice;
   Mutation: {};
   UserInput: UserInput;
@@ -297,6 +306,12 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getVoices?: Resolver<Maybe<Array<Maybe<ResolversTypes['Voice']>>>, ParentType, ContextType>;
 };
 
+export type SentenceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Sentence'] = ResolversParentTypes['Sentence']> = {
+  from?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  to?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -327,12 +342,14 @@ export type WordResolvers<ContextType = any, ParentType extends ResolversParentT
   imgUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   fromAudio?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   toAudio?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  sentences?: Resolver<Maybe<Array<ResolversTypes['Sentence']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
 export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Sentence?: SentenceResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   Voclist?: VoclistResolvers<ContextType>;
   Voice?: VoiceResolvers<ContextType>;
@@ -384,5 +401,11 @@ export type WordDbObject = {
   imgUrl: string,
   fromAudio: string,
   toAudio: string,
+  sentences?: Maybe<Array<SentenceDbObject>>,
+};
+
+export type SentenceDbObject = {
+  from: string,
+  to?: Maybe<Array<string>>,
 };
 

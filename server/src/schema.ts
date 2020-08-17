@@ -54,6 +54,12 @@ export const typeDefs = gql`
         imgUrl: String! @column
         fromAudio: String! @column
         toAudio: String! @column
+        sentences: [Sentence!] @embedded
+    }
+    
+    type Sentence @entity(embedded: true){
+        from: String! @column
+        to: [String!] @column
     }
 
     input WordInput{

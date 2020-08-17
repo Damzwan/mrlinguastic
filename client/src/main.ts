@@ -16,10 +16,19 @@ import { directive as onClickaway } from "vue-clickaway";
 Vue.config.productionTip = false
 
 const apolloClient = new ApolloClient({
-  uri: 'https://8f585606e10f.ngrok.io/graphql',
+  uri: 'http://localhost:4000/graphql',
 })
 
 Vue.directive("onClickaway", onClickaway)
+
+Vue.directive('insta-focus', {
+  inserted: function (el, binding, vnode) {
+    if (el.id[0] == "0") return; //TODO hack so that we don't focus on the first element of an array xd
+    Vue.nextTick(function() {
+      el.focus()
+    })
+  }
+})
 
 Vue.use(VueApollo)
 new Vue({

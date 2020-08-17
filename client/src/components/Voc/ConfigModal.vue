@@ -176,13 +176,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.close-btn {
-  font-size: 35px;
-  position: absolute;
-  right: 3%;
-  top: 1%;
-}
-
 .question-btn {
   margin-left: 5px;
   top: -2px;

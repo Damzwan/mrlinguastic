@@ -6,7 +6,7 @@
     <div v-if="state.langSettings.length === 4">
       <div class="row">
         <div class="input-field col s12" v-bind:id="state.langSettings[0]">
-          <input v-bind:placeholder="getExampleWord(state.langSettings[0])" type="text" class="validate"
+          <input v-bind:placeholder="getExampleWord(state.langSettings[0])" type="text"
                  v-model="state.from"
                  v-on:keyup.enter="translateInput" ref="fromInput"/>
           <img role="img" :src="require(`@/assets/country-flags/${getCountry(state.langSettings[0])}.svg`)"
@@ -14,7 +14,7 @@
                alt="From Flag"/>
         </div>
         <div class="input-field col s12">
-          <input v-bind:placeholder="getExampleWord(state.langSettings[2])" type="text" class="validate"
+          <input v-bind:placeholder="getExampleWord(state.langSettings[2])" type="text"
                  v-model="state.to" id="to"
                  v-on:keyup.enter="insertEntry" ref="toInput"/>
           <img role="img" :src="require(`@/assets/country-flags/${getCountry(state.langSettings[2])}.svg`)"
@@ -24,7 +24,8 @@
       </div>
       <div class="reverse-order" style="margin-bottom: 10%">
         <WordItem div v-for="(word, index) in state.words" :key="index" v-model="state.words[index]"
-                  v-on:openImgModal="openImgModal" v-on:removeWord="removeWord"></WordItem>
+                  v-on:openImgModal="openImgModal" v-on:removeWord="removeWord"
+                  v-on:openExamplesModal="openExamplesModal"></WordItem>
       </div>
     </div>
     <div v-else>
@@ -71,6 +72,25 @@
       </div>
     </div>
 
+    <div class="modal fullscreen-modal" ref="exampleModalElement">
+      <div class="modal-content" v-if="state.selectedWord">
+        <i class="material-icons right unselectable close-btn modal-close">close</i>
+        <h4 class="center">example sentences</h4>
+        <p class="flow-text center">Create a sentence with <b>{{ state.selectedWord.from }}</b> in the first text box
+          and create sentences with <b>{{ state.selectedWord.to }}</b> in the boxes below</p>
+        <div class="divider" style="margin-bottom: 20px"></div>
+        <ExampleItem v-for="(sentence, index) in state.selectedWord.sentences" :key="index"
+                     v-model="state.selectedWord.sentences[index]" v-on:removeSentence="removeSentence"
+                     v-bind:fromWord="state.selectedWord.from" v-bind:toWord="state.selectedWord.to"></ExampleItem>
+        <div class="row">
+          <div class="col s12 valign-wrapper">
+            <i class="material-icons centered-img unselectable" style="font-size: 50px; color: gray"
+               @click="addSentence">add</i>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
   </div>
 </template>
@@ -85,10 +105,12 @@ import {
 import M from "materialize-css";
 import ConfigModal from "./ConfigModal.vue";
 import WordItem from "./WordItem.vue";
+import ExampleItem from "./ExampleItem.vue"
 import {cleanWord, useImageSearch, useTranslate} from "@/use/voc";
 import {getCountry, getExampleWord} from "@/use/languageToCountry";
 import Modal = M.Modal;
-import {Word} from "@/gen-types";
+import {Sentence, Word} from "@/gen-types";
+import {wrongMessage} from "@/use/messages";
 
 interface CreateContent {
   words: Word[];
@@ -104,15 +126,23 @@ export default defineComponent({
   components: {
     WordItem,
     ConfigModal,
+    ExampleItem
   },
   setup() {
     const imgModalElement = ref(null)
     const imgModalInstance = ref<Modal>(null);
 
+    const exampleModalElement = ref(null);
+    const exampleModalInstance = ref<Modal>(null);
+
     const fromInput = ref<HTMLInputElement>(null);
     const toInput = ref<HTMLInputElement>(null);
     // const selectedFrom = ref<string>(null);
     const allImgUrls = reactive({});
+
+    //used to fetch audio directly after translation to increase speed
+    const preloadedFromAudio = document.createElement("audio");
+    const preloadedToAudio = document.createElement("audio");
 
     const state = reactive<CreateContent>({
       words: [],
@@ -134,11 +164,17 @@ export default defineComponent({
       state.langSettings = settings;
     }
 
+    let translateHistory: string[];
+
     async function translateInput() {
+      toInput.value.focus();
       await executeTranslate({word: state.from, fromLang: state.langSettings[0], toLang: state.langSettings[2]})
       state.from = cleanWord(state.from);
       state.to = cleanWord(translatedWord.value.translateWord);
-      toInput.value.focus();
+
+      translateHistory = [state.from, state.to]
+      preloadedFromAudio.src = `http://localhost:4000/speech?word=${state.from}&lang=${state.langSettings[0]}&voice=${state.langSettings[1]}`
+      preloadedToAudio.src = `http://localhost:4000/speech?word=${state.to}&lang=${state.langSettings[2]}&voice=${state.langSettings[3]}`;
     }
 
     function fillImgModal() {
@@ -147,21 +183,47 @@ export default defineComponent({
       for (const url of allImgUrls[state.selectedWord.from]) state.imagesToLoad.push(url);
     }
 
-    async function insertEntry() {
-      const word = {
-        from: cleanWord(state.from),
-        to: cleanWord(state.to),
-        imgUrl: null,
-        fromAudio: `https://8f585606e10f.ngrok.io/speech?word=${state.from}&lang=${state.langSettings[0]}&voice=${state.langSettings[1]}`,
-        toAudio: `https://8f585606e10f.ngrok.io/speech?word=${state.to}&lang=${state.langSettings[2]}&voice=${state.langSettings[3]}`
-      };
-      state.words.push(word);
+    function wordExists(from: string) {
+      for (const word of state.words) {
+        if (word.from == from) return true;
+      }
+      return false;
+    }
+
+    function cleanInputs() {
       state.from = "";
       fromInput.value.focus();
       state.to = "";
+    }
 
-      await executeImageSearch({word: word.from, lang: state.langSettings[0]})
-      allImgUrls[word.from] = imgUrls.value.getImages;
+    async function insertEntry() {
+      const from = cleanWord(state.from);
+      const to = cleanWord(state.to);
+      cleanInputs();
+
+      if (wordExists(from)) {
+        wrongMessage("🤡 Word already in list 🤡")
+        return;
+      }
+
+      //if the user updated from or to after the translation then we should update the audio as well
+      const fromAudioSrc = from == translateHistory[0] ? preloadedFromAudio.src :
+          `http://localhost:4000/speech?word=${from}&lang=${state.langSettings[0]}&voice=${state.langSettings[1]}`
+      const toAudioSrc = to == translateHistory[1] ? preloadedToAudio.src :
+          `http://localhost:4000/speech?word=${to}&lang=${state.langSettings[2]}&voice=${state.langSettings[3]}`
+
+      const word = {
+        from: from,
+        to: to,
+        imgUrl: null,
+        fromAudio: fromAudioSrc,
+        toAudio: toAudioSrc,
+        sentences: [{from: "", to: [""]}],
+      };
+
+      state.words.push(word);
+      await executeImageSearch({word: from, lang: state.langSettings[0]})
+      allImgUrls[from] = imgUrls.value.getImages;
       state.selectedWord = word;
 
       fillImgModal();
@@ -185,6 +247,11 @@ export default defineComponent({
       }
     }
 
+    function openExamplesModal(word: Word) {
+      state.selectedWord = word;
+      exampleModalInstance.value.open();
+    }
+
     function setUrl(imgUrl: string) {
       imgModalInstance.value.close();
       state.selectedWord.imgUrl = imgUrl;
@@ -198,8 +265,17 @@ export default defineComponent({
       state.words = state.words.filter(word => word.from != fromWord)
     }
 
+    function addSentence() {
+      state.selectedWord.sentences.push({from: "", to: [""]})
+    }
+
+    function removeSentence(sentenceToRemove: Sentence) {
+      state.selectedWord.sentences = state.selectedWord.sentences.filter(sentence => sentence != sentenceToRemove)
+    }
+
     onMounted(() => {
       imgModalInstance.value = M.Modal.init(imgModalElement.value, {outDuration: 0});
+      exampleModalInstance.value = M.Modal.init(exampleModalElement.value);
     });
 
 
@@ -213,11 +289,15 @@ export default defineComponent({
       getCountry,
       getExampleWord,
       imgModalElement,
+      exampleModalElement,
       openImgModal,
+      openExamplesModal,
       onImgLoad,
       setUrl,
       swapImg,
-      removeWord
+      removeWord,
+      addSentence,
+      removeSentence
     };
   },
 });
@@ -234,5 +314,10 @@ export default defineComponent({
 .reverse-order {
   display: flex;
   flex-direction: column-reverse;
+}
+
+.rounded {
+  padding: 3px;
+  border-radius: 10px;
 }
 </style>

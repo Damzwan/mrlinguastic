@@ -20,26 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.graphqlconfig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/server.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TTSOutput.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/datasources/azure.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/schema.graphql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/Voc/ExampleItem.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/use/messages.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/assets/global.css" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/assets/global.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/ConfigModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/ConfigModal.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Create.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/WordItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/WordItem.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/queries/translate.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/queries/translate.graphql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/use/voc.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/voc.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/datasources/translator.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen-types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resolvers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/resolvers.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/schema.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -77,6 +66,9 @@
       <workItem from="1597306138423" duration="14057000" />
       <workItem from="1597327968859" duration="131000" />
       <workItem from="1597395833758" duration="14900000" />
+      <workItem from="1597482401111" duration="1036000" />
+      <workItem from="1597568156684" duration="1068000" />
+      <workItem from="1597649773118" duration="3903000" />
     </task>
     <servers />
   </component>
@@ -103,10 +95,10 @@
       <screen x="0" y="0" width="1504" height="1003" />
     </state>
     <state x="359" y="265" width="726" height="522" key="#com.intellij.ide.util.TreeDirectoryChooserDialog/0.0.1504.1003/198.-1080.1920.1080@0.0.1504.1003" timestamp="1597308839047" />
-    <state x="533" y="257" key="FileChooserDialogImpl" timestamp="1597395852727">
+    <state x="533" y="257" key="FileChooserDialogImpl" timestamp="1597653444629">
       <screen x="0" y="0" width="1504" height="1003" />
     </state>
-    <state x="533" y="257" key="FileChooserDialogImpl/0.0.1504.1003/198.-1080.1920.1080@0.0.1504.1003" timestamp="1597395852727" />
+    <state x="533" y="257" key="FileChooserDialogImpl/0.0.1504.1003/198.-1080.1920.1080@0.0.1504.1003" timestamp="1597653444629" />
     <state x="254" y="147" key="SettingsEditor" timestamp="1597309057802">
       <screen x="0" y="0" width="1504" height="1003" />
     </state>

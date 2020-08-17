@@ -52,8 +52,6 @@ import {
 import M, {Collapsible} from "materialize-css";
 import {Word} from "@/gen-types";
 
-//TODO merge with Create
-
 export default defineComponent({
   props: {
     value: Object as () => Word
@@ -62,6 +60,12 @@ export default defineComponent({
     const collapsibleInstance = ref<Collapsible>(null);
     const collapsibleElement = ref(null);
     const state = reactive({disabled: true});
+
+    const fromAudio = document.createElement("audio");
+    fromAudio.src = props.value.fromAudio;
+    const toAudio = document.createElement("audio");
+    toAudio.src = props.value.toAudio;
+    toAudio.play();
 
     onMounted(() => {
       function activateInputs() {
@@ -95,7 +99,7 @@ export default defineComponent({
     }
 
     function openExamplesModal() {
-      console.log("should be exampling")
+      context.emit("openExamplesModal", props.value)
     }
 
     function updateFrom($event) {
@@ -105,12 +109,6 @@ export default defineComponent({
     function updateTo($event) {
       context.emit('input', {from: props.value.from, to: $event.target.value})
     }
-
-    const fromAudio = document.createElement("audio");
-    fromAudio.src = props.value.fromAudio;
-    const toAudio = document.createElement("audio");
-    toAudio.src = props.value.toAudio;
-    toAudio.play();
 
     function playFromAudio() {
       fromAudio.play();
