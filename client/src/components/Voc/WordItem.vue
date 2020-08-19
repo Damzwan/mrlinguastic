@@ -54,12 +54,12 @@ import {Word} from "@/gen-types";
 
 export default defineComponent({
   props: {
-    value: Object as () => Word
+    value: Object as () => Word //for each inserted word we create a WordItem and pass a reference of the Word (by making use of v-model) to the WordItem
   },
   setup(props, context) {
     const collapsibleInstance = ref<Collapsible>(null);
     const collapsibleElement = ref(null);
-    const state = reactive({disabled: true});
+    const state = reactive({disabled: true}); //when a WordItem is in its collapsed state it
 
     const fromAudio = document.createElement("audio");
     fromAudio.src = props.value.fromAudio;
@@ -67,35 +67,37 @@ export default defineComponent({
     toAudio.src = props.value.toAudio;
     toAudio.play();
 
+    function flipDisabled(){
+      state.disabled = !state.disabled
+    }
+
     onMounted(() => {
+
+      //when a user expands a WordItem we remove a click event listener so that the modal does not automatically close once we click on for example an input field
       function activateInputs() {
         collapsibleElement.value.removeEventListener("click", collapsibleInstance.value._handleCollapsibleClickBound);
-        state.disabled = !state.disabled;
+        flipDisabled();
       }
 
       collapsibleInstance.value = M.Collapsible.init(collapsibleElement.value, {
         accordion: false,
         onOpenEnd: activateInputs,
-        onCloseStart: activateInputs,
+        onCloseStart: flipDisabled,
       });
 
     });
 
     function closeCollapsible() {
-      // if (event.target.classList.contains("modal") ||
-      //     event.target.parentElement.classList.contains("modal") || event.target.classList.contains("centered-img")) return
       if (collapsibleInstance) collapsibleInstance.value.close(0);
-      collapsibleElement.value.addEventListener("click", collapsibleInstance.value._handleCollapsibleClickBound);
+      collapsibleElement.value.addEventListener("click", collapsibleInstance.value._handleCollapsibleClickBound); //we add the click event listener again
     }
 
     function remove() {
       context.emit("removeWord", props.value.from)
-      // document.body.click();
     }
 
     function openImgModal() {
       context.emit("openImgModal", props.value)
-
     }
 
     function openExamplesModal() {

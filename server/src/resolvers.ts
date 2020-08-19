@@ -4,10 +4,10 @@ import {ObjectID} from "mongodb";
 
 require('dotenv').config()
 
-var mongoAPI: MongoAPI;
+let mongoAPI: MongoAPI;
 
+//kind of a hack :))
 setup();
-
 async function setup() {
     mongoAPI = new MongoAPI();
     await mongoAPI.connect();
@@ -21,8 +21,6 @@ export const resolv: Resolvers = {
             await dataSources.azureAPI.translateWord(args.word, args.fromLang, args.toLang),
         getImages: async (_: any, args, {dataSources}: { dataSources: any }) =>
             await dataSources.pixabayAPI.getImages(args.word, args.lang),
-        getAudio: async (_: any, args, {dataSources}: { dataSources: any }) =>
-            await dataSources.azureAPI.textToSpeech(),
         getVoices: async (_: any, args, {dataSources}: { dataSources: any }) =>
             await dataSources.azureAPI.getVoices()
     },
@@ -38,7 +36,7 @@ export const resolv: Resolvers = {
             return true;
         },
         updateVoclist: async (_: any, args) => {
-            mongoAPI.updateEntity(Collections.Voclists, new ObjectID(args.vocId), args.newList)
+            await mongoAPI.updateEntity(Collections.Voclists, new ObjectID(args.vocId), args.newList)
             return true;
         },
     },

@@ -58,7 +58,6 @@ export type Query = {
   user: User;
   translateWord?: Maybe<Scalars['String']>;
   getImages?: Maybe<Array<Scalars['String']>>;
-  getAudio?: Maybe<Scalars['String']>;
   getVoices?: Maybe<Array<Maybe<Voice>>>;
 };
 
@@ -78,13 +77,6 @@ export type QueryTranslateWordArgs = {
 export type QueryGetImagesArgs = {
   word: Scalars['String'];
   lang: Scalars['String'];
-};
-
-
-export type QueryGetAudioArgs = {
-  word: Scalars['String'];
-  lang: Scalars['String'];
-  voice: Scalars['String'];
 };
 
 export type Sentence = {
@@ -302,7 +294,6 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'username'>>;
   translateWord?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryTranslateWordArgs, 'word' | 'fromLang' | 'toLang'>>;
   getImages?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType, RequireFields<QueryGetImagesArgs, 'word' | 'lang'>>;
-  getAudio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryGetAudioArgs, 'word' | 'lang' | 'voice'>>;
   getVoices?: Resolver<Maybe<Array<Maybe<ResolversTypes['Voice']>>>, ParentType, ContextType>;
 };
 

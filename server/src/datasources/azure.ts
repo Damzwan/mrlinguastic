@@ -29,6 +29,13 @@ export class azureAPI extends DataSource {
         super();
     }
 
+    /**
+     * Translate a word
+     * @param word the word to be translated
+     * @param from the language to be translated from
+     * @param to the language to be translated to
+     * @return the translated word
+     */
     async translateWord(word: string, from: string, to: string): Promise<string> {
         let options = {
             method: 'POST',
@@ -57,9 +64,15 @@ export class azureAPI extends DataSource {
         });
     }
 
+    /**
+     * Get the speech for a word and send it back to the one requesting it
+     * @param word the word we want the speech from
+     * @param lang the language we want the speech in
+     * @param voice the voice of the speech
+     * @param res used to send back the response
+     */
     async textToSpeech(word: string, lang: string, voice: string, res: any) {
-        const subscriptionKey = "525103ae078d47f8b501773323b2b2bc";
-        const accessToken = await this.getAccessToken(subscriptionKey);
+        const accessToken = await this.getAccessToken(process.env.TTS_KEY);
         // Create the SSML request.
         let xml_body = xmlbuilder.create('speak')
             .att('version', '1.0')
@@ -105,6 +118,7 @@ export class azureAPI extends DataSource {
         return rp(options);
     }
 
+    //get a list of all possible voices for text to speech
     async getVoices() : Promise<any []>{
         const subscriptionKey = "525103ae078d47f8b501773323b2b2bc";
         const accessToken = await this.getAccessToken(subscriptionKey);
@@ -119,23 +133,4 @@ export class azureAPI extends DataSource {
         const voices = await rp(options);
         return JSON.parse(voices)
     }
-
-    // synthesizeSpeech() {
-    //     const speechConfig = sdk.SpeechConfig.fromSubscription("525103ae078d47f8b501773323b2b2bc", "westeurope");
-    //     const synthesizer = new sdk.SpeechSynthesizer(speechConfig);
-    //
-    //     synthesizer.speakTextAsync(
-    //         "Getting the response as an in-memory stream.",
-    //         result => {
-    //             // Interact with the audio ArrayBuffer data
-    //             const audioData = result.audioData;
-    //             console.log(`Audio data byte size: ${audioData.byteLength}.`)
-    //             synthesizer.close();
-    //         },
-    //         error => {
-    //             console.log(error);
-    //             synthesizer.close();
-    //         });
-    // }
-
 }

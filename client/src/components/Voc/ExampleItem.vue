@@ -28,12 +28,13 @@ import {Sentence} from "@/gen-types";
 
 export default defineComponent({
   props: {
-    value: Object as () => Sentence,
-    fromWord: String,
-    toWord: String
+    value: Object as () => Sentence, //for each sentence in the sentences array of a word we create an ExampleItem and pass it a reference of the sentence
+    fromWord: String, // we also pass the fromWord to check whether a created sentence contains the fromWord
+    toWord: String // we also pass the toWord to check whether a created sentence contains the toWord
   },
   setup(props, context) {
 
+    //add a possible sentence translation for this sentence. This will automatically create an input field and focus on it
     function addSentenceTranslation() {
       props.value.to.push("");
     }
@@ -56,6 +57,7 @@ export default defineComponent({
       context.emit('input', {from: props.value.from, to: to})
     }
 
+    //if a user has entered a fromSentence and presses enter we will focus on the first sentence translation
     function focusFirstTranslation(id: string) {
       if (id.length == 1) return;
       document.getElementById(id).focus();

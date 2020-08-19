@@ -11,7 +11,6 @@ export const typeDefs = gql`
         user(username: String!): User!
         translateWord(word: String!, fromLang: String!, toLang: String!): String
         getImages(word: String!, lang: String!): [String!]
-        getAudio(word: String!, lang: String!, voice: String!): String
         getVoices: [Voice]
     }
 

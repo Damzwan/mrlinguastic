@@ -16,11 +16,13 @@ import { directive as onClickaway } from "vue-clickaway";
 Vue.config.productionTip = false
 
 const apolloClient = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'http://localhost:4000/graphql', //TODO update in production
 })
 
-Vue.directive("onClickaway", onClickaway)
+//define the directives we use
+Vue.directive("onClickaway", onClickaway) // directive that will detect when a click has occurred outside of a component
 
+//directive to instantly focus on an input as soon at is created
 Vue.directive('insta-focus', {
   inserted: function (el, binding, vnode) {
     if (el.id[0] == "0") return; //TODO hack so that we don't focus on the first element of an array xd

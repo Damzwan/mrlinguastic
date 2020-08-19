@@ -34,6 +34,7 @@
     </div>
 
 
+<!--    TODO should be a separate component-->
     <div class="modal bottom-sheet" ref="imgModalElement">
       <div class="modal-content" v-if="state.selectedWord && !state.selectedWord.imgUrl">
         <h5 class="center">🖼 Select an image 🖼</h5>
@@ -73,6 +74,7 @@
       </div>
     </div>
 
+    <!--    TODO should be a separate component-->
     <div class="modal fullscreen-modal" ref="exampleModalElement">
       <div class="modal-content" v-if="state.selectedWord">
         <i class="material-icons right unselectable close-btn modal-close">close</i>
@@ -113,14 +115,15 @@ import Modal = M.Modal;
 import {Sentence, Word} from "@/gen-types";
 import {wrongMessage} from "@/use/messages";
 
+//used to make use of typescript typing
 interface CreateContent {
-  words: Word[];
-  langSettings: string[];
-  from: string;
-  to: string;
-  imagesToLoad: string[];
-  imagesLoaded: boolean;
-  selectedWord: Word;
+  words: Word[]; //the entered words of the user
+  langSettings: string[]; //array of length 4: [fromLanguage, fromVoice, toLanguage, toVoice]
+  from: string; //word that is typed by the user in the first input
+  to: string; //word that is types by the users in the second input
+  imagesToLoad: string[]; //an array of image urls that should be loaded into the imgModal
+  imagesLoaded: boolean; //a boolean to determine whether all images have been loaded yet
+  selectedWord: Word; //the currently selected word by the user (when a user clicks on a word component this variable is set)
 }
 
 export default defineComponent({
@@ -131,20 +134,27 @@ export default defineComponent({
     OcrModal
   },
   setup() {
-    const imgModalElement = ref(null)
-    const imgModalInstance = ref<Modal>(null);
+    const imgModalElement = ref(null) //The HTML element of the imgModal
+    const imgModalInstance = ref<Modal>(null); //An instance of the imgModal, as soon as we mount we initialize this Modal. Use this instance to call modal methods
 
+    //same as above
     const exampleModalElement = ref(null);
     const exampleModalInstance = ref<Modal>(null);
 
-    const fromInput = ref<HTMLInputElement>(null);
-    const toInput = ref<HTMLInputElement>(null);
-    // const selectedFrom = ref<string>(null);
+    const fromInput = ref<HTMLInputElement>(null); //html element of the first input
+    const toInput = ref<HTMLInputElement>(null); //html element of the second input
+
+    //a dictionary<string, string[]> that contains img urls(value) for a fromWord(key)
+    //this will improve image load times since we retrieve the images urls as soon as a word is entered
     const allImgUrls = reactive({});
 
-    //used to fetch audio directly after translation to increase speed
+    //used to fetch audio directly after translation to improve load time
     const preloadedFromAudio = document.createElement("audio");
     const preloadedToAudio = document.createElement("audio");
+
+    //used to determine whether there is a difference between the from/toWord before translation and after translation
+    //if a difference is detected we retrieve audio of the new words
+    let translateHistory: string[];
 
     const state = reactive<CreateContent>({
       words: [],
@@ -156,17 +166,13 @@ export default defineComponent({
       selectedWord: null,
     })
 
-    //all image urls for a given word, used to retrieve the images when a word is assed --> faster load times when retrieving the images
-    // const allImgUrls = reactive(new Map<string, readonly string[]>());
+    const {translatedWord, executeTranslate} = useTranslate(); //allow us to execute translation queries
+    const {imgUrls, executeImageSearch} = useImageSearch(); //allow us to execute image url queries
 
-    const {translatedWord, executeTranslate} = useTranslate();
-    const {imgUrls, executeImageSearch} = useImageSearch();
-
+    //save the language settings that are being pushed from the ConfigModal
     function saveLangSettings(settings: string[]) {
       state.langSettings = settings;
     }
-
-    let translateHistory: string[];
 
     async function translateInput() {
       toInput.value.focus();
@@ -174,17 +180,19 @@ export default defineComponent({
       state.from = cleanWord(state.from);
       state.to = cleanWord(translatedWord.value.translateWord);
 
-      translateHistory = [state.from, state.to]
-      preloadedFromAudio.src = `http://localhost:4000/speech?word=${state.from}&lang=${state.langSettings[0]}&voice=${state.langSettings[1]}`
-      preloadedToAudio.src = `http://localhost:4000/speech?word=${state.to}&lang=${state.langSettings[2]}&voice=${state.langSettings[3]}`;
+      translateHistory = [state.from, state.to] //save the from/to Word
+      preloadedFromAudio.src = `http://localhost:4000/speech?word=${state.from}&lang=${state.langSettings[0]}&voice=${state.langSettings[1]}` //prefetch the audio
+      preloadedToAudio.src = `http://localhost:4000/speech?word=${state.to}&lang=${state.langSettings[2]}&voice=${state.langSettings[3]}`; //prefetch the audio
     }
 
+    //fill the image modal with images for the selectedWord
     function fillImgModal() {
       state.imagesToLoad = [];
       state.imagesLoaded = false;
       for (const url of allImgUrls[state.selectedWord.from]) state.imagesToLoad.push(url);
     }
 
+    //check if a given word has already been inserted by the user
     function wordExists(from: string) {
       for (const word of state.words) {
         if (word.from == from) return true;
@@ -194,7 +202,7 @@ export default defineComponent({
 
     function cleanInputs() {
       state.from = "";
-      fromInput.value.focus();
+      fromInput.value.focus(); //focus on the from input first, otherwise the second input will not be cleaned
       state.to = "";
     }
 
@@ -222,8 +230,9 @@ export default defineComponent({
         toAudio: toAudioSrc,
         sentences: [{from: "", to: [""]}],
       };
-
       state.words.push(word);
+
+      //search for images for the newly added word
       await executeImageSearch({word: from, lang: state.langSettings[0]})
       allImgUrls[from] = imgUrls.value.getImages;
       state.selectedWord = word;
@@ -235,12 +244,12 @@ export default defineComponent({
     function openImgModal(word: Word) {
       const prevWord = state.selectedWord;
       state.selectedWord = word;
-      if (prevWord != word) fillImgModal()
+      if (prevWord != word) fillImgModal() //if the images are already loaded in the modal we should not do it again
       imgModalInstance.value.open();
     }
 
     let counter = 0;
-
+    //switch a boolean as soon as all images are loaded
     function onImgLoad() {
       counter++;
       if (counter == state.imagesToLoad.length) {
@@ -254,27 +263,34 @@ export default defineComponent({
       exampleModalInstance.value.open();
     }
 
+    //called when the user selects an image
     function setUrl(imgUrl: string) {
       imgModalInstance.value.close();
       state.selectedWord.imgUrl = imgUrl;
     }
 
+    //the user wants to select a new image
     function swapImg() {
       state.selectedWord.imgUrl = null;
     }
 
+    //called when the users click on the delete button of a WordItem component
+    //TODO perhaps search for the word itself instead of the fromWord
     function removeWord(fromWord: string) {
       state.words = state.words.filter(word => word.from != fromWord)
     }
 
+    //called when the users click on the add button in the exampleModal
     function addSentence() {
       state.selectedWord.sentences.push({from: "", to: [""]})
     }
 
+    //called when the users click on the remove button of an exampleItem component
     function removeSentence(sentenceToRemove: Sentence) {
       state.selectedWord.sentences = state.selectedWord.sentences.filter(sentence => sentence != sentenceToRemove)
     }
 
+    //initialize the modals
     onMounted(() => {
       imgModalInstance.value = M.Modal.init(imgModalElement.value, {outDuration: 0});
       exampleModalInstance.value = M.Modal.init(exampleModalElement.value);

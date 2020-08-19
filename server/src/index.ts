@@ -14,11 +14,8 @@ const app = express()
 app.use(cors())
 
 const azure = new azureAPI()
-azure.getVoices();
 app.get("/speech", async function (req, res) {
-    azure.textToSpeech(<string>req.query.word, <string>req.query.lang, <string>req.query.voice, res)
-    //const stream = await azure.textToSpeech();
-    //stream.pipe(res);
+    await azure.textToSpeech(<string>req.query.word, <string>req.query.lang, <string>req.query.voice, res)
 })
 
 const dataSources = () => ({

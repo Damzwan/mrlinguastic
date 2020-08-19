@@ -37,7 +37,7 @@
         <div v-show="state.imgLoading === 2" style="display: block; max-width: 100%; height: 80%">
           <div v-show="state.ocrLoading === 0" style="width: 100%; height: 100%">
             <img src="" alt="this should be image" ref="img" @load="state.imgLoading = 2" style="max-width: 1280px">
-            <div class="waves-effect waves-light btn confirm-btn" @click="sendImg">Send</div>
+            <div class="waves-effect waves-light btn footer-btn" @click="sendImg">Send</div>
 
             <div class="switch down_left">
               <label>
@@ -87,10 +87,15 @@ export default defineComponent({
   },
   setup(props, context) {
 
+
     const iso2to3 = {en: "eng", fr: "fra", it: "ita", nl: "nld"};
 
     const ocrModal = ref(null);
     const ocrModalInstance = ref<M.Modal>(null);
+
+    onMounted(() => {
+      ocrModalInstance.value = M.Modal.init(ocrModal.value, {inDuration: 0, outDuration: 0});
+    })
 
     const img = ref<HTMLImageElement>(null); //The image the user uploads, used to push
     const ocrType = ref<HTMLInputElement>(null); //The switch to determine if we should ocr only 1 image or two
@@ -103,10 +108,6 @@ export default defineComponent({
     const worker = createWorker();
     worker.load();
     worker.loadLanguage(iso2to3[props.langSettings[0]] + "+" + iso2to3[props.langSettings[2]])
-
-    onMounted(() => {
-      ocrModalInstance.value = M.Modal.init(ocrModal.value, {inDuration: 0, outDuration: 0});
-    })
 
     function readUrl(event) {
       if (event.target.files && event.target.files[0]) {
@@ -138,7 +139,7 @@ export default defineComponent({
       const receivedWords = text.split("\n");
       const words = [];
       for (const word of receivedWords) {
-        if (word == "" | word == " ") continue;
+        if (word == "" || word == " ") continue;
         words.push(cleanWord(word));
       }
       return words;
@@ -176,11 +177,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.confirm-btn {
-  position: absolute;
-  right: 30px;
-  bottom: 20px;
-}
 
 .down_left {
   position: absolute;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="configuration" class="modal fullscreen-modal">
+    <div id="configuration" class="modal fullscreen-modal" ref="configModalElement">
       <div class="modal-content">
         <i class="material-icons right unselectable close-btn modal-close">close</i>
         <h4 class="center">Configuration 👷‍♀️</h4>
@@ -78,7 +78,7 @@
         </div>
       </div>
 
-      <div class="waves-effect waves-light btn confirm-btn disabled" id="continue" v-on:click="saveConfig">Continue
+      <div class="waves-effect waves-light btn footer-btn disabled" v-on:click="saveConfig" id="continue">Continue
       </div>
     </div>
   </div>
@@ -102,9 +102,11 @@ interface Voices {
 
 export default defineComponent({
   setup(props, context) {
-    let configModal: Modal | null = null;
+    const configModalElement = ref(null); //check Create.vue for similar docs
+    const configModalInstance = ref<Modal>(null);
+
     let selects: M.FormSelect[] | null = null;
-    let langSettings: string[] | null = null;
+    let langSettings: string[] = []; //array of length 4: [fromLanguage, fromVoice, toLanguage, toVoice]
 
     const state = reactive<Voices>({
       fromVoices: [],
@@ -112,48 +114,47 @@ export default defineComponent({
     })
 
 
-    const {result} = useGetVoicesQuery();
+    const {result} = useGetVoicesQuery(); //we retrieve a list of all possible voices
 
     onMounted(() => {
-      M.Modal.init(document.querySelectorAll(".modal"), {inDuration: 0, outDuration: 0}); //TODO should be replaced with a ref
+      configModalInstance.value = M.Modal.init(configModalElement.value, {inDuration: 0, outDuration: 0});
       M.FormSelect.init(document.querySelectorAll("select"));
       M.Tooltip.init(document.querySelectorAll(".tooltipped"));
 
-      configModal = M.Modal.getInstance(document.querySelectorAll("#configuration")[0]);
-      configModal.open();
+      configModalInstance.value.open();
     });
 
     function getCountryFlag(country: string) {
       return require(`@/assets/country-flags/${country}.svg`);
     }
 
+    //get the value from the selects and send it to Create.vue
     function saveConfig() {
-      selects = M.FormSelect.init(document.querySelectorAll("select"));
-      if (configModal) configModal.close();
+      selects = M.FormSelect.init(document.querySelectorAll("select")); //init the selects again, hack to update the values...
+      configModalInstance.value.close();
       langSettings = [];
       for (const select of selects)
         langSettings.push(select.getSelectedValues()[0]);
       context.emit("saveLangSettings", langSettings);
     }
 
-    //TODO replace with template code
-    function openModal() {
-      if (configModal) configModal.open();
-    }
-
     function updateSelect() {
-      selects = M.FormSelect.init(document.querySelectorAll("select"));
+      selects = M.FormSelect.init(document.querySelectorAll("select")); //init the selects again, hack to update the values...
 
+      //if both languages have been chosen we allow the user to continue
       if (selects[0].getSelectedValues()[0] != "null" && selects[2].getSelectedValues()[0] != "null")
         document.getElementById("continue")!.classList.remove("disabled");
 
+
+      //if the fromLanguage has ben selected we show all possible voices for that language
       if (selects[0].getSelectedValues()[0]) {
-        document.getElementById("fromVoice").disabled = false;
+        // document.getElementById("fromVoice").disabled = false;
         state.fromVoices = result.value.getVoices.filter(voice => voice.ShortName.substring(0, 2) == selects[0].getSelectedValues()[0])
       }
 
+      //if the toLanguage has ben selected we show all possible voices for that language
       if (selects[2].getSelectedValues()[0]) {
-        document.getElementById("toVoice").disabled = false;
+        // document.getElementById("toVoice").disabled = false;
         state.toVoices = result.value.getVoices.filter(voice => voice.ShortName.substring(0, 2) == selects[2].getSelectedValues()[0])
       }
     }
@@ -166,7 +167,8 @@ export default defineComponent({
       getCountryFlag,
       saveConfig,
       updateSelect,
-      state
+      state,
+      configModalElement
     };
   },
 });
@@ -177,12 +179,6 @@ export default defineComponent({
   margin-left: 5px;
   top: -2px;
   position: relative;
-}
-
-.confirm-btn {
-  position: absolute;
-  right: 2%;
-  bottom: 2%;
 }
 
 .big-space {

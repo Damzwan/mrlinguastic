@@ -12,6 +12,7 @@
           </li>
         </ul>
 
+<!--        if we are on the Voc Create Page we should display other content-->
         <div v-if="!isVocCreatePage">
           <ul class="right">
             <li>
@@ -71,7 +72,6 @@ export default defineComponent({
     const sidenav = ref<M.Sidenav>(null);
 
     onMounted(() => {
-      //M.AutoInit();
       sidenav.value = M.Sidenav.init(document.querySelectorAll(".sidenav")[0]);
     });
 
@@ -91,13 +91,13 @@ export default defineComponent({
       {title: "About", icon: "info", badge: false},
     ];
 
-    const isVocCreatePage = ref(context.root.$route.name == "Create Voc");
+    const isVocCreatePage = ref(context.root.$route.name == "Create Voc"); //flip boolean if we are on the voc create page
 
     return {sidenav, openSideNav, closeSideNav, sidenavObjects, isVocCreatePage};
   },
   watch: {
     $route(to) {
-      this.isVocCreatePage = to.name == "Create Voc";
+      this.isVocCreatePage = to.name == "Create Voc"; //flip boolean if we route to the voc create page
     }
   }
 });

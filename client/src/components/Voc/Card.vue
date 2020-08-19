@@ -3,7 +3,7 @@
     <div class="card-content" style="width: 100%; height: 100%;">
       <span class="card-title">
         {{ title }}
-        <i class="material-icons right activator" style="font-size: 35;">more_vert</i>
+        <i class="material-icons right activator" style="font-size: 35px;">more_vert</i>
       </span>
       <p
         style="margin-top: -5px; margin-bottom: 10px"
@@ -60,6 +60,13 @@
 <script lang="ts">
 import { defineComponent } from "@vue/composition-api";
 
+//the items on the back of the card are very similar so we can define an item object by an icon, a title and an action
+interface Item{
+  icon: string;
+  title: string;
+  action: string;
+}
+
 export default defineComponent({
   props: {
     title: String,
@@ -68,12 +75,13 @@ export default defineComponent({
     toLang: String,
   },
   setup() {
-    const itemsTop = [
+    //We will use v-for to iterate over the items
+    const itemsTop: Array<Item> = [
       { icon: "mode_edit", title: "Edit", action: "edit" },
       { icon: "text_fields", title: "Rename", action: "rename" },
       { icon: "share", title: "Share", action: "share" },
     ];
-    const itemsBot = [
+    const itemsBot: Array<Item> = [
       { icon: "picture_as_pdf", title: "Export", action: "toPdf" },
       { icon: "delete", title: "Delete", action: "delete" },
       { icon: "arrow_back", title: "Back", action: "back" },
@@ -95,7 +103,7 @@ export default defineComponent({
       console.log("should be deleting");
     }
 
-    function actionHandler(item: any) {
+    function actionHandler(item: Item) {
       if (item.action == "edit") edit();
       else if (item.action == "rename") rename();
       else if (item.action == "share") share();
