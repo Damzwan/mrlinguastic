@@ -2,6 +2,7 @@
 <template>
   <div>
     <ConfigModal v-on:saveLangSettings="saveLangSettings"></ConfigModal>
+    <OcrModal v-if="state.langSettings.length === 4" v-bind:langSettings="state.langSettings"></OcrModal>
 
     <div v-if="state.langSettings.length === 4">
       <div class="row">
@@ -91,7 +92,6 @@
       </div>
     </div>
 
-
   </div>
 </template>
 
@@ -106,6 +106,7 @@ import M from "materialize-css";
 import ConfigModal from "./ConfigModal.vue";
 import WordItem from "./WordItem.vue";
 import ExampleItem from "./ExampleItem.vue"
+import OcrModal from "@/components/Voc/OcrModal.vue";
 import {cleanWord, useImageSearch, useTranslate} from "@/use/voc";
 import {getCountry, getExampleWord} from "@/use/languageToCountry";
 import Modal = M.Modal;
@@ -126,7 +127,8 @@ export default defineComponent({
   components: {
     WordItem,
     ConfigModal,
-    ExampleItem
+    ExampleItem,
+    OcrModal
   },
   setup() {
     const imgModalElement = ref(null)

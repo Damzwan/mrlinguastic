@@ -13,7 +13,7 @@ export function useImageSearch() {
 }
 
 export function cleanWord(word: string) {
-    const symbols = [". ", "?", "!", ".", ",", ')', "(", "- ", " -", "'", '"', "/", "|", "%", ":"];
+    const symbols = [". ", "?", "!", ".", ",", ')', "(", "- ", " -", "'", '"', "/", "|", "%", ":", "="];
     let newWord = word.toLowerCase().replace(/[0-9]/g, '').replace(/\s+$/, '');
 
     for (const symbol of symbols) {

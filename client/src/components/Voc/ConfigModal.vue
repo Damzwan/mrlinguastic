@@ -106,9 +106,6 @@ export default defineComponent({
     let selects: M.FormSelect[] | null = null;
     let langSettings: string[] | null = null;
 
-    // const fromVoices = ref<Voice[]>([]);
-    // const toVoices = ref<Voice[]>([]);
-
     const state = reactive<Voices>({
       fromVoices: [],
       toVoices: []
@@ -118,7 +115,7 @@ export default defineComponent({
     const {result} = useGetVoicesQuery();
 
     onMounted(() => {
-      M.Modal.init(document.querySelectorAll(".modal"), {inDuration: 0});
+      M.Modal.init(document.querySelectorAll(".modal"), {inDuration: 0, outDuration: 0}); //TODO should be replaced with a ref
       M.FormSelect.init(document.querySelectorAll("select"));
       M.Tooltip.init(document.querySelectorAll(".tooltipped"));
 

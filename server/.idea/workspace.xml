@@ -19,18 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../client/src/components/Voc/ExampleItem.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/src/use/messages.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/assets/global.css" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/assets/global.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/ConfigModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/ConfigModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Create.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/WordItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/WordItem.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen-types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/schema.ts" afterDir="false" />
-    </list>
+    <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,6 +58,7 @@
       <workItem from="1597482401111" duration="1036000" />
       <workItem from="1597568156684" duration="1068000" />
       <workItem from="1597649773118" duration="3903000" />
+      <workItem from="1597700214996" duration="8000" />
     </task>
     <servers />
   </component>
