@@ -19,6 +19,10 @@ export const resolv: Resolvers = {
             await mongoAPI.getUser(args.username),
         translateWord: async (_: any, args, {dataSources}: { dataSources: any }) =>
             await dataSources.azureAPI.translateWord(args.word, args.fromLang, args.toLang),
+        translateWords: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            const translateWordsProm = args.words.map(word => dataSources.azureAPI.translateWord(word, args.fromLang, args.toLang))
+            return await Promise.all(translateWordsProm);
+        },
         getImages: async (_: any, args, {dataSources}: { dataSources: any }) =>
             await dataSources.pixabayAPI.getImages(args.word, args.lang),
         getVoices: async (_: any, args, {dataSources}: { dataSources: any }) =>

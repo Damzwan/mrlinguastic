@@ -2,6 +2,10 @@ query translateWord($word: String!, $fromLang: String!, $toLang: String!) {
   translateWord(word: $word, fromLang: $fromLang, toLang: $toLang)
 }
 
+query translateWords($words: [String!], $fromLang: String!, $toLang: String!){
+  translateWords(words: $words, fromLang: $fromLang, toLang: $toLang)
+}
+
 query getVoices{
   getVoices{
     DisplayName

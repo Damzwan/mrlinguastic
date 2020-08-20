@@ -12,11 +12,16 @@ type Mutation {
 }
 
 type Query {
-    getAudio(lang: String!, voice: String!, word: String!): String
     getImages(lang: String!, word: String!): [String!]
     getVoices: [Voice]
     translateWord(fromLang: String!, toLang: String!, word: String!): String
+    translateWords(fromLang: String!, toLang: String!, words: [String!]): [String]
     user(username: String!): User!
+}
+
+type Sentence {
+    from: String!
+    to: [String!]
 }
 
 type User {
@@ -44,6 +49,7 @@ type Word {
     from: String!
     fromAudio: String!
     imgUrl: String!
+    sentences: [Sentence!]
     to: String!
     toAudio: String!
 }

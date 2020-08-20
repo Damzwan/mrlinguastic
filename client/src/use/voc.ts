@@ -1,4 +1,4 @@
-import {useGetImagesQuery, useTranslateWordQuery} from "@/gen-types";
+import {useGetImagesQuery, useTranslateWordQuery, useTranslateWordsQuery} from "@/gen-types";
 import {useGlobalQueryLoading, useQuery, useResult} from "@vue/apollo-composable";
 
 
@@ -11,6 +11,15 @@ import {useGlobalQueryLoading, useQuery, useResult} from "@vue/apollo-composable
 export function useTranslate() {
     const {result, refetch} = useTranslateWordQuery({word: "First", fromLang: "en", toLang: "en",});
     return {translatedWord: result, executeTranslate: refetch}
+}
+
+/**
+ * @usage use await executeTranslate first, the result will be stored in translatedWords
+ * @return Object => translatedWords: an array of translated words, executeTranslate: a function to execute the translation again
+ */
+export function useTranslateMultiple() {
+    const {result, refetch} = useTranslateWordsQuery({words: ["First"], fromLang: "en", toLang: "en"})
+    return {translatedWords: result, executeTranslate: refetch}
 }
 
 /**

@@ -10,6 +10,7 @@ export const typeDefs = gql`
     type Query{
         user(username: String!): User!
         translateWord(word: String!, fromLang: String!, toLang: String!): String
+        translateWords(words: [String!], fromLang: String!, toLang: String!): [String]
         getImages(word: String!, lang: String!): [String!]
         getVoices: [Voice]
     }
