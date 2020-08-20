@@ -65,9 +65,8 @@ export default defineComponent({
     fromAudio.src = props.value.fromAudio;
     const toAudio = document.createElement("audio");
     toAudio.src = props.value.toAudio;
-    toAudio.play();
 
-    function flipDisabled(){
+    function flipDisabled() {
       state.disabled = !state.disabled
     }
 

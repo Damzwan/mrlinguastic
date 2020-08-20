@@ -2,7 +2,8 @@
 <template>
   <div>
     <ConfigModal v-on:saveLangSettings="saveLangSettings"></ConfigModal>
-    <OcrModal v-if="state.langSettings.length === 4" v-bind:langSettings="state.langSettings"></OcrModal>
+    <OcrModal v-if="state.langSettings.length === 4" v-bind:langSettings="state.langSettings"
+              v-on:addImportedWords="addImportedWords"></OcrModal>
 
     <div v-if="state.langSettings.length === 4">
       <div class="row">
@@ -23,7 +24,7 @@
         </div>
         <div class="divider col s12"></div>
       </div>
-      <div class="reverse-order" style="margin-bottom: 10%">
+      <div class="reverse-order" style="margin-bottom: 20px">
         <WordItem div v-for="(word, index) in state.words" :key="index" v-model="state.words[index]"
                   v-on:openImgModal="openImgModal" v-on:removeWord="removeWord"
                   v-on:openExamplesModal="openExamplesModal"></WordItem>
@@ -34,7 +35,7 @@
     </div>
 
 
-<!--    TODO should be a separate component-->
+    <!--    TODO should be a separate component-->
     <div class="modal bottom-sheet" ref="imgModalElement">
       <div class="modal-content" v-if="state.selectedWord && !state.selectedWord.imgUrl">
         <h5 class="center">🖼 Select an image 🖼</h5>
@@ -114,6 +115,7 @@ import {getCountry, getExampleWord} from "@/use/languageToCountry";
 import Modal = M.Modal;
 import {Sentence, Word} from "@/gen-types";
 import {wrongMessage} from "@/use/messages";
+import {ImportedWords} from "./OcrModal.vue"
 
 //used to make use of typescript typing
 interface CreateContent {
@@ -217,17 +219,18 @@ export default defineComponent({
       }
 
       //if the user updated from or to after the translation then we should update the audio as well
-      const fromAudioSrc = from == translateHistory[0] ? preloadedFromAudio.src :
+      if (from != translateHistory[0]) preloadedFromAudio.src =
           `http://localhost:4000/speech?word=${from}&lang=${state.langSettings[0]}&voice=${state.langSettings[1]}`
-      const toAudioSrc = to == translateHistory[1] ? preloadedToAudio.src :
+      if (to != translateHistory[1]) preloadedToAudio.src =
           `http://localhost:4000/speech?word=${to}&lang=${state.langSettings[2]}&voice=${state.langSettings[3]}`
+      preloadedToAudio.play().then();
 
       const word = {
         from: from,
         to: to,
         imgUrl: null,
-        fromAudio: fromAudioSrc,
-        toAudio: toAudioSrc,
+        fromAudio: preloadedFromAudio.src,
+        toAudio: preloadedToAudio.src,
         sentences: [{from: "", to: [""]}],
       };
       state.words.push(word);
@@ -249,6 +252,7 @@ export default defineComponent({
     }
 
     let counter = 0;
+
     //switch a boolean as soon as all images are loaded
     function onImgLoad() {
       counter++;
@@ -290,6 +294,29 @@ export default defineComponent({
       state.selectedWord.sentences = state.selectedWord.sentences.filter(sentence => sentence != sentenceToRemove)
     }
 
+    async function addImportedWords(words: ImportedWords) {
+
+      for (let i = 0; i <= words.from.length; i++) {
+        if (wordExists(words.from[i])) continue;
+
+        //TODO should not use await, set the image later on
+        //TODO we should throttle the amount of requests for speech server side. Currently we can only do 20 requests/min, this will result in words with no voice
+        await executeImageSearch({word: words.from[i], lang: state.langSettings[0]})
+        allImgUrls[words.from[i]] = imgUrls.value.getImages;
+
+        const word = {
+          from: words.from[i],
+          to: words.to[i],
+          imgUrl: imgUrls.value.getImages[0],
+          fromAudio: `http://localhost:4000/speech?word=${words.from[i]}&lang=${state.langSettings[0]}&voice=${state.langSettings[1]}`,
+          toAudio: `http://localhost:4000/speech?word=${words.to[i]}&lang=${state.langSettings[2]}&voice=${state.langSettings[3]}`,
+          sentences: [{from: "", to: [""]}],
+        };
+        state.words.push(word);
+      }
+
+    }
+
     //initialize the modals
     onMounted(() => {
       imgModalInstance.value = M.Modal.init(imgModalElement.value, {outDuration: 0});
@@ -315,7 +342,8 @@ export default defineComponent({
       swapImg,
       removeWord,
       addSentence,
-      removeSentence
+      removeSentence,
+      addImportedWords
     };
   },
 });

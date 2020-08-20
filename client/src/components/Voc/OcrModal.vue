@@ -5,12 +5,13 @@
         <i class="material-icons right unselectable close-btn modal-close">close</i>
         <h4 class="center" style="margin-bottom: 30px">Words Importer 🧾</h4>
 
-        <div v-if="state.imgLoading === 0">
-          <p class="flow-text center">Select an image, word document or text file to import your words from :))</p>
+        <div v-if="state.imgLoading === 0" @paste="pasteImage" style="height: 100%; width: 100%">
+          <p class="flow-text center">Select an image, word document or text file to import your words from 🐱‍🐉<br> Or
+            paste an image using ctrl+V</p>
           <div class="file-field input-field">
             <div class="btn">
               <span>File</span>
-              <input type="file" @change="readUrl">
+              <input type="file" @change="readUrl" accept="image/*">
             </div>
             <div class="file-path-wrapper">
               <input class="file-path validate" type="text">
@@ -98,7 +99,7 @@
 
     </div>
     <div class="fixed-action-btn" style="z-index: 9999999" v-if="state.ocrLoading === 2">
-      <div class="btn-floating btn-large red">
+      <div class="btn-floating btn-large red" @click="addImportedWords">
         <i class="large material-icons" style="font-size: 35px;">add</i>
       </div>
     </div>
@@ -115,7 +116,6 @@ import Cropper from 'cropperjs';
 import {createWorker} from "tesseract.js"
 import {cleanWord, useTranslateMultiple} from "@/use/voc";
 import {normalMessage} from "@/use/messages";
-import {CropBoxData} from "vue-cropperjs";
 
 interface OcrState {
   imgLoading: number;
@@ -123,7 +123,7 @@ interface OcrState {
   importedWords: ImportedWords;
 }
 
-interface ImportedWords {
+export interface ImportedWords {
   from: string[];
   to: string[];
 }
@@ -166,11 +166,15 @@ export default defineComponent({
       ocrType.value.disabled = false;
       ocrType.value.checked = false;
 
-      prevCrop.value.style.width = "0px";
-      prevCrop.value.style.height = "0px";
+      // prevCrop.value.style.width = "0px";
+      // prevCrop.value.style.height = "0px";
+      prevCrop.value.style.visibility = "hidden";
+
+      state.importedWords = {from: [], to: []}
     }
 
     onMounted(() => {
+      M.Tooltip.init(document.getElementById("infoTip"));
       ocrModalInstance.value = M.Modal.init(ocrModal.value, {inDuration: 0, outDuration: 0, onCloseEnd: reset});
     })
 
@@ -178,20 +182,39 @@ export default defineComponent({
       isChecked.value = !isChecked.value;
     }
 
+    //perhaps resize image before creating a cropper
+    function createCropper(imgUrl: string) {
+      img.value.src = imgUrl;
+      img.value.onload = function () {
+        console.log(img.value.width)
+        cropper.value = new Cropper(img.value, {
+          dragMode: "move",
+          viewMode: 2,
+          responsive: false,
+          zoomOnTouch: false,
+          autoCropArea: 0.5
+        })
+      }
+    }
+
+    function pasteImage(event) {
+      if (event.clipboardData == false) return;
+      const items = event.clipboardData.items;
+      if (items == null) return;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf("image") == -1) continue;
+        const blob = items[i].getAsFile();
+        const URLObj = window.URL || window.webkitURL;
+        createCropper(URLObj.createObjectURL(blob))
+      }
+    }
+
     function readUrl(event) {
       if (event.target.files && event.target.files[0]) {
         const reader = new FileReader();
         reader.onload = function (e) {
           state.imgLoading = 1;
-          img.value.src = e.target.result.toString();
-          img.value.onload = function () {
-            cropper.value = new Cropper(img.value, {
-              dragMode: "move",
-              viewMode: 2,
-              responsive: false,
-              zoomOnTouch: false
-            })
-          }
+          createCropper(e.target.result.toString())
         }
         reader.readAsDataURL(event.target.files[0]);
       }
@@ -232,7 +255,6 @@ export default defineComponent({
       if (state.importedWords.from.length == 0) {
         state.importedWords.from = words
         ocrType.value.disabled = true;
-        normalMessage(`words in ${props.langSettings[0]} loaded, send words in ${props.langSettings[2]} now!`)
       } else {
         state.importedWords.to = words;
         state.ocrLoading = 2;
@@ -244,6 +266,7 @@ export default defineComponent({
       prevCrop.value.style.width = cropBoxData.width.toString() + "px";
       prevCrop.value.style.height = cropBoxData.height.toString() + "px";
       prevCrop.value.style.transform = `translateX(${cropBoxData.left}px) translateY(${cropBoxData.top}px)`
+      prevCrop.value.style.visibility = "visible";
     }
 
     async function sendImg() {
@@ -251,7 +274,7 @@ export default defineComponent({
       if ((firstOcr && !ocrType.value.checked) || !firstOcr) state.ocrLoading = 1;
       if (firstOcr && ocrType.value.checked) {
         drawCropBoxOutline();
-        normalMessage(`words in ${props.langSettings[0]} sent!`)
+        normalMessage(`words sent!`)
       }
 
       const croppedImg = cropper.value.getCroppedCanvas().toDataURL();
@@ -268,7 +291,27 @@ export default defineComponent({
       state.importedWords.to.splice(index, 1);
     }
 
-    return {ocrModal, readUrl, state, img, zoomIn, zoomOut, sendImg, ocrType, isChecked, switchCheck, remove, prevCrop}
+    function addImportedWords() {
+      context.emit("addImportedWords", state.importedWords)
+      ocrModalInstance.value.close();
+    }
+
+    return {
+      ocrModal,
+      readUrl,
+      state,
+      img,
+      zoomIn,
+      zoomOut,
+      sendImg,
+      ocrType,
+      isChecked,
+      switchCheck,
+      remove,
+      prevCrop,
+      addImportedWords,
+      pasteImage
+    }
   },
 });
 </script>
@@ -311,5 +354,12 @@ export default defineComponent({
   outline-style: dashed;
   outline-color: red;
   pointer-events: none;
+  visibility: hidden;
+}
+
+.question-btn {
+  position: absolute;
+  left: 150px;
+  bottom: 15px;
 }
 </style>

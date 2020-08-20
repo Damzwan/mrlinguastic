@@ -13,7 +13,7 @@
 
           <div class="big-space-1">
             <div class="input-field col s12 m6">
-              <select class="icons" id="fromLang" @change="updateSelect()">
+              <select class="icons" @change="updateSelect()">
                 <option value="null" disabled selected>Choose your Language</option>
                 <option value="en" :data-icon="getCountryFlag('united-kingdom')">English</option>
                 <option value="fr" :data-icon="getCountryFlag('france')">French</option>
@@ -29,7 +29,7 @@
             </div>
 
             <div class="input-field col s12 m6">
-              <select class="icons" id="fromVoice" disabled>
+              <select class="icons" disabled ref="fromVoiceElement">
                 <option v-for="(voice, index) in state.fromVoices" :key="index" :value="voice.ShortName">
                   {{ voice.DisplayName }} ({{ voice.ShortName.substring(3, 5).toUpperCase() }})
                 </option>
@@ -40,7 +40,7 @@
 
           <div class="big-space-2">
             <div class="input-field col s12 m6">
-              <select class="icons" id="toLang" @change="updateSelect()">
+              <select class="icons" @change="updateSelect()">
                 <option value="null" disabled selected>Choose your Language</option>
                 <option value="en" :data-icon="getCountryFlag('united-kingdom')">English</option>
                 <option value="fr" :data-icon="getCountryFlag('france')">French</option>
@@ -53,7 +53,7 @@
             </div>
 
             <div class="input-field col s12 m6">
-              <select class="icons" id="toVoice" disabled>
+              <select class="icons" disabled ref="toVoiceElement">
                 <option v-for="(voice, index) in state.toVoices" :key="index" :value="voice.ShortName">
                   {{ voice.DisplayName }} ({{ voice.ShortName.substring(3, 5).toUpperCase() }})
                 </option>
@@ -105,6 +105,9 @@ export default defineComponent({
     const configModalElement = ref(null); //check Create.vue for similar docs
     const configModalInstance = ref<Modal>(null);
 
+    const fromVoiceElement = ref<HTMLSelectElement>(null);
+    const toVoiceElement = ref<HTMLSelectElement>(null);
+
     let selects: M.FormSelect[] | null = null;
     let langSettings: string[] = []; //array of length 4: [fromLanguage, fromVoice, toLanguage, toVoice]
 
@@ -148,13 +151,13 @@ export default defineComponent({
 
       //if the fromLanguage has ben selected we show all possible voices for that language
       if (selects[0].getSelectedValues()[0]) {
-        // document.getElementById("fromVoice").disabled = false;
+        fromVoiceElement.value.disabled = false;
         state.fromVoices = result.value.getVoices.filter(voice => voice.ShortName.substring(0, 2) == selects[0].getSelectedValues()[0])
       }
 
       //if the toLanguage has ben selected we show all possible voices for that language
       if (selects[2].getSelectedValues()[0]) {
-        // document.getElementById("toVoice").disabled = false;
+        toVoiceElement.value.disabled = false;
         state.toVoices = result.value.getVoices.filter(voice => voice.ShortName.substring(0, 2) == selects[2].getSelectedValues()[0])
       }
     }
@@ -168,7 +171,9 @@ export default defineComponent({
       saveConfig,
       updateSelect,
       state,
-      configModalElement
+      configModalElement,
+      fromVoiceElement,
+      toVoiceElement,
     };
   },
 });
