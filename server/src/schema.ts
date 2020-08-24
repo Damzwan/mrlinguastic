@@ -1,7 +1,7 @@
 const {gql} = require('apollo-server-express');
 
 export const typeDefs = gql`
-    
+
     enum Collections {
         Users,
         Voclists
@@ -33,11 +33,10 @@ export const typeDefs = gql`
 
     type Voclist @entity{
         _id: ID! @id
-        title: String! @column
-        description: String @column
-        from: String! @column
-        to: String! @column
+        settings: VoclistSettings @embedded
         words: [Word!] @embedded
+        creator: String @column
+        lastEdited: String @column
     }
 
     input VoclistInput{
@@ -47,7 +46,20 @@ export const typeDefs = gql`
         to: String!
         words: [WordInput!]
     }
-
+    
+    type VoclistSettings @entity(embedded: true){
+        title: String! @column
+        description: String @column
+        langSettings: LangSettings @embedded
+    }
+    
+    type LangSettings @entity(embedded: true){
+        fromLang: String! @column
+        fromVoice: String! @column
+        toLang: String! @column
+        toVoice: String! @column
+    }
+    
     type Word @entity(embedded: true){
         from: String! @column
         to: String! @column
@@ -56,7 +68,7 @@ export const typeDefs = gql`
         toAudio: String! @column
         sentences: [Sentence!] @embedded
     }
-    
+
     type Sentence @entity(embedded: true){
         from: String! @column
         to: [String!] @column
@@ -66,7 +78,7 @@ export const typeDefs = gql`
         from: String!
         to: String!
     }
-    
+
     type Voice{
         DisplayName: String
         Gender: String

@@ -14,9 +14,9 @@
           <span style="visibility: hidden">"</span>
           <div style="margin-top: 10px"></div>
 
-          <i class="material-icons left unselectable tooltipped word-btn" data-tooltip="Remove" @click="playFromAudio"
+          <i class="material-icons left unselectable tooltipped word-btn" data-tooltip="Play audio" @click="playFromAudio"
              style="margin-left: 10px">volume_up</i>
-          <i class="material-icons left unselectable tooltipped word-btn" data-tooltip="Remove"
+          <i class="material-icons left unselectable tooltipped word-btn" data-tooltip="Play audio"
              @click="playToAudio">volume_up</i>
           <i class="material-icons right unselectable tooltipped word-btn" data-tooltip="Remove" @click="remove"
              style="margin-right: 10px; color: #8b0000">close</i>

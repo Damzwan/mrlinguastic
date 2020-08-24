@@ -1,37 +1,57 @@
 <!--suppress HtmlFormInputWithoutLabel -->
 <template>
   <div>
-    <ConfigModal v-on:saveLangSettings="saveLangSettings"></ConfigModal>
-    <OcrModal v-if="state.langSettings.length === 4" v-bind:langSettings="state.langSettings"
-              v-on:addImportedWords="addImportedWords"></OcrModal>
+    <div v-if="state.restored">
+      <ConfigModal v-on:saveSettings="saveSettings" v-bind:prevSettings="list.settings"
+      ></ConfigModal>
+      <OcrModal v-if="list.settings" v-bind:langSettings="list.settings.langSettings"
+                v-on:addImportedWords="addImportedWords"></OcrModal>
 
-    <div v-if="state.langSettings.length === 4">
-      <div class="row">
-        <div class="input-field col s12" v-bind:id="state.langSettings[0]">
-          <input v-bind:placeholder="getExampleWord(state.langSettings[0])" type="text"
-                 v-model="state.from"
-                 v-on:keyup.enter="translateInput" ref="fromInput"/>
-          <img role="img" :src="require(`@/assets/country-flags/${getCountry(state.langSettings[0])}.svg`)"
-               class="flag-icon"
-               alt="From Flag"/>
+      <div v-if="list.settings">
+        <div class="row">
+          <div class="input-field col s12">
+            <input v-bind:placeholder="getExampleWord(list.settings.langSettings.fromLang)" type="text"
+                   v-model="state.from"
+                   v-on:keyup.enter="translateInput" ref="fromInput"/>
+            <img role="img"
+                 :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.fromLang)}.svg`)"
+                 class="flag-icon"
+                 alt="From Flag"/>
+          </div>
+          <div class="input-field col s12">
+            <input v-bind:placeholder="getExampleWord(list.settings.langSettings.toLang)" type="text"
+                   v-model="state.to" id="to"
+                   v-on:keyup.enter="insertEntry" ref="toInput"/>
+            <img role="img"
+                 :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.toLang)}.svg`)"
+                 class="flag-icon" alt="From Flag"/>
+          </div>
+          <div class="divider col s12"></div>
         </div>
-        <div class="input-field col s12">
-          <input v-bind:placeholder="getExampleWord(state.langSettings[2])" type="text"
-                 v-model="state.to" id="to"
-                 v-on:keyup.enter="insertEntry" ref="toInput"/>
-          <img role="img" :src="require(`@/assets/country-flags/${getCountry(state.langSettings[2])}.svg`)"
-               class="flag-icon" alt="From Flag"/>
+        <div class="reverse-order" style="margin-bottom: 20px">
+          <WordItem div v-for="(word, index) in list.words" :key="index" v-model="list.words[index]"
+                    v-on:openImgModal="openImgModal" v-on:removeWord="removeWord"
+                    v-on:openExamplesModal="openExamplesModal"></WordItem>
         </div>
-        <div class="divider col s12"></div>
       </div>
-      <div class="reverse-order" style="margin-bottom: 20px">
-        <WordItem div v-for="(word, index) in state.words" :key="index" v-model="state.words[index]"
-                  v-on:openImgModal="openImgModal" v-on:removeWord="removeWord"
-                  v-on:openExamplesModal="openExamplesModal"></WordItem>
+      <div v-else>
+        <a href="#configuration" class="modal-trigger">please configure the language before creating your list</a>
       </div>
     </div>
-    <div v-else>
-      <a href="#configuration" class="modal-trigger">please configure the language before creating your list</a>
+    <div v-else style="margin-top: 100px">
+      <div class="preloader-wrapper big active centered-img">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div>
+          <div class="gap-patch">
+            <div class="circle"></div>
+          </div>
+          <div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
     </div>
 
 
@@ -94,17 +114,11 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  reactive, onMounted, computed,
-
-} from "@vue/composition-api";
+import {defineComponent, onMounted, reactive, ref, watch,} from "@vue/composition-api";
 import M from "materialize-css";
 import ConfigModal from "./ConfigModal.vue";
 import WordItem from "./WordItem.vue";
@@ -112,20 +126,20 @@ import ExampleItem from "./ExampleItem.vue"
 import OcrModal from "@/components/Voc/OcrModal.vue";
 import {cleanWord, useImageSearch, useTranslate} from "@/use/voc";
 import {getCountry, getExampleWord} from "@/use/languageToCountry";
-import Modal = M.Modal;
-import {Sentence, Word} from "@/gen-types";
+import {Sentence, Voclist, VoclistSettings, Word} from "@/gen-types";
 import {wrongMessage} from "@/use/messages";
 import {ImportedWords} from "./OcrModal.vue"
+import {getDb} from "@/use/localdb";
+import Modal = M.Modal;
 
 //used to make use of typescript typing
-interface CreateContent {
-  words: Word[]; //the entered words of the user
-  langSettings: string[]; //array of length 4: [fromLanguage, fromVoice, toLanguage, toVoice]
+interface State {
   from: string; //word that is typed by the user in the first input
   to: string; //word that is types by the users in the second input
   imagesToLoad: string[]; //an array of image urls that should be loaded into the imgModal
   imagesLoaded: boolean; //a boolean to determine whether all images have been loaded yet
   selectedWord: Word; //the currently selected word by the user (when a user clicks on a word component this variable is set)
+  restored: boolean;
 }
 
 export default defineComponent({
@@ -135,7 +149,8 @@ export default defineComponent({
     ExampleItem,
     OcrModal
   },
-  setup() {
+  setup(props, context) {
+
     const imgModalElement = ref(null) //The HTML element of the imgModal
     const imgModalInstance = ref<Modal>(null); //An instance of the imgModal, as soon as we mount we initialize this Modal. Use this instance to call modal methods
 
@@ -158,45 +173,86 @@ export default defineComponent({
     //if a difference is detected we retrieve audio of the new words
     let translateHistory: string[];
 
-    const state = reactive<CreateContent>({
+    const list = reactive<Voclist>({
+      _id: null,
+      settings: null,
       words: [],
-      langSettings: [],
+      creator: "me",
+      lastEdited: new Date().toISOString()
+    })
+
+    const state = reactive<State>({
       from: "",
       to: "",
       imagesToLoad: [],
       imagesLoaded: false,
       selectedWord: null,
+      restored: false
     })
+
+    const db = getDb();
+    db.connect().then(() => {
+      if (localStorage.getItem("_id")) {
+        db.restoreVocList(localStorage.getItem("_id")).then(restoredList => {
+          Object.assign(list, restoredList);
+          state.restored = true;
+        })
+      } else state.restored = true;
+    })
+
+    watch(() => list.words, (words) => {
+      db.updateVoclist(list);
+    }, {deep: true})
 
     const {translatedWord, executeTranslate} = useTranslate(); //allow us to execute translation queries
     const {imgUrls, executeImageSearch} = useImageSearch(); //allow us to execute image url queries
 
+    //initialize the modals
+    onMounted(() => {
+      imgModalInstance.value = M.Modal.init(imgModalElement.value, {outDuration: 0});
+      exampleModalInstance.value = M.Modal.init(exampleModalElement.value);
+    });
+
     //save the language settings that are being pushed from the ConfigModal
-    function saveLangSettings(settings: string[]) {
-      state.langSettings = settings;
+    async function saveSettings(settings: VoclistSettings) {
+      if (!localStorage.getItem("_id")) {
+        list._id = await db.createVoclist(settings, list.words, list.creator);
+        localStorage.setItem("_id", list._id)
+      }
+      list.settings = settings;
     }
 
     async function translateInput() {
       toInput.value.focus();
-      await executeTranslate({word: state.from, fromLang: state.langSettings[0], toLang: state.langSettings[2]})
+      await executeTranslate({
+        word: state.from,
+        fromLang: list.settings.langSettings.fromLang,
+        toLang: list.settings.langSettings.toLang
+      })
       state.from = cleanWord(state.from);
       state.to = cleanWord(translatedWord.value.translateWord);
 
       translateHistory = [state.from, state.to] //save the from/to Word
-      preloadedFromAudio.src = `http://localhost:4000/speech?word=${state.from}&lang=${state.langSettings[0]}&voice=${state.langSettings[1]}` //prefetch the audio
-      preloadedToAudio.src = `http://localhost:4000/speech?word=${state.to}&lang=${state.langSettings[2]}&voice=${state.langSettings[3]}`; //prefetch the audio
+      preloadedFromAudio.src = `http://localhost:4000/speech?word=${state.from}&lang=${list.settings.langSettings.fromLang}&voice=${list.settings.langSettings.fromVoice}` //prefetch the audio
+      preloadedToAudio.src = `http://localhost:4000/speech?word=${state.to}&lang=${list.settings.langSettings.toLang}&voice=${list.settings.langSettings.toVoice}`; //prefetch the audio
     }
 
     //fill the image modal with images for the selectedWord
-    function fillImgModal() {
+    async function fillImgModal() {
       state.imagesToLoad = [];
       state.imagesLoaded = false;
+
+      if (!allImgUrls[state.selectedWord.from]) {
+        await executeImageSearch({word: state.selectedWord.from, lang: list.settings.langSettings.fromLang})
+        allImgUrls[state.selectedWord.from] = imgUrls.value.getImages;
+      }
+
       for (const url of allImgUrls[state.selectedWord.from]) state.imagesToLoad.push(url);
     }
 
     //check if a given word has already been inserted by the user
     function wordExists(from: string) {
-      for (const word of state.words) {
+      for (const word of list.words) {
         if (word.from == from) return true;
       }
       return false;
@@ -220,9 +276,9 @@ export default defineComponent({
 
       //if the user updated from or to after the translation then we should update the audio as well
       if (from != translateHistory[0]) preloadedFromAudio.src =
-          `http://localhost:4000/speech?word=${from}&lang=${state.langSettings[0]}&voice=${state.langSettings[1]}`
+          `http://localhost:4000/speech?word=${from}&lang=${list.settings.langSettings.fromLang}&voice=${list.settings.langSettings.fromVoice}`
       if (to != translateHistory[1]) preloadedToAudio.src =
-          `http://localhost:4000/speech?word=${to}&lang=${state.langSettings[2]}&voice=${state.langSettings[3]}`
+          `http://localhost:4000/speech?word=${to}&lang=${list.settings.langSettings.toLang}&voice=${list.settings.langSettings.toVoice}`
       preloadedToAudio.play().then();
 
       const word = {
@@ -233,14 +289,15 @@ export default defineComponent({
         toAudio: preloadedToAudio.src,
         sentences: [{from: "", to: [""]}],
       };
-      state.words.push(word);
+      list.words.push(word);
 
       //search for images for the newly added word
-      await executeImageSearch({word: from, lang: state.langSettings[0]})
+      await executeImageSearch({word: from, lang: list.settings.langSettings.fromLang})
       allImgUrls[from] = imgUrls.value.getImages;
       state.selectedWord = word;
 
-      fillImgModal();
+      state.selectedWord = word;
+      await fillImgModal();
       state.selectedWord.imgUrl = allImgUrls[word.from][0]; //auto select the first image
     }
 
@@ -281,7 +338,7 @@ export default defineComponent({
     //called when the users click on the delete button of a WordItem component
     //TODO perhaps search for the word itself instead of the fromWord
     function removeWord(fromWord: string) {
-      state.words = state.words.filter(word => word.from != fromWord)
+      list.words = list.words.filter(word => word.from != fromWord)
     }
 
     //called when the users click on the add button in the exampleModal
@@ -301,34 +358,26 @@ export default defineComponent({
 
         //TODO should not use await, set the image later on
         //TODO we should throttle the amount of requests for speech server side. Currently we can only do 20 requests/min, this will result in words with no voice
-        await executeImageSearch({word: words.from[i], lang: state.langSettings[0]})
+        await executeImageSearch({word: words.from[i], lang: list.settings.langSettings.fromLang})
         allImgUrls[words.from[i]] = imgUrls.value.getImages;
 
         const word = {
           from: words.from[i],
           to: words.to[i],
           imgUrl: imgUrls.value.getImages[0],
-          fromAudio: `http://localhost:4000/speech?word=${words.from[i]}&lang=${state.langSettings[0]}&voice=${state.langSettings[1]}`,
-          toAudio: `http://localhost:4000/speech?word=${words.to[i]}&lang=${state.langSettings[2]}&voice=${state.langSettings[3]}`,
+          fromAudio: `http://localhost:4000/speech?word=${words.from[i]}&lang=${list.settings.langSettings.fromLang}&voice=${list.settings.langSettings.fromVoice}`,
+          toAudio: `http://localhost:4000/speech?word=${words.to[i]}&lang=${list.settings.langSettings.toLang}&voice=${list.settings.langSettings.toVoice}`,
           sentences: [{from: "", to: [""]}],
         };
-        state.words.push(word);
+        list.words.push(word);
       }
-
     }
-
-    //initialize the modals
-    onMounted(() => {
-      imgModalInstance.value = M.Modal.init(imgModalElement.value, {outDuration: 0});
-      exampleModalInstance.value = M.Modal.init(exampleModalElement.value);
-    });
-
 
     return {
       state,
+      list,
       translateInput,
       insertEntry,
-      saveLangSettings,
       fromInput,
       toInput,
       getCountry,
@@ -343,7 +392,8 @@ export default defineComponent({
       removeWord,
       addSentence,
       removeSentence,
-      addImportedWords
+      addImportedWords,
+      saveSettings
     };
   },
 });

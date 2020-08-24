@@ -2,55 +2,50 @@
   <div class="card horizontal hoverable unselectable">
     <div class="card-content" style="width: 100%; height: 100%;">
       <span class="card-title">
-        {{ title }}
+        {{ list.settings.title }}
         <i class="material-icons right activator" style="font-size: 35px;">more_vert</i>
       </span>
-      <p
-        style="margin-top: -5px; margin-bottom: 10px"
-      >A small description to give more info about the list</p>
+      <p style="margin-top: -5px; margin-bottom: 10px">{{ list.settings.description }}</p>
 
       <div class="row">
         <div class="col s5">
-          <p style="font-weight: bold; font-size: 15px;">{{ wordAmount }} words</p>
+          <p style="font-weight: bold; font-size: 15px;">{{ list.words.length }} words</p>
         </div>
         <div class="col s1" style="margin-right: 10px">
-          <img :src="getPic(fromLang)" v-if="fromLang" width="25px" height="25px" />
+          <img :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.fromLang)}.svg`)"
+               width="25px" height="25px"/>
         </div>
         <div class="col s1">
-          <img :src="getPic(toLang)" v-if="toLang" width="25px" height="25px" />
+          <img :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.toLang)}.svg`)"
+               width="25px" height="25px"/>
         </div>
       </div>
 
-      <p class="footer">Created by Damian</p>
-      <p class="footer" style="right: 5%">08/08/2020 12:50</p>
+      <p class="footer">Created by {{ list.creator }}</p>
+      <p class="footer" style="right: 5%">{{ list.lastEdited }}</p>
     </div>
 
     <div class="card-reveal unselectable" style="overflow: hidden; width: 100%; height: 100%">
       <div class="action-row" style="top: 0px">
         <div
-          class="action-item"
-          v-for="(card_item, index) in itemsTop"
-          :key="index"
-          v-on:click="actionHandler(card_item)"
+            class="action-item"
+            v-for="(card_item, index) in itemsTop"
+            :key="index"
+            v-on:click="actionHandler(card_item)"
         >
-          <i class="material-icons icon">{{card_item.icon}}</i>
-          <p class="action-text">{{card_item.title}}</p>
+          <i class="material-icons icon">{{ card_item.icon }}</i>
+          <p class="action-text">{{ card_item.title }}</p>
         </div>
       </div>
 
       <div class="action-row" style="top: 50%">
-        <div
-          class="action-item"
-          v-for="(card_item, index) in itemsBot"
-          :key="index"
-          v-on:click="actionHandler(card_item)"
-        >
-          <span
-            v-bind:class="(index==2)?'card-title':''"
-            style="width: 100%; height: 100%; position: absolute; z-index: 2"
+        <div class="action-item" v-for="(card_item, index) in itemsBot" :key="index"
+             v-on:click="actionHandler(card_item)">
+          <span v-bind:class="(index==2)?'card-title':''"
+                style="width: 100%; height: 100%; position: absolute; z-index: 2"
           ></span>
-          <i class="material-icons icon">{{card_item.icon}}</i>
-          <p class="action-text">{{card_item.title}}</p>
+          <i class="material-icons icon">{{ card_item.icon }}</i>
+          <p class="action-text">{{ card_item.title }}</p>
         </div>
       </div>
     </div>
@@ -58,10 +53,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import {defineComponent} from "@vue/composition-api";
+import {VoclistLocalDb} from "@/use/localdb";
+import {getCountry} from "@/use/languageToCountry";
 
 //the items on the back of the card are very similar so we can define an item object by an icon, a title and an action
-interface Item{
+interface Item {
   icon: string;
   title: string;
   action: string;
@@ -69,36 +66,37 @@ interface Item{
 
 export default defineComponent({
   props: {
-    title: String,
-    wordAmount: String,
-    fromLang: String,
-    toLang: String,
+    list: Object as () => VoclistLocalDb
   },
-  setup() {
+  setup(props, context) {
     //We will use v-for to iterate over the items
     const itemsTop: Array<Item> = [
-      { icon: "mode_edit", title: "Edit", action: "edit" },
-      { icon: "text_fields", title: "Rename", action: "rename" },
-      { icon: "share", title: "Share", action: "share" },
+      {icon: "mode_edit", title: "Edit", action: "edit"},
+      {icon: "text_fields", title: "Rename", action: "rename"},
+      {icon: "share", title: "Share", action: "share"},
     ];
     const itemsBot: Array<Item> = [
-      { icon: "picture_as_pdf", title: "Export", action: "toPdf" },
-      { icon: "delete", title: "Delete", action: "delete" },
-      { icon: "arrow_back", title: "Back", action: "back" },
+      {icon: "picture_as_pdf", title: "Export", action: "toPdf"},
+      {icon: "delete", title: "Delete", action: "delete"},
+      {icon: "arrow_back", title: "Back", action: "back"},
     ];
 
     function edit() {
-      console.log("should be editing");
+      localStorage.setItem("_id", props.list._id);
     }
+
     function rename() {
       console.log("should be renaming");
     }
+
     function share() {
       console.log("should be sharing");
     }
+
     function toPdf() {
       console.log("should be pdfing");
     }
+
     function del() {
       console.log("should be deleting");
     }
@@ -113,9 +111,9 @@ export default defineComponent({
 
     function getPic(lang: string) {
       const images = require.context(
-        "../../assets/country-flags/",
-        false,
-        /\.svg$/
+          "../../assets/country-flags/",
+          false,
+          /\.svg$/
       );
 
       return images("./" + lang + ".svg");
@@ -131,11 +129,14 @@ export default defineComponent({
       share,
       toPdf,
       del,
+      getCountry,
     };
   },
+  // beforeRouteEnter(to, from, next){
+  //   localStorage.setItem("_id")
+  // }
 });
 </script>
-
 
 
 <style scoped>

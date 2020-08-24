@@ -29,6 +29,14 @@ export enum Collections {
   Voclists = 'Voclists'
 }
 
+export type LangSettings = {
+  __typename?: 'LangSettings';
+  fromLang: Scalars['String'];
+  fromVoice: Scalars['String'];
+  toLang: Scalars['String'];
+  toVoice: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<Scalars['Boolean']>;
@@ -107,11 +115,10 @@ export type UserInput = {
 export type Voclist = {
   __typename?: 'Voclist';
   _id: Scalars['ID'];
-  title: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  from: Scalars['String'];
-  to: Scalars['String'];
+  settings?: Maybe<VoclistSettings>;
   words?: Maybe<Array<Word>>;
+  creator?: Maybe<Scalars['String']>;
+  lastEdited?: Maybe<Scalars['String']>;
 };
 
 export type VoclistInput = {
@@ -120,6 +127,13 @@ export type VoclistInput = {
   from: Scalars['String'];
   to: Scalars['String'];
   words?: Maybe<Array<WordInput>>;
+};
+
+export type VoclistSettings = {
+  __typename?: 'VoclistSettings';
+  title: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  langSettings?: Maybe<LangSettings>;
 };
 
 export type Voice = {
@@ -227,6 +241,8 @@ export type ResolversTypes = {
   User: ResolverTypeWrapper<UserDbObject>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Voclist: ResolverTypeWrapper<Voclist>;
+  VoclistSettings: ResolverTypeWrapper<VoclistSettings>;
+  LangSettings: ResolverTypeWrapper<LangSettings>;
   Word: ResolverTypeWrapper<Word>;
   Sentence: ResolverTypeWrapper<Sentence>;
   Voice: ResolverTypeWrapper<Voice>;
@@ -246,6 +262,8 @@ export type ResolversParentTypes = {
   User: UserDbObject;
   ID: Scalars['ID'];
   Voclist: Voclist;
+  VoclistSettings: VoclistSettings;
+  LangSettings: LangSettings;
   Word: Word;
   Sentence: Sentence;
   Voice: Voice;
@@ -292,6 +310,14 @@ export type MapDirectiveArgs = {   path: Scalars['String']; };
 
 export type MapDirectiveResolver<Result, Parent, ContextType = any, Args = MapDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
+export type LangSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['LangSettings'] = ResolversParentTypes['LangSettings']> = {
+  fromLang?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  fromVoice?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  toLang?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  toVoice?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'UserInput'>>;
   addVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddVoclistArgs, 'userId' | 'list'>>;
@@ -321,11 +347,17 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type VoclistResolvers<ContextType = any, ParentType extends ResolversParentTypes['Voclist'] = ResolversParentTypes['Voclist']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  settings?: Resolver<Maybe<ResolversTypes['VoclistSettings']>, ParentType, ContextType>;
+  words?: Resolver<Maybe<Array<ResolversTypes['Word']>>, ParentType, ContextType>;
+  creator?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  lastEdited?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
+export type VoclistSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['VoclistSettings'] = ResolversParentTypes['VoclistSettings']> = {
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  from?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  to?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  words?: Resolver<Maybe<Array<ResolversTypes['Word']>>, ParentType, ContextType>;
+  langSettings?: Resolver<Maybe<ResolversTypes['LangSettings']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
@@ -347,11 +379,13 @@ export type WordResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type Resolvers<ContextType = any> = {
+  LangSettings?: LangSettingsResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Sentence?: SentenceResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   Voclist?: VoclistResolvers<ContextType>;
+  VoclistSettings?: VoclistSettingsResolvers<ContextType>;
   Voice?: VoiceResolvers<ContextType>;
   Word?: WordResolvers<ContextType>;
 };
@@ -388,11 +422,23 @@ export type UserDbObject = {
 
 export type VoclistDbObject = {
   _id: ObjectID,
+  settings?: Maybe<VoclistSettingsDbObject>,
+  words?: Maybe<Array<WordDbObject>>,
+  creator?: Maybe<string>,
+  lastEdited?: Maybe<string>,
+};
+
+export type VoclistSettingsDbObject = {
   title: string,
   description?: Maybe<string>,
-  from: string,
-  to: string,
-  words?: Maybe<Array<WordDbObject>>,
+  langSettings?: Maybe<LangSettingsDbObject>,
+};
+
+export type LangSettingsDbObject = {
+  fromLang: string,
+  fromVoice: string,
+  toLang: string,
+  toVoice: string,
 };
 
 export type WordDbObject = {

@@ -13,21 +13,9 @@
       </div>
 
       <!-- use VFOR and a list of voc lists -->
-      <div class="row">
-        <div class="col l4 m6 s12">
-          <Card title="Italian Sample Card" wordAmount="5000" fromLang="belgium" toLang="italy"></Card>
-        </div>
-
-        <div class="col l4 m6 s12">
-          <Card title="French Card" wordAmount="2000" fromLang="belgium" toLang="france"></Card>
-        </div>
-
-        <div class="col l4 m6 s12">
-          <Card title="Greek Card" wordAmount="1000" fromLang="greece" toLang="france"></Card>
-        </div>
-
-        <div class="col l4 m6 s12">
-          <Card title="Greek Card" wordAmount="1000" fromLang="greece" toLang="france"></Card>
+      <div class="row" v-if="lists">
+        <div class="col l4 m6 s12" v-for="(list, index) in lists" :key="index">
+          <Card v-bind:list="list"></Card>
         </div>
       </div>
     </div>
@@ -35,14 +23,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import {defineComponent, reactive, ref} from "@vue/composition-api";
 import Card from "./Card.vue";
+import moment from 'moment';
+import {getDb, VoclistLocalDb} from "@/use/localdb";
 
 export default defineComponent({
   components: {
     Card,
   },
-  //   setup() {},
+  setup() {
+    localStorage.removeItem("_id");
+    const lists = ref<VoclistLocalDb[]>(null)
+    const db = getDb();
+
+
+    async function getLists() {
+      lists.value = await db.getAllVoclists();
+      lists.value.map(list => list.lastEdited = moment(list.lastEdited).format("MMMM Do YYYY, h:mm:ss a"))
+    }
+
+    if (db.db) getLists();
+    else db.connect().then(() => getLists())
+
+    return {lists}
+
+  },
 });
 </script>
 

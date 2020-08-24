@@ -32,10 +32,11 @@ type User {
 
 type Voclist {
     _id: ID!
+    creator: String
     description: String
-    from: String!
+    langSettings: [String]!
+    lastEdited: String
     title: String!
-    to: String!
     words: [Word!]
 }
 

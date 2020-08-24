@@ -33,6 +33,8 @@ Vue.directive('insta-focus', {
 })
 
 Vue.use(VueApollo)
+Vue.prototype.$apiURI = "/api";
+
 new Vue({
   router,
   setup() { provide(DefaultApolloClient, apolloClient) },

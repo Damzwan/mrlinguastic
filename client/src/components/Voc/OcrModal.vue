@@ -116,6 +116,7 @@ import Cropper from 'cropperjs';
 import {createWorker} from "tesseract.js"
 import {cleanWord, useTranslateMultiple} from "@/use/voc";
 import {normalMessage} from "@/use/messages";
+import {LangSettings} from "@/gen-types";
 
 interface OcrState {
   imgLoading: number;
@@ -130,7 +131,7 @@ export interface ImportedWords {
 
 export default defineComponent({
   props: {
-    langSettings: Array as () => Array<string>
+    langSettings: Object as () => LangSettings
   },
   setup(props, context) {
 
@@ -153,7 +154,7 @@ export default defineComponent({
     //worker setup
     const worker = createWorker();
     worker.load();
-    worker.loadLanguage(iso2to3[props.langSettings[0]] + "+" + iso2to3[props.langSettings[2]])
+    worker.loadLanguage(iso2to3[props.langSettings.fromLang] + "+" + iso2to3[props.langSettings.toLang])
 
     const isChecked = ref(false);
 
@@ -246,7 +247,7 @@ export default defineComponent({
 
     async function handleSingleOcr(words: string[]) {
       state.importedWords.from = words;
-      await executeTranslate({words: words, fromLang: props.langSettings[0], toLang: props.langSettings[2]})
+      await executeTranslate({words: words, fromLang: props.langSettings.fromLang, toLang: props.langSettings.toLang})
       state.importedWords.to = translatedWords.value.translateWords.map(word => cleanWord(word));
       state.ocrLoading = 2;
     }
@@ -278,7 +279,7 @@ export default defineComponent({
       }
 
       const croppedImg = cropper.value.getCroppedCanvas().toDataURL();
-      const lang = firstOcr ? iso2to3[props.langSettings[0]] : iso2to3[props.langSettings[2]]
+      const lang = firstOcr ? iso2to3[props.langSettings.fromLang] : iso2to3[props.langSettings.toLang]
       const text = await ocr(croppedImg, lang)
       const words = textToWords(text);
 

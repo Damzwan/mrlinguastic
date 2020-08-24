@@ -20,7 +20,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../client/src/use/localdb.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/HelloWorld.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/HelloWorld.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Card.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Card.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/ConfigModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/ConfigModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Create.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Main.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Main.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/OcrModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/OcrModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/WordItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/WordItem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/queries/user.graphql" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen-types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/schema.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +81,8 @@
       <workItem from="1597857487944" duration="40000" />
       <workItem from="1597857669944" duration="1125000" />
       <workItem from="1597934303704" duration="599000" />
+      <workItem from="1598111014166" duration="763000" />
+      <workItem from="1598262723967" duration="5017000" />
     </task>
     <servers />
   </component>
