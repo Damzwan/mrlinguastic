@@ -12,7 +12,7 @@
           </li>
         </ul>
 
-<!--        if we are on the Voc Create Page we should display other content-->
+        <!--        if we are on the Voc Create Page we should display other content-->
         <div v-if="!isVocCreatePage">
           <ul class="right">
             <li>
@@ -33,14 +33,26 @@
 
         <div v-else>
           <ul class="right">
+            <li class="hide-on-small-and-down">
+              <a @click="saveList" class="tooltipped" data-tooltip="Save">
+                <i class="material-icons" style="font-size: 30px;">save</i>
+              </a>
+            </li>
             <li>
-              <a href="#ocr" class="modal-trigger">
+              <a href="#ocr" class="modal-trigger tooltipped" data-tooltip="Import words">
                 <i class="material-icons" style="font-size: 30px;">attach_file</i>
               </a>
             </li>
             <li>
-              <a href="#configuration" class="modal-trigger">
+              <a href="#configuration" class="modal-trigger tooltipped" data-tooltip="Settings">
                 <i class="material-icons" style="font-size: 30px;">settings</i>
+              </a>
+            </li>
+          </ul>
+          <ul class="left hide-on-med-and-up">
+            <li>
+              <a @click="saveList" class="tooltipped" data-tooltip="Save">
+                <i class="material-icons" style="font-size: 30px;">save</i>
               </a>
             </li>
           </ul>
@@ -48,7 +60,7 @@
       </div>
     </nav>
 
-    <ul class="sidenav invesible-top green darken-4">
+    <ul class="sidenav green darken-4">
       <li v-for="(item, index) in sidenavObjects" :key="index" v-on:click="closeSideNav">
         <div class="divider light-green darken-4" v-if="item.title === 'Install'"></div>
 
@@ -66,6 +78,7 @@
 import {defineComponent, onMounted, ref} from "@vue/composition-api";
 import M from "materialize-css";
 import router from "@/router";
+import {correctMessage, normalMessage} from "@/use/messages";
 
 export default defineComponent({
   setup(props, context) {
@@ -83,6 +96,10 @@ export default defineComponent({
       sidenav.value.close();
     }
 
+    function saveList() {
+      correctMessage("Saved!");
+    }
+
     const sidenavObjects = [
       {title: "Vocabulary", icon: "translate", badge: false},
       {title: "Grammer", icon: "border_color", badge: true},
@@ -93,7 +110,7 @@ export default defineComponent({
 
     const isVocCreatePage = ref(context.root.$route.name == "Create Voc"); //flip boolean if we are on the voc create page
 
-    return {sidenav, openSideNav, closeSideNav, sidenavObjects, isVocCreatePage};
+    return {sidenav, openSideNav, closeSideNav, sidenavObjects, isVocCreatePage, saveList};
   },
   watch: {
     $route(to) {

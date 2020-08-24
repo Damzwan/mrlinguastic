@@ -26,13 +26,12 @@
     </div>
 
     <div class="card-reveal unselectable" style="overflow: hidden; width: 100%; height: 100%">
-      <div class="action-row" style="top: 0px">
-        <div
-            class="action-item"
-            v-for="(card_item, index) in itemsTop"
-            :key="index"
-            v-on:click="actionHandler(card_item)"
-        >
+      <div class="action-row" style="top: 0">
+        <div class="action-item" v-for="(card_item, index) in itemsTop" :key="index"
+             @click="actionHandler(card_item)">
+          <router-link to="/vocabulary/create"
+                       style="width: 33.33%; height: 100%; position: absolute; z-index: 2; left: 0"
+                       v-if="card_item.action === 'edit'"></router-link>
           <i class="material-icons icon">{{ card_item.icon }}</i>
           <p class="action-text">{{ card_item.title }}</p>
         </div>
@@ -41,9 +40,9 @@
       <div class="action-row" style="top: 50%">
         <div class="action-item" v-for="(card_item, index) in itemsBot" :key="index"
              v-on:click="actionHandler(card_item)">
-          <span v-bind:class="(index==2)?'card-title':''"
-                style="width: 100%; height: 100%; position: absolute; z-index: 2"
-          ></span>
+<!--          hack to flip the card-->
+          <span v-bind:class="(index===2)?'card-title':''"
+                style="width: 100%; height: 100%; position: absolute; z-index: 2"></span>
           <i class="material-icons icon">{{ card_item.icon }}</i>
           <p class="action-text">{{ card_item.title }}</p>
         </div>
@@ -160,7 +159,7 @@ export default defineComponent({
 }
 
 .icon {
-  margin-top: 15%;
+  margin-top: 15px;
   color: white;
   font-size: 30px;
 }
