@@ -38,3 +38,14 @@
     right: 3%;
     top: 1%;
 }
+
+.tabs .indicator {
+    background-color: #ffffff !important;
+}
+
+.flag-icon {
+    width: 30px;
+    position: absolute;
+    right: 20px;
+    top: 5px;
+}

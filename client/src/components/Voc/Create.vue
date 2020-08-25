@@ -191,10 +191,7 @@ export default defineComponent({
     })
 
     const db = getDb();
-
-
     function restoreWords() {
-      console.log(localStorage.getItem("_id"));
       if (localStorage.getItem("_id")) {
         db.restoreVocList(localStorage.getItem("_id")).then(restoredList => {
           Object.assign(list, restoredList);
@@ -203,13 +200,10 @@ export default defineComponent({
       } else state.restored = true;
     }
 
-    //TODO when the database is open we should not have to reconnect but this small delay solves
-    // TODO the beforeRouting issue at Main.vue where we should set storage before routing but we kinda ignore this xd
-    // if (db.db) restoreWords()
-    // else db.connect().then(() => restoreWords())
-    db.connect().then(() => restoreWords());
+    if (db.db) restoreWords()
+    else db.connect().then(() => restoreWords())
 
-    watch(() => list.words, () => {
+    watch(() => list, () => {
       db.updateVoclist(list);
     }, {deep: true})
 
@@ -409,13 +403,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.flag-icon {
-  width: 30px;
-  position: absolute;
-  right: 20px;
-  top: 5px;
-}
-
 .reverse-order {
   display: flex;
   flex-direction: column-reverse;

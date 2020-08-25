@@ -1,11 +1,12 @@
 <template>
+  <!--  <router-link to="/vocabulary/create">-->
   <div class="card horizontal hoverable unselectable">
-    <div class="card-content" style="width: 100%; height: 100%;">
+    <div class="card-content" @click="toExercises" style="width: 100%; height: 100%;">
       <span class="card-title">
         {{ list.settings.title }}
-        <i class="material-icons right activator" style="font-size: 35px;">more_vert</i>
+        <i class="material-icons right activator" style="font-size: 35px;" v-on:click.prevent>more_vert</i>
       </span>
-      <p style="margin-top: -5px; margin-bottom: 10px">{{ list.settings.description }}</p>
+      <p style="margin-top: -5px; margin-bottom: 10px;" class="truncate">{{ list.settings.description }}</p>
 
       <div class="row">
         <div class="col s5">
@@ -29,9 +30,6 @@
       <div class="action-row" style="top: 0">
         <div class="action-item" v-for="(card_item, index) in itemsTop" :key="index"
              @click="actionHandler(card_item)">
-          <router-link to="/vocabulary/create"
-                       style="width: 33.33%; height: 100%; position: absolute; z-index: 2; left: 0"
-                       v-if="card_item.action === 'edit'"></router-link>
           <i class="material-icons icon">{{ card_item.icon }}</i>
           <p class="action-text">{{ card_item.title }}</p>
         </div>
@@ -40,7 +38,7 @@
       <div class="action-row" style="top: 50%">
         <div class="action-item" v-for="(card_item, index) in itemsBot" :key="index"
              v-on:click="actionHandler(card_item)">
-<!--          hack to flip the card-->
+          <!--          hack to flip the card-->
           <span v-bind:class="(index===2)?'card-title':''"
                 style="width: 100%; height: 100%; position: absolute; z-index: 2"></span>
           <i class="material-icons icon">{{ card_item.icon }}</i>
@@ -49,6 +47,7 @@
       </div>
     </div>
   </div>
+  <!--  </router-link>-->
 </template>
 
 <script lang="ts">
@@ -82,6 +81,7 @@ export default defineComponent({
 
     function edit() {
       localStorage.setItem("_id", props.list._id);
+      context.root.$router.push("/vocabulary/create");
     }
 
     function rename() {
@@ -100,6 +100,12 @@ export default defineComponent({
       console.log("should be deleting");
     }
 
+    function toExercises(e) {
+      if (e.target.classList.contains("activator")) return
+      localStorage.setItem("_id", props.list._id);
+      context.root.$router.push("/vocabulary/exercises");
+    }
+
     function actionHandler(item: Item) {
       if (item.action == "edit") edit();
       else if (item.action == "rename") rename();
@@ -108,27 +114,17 @@ export default defineComponent({
       else if (item.action == "delete") del();
     }
 
-    function getPic(lang: string) {
-      const images = require.context(
-          "../../assets/country-flags/",
-          false,
-          /\.svg$/
-      );
-
-      return images("./" + lang + ".svg");
-    }
-
     return {
       itemsTop,
       itemsBot,
       actionHandler,
-      getPic,
       edit,
       rename,
       share,
       toPdf,
       del,
       getCountry,
+      toExercises
     };
   },
   // beforeRouteEnter(to, from, next){
