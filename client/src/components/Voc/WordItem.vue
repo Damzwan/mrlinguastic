@@ -14,18 +14,16 @@
           <span style="visibility: hidden">"</span>
           <div style="margin-top: 10px"></div>
 
-          <i class="material-icons left unselectable tooltipped word-btn" data-tooltip="Play audio" @click="playFromAudio"
-             style="margin-left: 10px">volume_up</i>
           <i class="material-icons left unselectable tooltipped word-btn" data-tooltip="Play audio"
              @click="playToAudio">volume_up</i>
           <i class="material-icons right unselectable tooltipped word-btn" data-tooltip="Remove" @click="remove"
              style="margin-right: 10px; color: #8b0000">close</i>
 
           <i class="material-icons right unselectable tooltipped word-btn" data-tooltip="Select Image"
-             v-if="!value.imgUrl"
+             v-if="!value.img"
              @click="getImage">image</i>
           <div v-else class="right unselectable" style="margin-top: -33px; margin-left: 15px" @click="getImage"><img
-              :src="value.imgUrl" style="width: 35px; height: 35px;" class="circle"></div>
+              :src="getBlobUrl(value.img)" style="width: 35px; height: 35px;" class="circle"></div>
 
           <i class="material-icons right unselectable tooltipped word-btn" data-tooltip="Example Sentences"
              @click="getExamples">format_list_numbered</i>
@@ -51,6 +49,7 @@ import {
 } from "@vue/composition-api";
 import M, {Collapsible} from "materialize-css";
 import {Word} from "@/gen-types";
+import {getBlobUrl} from "@/use/blobStorage";
 
 export default defineComponent({
   props: {
@@ -60,11 +59,7 @@ export default defineComponent({
     const collapsibleInstance = ref<Collapsible>(null);
     const collapsibleElement = ref(null);
     const state = reactive({disabled: true}); //when a WordItem is in its collapsed state it
-
-    const fromAudio = document.createElement("audio");
-    fromAudio.src = props.value.fromAudio;
     const toAudio = document.createElement("audio");
-    toAudio.src = props.value.toAudio;
 
     function flipDisabled() {
       state.disabled = !state.disabled
@@ -111,11 +106,9 @@ export default defineComponent({
       context.emit('input', {from: props.value.from, to: $event.target.value})
     }
 
-    function playFromAudio() {
-      fromAudio.play();
-    }
 
     function playToAudio() {
+      toAudio.src = props.value.toAudio;
       toAudio.play();
     }
 
@@ -128,8 +121,8 @@ export default defineComponent({
       getExamples: openExamplesModal,
       updateFrom,
       updateTo,
-      playFromAudio,
-      playToAudio
+      playToAudio,
+      getBlobUrl
     };
   },
 });

@@ -1,6 +1,6 @@
 import { DataSource } from 'apollo-datasource';
 import { MongoClient, Db, ObjectID, InsertOneWriteOpResult } from 'mongodb';
-import { UserDbObject, VoclistInput, Collections } from '../gen-types';
+import { UserDbObject, Collections } from '../gen-types';
 import { response } from 'express';
 require('dotenv').config()
 
@@ -45,10 +45,10 @@ export class MongoAPI {
         return await this.db.collection(collection).insertOne(entity);
     }
 
-    async addVocList(user: UserDbObject, vocList: VoclistInput): Promise<void> {
-        const res = await this.addEntity(Collections.Voclists, vocList);
-        user.voclists.push(res.insertedId);
-        await this.updateEntity<UserDbObject>(Collections.Users, user._id, user)
-    }
+    // async addVocList(user: UserDbObject, vocList: VoclistInput): Promise<void> {
+    //     // const res = await this.addEntity(Collections.Voclists, vocList);
+    //     // user.voclists.push(res.insertedId);
+    //     // await this.updateEntity<UserDbObject>(Collections.Users, user._id, user)
+    // }
 
 }

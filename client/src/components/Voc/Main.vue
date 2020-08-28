@@ -40,7 +40,8 @@
 import {defineComponent, reactive, ref} from "@vue/composition-api";
 import Card from "./Card.vue";
 import moment from 'moment';
-import {getDb, VoclistLocalDb} from "@/use/localdb";
+import {getDb} from "@/use/localdb";
+import {Voclist} from "@/gen-types";
 
 export default defineComponent({
   components: {
@@ -48,7 +49,7 @@ export default defineComponent({
   },
   setup() {
     localStorage.removeItem("_id");
-    const lists = ref<VoclistLocalDb[]>(null)
+    const lists = ref<Voclist[]>(null)
     const db = getDb();
 
 

@@ -34,14 +34,6 @@
               </label>
             </div>
 
-            <div class="input-field col s12 m6">
-              <select class="icons" disabled ref="fromVoiceElement" v-model="settings.langSettings.fromVoice">
-                <option v-for="(voice, index) in voices.fromVoices" :key="index" :value="voice.ShortName">
-                  {{ voice.DisplayName }} ({{ voice.ShortName.substring(3, 5).toUpperCase() }})
-                </option>
-              </select>
-              <label>From Voice</label>
-            </div>
           </div>
 
           <div class="big-space-2">
@@ -60,7 +52,7 @@
 
             <div class="input-field col s12 m6">
               <select class="icons" disabled ref="toVoiceElement" v-model="settings.langSettings.toVoice">
-                <option v-for="(voice, index) in voices.toVoices" :key="index" :value="voice.ShortName">
+                <option v-for="(voice, index) in toVoices" :key="index" :value="voice.ShortName">
                   {{ voice.DisplayName }} ({{ voice.ShortName.substring(3, 5).toUpperCase() }})
                 </option>
               </select>
@@ -94,17 +86,11 @@
 import {
   defineComponent,
   onMounted, onUpdated,
-  reactive, Ref, ref, UnwrapRef,
+  reactive, Ref, ref,
   watch,
 } from "@vue/composition-api";
 import M, {Modal} from "materialize-css";
 import {useGetVoicesQuery, VoclistSettings, Voice} from "@/gen-types";
-import {useResult} from "@vue/apollo-composable";
-
-interface Voices {
-  fromVoices: Voice[];
-  toVoices: Voice[];
-}
 
 export default defineComponent({
   props: {
@@ -117,19 +103,15 @@ export default defineComponent({
     const fromLangElement = ref<HTMLSelectElement>(null)
     const toLangElement = ref<HTMLSelectElement>(null)
 
-    const fromVoiceElement = ref<HTMLSelectElement>(null);
     const toVoiceElement = ref<HTMLSelectElement>(null);
 
     const settings = reactive<VoclistSettings>({
       title: "",
       description: "",
-      langSettings: {fromLang: "", fromVoice: "", toLang: "", toVoice: ""}
+      langSettings: {fromLang: "", toLang: "", toVoice: ""}
     })
 
-    const voices = reactive<Voices>({
-      fromVoices: [],
-      toVoices: []
-    })
+    const toVoices = ref<Voice[]>([]);
 
     const {result} = useGetVoicesQuery(); //we retrieve a list of all possible voices
 
@@ -146,6 +128,8 @@ export default defineComponent({
       else fillSettings()
     });
 
+
+    //TODO should destroy xd
     function getCountryFlag(country: string) {
       return require(`@/assets/country-flags/${country}.svg`);
     }
@@ -162,15 +146,13 @@ export default defineComponent({
 
     watch(() => settings.langSettings.fromLang, () => {
       if (props.prevSettings) return;
-      fromVoiceElement.value.disabled = false;
-      voices.fromVoices = result.value.getVoices.filter(voice => voice.ShortName.substring(0, 2) == settings.langSettings.fromLang)
       if (settings.langSettings.fromLang != "" && settings.langSettings.toLang != "") enableBtn()
     })
 
     watch(() => settings.langSettings.toLang, () => {
       if (props.prevSettings) return;
       toVoiceElement.value.disabled = false;
-      voices.toVoices = result.value.getVoices.filter(voice => voice.ShortName.substring(0, 2) == settings.langSettings.toLang)
+      toVoices.value = result.value.getVoices.filter(voice => voice.ShortName.substring(0, 2) == settings.langSettings.toLang)
       if (settings.langSettings.fromLang && settings.langSettings.toLang) enableBtn()
     })
 
@@ -181,11 +163,7 @@ export default defineComponent({
         fromLangElement.value.disabled = true;
         toLangElement.value.disabled = true;
 
-        voices.fromVoices = [{
-          ShortName: props.prevSettings.langSettings.fromVoice,
-          DisplayName: props.prevSettings.langSettings.fromVoice.substring(props.prevSettings.langSettings.fromVoice.lastIndexOf("-") + 1)
-        }]
-        voices.toVoices = [{
+        toVoices.value = [{
           ShortName: props.prevSettings.langSettings.toVoice,
           DisplayName: props.prevSettings.langSettings.toVoice.substring(props.prevSettings.langSettings.toVoice.lastIndexOf("-") + 1)
         }]
@@ -198,27 +176,22 @@ export default defineComponent({
         enableBtn()
       }
 
-      if (voices.fromVoices.length > 0) {
-        M.FormSelect.init(fromVoiceElement.value);
-        settings.langSettings.fromVoice = voices.fromVoices[0].ShortName
-      }
 
-      if (voices.toVoices.length > 0) {
+      if (toVoices.value.length > 0) {
         M.FormSelect.init(toVoiceElement.value);
-        settings.langSettings.toVoice = voices.toVoices[0].ShortName
+        settings.langSettings.toVoice = toVoices.value[0].ShortName
       }
     })
 
     return {
       getCountryFlag,
       saveConfig,
-      voices,
       configModalElement,
-      fromVoiceElement,
       toVoiceElement,
       fromLangElement,
       toLangElement,
-      settings
+      settings,
+      toVoices
     };
   },
 });

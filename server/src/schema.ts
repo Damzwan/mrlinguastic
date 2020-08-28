@@ -17,8 +17,8 @@ export const typeDefs = gql`
 
     type Mutation{
         createUser(UserInput: UserInput!): Boolean
-        addVoclist(userId: ID!, list: VoclistInput!): Boolean
-        updateVoclist(vocId: ID!, newList: VoclistInput!): Boolean
+        #        addVoclist(userId: ID!, list: VoclistInput!): Boolean
+        updateVoclist(list: VoclistInput!, changedBlobs: [String!]): Voclist!
     }
 
     type User @entity{
@@ -40,33 +40,51 @@ export const typeDefs = gql`
     }
 
     input VoclistInput{
-        title: String!
-        description: String
-        from: String!
-        to: String!
+        _id: ID!
+        settings: VoclistSettingsInput!
         words: [WordInput!]
+        creator: String
+        lastEdited: String
     }
-    
+
     type VoclistSettings @entity(embedded: true){
         title: String! @column
         description: String @column
-        langSettings: LangSettings @embedded
+        langSettings: LangSettings! @embedded
     }
-    
+
+    input VoclistSettingsInput{
+        title: String!
+        description: String
+        langSettings: LangSettingsInput!
+    }
+
     type LangSettings @entity(embedded: true){
         fromLang: String! @column
-        fromVoice: String! @column
         toLang: String! @column
         toVoice: String! @column
     }
-    
+
+    input LangSettingsInput{
+        fromLang: String!
+        toLang: String!
+        toVoice: String!
+    }
+
     type Word @entity(embedded: true){
         from: String! @column
         to: String! @column
-        imgUrl: String! @column
-        fromAudio: String! @column
+        img: String! @column
         toAudio: String! @column
         sentences: [Sentence!] @embedded
+    }
+
+    input WordInput{
+        from: String!
+        to: String!
+        img: String!
+        toAudio: String!
+        sentences: [SentenceInput!]
     }
 
     type Sentence @entity(embedded: true){
@@ -74,9 +92,9 @@ export const typeDefs = gql`
         to: [String!] @column
     }
 
-    input WordInput{
+    input SentenceInput{
         from: String!
-        to: String!
+        to: [String!]
     }
 
     type Voice{

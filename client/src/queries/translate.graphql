@@ -1,15 +1,26 @@
 query translateWord($word: String!, $fromLang: String!, $toLang: String!) {
-  translateWord(word: $word, fromLang: $fromLang, toLang: $toLang)
+    translateWord(word: $word, fromLang: $fromLang, toLang: $toLang)
 }
 
 query translateWords($words: [String!], $fromLang: String!, $toLang: String!){
-  translateWords(words: $words, fromLang: $fromLang, toLang: $toLang)
+    translateWords(words: $words, fromLang: $fromLang, toLang: $toLang)
 }
 
 query getVoices{
-  getVoices{
-    DisplayName
-    Gender
-    ShortName
-  }
+    getVoices{
+        DisplayName
+        Gender
+        ShortName
+    }
+}
+
+mutation updateVoclist($list: VoclistInput!, $changedBlobs: [String!]){
+    updateVoclist(list: $list, changedBlobs: $changedBlobs){
+        words{
+            from
+            to
+            img
+            toAudio
+        }
+    }
 }

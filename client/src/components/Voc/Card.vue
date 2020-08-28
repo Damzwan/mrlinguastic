@@ -52,8 +52,8 @@
 
 <script lang="ts">
 import {defineComponent} from "@vue/composition-api";
-import {VoclistLocalDb} from "@/use/localdb";
 import {getCountry} from "@/use/languageToCountry";
+import {Voclist} from '@/gen-types';
 
 //the items on the back of the card are very similar so we can define an item object by an icon, a title and an action
 interface Item {
@@ -64,7 +64,7 @@ interface Item {
 
 export default defineComponent({
   props: {
-    list: Object as () => VoclistLocalDb
+    list: Object as () => Voclist
   },
   setup(props, context) {
     //We will use v-for to iterate over the items

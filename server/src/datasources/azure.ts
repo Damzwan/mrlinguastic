@@ -5,28 +5,25 @@ require('dotenv').config()
 //translation
 import request from 'request';
 import {v4 as uuidv4} from 'uuid';
+import {ContainerClient} from "@azure/storage-blob/typings/3.1/storage-blob";
 
 //text to speech
 const rp = require('request-promise');
 const xmlbuilder = require('xmlbuilder');
 
-
-const langToCountryCode = {
-    "it": "IT",
-    "fr": "fr",
-    "en": "GB",
-    "ro": "RO",
-    "nl": "NL",
-    "ja": "JP",
-    "es": "ES",
-    "ko": "KR"
-}
-
+//Blob Storage
+const {BlobServiceClient} = require('@azure/storage-blob');
+import fetch from 'node-fetch';
 
 export class azureAPI extends DataSource {
+    imagesContainerClient: ContainerClient;
+    audioContainerClient: ContainerClient;
 
     constructor() {
         super();
+        const blobServiceClient = BlobServiceClient.fromConnectionString(process.env.BLOB_KEY);
+        this.imagesContainerClient = blobServiceClient.getContainerClient("images");
+        this.audioContainerClient = blobServiceClient.getContainerClient("audio");
     }
 
     /**
@@ -76,9 +73,8 @@ export class azureAPI extends DataSource {
         // Create the SSML request.
         let xml_body = xmlbuilder.create('speak')
             .att('version', '1.0')
-            .att('xml:lang', lang + "-" + lang)
+            .att('xml:lang', voice.substring(0, 5))
             .ele('voice')
-            .att('xml:lang', lang + "-" + lang)
             .att('name', voice)
             .txt(word)
             .end();
@@ -119,7 +115,7 @@ export class azureAPI extends DataSource {
     }
 
     //get a list of all possible voices for text to speech
-    async getVoices() : Promise<any []>{
+    async getVoices(): Promise<any []> {
         const subscriptionKey = "525103ae078d47f8b501773323b2b2bc";
         const accessToken = await this.getAccessToken(subscriptionKey);
 
@@ -133,4 +129,22 @@ export class azureAPI extends DataSource {
         const voices = await rp(options);
         return JSON.parse(voices)
     }
+
+    async saveBlob(url: string, containerName: string) {
+        if (url.substring(0, 5) != "https") return url; //blob already saved
+        const buffer = await fetch(url).then(r => r.arrayBuffer());
+        const blobName = uuidv4(); // Create a unique name for the blob
+        const container = containerName == "audio" ? this.audioContainerClient : this.imagesContainerClient;
+        const blockBlobClient = container.getBlockBlobClient(blobName); // Get a block blob client
+        const uploadBlobResponse = await blockBlobClient.upload(buffer, buffer.byteLength); //TODO should probably not be await
+        console.log("Blob was uploaded successfully. requestId: ", uploadBlobResponse.requestId);
+        return blobName;
+    }
+
+    deleteBlob(blobName: string, containerName: string) {
+        const container = containerName == "audio" ? this.audioContainerClient : this.imagesContainerClient;
+        container.deleteBlob(blobName).then(() => console.log("deleted: " + blobName));
+    }
+
+
 }

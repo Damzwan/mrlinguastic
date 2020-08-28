@@ -1,4 +1,3 @@
-<!--suppress HtmlFormInputWithoutLabel -->
 <template>
   <div>
     <div v-if="state.restored">
@@ -57,7 +56,7 @@
 
     <!--    TODO should be a separate component-->
     <div class="modal bottom-sheet" ref="imgModalElement">
-      <div class="modal-content" v-if="state.selectedWord && !state.selectedWord.imgUrl">
+      <div class="modal-content" v-if="state.selectedWord && !state.selectedWord.img">
         <h5 class="center">🖼 Select an image 🖼</h5>
         <div class="row section" v-show="state.imagesLoaded">
           <div class="col s4 m2 l1" v-for="(imgUrl, index) in state.imagesToLoad" :key="index">
@@ -85,7 +84,8 @@
         <h5 class="center">🖼 Selected image 🖼</h5>
         <div class="row section valign-wrapper">
           <div class="col s8 m6 offset-m3">
-            <img :src="state.selectedWord.imgUrl" alt="selected image" class="responsive-img centered-img">
+            <img :src="getBlobUrl(state.selectedWord.img)" alt="selected image"
+                 class="responsive-img centered-img">
           </div>
           <div class="col s4 m3 valign-wrapper unselectable" @click="swapImg">
             <i class="material-icons unselectable tooltipped centered-img" data-tooltip="Switch Image"
@@ -126,11 +126,12 @@ import ExampleItem from "./ExampleItem.vue"
 import OcrModal from "@/components/Voc/OcrModal.vue";
 import {cleanWord, useImageSearch, useTranslate} from "@/use/voc";
 import {getCountry, getExampleWord} from "@/use/languageToCountry";
-import {Sentence, Voclist, VoclistSettings, Word} from "@/gen-types";
+import {Sentence, useUpdateVoclistMutation, Voclist, VoclistInput, VoclistSettings, Word} from "@/gen-types";
 import {wrongMessage} from "@/use/messages";
 import {ImportedWords} from "./OcrModal.vue"
 import {getDb} from "@/use/localdb";
 import Modal = M.Modal;
+import {getBlobUrl} from "@/use/blobStorage";
 
 //used to make use of typescript typing
 interface State {
@@ -140,6 +141,7 @@ interface State {
   imagesLoaded: boolean; //a boolean to determine whether all images have been loaded yet
   selectedWord: Word; //the currently selected word by the user (when a user clicks on a word component this variable is set)
   restored: boolean;
+  changedBlobs: string[];
 }
 
 export default defineComponent({
@@ -165,13 +167,6 @@ export default defineComponent({
     //this will improve image load times since we retrieve the images urls as soon as a word is entered
     const allImgUrls = reactive({});
 
-    //used to fetch audio directly after translation to improve load time
-    const preloadedFromAudio = document.createElement("audio");
-    const preloadedToAudio = document.createElement("audio");
-
-    //used to determine whether there is a difference between the from/toWord before translation and after translation
-    //if a difference is detected we retrieve audio of the new words
-    let translateHistory: string[];
 
     const list = reactive<Voclist>({
       _id: null,
@@ -187,13 +182,20 @@ export default defineComponent({
       imagesToLoad: [],
       imagesLoaded: false,
       selectedWord: null,
-      restored: false
+      restored: false,
+      changedBlobs: [],
     })
 
+    const {translatedWord, executeTranslate} = useTranslate(); //allow us to execute translation queries
+    const {imgUrls, executeImageSearch} = useImageSearch(); //allow us to execute image url queries
+    const {mutate: updateServer} = useUpdateVoclistMutation(null); //TODO fix better name xd
+
     const db = getDb();
+
+    //TODO put this in use dir
     function restoreWords() {
       if (localStorage.getItem("_id")) {
-        db.restoreVocList(localStorage.getItem("_id")).then(restoredList => {
+        db.restoreVocList(localStorage.getItem("_id")).then(async restoredList => {
           Object.assign(list, restoredList);
           state.restored = true;
         })
@@ -204,11 +206,8 @@ export default defineComponent({
     else db.connect().then(() => restoreWords())
 
     watch(() => list, () => {
-      db.updateVoclist(list);
+      db.save("voclists", list);
     }, {deep: true})
-
-    const {translatedWord, executeTranslate} = useTranslate(); //allow us to execute translation queries
-    const {imgUrls, executeImageSearch} = useImageSearch(); //allow us to execute image url queries
 
     //initialize the modals
     onMounted(() => {
@@ -235,9 +234,6 @@ export default defineComponent({
       state.from = cleanWord(state.from);
       state.to = cleanWord(translatedWord.value.translateWord);
 
-      translateHistory = [state.from, state.to] //save the from/to Word
-      preloadedFromAudio.src = `http://localhost:4000/speech?word=${state.from}&lang=${list.settings.langSettings.fromLang}&voice=${list.settings.langSettings.fromVoice}` //prefetch the audio
-      preloadedToAudio.src = `http://localhost:4000/speech?word=${state.to}&lang=${list.settings.langSettings.toLang}&voice=${list.settings.langSettings.toVoice}`; //prefetch the audio
     }
 
     //fill the image modal with images for the selectedWord
@@ -277,19 +273,11 @@ export default defineComponent({
         return;
       }
 
-      //if the user updated from or to after the translation then we should update the audio as well
-      if (from != translateHistory[0]) preloadedFromAudio.src =
-          `http://localhost:4000/speech?word=${from}&lang=${list.settings.langSettings.fromLang}&voice=${list.settings.langSettings.fromVoice}`
-      if (to != translateHistory[1]) preloadedToAudio.src =
-          `http://localhost:4000/speech?word=${to}&lang=${list.settings.langSettings.toLang}&voice=${list.settings.langSettings.toVoice}`
-      preloadedToAudio.play().then();
-
-      const word = {
+      const word: Word = {
         from: from,
         to: to,
-        imgUrl: null,
-        fromAudio: preloadedFromAudio.src,
-        toAudio: preloadedToAudio.src,
+        img: null,
+        toAudio: `http://localhost:4000/speech?word=${to}&lang=${list.settings.langSettings.toLang}&voice=${list.settings.langSettings.toVoice}`,
         sentences: [{from: "", to: [""]}],
       };
       list.words.push(word);
@@ -301,7 +289,7 @@ export default defineComponent({
 
       state.selectedWord = word;
       await fillImgModal();
-      state.selectedWord.imgUrl = allImgUrls[word.from][0]; //auto select the first image
+      state.selectedWord.img = allImgUrls[word.from][0]; //auto select the first image
     }
 
     function openImgModal(word: Word) {
@@ -330,12 +318,13 @@ export default defineComponent({
     //called when the user selects an image
     function setUrl(imgUrl: string) {
       imgModalInstance.value.close();
-      state.selectedWord.imgUrl = imgUrl;
+      state.selectedWord.img = imgUrl;
     }
 
     //the user wants to select a new image
     function swapImg() {
-      state.selectedWord.imgUrl = null;
+      if (state.selectedWord.img.substring(0, 5) != "https") state.changedBlobs.push(state.selectedWord.img);
+      state.selectedWord.img = null;
     }
 
     //called when the users click on the delete button of a WordItem component
@@ -356,25 +345,38 @@ export default defineComponent({
 
     async function addImportedWords(words: ImportedWords) {
 
+
+
       for (let i = 0; i <= words.from.length; i++) {
         if (wordExists(words.from[i])) continue;
 
         //TODO should not use await, set the image later on
-        //TODO we should throttle the amount of requests for speech server side. Currently we can only do 20 requests/min, this will result in words with no voice
         await executeImageSearch({word: words.from[i], lang: list.settings.langSettings.fromLang})
         allImgUrls[words.from[i]] = imgUrls.value.getImages;
 
-        const word = {
+        const word: Word = {
           from: words.from[i],
           to: words.to[i],
-          imgUrl: imgUrls.value.getImages[0],
-          fromAudio: `http://localhost:4000/speech?word=${words.from[i]}&lang=${list.settings.langSettings.fromLang}&voice=${list.settings.langSettings.fromVoice}`,
+          img: imgUrls.value.getImages[0],
           toAudio: `http://localhost:4000/speech?word=${words.to[i]}&lang=${list.settings.langSettings.toLang}&voice=${list.settings.langSettings.toVoice}`,
           sentences: [{from: "", to: [""]}],
         };
         list.words.push(word);
       }
     }
+
+    //TODO we should only call the mutation, on server side update the lastedited field so that when we do the sync in browser we get the latest version
+    async function finalSave() {
+      list.words.forEach(word => delete word.__typename)
+      const result = await updateServer({list: list as VoclistInput, changedBlobs: state.changedBlobs})
+      list.words = result.data.updateVoclist.words;
+      await db.save("voclists", list);
+    }
+
+    window.onbeforeunload = async function (event) {
+      finalSave(); //TODO sometimes fails with reloading
+      return null;
+    };
 
     return {
       state,
@@ -396,9 +398,15 @@ export default defineComponent({
       addSentence,
       removeSentence,
       addImportedWords,
-      saveSettings
+      saveSettings,
+      finalSave,
+      getBlobUrl
     };
   },
+  async beforeRouteLeave(to, from, next) {
+    this.finalSave();
+    next(); //TODO perhaps have a better look at this
+  }
 });
 </script>
 

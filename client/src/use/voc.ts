@@ -1,4 +1,4 @@
-import {useGetImagesQuery, useTranslateWordQuery, useTranslateWordsQuery} from "@/gen-types";
+import {useGetImagesQuery, useTranslateWordQuery, useTranslateWordsQuery, VoclistInput} from "@/gen-types";
 import {useGlobalQueryLoading, useQuery, useResult} from "@vue/apollo-composable";
 
 

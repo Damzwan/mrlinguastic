@@ -1,23 +1,6 @@
-import {Sentence, Voclist, VoclistSettings, Word} from "@/gen-types";
+import {Sentence, useUpdateVoclistMutation, Voclist, VoclistSettings, Word} from "@/gen-types";
 import {inject, provide} from "@vue/composition-api";
 import {ObjectID} from 'bson';
-
-export interface WordLocalDb {
-    from: string;
-    to: string;
-    imgUrl: Blob;
-    fromAudio: Blob;
-    toAudio: Blob;
-    sentences: Sentence[];
-}
-
-export interface VoclistLocalDb {
-    _id: string;
-    settings: VoclistSettings;
-    words: WordLocalDb[];
-    lastEdited: string;
-    creator: string;
-}
 
 export class Localdb {
     db: IDBDatabase;
@@ -58,7 +41,7 @@ export class Localdb {
         });
     }
 
-    async getVoclist(_id: string): Promise<VoclistLocalDb> {
+    async getVoclist(_id: string): Promise<Voclist> {
         const transaction = this.db.transaction(['voclists']);
         const store = transaction.objectStore('voclists');
         const request = store.get(_id);
@@ -70,54 +53,22 @@ export class Localdb {
         });
     }
 
+
     async restoreVocList(_id: string): Promise<Voclist> {
-        const list = await this.getVoclist(_id);
-        const newWords: Word[] = [];
-
-        for (const word of list.words) {
-            newWords.push({
-                from: word.from,
-                to: word.to,
-                imgUrl: word.imgUrl ? URL.createObjectURL(word.imgUrl) : null,
-                fromAudio: word.fromAudio ? URL.createObjectURL(word.fromAudio) : null,
-                toAudio: word.toAudio ? URL.createObjectURL(word.toAudio) : null,
-                sentences: word.sentences
-            })
-        }
-
-        return {
-            _id: list._id,
-            settings: list.settings,
-            words: newWords,
-            lastEdited: list.lastEdited,
-            creator: list.creator,
-        }
+        return await this.getVoclist(_id);
     }
 
     async createVoclist(settings: VoclistSettings, words: Word[], creator: string): Promise<string> {
-        const list: VoclistLocalDb = {
+        const list: Voclist = {
             _id: new ObjectID().toString(),
             settings: settings,
-            words: await this.transformWords(words),
+            words: words,
             lastEdited: new Date().toISOString(),
             creator: creator,
         }
 
         await this.save("voclists", list);
         return list._id;
-    }
-
-    async updateVoclist(list: Voclist) {
-
-        const listToUpdate: VoclistLocalDb = {
-            _id: list._id,
-            settings: list.settings,
-            words: await this.transformWords(list.words),
-            lastEdited: new Date().toISOString(),
-            creator: list.creator,
-        }
-
-        await this.save("voclists", listToUpdate);
     }
 
     async save(storeName: string, item: any) {
@@ -137,22 +88,6 @@ export class Localdb {
     }
 
 
-    async transformWords(words: Word[]): Promise<WordLocalDb[]> {
-        const newWords: WordLocalDb[] = [];
-
-        for (const word of words) {
-            newWords.push({
-                from: word.from,
-                to: word.to,
-                imgUrl: await fetch(word.imgUrl).then(r => r.blob()),
-                fromAudio: await fetch(word.fromAudio).then(r => r.blob()),
-                toAudio: await fetch(word.toAudio).then(r => r.blob()),
-                sentences: word.sentences
-            })
-        }
-        return newWords;
-    }
-
     async deleteVoclist(_id: string) {
         const transaction = this.db.transaction(['voclists'], 'readwrite');
         const objectStore = transaction.objectStore('voclists');
@@ -171,9 +106,11 @@ export class Localdb {
         const store = transaction.objectStore('voclists');
         const req = store.getAllKeys();
 
-        const lists: VoclistLocalDb[] = [];
+        const lists: Voclist[] = [];
         const _ids: IDBValidKey[] = await new Promise(resolve => {
-            req.onsuccess = function(){resolve(req.result)}
+            req.onsuccess = function () {
+                resolve(req.result)
+            }
         })
 
         for (const _id of _ids) lists.push(await this.getVoclist(_id.toString()))

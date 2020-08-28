@@ -8,6 +8,7 @@ let mongoAPI: MongoAPI;
 
 //kind of a hack :))
 setup();
+
 async function setup() {
     mongoAPI = new MongoAPI();
     await mongoAPI.connect();
@@ -34,15 +35,13 @@ export const resolv: Resolvers = {
             await mongoAPI.addEntity(Collections.Voclists, user);
             return true;
         },
-        addVoclist: async (_: any, args) => {
-            const user = await mongoAPI.getEntityByCollectionAndId<UserDbObject>(Collections.Users, new ObjectID(args.userId));
-            await mongoAPI.addVocList(user, args.list)
-            return true;
-        },
-        updateVoclist: async (_: any, args) => {
-            await mongoAPI.updateEntity(Collections.Voclists, new ObjectID(args.vocId), args.newList)
-            return true;
-        },
+        updateVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            const newImgs = await Promise.all(args.list.words.map(word => dataSources.azureAPI.saveBlob(word.img, "images")));
+            for (let i = 0; i < newImgs.length; i++) args.list.words[i].img = newImgs[i];
+            args.changedBlobs.forEach(blob => dataSources.azureAPI.deleteBlob(blob, "images"));
+            //TODO update database and lastEdited as well
+            return args.list
+        }
     },
     User: {
         voclists: async (_user, _args) => {

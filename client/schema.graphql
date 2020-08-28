@@ -5,10 +5,15 @@ schema {
     mutation: Mutation
 }
 
+type LangSettings {
+    fromLang: String!
+    toLang: String!
+    toVoice: String!
+}
+
 type Mutation {
-    addVoclist(list: VoclistInput!, userId: ID!): Boolean
     createUser(UserInput: UserInput!): Boolean
-    updateVoclist(newList: VoclistInput!, vocId: ID!): Boolean
+    updateVoclist(changedBlobs: [String!], list: VoclistInput!): Voclist!
 }
 
 type Query {
@@ -33,11 +38,15 @@ type User {
 type Voclist {
     _id: ID!
     creator: String
-    description: String
-    langSettings: [String]!
     lastEdited: String
-    title: String!
+    settings: VoclistSettings
     words: [Word!]
+}
+
+type VoclistSettings {
+    description: String
+    langSettings: LangSettings!
+    title: String!
 }
 
 type Voice {
@@ -48,8 +57,7 @@ type Voice {
 
 type Word {
     from: String!
-    fromAudio: String!
-    imgUrl: String!
+    img: String!
     sentences: [Sentence!]
     to: String!
     toAudio: String!
@@ -70,21 +78,41 @@ input AdditionalEntityFields {
     type: String
 }
 
+input LangSettingsInput {
+    fromLang: String!
+    toLang: String!
+    toVoice: String!
+}
+
+input SentenceInput {
+    from: String!
+    to: [String!]
+}
+
 input UserInput {
     username: String!
 }
 
 input VoclistInput {
-    description: String
-    from: String!
-    title: String!
-    to: String!
+    _id: ID!
+    creator: String
+    lastEdited: String
+    settings: VoclistSettingsInput!
     words: [WordInput!]
+}
+
+input VoclistSettingsInput {
+    description: String
+    langSettings: LangSettingsInput!
+    title: String!
 }
 
 input WordInput {
     from: String!
+    img: String!
+    sentences: [SentenceInput!]
     to: String!
+    toAudio: String!
 }
 
 
