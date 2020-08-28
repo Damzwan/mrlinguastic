@@ -74,16 +74,16 @@ export const typeDefs = gql`
     type Word @entity(embedded: true){
         from: String! @column
         to: String! @column
-        img: String! @column
-        toAudio: String! @column
+        img: String @column
+        toAudio: String @column
         sentences: [Sentence!] @embedded
     }
 
     input WordInput{
         from: String!
         to: String!
-        img: String!
-        toAudio: String!
+        img: String
+        toAudio: String
         sentences: [SentenceInput!]
     }
 

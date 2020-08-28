@@ -14,7 +14,7 @@
           <span style="visibility: hidden">"</span>
           <div style="margin-top: 10px"></div>
 
-          <i class="material-icons left unselectable tooltipped word-btn" data-tooltip="Play audio"
+          <i class="material-icons left unselectable tooltipped word-btn" style="margin-left: 10px" data-tooltip="Play audio"
              @click="playToAudio">volume_up</i>
           <i class="material-icons right unselectable tooltipped word-btn" data-tooltip="Remove" @click="remove"
              style="margin-right: 10px; color: #8b0000">close</i>
@@ -50,16 +50,26 @@ import {
 import M, {Collapsible} from "materialize-css";
 import {Word} from "@/gen-types";
 import {getBlobUrl} from "@/use/blobStorage";
+import {useImageSearch} from "@/use/voc";
 
 export default defineComponent({
   props: {
-    value: Object as () => Word //for each inserted word we create a WordItem and pass a reference of the Word (by making use of v-model) to the WordItem
+    value: Object as () => Word, //for each inserted word we create a WordItem and pass a reference of the Word (by making use of v-model) to the WordItem
+    fromLang: String //TODO this is really stupid (related to executeImageSearch and importedWords).
   },
   setup(props, context) {
     const collapsibleInstance = ref<Collapsible>(null);
     const collapsibleElement = ref(null);
     const state = reactive({disabled: true}); //when a WordItem is in its collapsed state it
     const toAudio = document.createElement("audio");
+    let savedImgs = [];
+
+    const {imgUrls, executeImageSearch} = useImageSearch(); //allow us to execute image url queries
+
+    executeImageSearch({word: props.value.from, lang: props.fromLang}).then(() => {
+      savedImgs = imgUrls.value.getImages;
+      if (!props.value.img) props.value.img = savedImgs[0]
+    })
 
     function flipDisabled() {
       state.disabled = !state.disabled
@@ -91,7 +101,7 @@ export default defineComponent({
     }
 
     function openImgModal() {
-      context.emit("openImgModal", props.value)
+      context.emit("openImgModal", [props.value, savedImgs])
     }
 
     function openExamplesModal() {

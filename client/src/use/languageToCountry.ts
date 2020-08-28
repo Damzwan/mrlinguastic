@@ -7,6 +7,11 @@ export const getCountry = function (code: string){
     return items[code];
 }
 
+export const getLang = function (code: string){
+    const items = {en: "english", fr: "french", it: "italian", nl: "dutch"}
+    return items[code];
+}
+
 /**
  * @param code the country code in ISO 3166-2 format
  * @return an example word matching the country code

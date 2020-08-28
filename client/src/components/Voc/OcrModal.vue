@@ -38,11 +38,11 @@
 
         <div v-show="state.imgLoading === 2" style="display: block; max-width: 100%; height: 70%">
           <div v-show="state.ocrLoading === 0" style="width: 100%; height: 100%">
-            <p class="flow-text center" v-if="isChecked">Please select words that are in <b>{{ langSettings[0] }}</b>
-              first and
-              words in <b>{{ langSettings[2] }}</b> afterwards
+            <p class="flow-text center" v-if="isChecked">Please select words that are in <b>{{ getLang(langSettings.fromLang) }}</b>
+              first and words in <b>{{ getLang(langSettings.toLang) }}</b> afterwards
             </p>
-            <p class="flow-text center" v-else>Please select words that are in <b>{{ langSettings[0] }}</b></p>
+            <p class="flow-text center" v-else>Please select words that are in <b>{{ getLang(langSettings.fromLang) }}</b>. We will
+              add the translation of the selected words for you</p>
             <div class="divider"></div>
 
             <div ref="prevCrop" class="cropbox-outline"></div>
@@ -117,6 +117,7 @@ import {createWorker} from "tesseract.js"
 import {cleanWord, useTranslateMultiple} from "@/use/voc";
 import {normalMessage} from "@/use/messages";
 import {LangSettings} from "@/gen-types";
+import {getLang} from "@/use/languageToCountry";
 
 interface OcrState {
   imgLoading: number;
@@ -311,7 +312,8 @@ export default defineComponent({
       remove,
       prevCrop,
       addImportedWords,
-      pasteImage
+      pasteImage,
+      getLang
     }
   },
 });

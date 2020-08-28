@@ -21,6 +21,10 @@ mutation updateVoclist($list: VoclistInput!, $changedBlobs: [String!]){
             to
             img
             toAudio
+            sentences{
+                from
+                to
+            }
         }
     }
 }

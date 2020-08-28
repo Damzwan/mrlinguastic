@@ -36,7 +36,7 @@ export const resolv: Resolvers = {
             return true;
         },
         updateVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
-            const newImgs = await Promise.all(args.list.words.map(word => dataSources.azureAPI.saveBlob(word.img, "images")));
+            const newImgs = await Promise.all(args.list.words.map(word => word.img ? dataSources.azureAPI.saveBlob(word.img, "images") : null));
             for (let i = 0; i < newImgs.length; i++) args.list.words[i].img = newImgs[i];
             args.changedBlobs.forEach(blob => dataSources.azureAPI.deleteBlob(blob, "images"));
             //TODO update database and lastEdited as well

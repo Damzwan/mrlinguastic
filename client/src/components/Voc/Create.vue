@@ -29,6 +29,7 @@
         </div>
         <div class="reverse-order" style="margin-bottom: 20px">
           <WordItem div v-for="(word, index) in list.words" :key="index" v-model="list.words[index]"
+                    v-bind:fromLang="list.settings.langSettings.fromLang"
                     v-on:openImgModal="openImgModal" v-on:removeWord="removeWord"
                     v-on:openExamplesModal="openExamplesModal"></WordItem>
         </div>
@@ -124,7 +125,7 @@ import ConfigModal from "./ConfigModal.vue";
 import WordItem from "./WordItem.vue";
 import ExampleItem from "./ExampleItem.vue"
 import OcrModal from "@/components/Voc/OcrModal.vue";
-import {cleanWord, useImageSearch, useTranslate} from "@/use/voc";
+import {cleanWord, useTranslate} from "@/use/voc";
 import {getCountry, getExampleWord} from "@/use/languageToCountry";
 import {Sentence, useUpdateVoclistMutation, Voclist, VoclistInput, VoclistSettings, Word} from "@/gen-types";
 import {wrongMessage} from "@/use/messages";
@@ -163,11 +164,6 @@ export default defineComponent({
     const fromInput = ref<HTMLInputElement>(null); //html element of the first input
     const toInput = ref<HTMLInputElement>(null); //html element of the second input
 
-    //a dictionary<string, string[]> that contains img urls(value) for a fromWord(key)
-    //this will improve image load times since we retrieve the images urls as soon as a word is entered
-    const allImgUrls = reactive({});
-
-
     const list = reactive<Voclist>({
       _id: null,
       settings: null,
@@ -187,7 +183,6 @@ export default defineComponent({
     })
 
     const {translatedWord, executeTranslate} = useTranslate(); //allow us to execute translation queries
-    const {imgUrls, executeImageSearch} = useImageSearch(); //allow us to execute image url queries
     const {mutate: updateServer} = useUpdateVoclistMutation(null); //TODO fix better name xd
 
     const db = getDb();
@@ -237,16 +232,10 @@ export default defineComponent({
     }
 
     //fill the image modal with images for the selectedWord
-    async function fillImgModal() {
+    async function fillImgModal(imgs: string[]) {
       state.imagesToLoad = [];
       state.imagesLoaded = false;
-
-      if (!allImgUrls[state.selectedWord.from]) {
-        await executeImageSearch({word: state.selectedWord.from, lang: list.settings.langSettings.fromLang})
-        allImgUrls[state.selectedWord.from] = imgUrls.value.getImages;
-      }
-
-      for (const url of allImgUrls[state.selectedWord.from]) state.imagesToLoad.push(url);
+      for (const img of imgs) state.imagesToLoad.push(img);
     }
 
     //check if a given word has already been inserted by the user
@@ -281,21 +270,12 @@ export default defineComponent({
         sentences: [{from: "", to: [""]}],
       };
       list.words.push(word);
-
-      //search for images for the newly added word
-      await executeImageSearch({word: from, lang: list.settings.langSettings.fromLang})
-      allImgUrls[from] = imgUrls.value.getImages;
-      state.selectedWord = word;
-
-      state.selectedWord = word;
-      await fillImgModal();
-      state.selectedWord.img = allImgUrls[word.from][0]; //auto select the first image
     }
 
-    function openImgModal(word: Word) {
+    function openImgModal(params: any[]) {
       const prevWord = state.selectedWord;
-      state.selectedWord = word;
-      if (prevWord != word) fillImgModal() //if the images are already loaded in the modal we should not do it again
+      state.selectedWord = params[0];
+      if (prevWord != params[0]) fillImgModal(params[1]) //if the images are already loaded in the modal we should not do it again
       imgModalInstance.value.open();
     }
 
@@ -345,19 +325,13 @@ export default defineComponent({
 
     async function addImportedWords(words: ImportedWords) {
 
-
-
-      for (let i = 0; i <= words.from.length; i++) {
+      for (let i = 0; i < words.from.length; i++) {
         if (wordExists(words.from[i])) continue;
-
-        //TODO should not use await, set the image later on
-        await executeImageSearch({word: words.from[i], lang: list.settings.langSettings.fromLang})
-        allImgUrls[words.from[i]] = imgUrls.value.getImages;
 
         const word: Word = {
           from: words.from[i],
           to: words.to[i],
-          img: imgUrls.value.getImages[0],
+          img: null,
           toAudio: `http://localhost:4000/speech?word=${words.to[i]}&lang=${list.settings.langSettings.toLang}&voice=${list.settings.langSettings.toVoice}`,
           sentences: [{from: "", to: [""]}],
         };
@@ -367,15 +341,19 @@ export default defineComponent({
 
     //TODO we should only call the mutation, on server side update the lastedited field so that when we do the sync in browser we get the latest version
     async function finalSave() {
-      list.words.forEach(word => delete word.__typename)
+      //TODO is there no better way?? maybe give the inputs a typename field as well?
+      list.words.forEach(word => {
+        delete word.__typename;
+        word.sentences.forEach(sentence => delete sentence.__typename)
+      })
       const result = await updateServer({list: list as VoclistInput, changedBlobs: state.changedBlobs})
       list.words = result.data.updateVoclist.words;
       await db.save("voclists", list);
     }
 
-    window.onbeforeunload = async function (event) {
-      finalSave(); //TODO sometimes fails with reloading
-      return null;
+    window.onbeforeunload = async function (e) {
+      finalSave(); //TODO sometimes fails with reloading, we should not call this when we are reloading, only closing...
+      // e.preventDefault();
     };
 
     return {
