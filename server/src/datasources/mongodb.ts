@@ -1,5 +1,5 @@
 import { DataSource } from 'apollo-datasource';
-import { MongoClient, Db, ObjectID, InsertOneWriteOpResult } from 'mongodb';
+import {MongoClient, Db, ObjectID, InsertOneWriteOpResult, Cursor} from 'mongodb';
 import { UserDbObject, Collections } from '../gen-types';
 import { response } from 'express';
 require('dotenv').config()
@@ -10,13 +10,11 @@ export class MongoAPI {
     constructor() { }
 
     async connect() { // add async
-        console.log('connecting to mongo');
-
         try {
             if (!this.db) { // I added this extra check
-                console.log('setting client');
                 const dbConnection = await MongoClient.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-                this.db = dbConnection.db("test");
+                this.db = dbConnection.db("mrlinguastic");
+                console.log('Connected to db');
             }
         } catch (error) {
             console.log('error during connecting to mongo: ');
@@ -26,6 +24,10 @@ export class MongoAPI {
 
     async getUser(username: string): Promise<UserDbObject> {
         return await this.db.collection<UserDbObject>(Collections.Users).findOne({ username: username })
+    }
+
+    async getAllEntitiesByCollection<T>(collection: Collections): Promise<T[]>{
+        return this.db.collection<T>(collection).find({}).toArray();
     }
 
     async getEntityByCollectionAndId<T>(collection: Collections, id: ObjectID): Promise<T> {
@@ -38,17 +40,11 @@ export class MongoAPI {
     }
 
     async updateEntity<T>(collection: Collections, id: ObjectID, newEntity: T): Promise<void> {
-        await this.db.collection(collection).replaceOne({ _id: id }, newEntity)
+        await this.db.collection(collection).replaceOne({ _id: id }, newEntity, {upsert: true});
     }
 
     async addEntity<T>(collection: Collections, entity: T) {
         return await this.db.collection(collection).insertOne(entity);
     }
-
-    // async addVocList(user: UserDbObject, vocList: VoclistInput): Promise<void> {
-    //     // const res = await this.addEntity(Collections.Voclists, vocList);
-    //     // user.voclists.push(res.insertedId);
-    //     // await this.updateEntity<UserDbObject>(Collections.Users, user._id, user)
-    // }
 
 }

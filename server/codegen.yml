@@ -10,6 +10,7 @@ generates:
     config:
       mappers:
         User: UserDbObject
+        Voclist: VoclistDbObject
   ../client/src/gen-types.ts:
     documents: "../client/src/queries/*.graphql"
     plugins:

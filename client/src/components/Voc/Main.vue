@@ -37,11 +37,12 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive, ref} from "@vue/composition-api";
+import {defineComponent, reactive, ref, watch} from "@vue/composition-api";
 import Card from "./Card.vue";
 import moment from 'moment';
 import {getDb} from "@/use/localdb";
-import {Voclist} from "@/gen-types";
+import {useGetVoclistsQuery, Voclist, VoclistInput} from "@/gen-types";
+import {useResult} from "@vue/apollo-composable";
 
 export default defineComponent({
   components: {
@@ -52,14 +53,22 @@ export default defineComponent({
     const lists = ref<Voclist[]>(null)
     const db = getDb();
 
+    const {result} = useGetVoclistsQuery();
 
     async function getLists() {
       lists.value = await db.getAllVoclists();
-      lists.value.map(list => list.lastEdited = moment(list.lastEdited).format("MMMM Do YYYY, h:mm:ss a"))
     }
 
     if (db.db) getLists();
     else db.connect().then(() => getLists())
+
+    watch(result, () => {
+      lists.value = result.value.getVoclists;
+      lists.value.forEach(list => {
+        db.save("voclists", list)
+      })
+    })
+
 
     return {lists}
 

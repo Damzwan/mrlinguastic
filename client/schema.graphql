@@ -13,11 +13,13 @@ type LangSettings {
 
 type Mutation {
     createUser(UserInput: UserInput!): Boolean
-    updateVoclist(changedBlobs: [String!], list: VoclistInput!): Voclist!
+    saveImg(img: String!): String!
+    updateVoclist(changedBlobs: [String!], list: VoclistInput!): Boolean
 }
 
 type Query {
     getImages(lang: String!, word: String!): [String!]
+    getVoclists: [Voclist!]
     getVoices: [Voice]
     translateWord(fromLang: String!, toLang: String!, word: String!): String
     translateWords(fromLang: String!, toLang: String!, words: [String!]): [String]
@@ -57,10 +59,10 @@ type Voice {
 
 type Word {
     from: String!
-    img: String!
+    img: String
     sentences: [Sentence!]
     to: String!
-    toAudio: String!
+    toAudio: String
 }
 
 enum CacheControlScope {
@@ -109,10 +111,10 @@ input VoclistSettingsInput {
 
 input WordInput {
     from: String!
-    img: String!
+    img: String
     sentences: [SentenceInput!]
     to: String!
-    toAudio: String!
+    toAudio: String
 }
 
 

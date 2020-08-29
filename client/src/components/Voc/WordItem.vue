@@ -14,7 +14,8 @@
           <span style="visibility: hidden">"</span>
           <div style="margin-top: 10px"></div>
 
-          <i class="material-icons left unselectable tooltipped word-btn" style="margin-left: 10px" data-tooltip="Play audio"
+          <i class="material-icons left unselectable tooltipped word-btn" style="margin-left: 10px"
+             data-tooltip="Play audio"
              @click="playToAudio">volume_up</i>
           <i class="material-icons right unselectable tooltipped word-btn" data-tooltip="Remove" @click="remove"
              style="margin-right: 10px; color: #8b0000">close</i>
@@ -48,7 +49,7 @@ import {
   reactive,
 } from "@vue/composition-api";
 import M, {Collapsible} from "materialize-css";
-import {Word} from "@/gen-types";
+import {useSaveImgMutation, useUpdateVoclistMutation, Word} from "@/gen-types";
 import {getBlobUrl} from "@/use/blobStorage";
 import {useImageSearch} from "@/use/voc";
 
@@ -65,11 +66,19 @@ export default defineComponent({
     let savedImgs = [];
 
     const {imgUrls, executeImageSearch} = useImageSearch(); //allow us to execute image url queries
+    const {mutate: saveImgToServer} = useSaveImgMutation(null);
 
     executeImageSearch({word: props.value.from, lang: props.fromLang}).then(() => {
       savedImgs = imgUrls.value.getImages;
-      if (!props.value.img) props.value.img = savedImgs[0]
+      if (!props.value.img && savedImgs.length > 0) {
+        props.value.img = savedImgs[0]
+        saveImgToServer({img: savedImgs[0]}).then(result => {
+          props.value.img = result.data.saveImg;
+        })
+      }
     })
+
+    //TODO watch from word change --> do new image search
 
     function flipDisabled() {
       state.disabled = !state.disabled

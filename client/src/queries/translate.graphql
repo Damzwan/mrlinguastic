@@ -14,17 +14,36 @@ query getVoices{
     }
 }
 
-mutation updateVoclist($list: VoclistInput!, $changedBlobs: [String!]){
-    updateVoclist(list: $list, changedBlobs: $changedBlobs){
+query getVoclists{
+    getVoclists{
+        _id
         words{
             from
             to
-            img
             toAudio
             sentences{
                 from
                 to
             }
         }
+        settings{
+            description
+            langSettings{
+                fromLang
+                toLang
+                toVoice
+            }
+            title
+        }
+        lastEdited
+        creator
     }
+}
+
+mutation updateVoclist($list: VoclistInput!, $changedBlobs: [String!]){
+    updateVoclist(list: $list, changedBlobs: $changedBlobs)
+}
+
+mutation saveImg($img: String!){
+    saveImg(img: $img)
 }

@@ -127,7 +127,15 @@ import ExampleItem from "./ExampleItem.vue"
 import OcrModal from "@/components/Voc/OcrModal.vue";
 import {cleanWord, useTranslate} from "@/use/voc";
 import {getCountry, getExampleWord} from "@/use/languageToCountry";
-import {Sentence, useUpdateVoclistMutation, Voclist, VoclistInput, VoclistSettings, Word} from "@/gen-types";
+import {
+  Sentence,
+  useSaveImgMutation,
+  useUpdateVoclistMutation,
+  Voclist,
+  VoclistInput,
+  VoclistSettings,
+  Word, WordInput
+} from "@/gen-types";
 import {wrongMessage} from "@/use/messages";
 import {ImportedWords} from "./OcrModal.vue"
 import {getDb} from "@/use/localdb";
@@ -183,7 +191,9 @@ export default defineComponent({
     })
 
     const {translatedWord, executeTranslate} = useTranslate(); //allow us to execute translation queries
-    const {mutate: updateServer} = useUpdateVoclistMutation(null); //TODO fix better name xd
+    const {mutate: updateVoclistOnline} = useUpdateVoclistMutation(null); //TODO fix better name xd
+    const {mutate: saveImgToServer} = useSaveImgMutation(null);
+
 
     const db = getDb();
 
@@ -200,8 +210,12 @@ export default defineComponent({
     if (db.db) restoreWords()
     else db.connect().then(() => restoreWords())
 
+    async function finalSave() {
+      await updateVoclistOnline({list: list as VoclistInput, changedBlobs: state.changedBlobs})
+    }
+
     watch(() => list, () => {
-      db.save("voclists", list);
+      db.save("voclists", list)
     }, {deep: true})
 
     //initialize the modals
@@ -299,6 +313,7 @@ export default defineComponent({
     function setUrl(imgUrl: string) {
       imgModalInstance.value.close();
       state.selectedWord.img = imgUrl;
+      saveImgToServer({img: imgUrl}).then(result => state.selectedWord.img = result.data.saveImg);
     }
 
     //the user wants to select a new image
@@ -339,20 +354,8 @@ export default defineComponent({
       }
     }
 
-    //TODO we should only call the mutation, on server side update the lastedited field so that when we do the sync in browser we get the latest version
-    async function finalSave() {
-      //TODO is there no better way?? maybe give the inputs a typename field as well?
-      list.words.forEach(word => {
-        delete word.__typename;
-        word.sentences.forEach(sentence => delete sentence.__typename)
-      })
-      const result = await updateServer({list: list as VoclistInput, changedBlobs: state.changedBlobs})
-      list.words = result.data.updateVoclist.words;
-      await db.save("voclists", list);
-    }
-
     window.onbeforeunload = async function (e) {
-      finalSave(); //TODO sometimes fails with reloading, we should not call this when we are reloading, only closing...
+      await finalSave(); //TODO sometimes fails with reloading, we should not call this when we are reloading, only closing...
       // e.preventDefault();
     };
 
@@ -382,7 +385,7 @@ export default defineComponent({
     };
   },
   async beforeRouteLeave(to, from, next) {
-    this.finalSave();
+    await this.finalSave();
     next(); //TODO perhaps have a better look at this
   }
 });

@@ -1,6 +1,6 @@
-import {Resolvers, Voclist, UserDbObject, Collections} from "./gen-types";
+import {Collections, Resolvers, Voclist, VoclistDbObject} from "./gen-types";
 import {MongoAPI} from "./datasources/mongodb";
-import {ObjectID} from "mongodb";
+import {ObjectId} from "mongodb";
 
 require('dotenv').config()
 
@@ -27,7 +27,9 @@ export const resolv: Resolvers = {
         getImages: async (_: any, args, {dataSources}: { dataSources: any }) =>
             await dataSources.pixabayAPI.getImages(args.word, args.lang),
         getVoices: async (_: any, args, {dataSources}: { dataSources: any }) =>
-            await dataSources.azureAPI.getVoices()
+            await dataSources.azureAPI.getVoices(),
+        getVoclists: async (_: any, args, {dataSources}: { dataSources: any }) =>
+            await mongoAPI.getAllEntitiesByCollection<VoclistDbObject>(Collections.Voclists)
     },
     Mutation: {
         createUser: async (_: any, args) => {
@@ -39,13 +41,26 @@ export const resolv: Resolvers = {
             const newImgs = await Promise.all(args.list.words.map(word => word.img ? dataSources.azureAPI.saveBlob(word.img, "images") : null));
             for (let i = 0; i < newImgs.length; i++) args.list.words[i].img = newImgs[i];
             args.changedBlobs.forEach(blob => dataSources.azureAPI.deleteBlob(blob, "images"));
-            //TODO update database and lastEdited as well
-            return args.list
+            args.list.lastEdited = new Date().toISOString();
+
+            const listToSave: VoclistDbObject = {
+                _id: new ObjectId(args.list._id),
+                words: args.list.words,
+                settings: args.list.settings,
+                creator: args.list.creator,
+                lastEdited: args.list.lastEdited
+            }
+            mongoAPI.updateEntity(Collections.Voclists, listToSave._id, listToSave);
+            // mongoAPI.updateEntity<VoclistDbObject>(Collections.Voclists, listToSave._id, listToSave);
+            return true;
+        },
+        saveImg: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            return await dataSources.azureAPI.saveBlob(args.img, "images");
         }
     },
     User: {
-        voclists: async (_user, _args) => {
-            return await mongoAPI.getEntitiesByCollectionAndId<Voclist>(Collections.Voclists, _user.voclists)
-        }
+        // voclists: async (_user, _args) => {
+        //     return await mongoAPI.getEntitiesByCollectionAndId<Voclist>(Collections.Voclists, _user.voclists)
+        // }
     }
 }

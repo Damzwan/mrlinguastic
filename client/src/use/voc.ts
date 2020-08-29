@@ -9,7 +9,7 @@ import {useGlobalQueryLoading, useQuery, useResult} from "@vue/apollo-composable
  * @return Object => translatedWord: the value of the translation, executeTranslate: a function to execute the translation
  */
 export function useTranslate() {
-    const {result, refetch} = useTranslateWordQuery({word: "First", fromLang: "en", toLang: "en",});
+    const {result, refetch} = useTranslateWordQuery({word: "First", fromLang: "en", toLang: "en"});
     return {translatedWord: result, executeTranslate: refetch}
 }
 

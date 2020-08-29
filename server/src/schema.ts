@@ -11,6 +11,7 @@ export const typeDefs = gql`
         user(username: String!): User!
         translateWord(word: String!, fromLang: String!, toLang: String!): String
         translateWords(words: [String!], fromLang: String!, toLang: String!): [String]
+        getVoclists: [Voclist!]
         getImages(word: String!, lang: String!): [String!]
         getVoices: [Voice]
     }
@@ -18,7 +19,8 @@ export const typeDefs = gql`
     type Mutation{
         createUser(UserInput: UserInput!): Boolean
         #        addVoclist(userId: ID!, list: VoclistInput!): Boolean
-        updateVoclist(list: VoclistInput!, changedBlobs: [String!]): Voclist!
+        updateVoclist(list: VoclistInput!, changedBlobs: [String!]): Boolean
+        saveImg(img: String!): String!
     }
 
     type User @entity{

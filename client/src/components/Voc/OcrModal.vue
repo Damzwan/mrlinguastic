@@ -188,7 +188,6 @@ export default defineComponent({
     function createCropper(imgUrl: string) {
       img.value.src = imgUrl;
       img.value.onload = function () {
-        console.log(img.value.width)
         cropper.value = new Cropper(img.value, {
           dragMode: "move",
           viewMode: 2,
