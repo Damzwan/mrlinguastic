@@ -119,7 +119,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive, ref, watch,} from "@vue/composition-api";
+import {defineComponent, inject, onMounted, reactive, ref, watch,} from "@vue/composition-api";
 import M from "materialize-css";
 import ConfigModal from "./ConfigModal.vue";
 import WordItem from "./WordItem.vue";
@@ -141,6 +141,7 @@ import {ImportedWords} from "./OcrModal.vue"
 import {getDb} from "@/use/localdb";
 import Modal = M.Modal;
 import {getBlobUrl} from "@/use/blobStorage";
+import {AuthModule} from "@/use/authModule";
 
 //used to make use of typescript typing
 interface State {
@@ -171,6 +172,8 @@ export default defineComponent({
 
     const fromInput = ref<HTMLInputElement>(null); //html element of the first input
     const toInput = ref<HTMLInputElement>(null); //html element of the second input
+
+    const auth = inject<AuthModule>("auth");
 
     const list = reactive<Voclist>({
       _id: null,
@@ -211,7 +214,11 @@ export default defineComponent({
     else db.connect().then(() => restoreWords())
 
     async function finalSave() {
-      await updateVoclistOnline({list: list as VoclistInput, changedBlobs: state.changedBlobs})
+      if (auth.getOid()) await updateVoclistOnline({
+        list: list as VoclistInput,
+        changedBlobs: state.changedBlobs,
+        oid: auth.getOid()
+      })
     }
 
     watch(() => list, () => {
@@ -355,8 +362,7 @@ export default defineComponent({
     }
 
     window.onbeforeunload = async function (e) {
-      await finalSave(); //TODO sometimes fails with reloading, we should not call this when we are reloading, only closing...
-      // e.preventDefault();
+      await finalSave();
     };
 
     return {

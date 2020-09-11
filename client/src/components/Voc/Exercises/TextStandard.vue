@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="row" v-if="list">
-      <div class="col offset-m4 m4 s12">
+      <div class="col offset-m2 m8 s12 offset-l4 l4">
         <h5 id="wordsLeft" style="text-align: center;">Words left: {{ list.words.length }}</h5>
 
         <div class="input-field">
-          <input disabled type="text" class="validate" style="text-align: center; font-size: 30px;"
+          <input disabled type="text" class="validate" style="text-align: center; font-size: 20px;"
                  v-model="state.currentWord.from">
           <img role="img"
                :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.fromLang)}.svg`)"
@@ -13,8 +13,8 @@
         </div>
 
         <div class="input-field">
-          <input placeholder="Translation of word" type="text" class="validate"
-                 style="text-align: center; font-size: 30px;" ref="to" v-model="state.to" v-on:keyup.enter="checkWord">
+          <input placeholder="Translation..." type="text" class="validate"
+                 style="text-align: center; font-size: 20px;" ref="to" v-model="state.to" v-on:keyup.enter="checkWord">
           <img role="img"
                :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.toLang)}.svg`)"
                class="flag-icon" alt="From Flag"/>
@@ -104,7 +104,7 @@ export default defineComponent({
     })
 
     function getRandomWord() {
-      if (list.value.words.length === 0) console.log("should be ending")
+      if (list.value.words.length === 0) context.root.$router.push("stats")
       else state.currentWord = list.value.words[Math.floor(Math.random() * list.value.words.length)];
     }
 

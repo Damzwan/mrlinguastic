@@ -20,14 +20,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/ExerciseStats.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/use/authModule.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/assets/global.css" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/assets/global.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/HelloWorld.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/HelloWorld.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Nav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Nav.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Card.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/VoclistCard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Create.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/TextStandard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/TextStandard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Main.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Main.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/OcrModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/OcrModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/WordItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/WordItem.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/queries/translate.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/queries/translate.graphql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/use/voc.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/voc.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/router/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/localdb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/localdb.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/views/Home.vue" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/codegen.yml" beforeDir="false" afterPath="$PROJECT_DIR$/codegen.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/datasources/mongodb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/datasources/mongodb.ts" afterDir="false" />
@@ -84,6 +94,11 @@
       <workItem from="1598542115574" duration="10491000" />
       <workItem from="1598614267822" duration="10100000" />
       <workItem from="1598688235309" duration="8619000" />
+      <workItem from="1598805498903" duration="30000" />
+      <workItem from="1599409207154" duration="1865000" />
+      <workItem from="1599468758600" duration="8277000" />
+      <workItem from="1599829089668" duration="48000" />
+      <workItem from="1599830365924" duration="3000000" />
     </task>
     <servers />
   </component>

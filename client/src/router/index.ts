@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter, {RouteConfig} from 'vue-router'
-import Home from '../views/Home.vue'
+import HelloWorld from "@/components/HelloWorld.vue";
 import VocCreate from '../components/Voc/Create.vue'
 import Exercises from '../components/Voc/Exercises/Exercises.vue'
 import TextStandard from '../components/Voc/Exercises/TextStandard.vue'
+import ExerciseStats from '../components/Voc/Exercises/ExerciseStats.vue'
 
 Vue.use(VueRouter)
 
@@ -11,7 +12,7 @@ const routes: Array<RouteConfig> = [
     {
         path: '/',
         name: 'Home',
-        component: Home
+        component: HelloWorld
     },
     {
         path: '/about',
@@ -41,7 +42,11 @@ const routes: Array<RouteConfig> = [
         name: 'Standard Text Exercise',
         component: TextStandard
     },
-
+    {
+        path: '/vocabulary/exercises/stats',
+        name: 'Exercise stats',
+        component: ExerciseStats
+    },
 ]
 
 const router = new VueRouter({

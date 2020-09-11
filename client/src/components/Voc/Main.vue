@@ -14,7 +14,7 @@
     <!-- use VFOR and a list of voc lists -->
     <div class="row" v-if="lists">
       <div class="col l4 m6 s12" v-for="(list, index) in lists" :key="index">
-        <Card v-bind:list="list"></Card>
+        <VoclistCard v-bind:list="list" v-on:removeList="removeList"></VoclistCard>
       </div>
     </div>
 
@@ -34,43 +34,59 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive, ref, watch} from "@vue/composition-api";
-import Card from "./Card.vue";
-import moment from 'moment';
+import {defineComponent, inject, reactive, ref, watch} from "@vue/composition-api";
+import VoclistCard from "./VoclistCard.vue";
 import {getDb} from "@/use/localdb";
-import {useGetVoclistsQuery, Voclist, VoclistInput} from "@/gen-types";
-import {useResult} from "@vue/apollo-composable";
+import {useDeleteVoclistMutation, useGetUsersQuery, Voclist} from "@/gen-types";
+import {AuthModule} from "@/use/authModule";
 
 export default defineComponent({
   components: {
-    Card,
+    VoclistCard,
   },
   setup() {
     localStorage.removeItem("_id");
+
+    const auth = inject<AuthModule>("auth");
     const lists = ref<Voclist[]>(null)
     const db = getDb();
 
-    const {result} = useGetVoclistsQuery();
+    const {mutate: removeVoclist} = useDeleteVoclistMutation(null);
 
-    async function getLists() {
-      lists.value = await db.getAllVoclists();
+    async function getListsOffline() {
+      if (db.db) lists.value = await db.getAllVoclists();
+      else db.connect().then(async () => lists.value = await db.getAllVoclists());
     }
 
-    if (db.db) getLists();
-    else db.connect().then(() => getLists())
-
-    watch(result, () => {
-      lists.value = result.value.getVoclists;
-      lists.value.forEach(list => {
-        db.save("voclists", list)
+    async function getListsOnline(newLists: Voclist[]) {
+      lists.value = newLists;
+      db.connect().then(() => {
+        db.clearStore().then(() => {
+          lists.value.forEach(list => {
+            db.save("voclists", list)
+          })
+        })
       })
-    })
+    }
+
+    const {result} = useGetUsersQuery({oid: auth.getOid()}); //TODO should use the enabled option but it fails...
+    if (auth.getUser() && navigator.onLine) {
+      if (result.value) getListsOnline(result.value.user.voclists);
+      watch(result, () => getListsOnline(result.value.user.voclists))
+    } else getListsOffline();
 
 
-    return {lists}
+    function removeList(list: Voclist) {
+      lists.value.splice(lists.value.indexOf(list), 1);
+      db.deleteVoclist(list._id);
+      if (auth.getUser() && navigator.onLine) removeVoclist({vocId: list._id, userId: auth.getOid()})
+    }
+
+    return {lists, removeList}
 
   },
 });

@@ -116,15 +116,25 @@ export class Localdb {
         for (const _id of _ids) lists.push(await this.getVoclist(_id.toString()))
         return lists;
     }
+
+    async clearStore(){
+        const transaction = this.db.transaction(["voclists"], "readwrite");
+        const store = transaction.objectStore("voclists");
+        const req = store.clear();
+    }
 }
 
 const db = new Localdb();
 const dbSymbol = Symbol();
 
+export function retrieveDb(){
+    return db;
+}
+
 /**
  * provide the database to our app
  */
-export async function provideDb() {
+export function provideDb() {
     provide(dbSymbol, db);
 }
 

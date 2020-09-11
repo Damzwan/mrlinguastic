@@ -8,14 +8,13 @@
 <script lang="ts">
 import Vue from "vue";
 import Nav from "./components/Nav.vue";
-import {provideDb} from "@/use/localdb";
 
 export default Vue.extend({
   components: {
     Nav,
   },
-  setup() {
-    provideDb();
+  setup(props, context) {
+    console.log("app page")
   }
 });
 </script>

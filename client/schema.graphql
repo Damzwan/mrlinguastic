@@ -12,18 +12,18 @@ type LangSettings {
 }
 
 type Mutation {
-    createUser(UserInput: UserInput!): Boolean
+    deleteVoclist(userId: String!, vocId: String!): Boolean
     saveImg(img: String!): String!
-    updateVoclist(changedBlobs: [String!], list: VoclistInput!): Boolean
+    updateVoclist(changedBlobs: [String!], list: VoclistInput!, oid: String!): Boolean
 }
 
 type Query {
     getImages(lang: String!, word: String!): [String!]
-    getVoclists: [Voclist!]
     getVoices: [Voice]
     translateWord(fromLang: String!, toLang: String!, word: String!): String
     translateWords(fromLang: String!, toLang: String!, words: [String!]): [String]
-    user(username: String!): User!
+    user(oid: String!): User!
+    voclists(oid: String!): [Voclist!]
 }
 
 type Sentence {
@@ -33,7 +33,6 @@ type Sentence {
 
 type User {
     _id: ID!
-    username: String!
     voclists: [Voclist!]
 }
 

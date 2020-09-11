@@ -8,24 +8,22 @@ export const typeDefs = gql`
     }
 
     type Query{
-        user(username: String!): User!
+        user(oid: String!): User!
         translateWord(word: String!, fromLang: String!, toLang: String!): String
         translateWords(words: [String!], fromLang: String!, toLang: String!): [String]
-        getVoclists: [Voclist!]
+        voclists(oid: String!): [Voclist!]
         getImages(word: String!, lang: String!): [String!]
         getVoices: [Voice]
     }
 
     type Mutation{
-        createUser(UserInput: UserInput!): Boolean
-        #        addVoclist(userId: ID!, list: VoclistInput!): Boolean
-        updateVoclist(list: VoclistInput!, changedBlobs: [String!]): Boolean
+        updateVoclist(list: VoclistInput!, changedBlobs: [String!], oid: String!): Boolean
+        deleteVoclist(userId: String!, vocId: String!): Boolean
         saveImg(img: String!): String!
     }
 
     type User @entity{
         _id: ID! @id
-        username: String! @column
         voclists: [Voclist!] @link
     }
 

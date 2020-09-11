@@ -97,7 +97,7 @@ export default defineComponent({
     }
 
     function del() {
-      console.log("should be deleting");
+      context.emit("removeList", props.list);
     }
 
     function toExercises(e) {

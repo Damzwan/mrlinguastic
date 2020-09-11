@@ -1,18 +1,17 @@
 <template>
   <div>
-<!--    <div v-if="user && user.voclists">{{ user.voclists[0].title }}</div>-->
+    <h1>Hello {{user ? user : "stranger"}}</h1>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent} from "@vue/composition-api";
-import {useResult} from "@vue/apollo-composable";
+import {defineComponent, inject} from "@vue/composition-api";
+import {AuthModule} from "@/use/authModule";
 
 export default defineComponent({
   setup() {
-    // const {result, loading} = useGetUserQuery({username: "Damian"});
-    // const user = useResult(result, null, (data) => data.user);
-    // return {user};
+    const auth = inject<AuthModule>("auth");
+    return {user: auth.getUser()}
   },
 });
 </script>

@@ -49,3 +49,8 @@
     right: 20px;
     top: 5px;
 }
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}

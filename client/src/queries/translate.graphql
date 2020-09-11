@@ -14,36 +14,42 @@ query getVoices{
     }
 }
 
-query getVoclists{
-    getVoclists{
-        _id
-        words{
-            from
-            to
-            toAudio
-            sentences{
+query getUsers($oid: String!){
+    user(oid: $oid){
+        voclists{
+            _id
+            words{
                 from
                 to
+                toAudio
+                sentences{
+                    from
+                    to
+                }
             }
-        }
-        settings{
-            description
-            langSettings{
-                fromLang
-                toLang
-                toVoice
+            settings{
+                description
+                langSettings{
+                    fromLang
+                    toLang
+                    toVoice
+                }
+                title
             }
-            title
+            lastEdited
+            creator
         }
-        lastEdited
-        creator
     }
 }
 
-mutation updateVoclist($list: VoclistInput!, $changedBlobs: [String!]){
-    updateVoclist(list: $list, changedBlobs: $changedBlobs)
+mutation updateVoclist($list: VoclistInput!, $changedBlobs: [String!], $oid: String!){
+    updateVoclist(list: $list, changedBlobs: $changedBlobs, oid: $oid)
 }
 
 mutation saveImg($img: String!){
     saveImg(img: $img)
+}
+
+mutation deleteVoclist($userId: String!, $vocId: String!){
+    deleteVoclist(userId: $userId, vocId: $vocId)
 }

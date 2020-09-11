@@ -16,7 +16,7 @@
         <div v-if="!isVocCreatePage">
           <ul class="right">
             <li>
-              <a href="#login" class="modal-trigger">
+              <a @click="logIn">
                 <i class="material-icons" style="font-size: 30px;">account_circle</i>
               </a>
             </li>
@@ -75,13 +75,15 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, ref} from "@vue/composition-api";
+import {defineComponent, inject, onMounted, ref} from "@vue/composition-api";
 import M from "materialize-css";
 import router from "@/router";
 import {correctMessage, normalMessage} from "@/use/messages";
+import {AuthModule} from "@/use/authModule";
 
 export default defineComponent({
   setup(props, context) {
+    const auth = inject<AuthModule>("auth");
     const sidenav = ref<M.Sidenav>(null);
 
     onMounted(() => {
@@ -100,6 +102,11 @@ export default defineComponent({
       correctMessage("Saved!");
     }
 
+    function logIn() {
+      if (!auth.getOid()) auth.login();
+      else normalMessage("already logged in!");
+    }
+
     const sidenavObjects = [
       {title: "Vocabulary", icon: "translate", badge: false},
       {title: "Grammer", icon: "border_color", badge: true},
@@ -110,7 +117,7 @@ export default defineComponent({
 
     const isVocCreatePage = ref(context.root.$route.name == "Create Voc"); //flip boolean if we are on the voc create page
 
-    return {sidenav, openSideNav, closeSideNav, sidenavObjects, isVocCreatePage, saveList};
+    return {sidenav, openSideNav, closeSideNav, sidenavObjects, isVocCreatePage, saveList, logIn};
   },
   watch: {
     $route(to) {

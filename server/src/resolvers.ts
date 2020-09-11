@@ -1,6 +1,5 @@
-import {Collections, Resolvers, Voclist, VoclistDbObject} from "./gen-types";
+import {Collections, Resolvers, VoclistDbObject} from "./gen-types";
 import {MongoAPI} from "./datasources/mongodb";
-import {ObjectId} from "mongodb";
 
 require('dotenv').config()
 
@@ -17,7 +16,7 @@ async function setup() {
 export const resolv: Resolvers = {
     Query: {
         user: async (_: any, args) =>
-            await mongoAPI.getUser(args.username),
+            await mongoAPI.getUser(args.oid),
         translateWord: async (_: any, args, {dataSources}: { dataSources: any }) =>
             await dataSources.azureAPI.translateWord(args.word, args.fromLang, args.toLang),
         translateWords: async (_: any, args, {dataSources}: { dataSources: any }) => {
@@ -28,15 +27,10 @@ export const resolv: Resolvers = {
             await dataSources.pixabayAPI.getImages(args.word, args.lang),
         getVoices: async (_: any, args, {dataSources}: { dataSources: any }) =>
             await dataSources.azureAPI.getVoices(),
-        getVoclists: async (_: any, args, {dataSources}: { dataSources: any }) =>
+        voclists: async (_: any, args, {dataSources}: { dataSources: any }) =>
             await mongoAPI.getAllEntitiesByCollection<VoclistDbObject>(Collections.Voclists)
     },
     Mutation: {
-        createUser: async (_: any, args) => {
-            const user = {username: args.UserInput.username, voclists: [typeof String]}
-            await mongoAPI.addEntity(Collections.Voclists, user);
-            return true;
-        },
         updateVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
             const newImgs = await Promise.all(args.list.words.map(word => word.img ? dataSources.azureAPI.saveBlob(word.img, "images") : null));
             for (let i = 0; i < newImgs.length; i++) args.list.words[i].img = newImgs[i];
@@ -44,23 +38,36 @@ export const resolv: Resolvers = {
             args.list.lastEdited = new Date().toISOString();
 
             const listToSave: VoclistDbObject = {
-                _id: new ObjectId(args.list._id),
+                _id: args.list._id,
                 words: args.list.words,
                 settings: args.list.settings,
                 creator: args.list.creator,
                 lastEdited: args.list.lastEdited
             }
+
             mongoAPI.updateEntity(Collections.Voclists, listToSave._id, listToSave);
-            // mongoAPI.updateEntity<VoclistDbObject>(Collections.Voclists, listToSave._id, listToSave);
+
+            const user = await mongoAPI.getUser(args.oid);
+            if (!user.voclists.includes(listToSave._id)) {
+                user.voclists.push(listToSave._id);
+                mongoAPI.updateEntity(Collections.Users, user._id, user);
+            }
             return true;
         },
         saveImg: async (_: any, args, {dataSources}: { dataSources: any }) => {
             return await dataSources.azureAPI.saveBlob(args.img, "images");
-        }
+        },
+        deleteVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            mongoAPI.deleteEntity(Collections.Voclists, args.vocId);
+            const user = await mongoAPI.getUser(args.userId);
+            user.voclists.splice(user.voclists.indexOf(args.vocId), 1);
+            mongoAPI.updateEntity(Collections.Users, user._id, user);
+            return true;
+        },
     },
     User: {
-        // voclists: async (_user, _args) => {
-        //     return await mongoAPI.getEntitiesByCollectionAndId<Voclist>(Collections.Voclists, _user.voclists)
-        // }
+        voclists: async (_user, _args) => {
+            return await mongoAPI.getEntitiesByCollectionAndId<VoclistDbObject>(Collections.Voclists, _user.voclists)
+        }
     }
 }
