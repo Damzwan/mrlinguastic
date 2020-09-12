@@ -26,8 +26,6 @@ export class AuthModule {
 
     constructor() {
         this.msal = new PublicClientApplication(msalConfig);
-        this.loadAuthModule();
-
         const accounts = this.msal.getAllAccounts();
         if (accounts.length > 0) {
             this.oid = AuthModule.computeOid(accounts[0])

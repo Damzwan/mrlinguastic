@@ -138,10 +138,10 @@ import {
 } from "@/gen-types";
 import {wrongMessage} from "@/use/messages";
 import {ImportedWords} from "./OcrModal.vue"
-import {getDb} from "@/use/localdb";
 import Modal = M.Modal;
 import {getBlobUrl} from "@/use/blobStorage";
 import {AuthModule} from "@/use/authModule";
+import {Localdb} from "@/use/localdb";
 
 //used to make use of typescript typing
 interface State {
@@ -174,6 +174,7 @@ export default defineComponent({
     const toInput = ref<HTMLInputElement>(null); //html element of the second input
 
     const auth = inject<AuthModule>("auth");
+    const db = inject<Localdb>("db");
 
     const list = reactive<Voclist>({
       _id: null,
@@ -197,21 +198,17 @@ export default defineComponent({
     const {mutate: updateVoclistOnline} = useUpdateVoclistMutation(null); //TODO fix better name xd
     const {mutate: saveImgToServer} = useSaveImgMutation(null);
 
-
-    const db = getDb();
-
     //TODO put this in use dir
     function restoreWords() {
-      if (localStorage.getItem("_id")) {
-        db.restoreVocList(localStorage.getItem("_id")).then(async restoredList => {
-          Object.assign(list, restoredList);
-          state.restored = true;
-        })
-      } else state.restored = true;
+      db.restoreVocList(localStorage.getItem("_id")).then(async restoredList => {
+        Object.assign(list, restoredList);
+        state.restored = true;
+      })
     }
 
-    if (db.db) restoreWords()
-    else db.connect().then(() => restoreWords())
+    if (localStorage.getItem("_id")) restoreWords()
+    else state.restored = true;
+
 
     async function finalSave() {
       if (auth.getOid()) await updateVoclistOnline({
@@ -389,7 +386,9 @@ export default defineComponent({
       finalSave,
       getBlobUrl
     };
-  },
+  }
+
+  ,
   async beforeRouteLeave(to, from, next) {
     await this.finalSave();
     next(); //TODO perhaps have a better look at this

@@ -14,7 +14,7 @@ import 'material-design-icons/iconfont/material-icons.css'
 import {directive as onClickaway} from "vue-clickaway";
 import {InMemoryCache} from 'apollo-cache-inmemory'
 
-import {provideDb, retrieveDb} from "@/use/localdb";
+import {Localdb, provideDb, retrieveDb} from "@/use/localdb";
 import {AuthModule} from "@/use/authModule";
 
 Vue.config.productionTip = false
@@ -42,14 +42,17 @@ Vue.directive('insta-focus', {
 Vue.use(VueApollo)
 Vue.prototype.$apiURI = "/api";
 
-// Vue.use(msal, msalConfig);
+const auth = new AuthModule();
+const db = new Localdb();
 
-new Vue({
-    router,
-    setup(props, context) {
-        provideDb() //TODO give it a normal name instead of creating a symbol
-        provide("auth", new AuthModule());
-        provide(DefaultApolloClient, apolloClient)
-    },
-    render: h => h(App)
-}).$mount('#app')
+Promise.all([auth.loadAuthModule(), db.connect()]).then(() => {
+    new Vue({
+        router,
+        setup(props, context) {
+            provide("db", db) //TODO give it a normal name instead of creating a symbol
+            provide("auth", auth);
+            provide(DefaultApolloClient, apolloClient)
+        },
+        render: h => h(App)
+    }).$mount('#app')
+})

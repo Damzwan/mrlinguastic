@@ -38,9 +38,9 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, reactive, ref, watch} from "@vue/composition-api";
+import {defineComponent, inject, ref, watch} from "@vue/composition-api";
 import VoclistCard from "./VoclistCard.vue";
-import {getDb} from "@/use/localdb";
+import {Localdb} from "@/use/localdb";
 import {useDeleteVoclistMutation, useGetUsersQuery, Voclist} from "@/gen-types";
 import {AuthModule} from "@/use/authModule";
 
@@ -53,29 +53,26 @@ export default defineComponent({
 
     const auth = inject<AuthModule>("auth");
     const lists = ref<Voclist[]>(null)
-    const db = getDb();
+    const db = inject<Localdb>("db");
 
     const {mutate: removeVoclist} = useDeleteVoclistMutation(null);
 
     async function getListsOffline() {
-      if (db.db) lists.value = await db.getAllVoclists();
-      else db.connect().then(async () => lists.value = await db.getAllVoclists());
+      lists.value = await db.getAllVoclists();
     }
 
     async function getListsOnline(newLists: Voclist[]) {
       lists.value = newLists;
-      db.connect().then(() => {
-        db.clearStore().then(() => {
-          lists.value.forEach(list => {
-            db.save("voclists", list)
-          })
+      db.clearStore().then(() => {
+        lists.value.forEach(list => {
+          db.save("voclists", list)
         })
       })
     }
 
-    const {result} = useGetUsersQuery({oid: auth.getOid()}); //TODO should use the enabled option but it fails...
     if (auth.getUser() && navigator.onLine) {
-      if (result.value) getListsOnline(result.value.user.voclists);
+      const {result} = useGetUsersQuery({oid: auth.getOid()});
+      if (result.value) getListsOnline(result.value.user.voclists); //result is cached
       watch(result, () => getListsOnline(result.value.user.voclists))
     } else getListsOffline();
 
@@ -87,7 +84,6 @@ export default defineComponent({
     }
 
     return {lists, removeList}
-
   },
 });
 </script>

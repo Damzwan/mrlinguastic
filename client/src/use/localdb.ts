@@ -123,24 +123,3 @@ export class Localdb {
         const req = store.clear();
     }
 }
-
-const db = new Localdb();
-const dbSymbol = Symbol();
-
-export function retrieveDb(){
-    return db;
-}
-
-/**
- * provide the database to our app
- */
-export function provideDb() {
-    provide(dbSymbol, db);
-}
-
-/**
- * retrieve the database
- */
-export function getDb() {
-    return inject<Localdb>(dbSymbol);
-}

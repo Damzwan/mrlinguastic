@@ -66,8 +66,8 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive, ref} from "@vue/composition-api";
-import {getDb} from "@/use/localdb";
+import {defineComponent, inject, reactive, ref} from "@vue/composition-api";
+import {Localdb} from "@/use/localdb";
 import {Voclist, Word} from "@/gen-types";
 import {getCountry} from "@/use/languageToCountry";
 import {cleanWord} from "@/use/voc";
@@ -103,10 +103,23 @@ export default defineComponent({
       currentWord: null
     })
 
+    const db = inject<Localdb>("db");
+
     function getRandomWord() {
       if (list.value.words.length === 0) context.root.$router.push("stats")
       else state.currentWord = list.value.words[Math.floor(Math.random() * list.value.words.length)];
     }
+
+    function restoreWords() {
+      db.restoreVocList(localStorage.getItem("_id")).then(restoredList => {
+        list.value = restoredList;
+        wordAmount = list.value.words.length;
+        getRandomWord();
+        state.restored = true;
+      })
+    }
+
+    if (localStorage.getItem("_id")) restoreWords();
 
     let totalsHintsUsed = 0;
     let hintCounter = 1;
@@ -139,22 +152,6 @@ export default defineComponent({
       state.to = "";
       getRandomWord();
     }
-
-    const db = getDb();
-
-    function restoreWords() {
-      if (localStorage.getItem("_id")) {
-        db.restoreVocList(localStorage.getItem("_id")).then(restoredList => {
-          list.value = restoredList;
-          wordAmount = list.value.words.length;
-          getRandomWord();
-          state.restored = true;
-        })
-      } else console.log("RIP 💀")
-    }
-
-    if (db.db) restoreWords()
-    else db.connect().then(() => restoreWords())
 
     return {list, state, to, getCountry, checkWord, getHint, failedAttempts}
 
