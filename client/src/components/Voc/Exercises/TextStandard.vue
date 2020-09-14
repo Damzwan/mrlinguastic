@@ -1,5 +1,8 @@
 <template>
   <div>
+    <ExerciseFinished v-on:continue="$router.push('stats')"></ExerciseFinished>
+    <a href="#exerciseFinishedModal" class="modal-trigger" ref="finishBtn"></a>
+
     <div class="row" v-if="list">
       <div class="col offset-m2 m8 s12 offset-l4 l4">
         <h5 id="wordsLeft" style="text-align: center;">Words left: {{ list.words.length }}</h5>
@@ -72,6 +75,7 @@ import {Voclist, Word} from "@/gen-types";
 import {getCountry} from "@/use/languageToCountry";
 import {cleanWord} from "@/use/voc";
 import {correctMessage, wrongMessage} from "@/use/messages";
+import ExerciseFinished from "@/components/Voc/Exercises/ExerciseFinished.vue";
 
 //used to make use of typescript typing
 interface State {
@@ -80,22 +84,32 @@ interface State {
   currentWord: Word;
 }
 
-interface FailedAttempt {
+export interface FailedAttempt {
   from: string;
   attempt: string;
   to: string;
 }
 
 export default defineComponent({
-  props: {},
+  components: {
+    ExerciseFinished
+  },
   setup(props, context) {
 
     const list = ref<Voclist>(null);
     const failedAttempts = ref<FailedAttempt[]>([]);
+    const categorizedFailedAttempts: { [word: string]: string[] } = {};
+
     const to = ref<HTMLInputElement>(null);
 
+    const finishBtn = ref<HTMLLinkElement>(null);
+
     let wordAmount;
-    let startTime;
+    let mistakes = 0;
+    let startTime: Date;
+
+    //let totalsHintsUsed = 0;
+    let hintCounter = 1;
 
     const state = reactive<State>({
       to: "",
@@ -105,8 +119,17 @@ export default defineComponent({
 
     const db = inject<Localdb>("db");
 
+    function end() {
+      finishBtn.value.click();
+      localStorage.setItem("failedAttempts", JSON.stringify(categorizedFailedAttempts));
+      localStorage.setItem("duration", (Math.ceil((new Date().getTime() - startTime.getTime()) / 60000)).toString())
+      console.log(startTime);
+      localStorage.setItem("wordAmount", wordAmount.toString())
+      localStorage.setItem("mistakes", mistakes.toString())
+    }
+
     function getRandomWord() {
-      if (list.value.words.length === 0) context.root.$router.push("stats")
+      if (list.value.words.length === 0) end();
       else state.currentWord = list.value.words[Math.floor(Math.random() * list.value.words.length)];
     }
 
@@ -121,14 +144,11 @@ export default defineComponent({
 
     if (localStorage.getItem("_id")) restoreWords();
 
-    let totalsHintsUsed = 0;
-    let hintCounter = 1;
-
     function getHint() {
       state.to = state.currentWord.to.substring(0, Math.ceil(hintCounter * state.currentWord.to.length / 3));
       if (hintCounter < 3) {
         hintCounter++;
-        totalsHintsUsed++;
+        //totalsHintsUsed++;
       }
     }
 
@@ -146,14 +166,21 @@ export default defineComponent({
         to.value.classList.remove("valid");
         to.value.classList.add("invalid");
         wrongMessage("😂😂 Wrong! 😂😂")
+
         failedAttempts.value.push({from: state.currentWord.from, attempt: attempt, to: state.currentWord.to});
+
+        const key = state.currentWord.from + "-" + state.currentWord.to;
+        const failures = categorizedFailedAttempts[key] ? categorizedFailedAttempts[key] : [];
+        failures.push(attempt);
+        categorizedFailedAttempts[key] = failures;
+        mistakes++;
       }
 
       state.to = "";
       getRandomWord();
     }
 
-    return {list, state, to, getCountry, checkWord, getHint, failedAttempts}
+    return {list, state, to, getCountry, checkWord, getHint, failedAttempts, finishBtn}
 
   },
 });

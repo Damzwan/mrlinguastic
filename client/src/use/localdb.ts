@@ -2,6 +2,11 @@ import {Sentence, useUpdateVoclistMutation, Voclist, VoclistSettings, Word} from
 import {inject, provide} from "@vue/composition-api";
 import {ObjectID} from 'bson';
 
+enum ObjectStore {
+    voclists,
+    stats
+}
+
 export class Localdb {
     db: IDBDatabase;
 
