@@ -13,7 +13,7 @@
 
     <!-- use VFOR and a list of voc lists -->
     <div class="row" v-if="lists">
-      <div class="col l4 m6 s12" v-for="(list, index) in lists" :key="index">
+      <div class="col l4 m6 s12" v-for="list in lists" :key="list._id">
         <VoclistCard v-bind:list="list" v-on:removeList="removeList"></VoclistCard>
       </div>
     </div>

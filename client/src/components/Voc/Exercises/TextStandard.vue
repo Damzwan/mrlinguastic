@@ -25,7 +25,7 @@
 
         <button class="waves-effect waves-light btn" style="margin-right: 10px" @click="checkWord">check</button>
         <button class='waves-effect waves-light btn' style="margin-right: 10px" @click="getHint">Hint</button>
-        <a class='dropdown-trigger btn'><i class="material-icons right">info</i>Info</a>
+        <a class='modal-trigger btn' href="#infoModal"><i class="material-icons right">info</i>Info</a>
       </div>
 
       <div class="col s12" style="margin-top: 20px; padding: 0">
@@ -65,17 +65,24 @@
         </div>
       </div>
     </div>
+
+    <div class="modal" ref="infoModal" id="infoModal">
+      <div class="modal-content">
+        <iframe src="https://www.google.com/search?q=chat+d%C3%A9finition" title="word information"></iframe>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, reactive, ref} from "@vue/composition-api";
+import {defineComponent, inject, onMounted, reactive, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
 import {Voclist, Word} from "@/gen-types";
 import {getCountry} from "@/use/languageToCountry";
 import {cleanWord} from "@/use/voc";
 import {correctMessage, wrongMessage} from "@/use/messages";
 import ExerciseFinished from "@/components/Voc/Exercises/ExerciseFinished.vue";
+import M from "materialize-css";
 
 //used to make use of typescript typing
 interface State {
@@ -103,6 +110,7 @@ export default defineComponent({
     const to = ref<HTMLInputElement>(null);
 
     const finishBtn = ref<HTMLLinkElement>(null);
+    const infoModal = ref(null)
 
     let wordAmount;
     let mistakes = 0;
@@ -118,6 +126,10 @@ export default defineComponent({
     })
 
     const db = inject<Localdb>("db");
+
+    onMounted(() => {
+      M.Modal.init(infoModal.value);
+    })
 
     function end() {
       finishBtn.value.click();
@@ -180,7 +192,7 @@ export default defineComponent({
       getRandomWord();
     }
 
-    return {list, state, to, getCountry, checkWord, getHint, failedAttempts, finishBtn}
+    return {list, state, to, getCountry, checkWord, getHint, failedAttempts, finishBtn, infoModal}
 
   },
 });
