@@ -5,6 +5,8 @@ import VocCreate from '../components/Voc/Create.vue'
 import Exercises from '../components/Voc/Exercises/Exercises.vue'
 import TextStandard from '../components/Voc/Exercises/TextStandard.vue'
 import ExerciseStats from '../components/Voc/Exercises/ExerciseStats.vue'
+import TextMultiple from '../components/Voc/Exercises/TextMultiple.vue'
+
 
 Vue.use(VueRouter)
 
@@ -41,6 +43,11 @@ const routes: Array<RouteConfig> = [
         path: '/vocabulary/exercises/text-standard',
         name: 'Standard Text Exercise',
         component: TextStandard
+    },
+    {
+        path: '/vocabulary/exercises/text-multiple',
+        name: 'Standard Text Multiple Choice',
+        component: TextMultiple
     },
     {
         path: '/vocabulary/exercises/stats',

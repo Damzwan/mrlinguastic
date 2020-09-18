@@ -4,8 +4,7 @@
     <a href="#exerciseFinishedModal" class="modal-trigger" ref="finishBtn"></a>
 
     <div class="row" v-if="list">
-        <WordInfoModal v-bind:word="state.currentWord.from" v-bind:from-lang="list.settings.langSettings.fromLang"></WordInfoModal>
-
+      <WordInfoModal v-bind:word="state.currentWord.from" v-bind:from-lang="list.settings.langSettings.fromLang"></WordInfoModal>
       <div class="col offset-m2 m8 s12 offset-l4 l4">
         <h5 id="wordsLeft" style="text-align: center;">Words left: {{ list.words.length }}</h5>
 
@@ -17,41 +16,11 @@
                class="flag-icon" alt="From Flag"/>
         </div>
 
-        <div class="input-field">
-          <input placeholder="Translation..." type="text" class="validate"
-                 style="text-align: center; font-size: 20px;" ref="to" v-model="state.to" v-on:keyup.enter="checkWord">
-          <img role="img"
-               :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.toLang)}.svg`)"
-               class="flag-icon" alt="From Flag"/>
-        </div>
-
-        <button class="waves-effect waves-light btn" style="margin-right: 10px" @click="checkWord">check</button>
-        <button class='waves-effect waves-light btn' style="margin-right: 10px" @click="getHint">Hint</button>
         <a class='modal-trigger btn' href="#infoModal"><i class="material-icons right">info</i>Info</a>
       </div>
 
-      <div class="col s12" style="margin-top: 20px; padding: 0">
-        <div style="border: 1px solid;display: flex;">
-          <table class="centered">
-            <thead>
-            <tr>
-              <th>Word</th>
-              <th>Attempt</th>
-              <th>Translation</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(failedAttempt, index) in failedAttempts.slice().reverse()" :key="index">
-              <td>{{ failedAttempt.from }}</td>
-              <td>{{ failedAttempt.attempt }}</td>
-              <td v-if="failedAttempt.from !== state.currentWord.from">{{ failedAttempt.to }}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
     </div>
+
     <div v-else style="margin-top: 100px">
       <div class="preloader-wrapper big active centered-img">
         <div class="spinner-layer spinner-blue-only">
@@ -67,6 +36,14 @@
         </div>
       </div>
     </div>
+
+    <div style="position: relative; width: 100%;" class="vspace">
+      <div class="row unselectable" v-for="(option, index) in state.options" :key="index" @click="checkWord(option.to)">
+        <div class="col s11 parallelogram" v-bind:style="{'background-color': optionColors[index]}">
+          <p style="color: white; font-size: 3.2vh">{{ option.to }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -75,22 +52,15 @@ import {defineComponent, inject, onMounted, reactive, ref} from "@vue/compositio
 import {Localdb} from "@/use/localdb";
 import {Voclist, Word} from "@/gen-types";
 import {getCountry} from "@/use/languageToCountry";
-import {cleanWord} from "@/use/voc";
 import {correctMessage, wrongMessage} from "@/use/messages";
 import ExerciseFinished from "@/components/Voc/Exercises/ExerciseFinished.vue";
 import WordInfoModal from "@/components/Voc/Exercises/WordInfoModal.vue";
 
 //used to make use of typescript typing
 interface State {
-  to: string; //word that is typed by the users in the second input
   restored: boolean;
   currentWord: Word;
-}
-
-export interface FailedAttempt {
-  from: string;
-  attempt: string;
-  to: string;
+  options: Word[];
 }
 
 export default defineComponent({
@@ -101,32 +71,28 @@ export default defineComponent({
   setup() {
 
     const list = ref<Voclist>(null);
-    const failedAttempts = ref<FailedAttempt[]>([]);
     const categorizedFailedAttempts: { [word: string]: string[] } = {};
-
-    const to = ref<HTMLInputElement>(null);
 
     const finishBtn = ref<HTMLLinkElement>(null);
 
-    let wordAmount;
+    let wordsCopy: Word[];
     let mistakes = 0;
     let startTime: Date;
-
-    //let totalsHintsUsed = 0;
-    let hintCounter = 1;
+    const optionColors = ["#ffc107", "#8b0000", "#006400", "#00008B"];
 
     const state = reactive<State>({
-      to: "",
       restored: false,
-      currentWord: null
+      currentWord: null,
+      options: []
     })
 
     const db = inject<Localdb>("db");
+
     function end() {
       finishBtn.value.click();
       localStorage.setItem("failedAttempts", JSON.stringify(categorizedFailedAttempts));
       localStorage.setItem("duration", (Math.ceil((new Date().getTime() - startTime.getTime()) / 60000)).toString())
-      localStorage.setItem("wordAmount", wordAmount.toString())
+      localStorage.setItem("wordAmount", wordsCopy.length.toString())
       localStorage.setItem("mistakes", mistakes.toString())
     }
 
@@ -134,43 +100,65 @@ export default defineComponent({
       state.currentWord = list.value.words[Math.floor(Math.random() * list.value.words.length)];
     }
 
+    function getRandomWord() {
+      return wordsCopy[Math.floor(Math.random() * wordsCopy.length)];
+    }
+
+    function shuffle(array) {
+      let currentIndex = array.length, temporaryValue, randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
+    }
+
+    function fillOptions() {
+      const words: Word[] = []
+      words.push(state.currentWord);
+      for (let i = 0; i < 3; i++) {
+        let word = getRandomWord()
+        while (words.includes(word)) word = getRandomWord();
+        words.push(word)
+      }
+      state.options = shuffle(words);
+    }
+
     function restoreWords() {
       db.restoreVocList(localStorage.getItem("_id")).then(restoredList => {
         list.value = restoredList;
-        wordAmount = list.value.words.length;
+        wordsCopy = list.value.words.map(word => word);
         setNextWord();
+        fillOptions();
         state.restored = true;
       })
     }
 
     if (localStorage.getItem("_id")) restoreWords();
 
-    function getHint() {
-      state.to = state.currentWord.to.substring(0, Math.ceil(hintCounter * state.currentWord.to.length / 3));
-      if (hintCounter < 3) {
-        hintCounter++;
-        //totalsHintsUsed++;
-      }
-    }
 
-    function checkWord() {
+    function checkWord(attempt: string) {
       if (!startTime) startTime = new Date();
 
-      const attempt = cleanWord(state.to);
       if (attempt === state.currentWord.to) {
-        to.value.classList.remove("invalid");
-        to.value.classList.add("valid");
         correctMessage("Correct! 🤓")
-
-        hintCounter = 1;
         list.value.words.splice(list.value.words.indexOf(state.currentWord), 1);
-        if (list.value.words.length === 0) end();
+        if (list.value.words.length === 0) {
+          end();
+          return
+        }
       } else {
-        to.value.classList.remove("valid");
-        to.value.classList.add("invalid");
         wrongMessage("😂😂 Wrong! 😂😂")
-
-        failedAttempts.value.push({from: state.currentWord.from, attempt: attempt, to: state.currentWord.to});
 
         const key = state.currentWord.from + "-" + state.currentWord.to;
         const failures = categorizedFailedAttempts[key] ? categorizedFailedAttempts[key] : [];
@@ -179,15 +167,24 @@ export default defineComponent({
         mistakes++;
       }
 
-      state.to = "";
       setNextWord();
+      fillOptions();
     }
 
-    return {list, state, to, getCountry, checkWord, getHint, failedAttempts, finishBtn}
+    return {list, state, getCountry, checkWord, finishBtn, optionColors}
 
   },
 });
 </script>
 
 <style scoped>
+.parallelogram {
+  clip-path: polygon(0 0, 100% 0%, 96% 100%, 0% 100%);
+}
+
+@media only screen and (min-width: 350px) {
+  .vspace{
+    margin-top: 10vh;
+  }
+}
 </style>
