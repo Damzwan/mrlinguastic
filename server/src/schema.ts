@@ -2,6 +2,37 @@ const {gql} = require('apollo-server-express');
 
 export const typeDefs = gql`
 
+    directive @union(
+        discriminatorField: String
+        additionalFields: [AdditionalEntityFields]
+    ) on UNION
+    directive @abstractEntity(
+        discriminatorField: String!
+        additionalFields: [AdditionalEntityFields]
+    ) on INTERFACE
+    directive @entity(
+        embedded: Boolean
+        additionalFields: [AdditionalEntityFields]
+    ) on OBJECT
+    directive @column(overrideType: String) on FIELD_DEFINITION
+    directive @id on FIELD_DEFINITION
+    directive @link(overrideType: String) on FIELD_DEFINITION
+    directive @embedded on FIELD_DEFINITION
+    directive @map(path: String!) on FIELD_DEFINITION
+    directive @cacheControl(
+        maxAge: Int
+        scope: CacheControlScope
+    ) on FIELD_DEFINITION | OBJECT | INTERFACE
+    input AdditionalEntityFields {
+        path: String
+        type: String
+    }
+
+    enum CacheControlScope {
+        PUBLIC
+        PRIVATE
+    }
+
     enum Collections {
         Users,
         Voclists
@@ -18,7 +49,7 @@ export const typeDefs = gql`
 
     type Mutation{
         updateVoclist(list: VoclistInput!, changedBlobs: [String!], oid: String!): Boolean
-        deleteVoclist(userId: String!, vocId: String!): Boolean
+        deleteVoclist(userId: String!, vocId: String!, blobs: [String]!): Boolean
         saveImg(img: String!): String!
     }
 
@@ -102,5 +133,4 @@ export const typeDefs = gql`
         Gender: String
         ShortName: String
     }
-
 `;

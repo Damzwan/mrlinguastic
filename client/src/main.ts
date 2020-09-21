@@ -14,7 +14,7 @@ import 'material-design-icons/iconfont/material-icons.css'
 import {directive as onClickaway} from "vue-clickaway";
 import {InMemoryCache} from 'apollo-cache-inmemory'
 
-import {Localdb, provideDb, retrieveDb} from "@/use/localdb";
+import {Localdb} from "@/use/localdb";
 import {AuthModule} from "@/use/authModule";
 
 Vue.config.productionTip = false
@@ -31,7 +31,7 @@ Vue.directive("onClickaway", onClickaway) // directive that will detect when a c
 
 //directive to instantly focus on an input as soon at is created
 Vue.directive('insta-focus', {
-    inserted: function (el, binding, vnode) {
+    inserted: function (el) {
         if (el.id[0] == "0") return; //TODO hack so that we don't focus on the first element of an array xd
         Vue.nextTick(function () {
             el.focus()
@@ -48,7 +48,7 @@ const db = new Localdb();
 Promise.all([auth.loadAuthModule(), db.connect()]).then(() => {
     new Vue({
         router,
-        setup(props, context) {
+        setup() {
             provide("db", db) //TODO give it a normal name instead of creating a symbol
             provide("auth", auth);
             provide(DefaultApolloClient, apolloClient)

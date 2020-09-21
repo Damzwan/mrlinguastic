@@ -38,9 +38,12 @@
     </div>
 
     <div style="position: relative; width: 100%;" class="vspace">
-      <div class="row unselectable" v-for="(option, index) in state.options" :key="index" @click="checkWord(option.to)">
-        <div class="col s11 parallelogram" v-bind:style="{'background-color': optionColors[index]}">
+      <div class="row unselectable" v-for="(option, index) in state.options" :key="index" @click="checkWord(option.to)" v-on:keyup="console.log('ok')">
+        <div class="col s11 l10 parallelogram" v-bind:style="{'background-color': optionColors[index]}">
           <p style="color: white; font-size: 3.2vh">{{ option.to }}</p>
+        </div>
+        <div class="col l2">
+          <i class="material-icons" style="font-size: 10vh; color: lightgray">{{arrows[index]}}</i>
         </div>
       </div>
     </div>
@@ -78,7 +81,9 @@ export default defineComponent({
     let wordsCopy: Word[];
     let mistakes = 0;
     let startTime: Date;
+
     const optionColors = ["#ffc107", "#8b0000", "#006400", "#00008B"];
+    const arrows = ["arrow_upward", "arrow_back", "arrow_forward", "arrow_downward"]
 
     const state = reactive<State>({
       restored: false,
@@ -171,7 +176,15 @@ export default defineComponent({
       fillOptions();
     }
 
-    return {list, state, getCountry, checkWord, finishBtn, optionColors}
+    document.addEventListener("keyup", function(e: KeyboardEvent){
+      if (state.options.length == 0) return;
+      if (e.key == "ArrowUp") checkWord(state.options[0].to)
+      else if (e.key == "ArrowLeft") checkWord(state.options[1].to)
+      else if (e.key == "ArrowRight") checkWord(state.options[2].to)
+      else if (e.key == "ArrowDown") checkWord(state.options[3].to)
+    })
+
+    return {list, state, getCountry, checkWord, finishBtn, optionColors, arrows}
 
   },
 });

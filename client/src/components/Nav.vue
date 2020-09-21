@@ -2,11 +2,11 @@
   <div style="z-index: 1005">
     <nav>
       <div class="nav-wrapper green darken-4">
-        <a href="/" class="brand-logo center hide-on-med-and-down">Learn Language Now</a>
-        <a href="/" class="brand-logo center hide-on-large-only">LLN</a>
+        <a class="brand-logo center hide-on-med-and-down">Learn Language Now</a>
+        <a class="brand-logo center hide-on-large-only">LLN</a>
         <ul class="left">
           <li>
-            <a href="#" v-on:click="openSideNav">
+            <a v-on:click="openSideNav">
               <i class="material-icons" style="font-size: 30px;">menu</i>
             </a>
           </li>

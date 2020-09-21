@@ -24,7 +24,7 @@ const dataSources = () => ({
 });
 
 const server = new ApolloServer({
-    typeDefs: [DIRECTIVES, typeDefs],
+    typeDefs: [typeDefs],
     resolvers: resolv,
     dataSources,
     introspection: true,

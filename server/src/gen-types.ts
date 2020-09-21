@@ -19,10 +19,16 @@ export type Scalars = {
 
 
 
+
 export type AdditionalEntityFields = {
   path?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
 };
+
+export enum CacheControlScope {
+  Public = 'PUBLIC',
+  Private = 'PRIVATE'
+}
 
 export enum Collections {
   Users = 'Users',
@@ -60,6 +66,7 @@ export type MutationUpdateVoclistArgs = {
 export type MutationDeleteVoclistArgs = {
   userId: Scalars['String'];
   vocId: Scalars['String'];
+  blobs: Array<Maybe<Scalars['String']>>;
 };
 
 
@@ -277,9 +284,11 @@ export type ResolversTypes = {
   WordInput: WordInput;
   SentenceInput: SentenceInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  AdditionalEntityFields: AdditionalEntityFields;
+  CacheControlScope: CacheControlScope;
   Collections: Collections;
   UserInput: UserInput;
-  AdditionalEntityFields: AdditionalEntityFields;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -301,8 +310,9 @@ export type ResolversParentTypes = {
   WordInput: WordInput;
   SentenceInput: SentenceInput;
   Boolean: Scalars['Boolean'];
-  UserInput: UserInput;
   AdditionalEntityFields: AdditionalEntityFields;
+  UserInput: UserInput;
+  Int: Scalars['Int'];
 };
 
 export type UnionDirectiveArgs = {   discriminatorField?: Maybe<Scalars['String']>;
@@ -340,6 +350,11 @@ export type MapDirectiveArgs = {   path: Scalars['String']; };
 
 export type MapDirectiveResolver<Result, Parent, ContextType = any, Args = MapDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
+export type CacheControlDirectiveArgs = {   maxAge?: Maybe<Scalars['Int']>;
+  scope?: Maybe<CacheControlScope>; };
+
+export type CacheControlDirectiveResolver<Result, Parent, ContextType = any, Args = CacheControlDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
 export type LangSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['LangSettings'] = ResolversParentTypes['LangSettings']> = {
   fromLang?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   toLang?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -349,7 +364,7 @@ export type LangSettingsResolvers<ContextType = any, ParentType extends Resolver
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   updateVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUpdateVoclistArgs, 'list' | 'oid'>>;
-  deleteVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteVoclistArgs, 'userId' | 'vocId'>>;
+  deleteVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteVoclistArgs, 'userId' | 'vocId' | 'blobs'>>;
   saveImg?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationSaveImgArgs, 'img'>>;
 };
 
@@ -433,6 +448,7 @@ export type DirectiveResolvers<ContextType = any> = {
   link?: LinkDirectiveResolver<any, any, ContextType>;
   embedded?: EmbeddedDirectiveResolver<any, any, ContextType>;
   map?: MapDirectiveResolver<any, any, ContextType>;
+  cacheControl?: CacheControlDirectiveResolver<any, any, ContextType>;
 };
 
 

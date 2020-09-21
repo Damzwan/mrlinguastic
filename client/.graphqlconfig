@@ -1,14 +1,14 @@
 {
-  "name": "Untitled GraphQL Schema",
-  "schemaPath": "schema.graphql",
+  "name": "Mrlinguastic GraphQL Schema",
+  "schemaPath": "./src/schema.graphql",
   "extensions": {
     "endpoints": {
-      "Default GraphQL Endpoint": {
+      "Remote GraphQL Endpoint": {
         "url": "http://localhost:4000/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },
-        "introspect": false
+        "introspect": true
       }
     }
   }

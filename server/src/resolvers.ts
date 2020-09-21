@@ -3,15 +3,9 @@ import {MongoAPI} from "./datasources/mongodb";
 
 require('dotenv').config()
 
-let mongoAPI: MongoAPI;
 
-//kind of a hack :))
-setup();
-
-async function setup() {
-    mongoAPI = new MongoAPI();
-    await mongoAPI.connect();
-}
+const mongoAPI: MongoAPI = new MongoAPI();
+mongoAPI.connect().then(() => console.log("db connected!"))
 
 export const resolv: Resolvers = {
     Query: {
@@ -32,36 +26,16 @@ export const resolv: Resolvers = {
     },
     Mutation: {
         updateVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
-            const newImgs = await Promise.all(args.list.words.map(word => word.img ? dataSources.azureAPI.saveBlob(word.img, "images") : null));
-            for (let i = 0; i < newImgs.length; i++) args.list.words[i].img = newImgs[i];
             args.changedBlobs.forEach(blob => dataSources.azureAPI.deleteBlob(blob, "images"));
-            args.list.lastEdited = new Date().toISOString();
-
-            const listToSave: VoclistDbObject = {
-                _id: args.list._id,
-                words: args.list.words,
-                settings: args.list.settings,
-                creator: args.list.creator,
-                lastEdited: args.list.lastEdited
-            }
-
-            mongoAPI.updateEntity(Collections.Voclists, listToSave._id, listToSave);
-
-            const user = await mongoAPI.getUser(args.oid);
-            if (!user.voclists.includes(listToSave._id)) {
-                user.voclists.push(listToSave._id);
-                mongoAPI.updateEntity(Collections.Users, user._id, user);
-            }
+            await Promise.all([mongoAPI.updateEntity(Collections.Voclists, args.list._id, args.list), mongoAPI.addVoclist(args.oid, args.list._id)]);
             return true;
         },
         saveImg: async (_: any, args, {dataSources}: { dataSources: any }) => {
             return await dataSources.azureAPI.saveBlob(args.img, "images");
         },
         deleteVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
-            mongoAPI.deleteEntity(Collections.Voclists, args.vocId);
-            const user = await mongoAPI.getUser(args.userId);
-            user.voclists.splice(user.voclists.indexOf(args.vocId), 1);
-            mongoAPI.updateEntity(Collections.Users, user._id, user);
+            args.blobs.forEach(blob => dataSources.azureAPI.deleteBlob(blob, "images"));
+            await Promise.all([mongoAPI.deleteEntity(Collections.Voclists, args.vocId), mongoAPI.removeVoclist(args.userId, args.vocId)]);
             return true;
         },
     },

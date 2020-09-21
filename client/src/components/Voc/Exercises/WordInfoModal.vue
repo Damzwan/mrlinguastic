@@ -1,16 +1,16 @@
 <template>
   <div ref="modalElement" class="modal" id="infoModal">
     <div class="modal-content">
-      <h4 class="center"><b>{{word}}</b></h4>
+      <h4 class="center"><b>{{ word }}</b></h4>
       <div class="divider"></div>
 
       <div v-for="(option, i) in wordInfo" :key="i">
         <div v-for="(meaning, j) in option.meanings" :key="j">
-          <p><b>{{j+1}}) type: </b> {{meaning.partOfSpeech}}</p>
+          <p><b>type: </b> {{ meaning.partOfSpeech }}</p>
           <div v-for="(definition, k) in meaning.definitions" :key="k">
-            <p><b>definition {{j+1}}.{{k+1}} : </b> {{definition.definition}}</p>
-            <p v-if="definition.example"><b>example: </b> {{definition.example}}</p>
-            <p v-if="definition.synonyms"><b>synonyms:</b> {{definition.synonyms.toString()}}</p>
+            <p><b>definition {{ k + 1 }} : </b> {{ definition.definition }}</p>
+            <p v-if="definition.example"><b>example: </b> {{ definition.example }}</p>
+            <p v-if="definition.synonyms"><b>synonyms:</b> {{ definition.synonyms.toString() }}</p>
           </div>
           <div class="black-divider"></div>
         </div>
@@ -24,18 +24,18 @@ import {defineComponent, inject, onMounted, ref} from "@vue/composition-api";
 import M from "materialize-css"
 import Modal = M.Modal;
 
-interface InfoOption{
+interface InfoOption {
   word: string;
   phonetics: string[];
   meanings: Meaning[];
 }
 
-interface Meaning{
+interface Meaning {
   partOfSpeech: string;
   definitions: Definition[];
 }
 
-interface Definition{
+interface Definition {
   definition: string;
   example: string;
   synonyms: string[];
@@ -59,6 +59,8 @@ export default defineComponent({
         fetch(url).then(data => data.json().then(res => resolve(res)))
       })
 
+      console.log(wordInfo.value)
+
     }
 
     onMounted(() => {
@@ -72,7 +74,7 @@ export default defineComponent({
 
 <style scoped>
 
-.black-divider{
+.black-divider {
   height: 1px;
   color: black;
   width: 100%;

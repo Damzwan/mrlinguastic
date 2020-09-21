@@ -41,7 +41,7 @@
 import {defineComponent, inject, ref, watch} from "@vue/composition-api";
 import VoclistCard from "./VoclistCard.vue";
 import {Localdb} from "@/use/localdb";
-import {useDeleteVoclistMutation, useGetUsersQuery, Voclist} from "@/gen-types";
+import {useDeleteVoclistMutation, useGetUserQuery, Voclist} from "@/gen-types";
 import {AuthModule} from "@/use/authModule";
 
 export default defineComponent({
@@ -71,7 +71,7 @@ export default defineComponent({
     }
 
     if (auth.getUser() && navigator.onLine) {
-      const {result} = useGetUsersQuery({oid: auth.getOid()});
+      const {result} = useGetUserQuery({oid: auth.getOid()});
       if (result.value) getListsOnline(result.value.user.voclists); //result is cached
       watch(result, () => getListsOnline(result.value.user.voclists))
     } else getListsOffline();
@@ -80,7 +80,11 @@ export default defineComponent({
     function removeList(list: Voclist) {
       lists.value.splice(lists.value.indexOf(list), 1);
       db.deleteVoclist(list._id);
-      if (auth.getUser() && navigator.onLine) removeVoclist({vocId: list._id, userId: auth.getOid()})
+      if (auth.getUser() && navigator.onLine) removeVoclist({
+        vocId: list._id,
+        userId: auth.getOid(),
+        blobs: list.words.filter(word => word.img).map(word => word.img)
+      })
     }
 
     return {lists, removeList}

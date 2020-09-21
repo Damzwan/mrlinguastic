@@ -86,7 +86,7 @@
         <div class="row section valign-wrapper">
           <div class="col s8 m6 offset-m3">
             <img :src="getBlobUrl(state.selectedWord.img)" alt="selected image"
-                 class="responsive-img centered-img">
+                 class="centered-img" style="height: 150px">
           </div>
           <div class="col s4 m3 valign-wrapper unselectable" @click="swapImg">
             <i class="material-icons unselectable tooltipped centered-img" data-tooltip="Switch Image"

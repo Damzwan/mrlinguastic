@@ -14,7 +14,7 @@ query getVoices{
     }
 }
 
-query getUsers($oid: String!){
+query getUser($oid: String!){
     user(oid: $oid){
         voclists{
             _id
@@ -50,6 +50,6 @@ mutation saveImg($img: String!){
     saveImg(img: $img)
 }
 
-mutation deleteVoclist($userId: String!, $vocId: String!){
-    deleteVoclist(userId: $userId, vocId: $vocId)
+mutation deleteVoclist($userId: String!, $vocId: String!, $blobs: [String]!){
+    deleteVoclist(userId: $userId, vocId: $vocId, blobs: $blobs)
 }

@@ -19,7 +19,6 @@ export class MongoAPI {
                     useUnifiedTopology: true
                 })
                 this.db = dbConnection.db("mrlinguastic");
-                console.log('Connected to db');
             }
         } catch (error) {
             console.log('error during connecting to mongo: ');
@@ -56,5 +55,19 @@ export class MongoAPI {
 
     async deleteEntity(collection: Collections, id: string){
         await this.db.collection(collection).deleteOne({_id: id})
+    }
+
+    async addVoclist(userId: string, vocId: string){
+        const user = await this.getUser(userId);
+        if (!user.voclists.includes(vocId)) {
+            user.voclists.push(vocId);
+            await this.updateEntity(Collections.Users, userId, user);
+        }
+    }
+
+    async removeVoclist(userId: string, vocId: string){
+        const user = await this.getUser(userId);
+        user.voclists.splice(user.voclists.indexOf(vocId), 1);
+        await this.updateEntity(Collections.Users, userId, user);
     }
 }

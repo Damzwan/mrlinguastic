@@ -12,9 +12,3 @@ generates:
         User: UserDbObject
         Voclist: VoclistDbObject
       objectIdType: string
-  ../client/src/gen-types.ts:
-    documents: "../client/src/queries/*.graphql"
-    plugins:
-      - "typescript"
-      - "typescript-operations"
-      - "typescript-vue-apollo"

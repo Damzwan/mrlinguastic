@@ -12,7 +12,7 @@ type LangSettings {
 }
 
 type Mutation {
-    deleteVoclist(userId: String!, vocId: String!): Boolean
+    deleteVoclist(blobs: [String]!, userId: String!, vocId: String!): Boolean
     saveImg(img: String!): String!
     updateVoclist(changedBlobs: [String!], list: VoclistInput!, oid: String!): Boolean
 }
