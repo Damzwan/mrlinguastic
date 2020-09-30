@@ -87,7 +87,7 @@
 import {defineComponent, onMounted, reactive, ref} from "@vue/composition-api";
 import Chart, {LinearScale} from 'chart.js';
 import M from "materialize-css";
-import {FailedAttempt} from "@/components/Voc/Exercises/TextStandard.vue";
+import {FailedAttempt} from "@/components/Voc/Exercises/Standard.vue";
 
 export interface Stat {
   boldText: string;

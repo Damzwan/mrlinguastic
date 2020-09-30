@@ -32,6 +32,7 @@ import {defineComponent, onMounted, ref} from "@vue/composition-api";
 import M from "materialize-css";
 
 export interface ExerciseMethods {
+  type: string;
   tabTitles: string[];
   routes: string[];
   icon: string;
@@ -51,6 +52,7 @@ export default defineComponent({
     })
 
     function goToExercise(route: string) {
+      localStorage.setItem("exerciseType", props.exerciseMethod.type)
       context.root.$router.push(`exercises/${route}`);
     }
 

@@ -26,6 +26,7 @@ query getUser($oid: String!){
                     from
                     to
                 }
+                img
             }
             settings{
                 description

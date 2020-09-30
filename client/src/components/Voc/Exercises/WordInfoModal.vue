@@ -59,8 +59,6 @@ export default defineComponent({
         fetch(url).then(data => data.json().then(res => resolve(res)))
       })
 
-      console.log(wordInfo.value)
-
     }
 
     onMounted(() => {

@@ -42,7 +42,7 @@
         <div class="col s11 l10 parallelogram" v-bind:style="{'background-color': optionColors[index]}">
           <p style="color: white; font-size: 3.2vh">{{ option.to }}</p>
         </div>
-        <div class="col l2">
+        <div class="col l2 hide-on-med-and-down">
           <i class="material-icons" style="font-size: 10vh; color: lightgray">{{arrows[index]}}</i>
         </div>
       </div>

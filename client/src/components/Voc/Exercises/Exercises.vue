@@ -12,9 +12,8 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted} from "@vue/composition-api";
+import {defineComponent} from "@vue/composition-api";
 import ExerciseMethod, {ExerciseMethods} from "@/components/Voc/Exercises/ExerciseMethod.vue";
-import M from "materialize-css";
 
 
 export default defineComponent({
@@ -23,30 +22,30 @@ export default defineComponent({
   },
   setup() {
     const exerciseMethods: ExerciseMethods[] = [{
+      type: "text",
       tabTitles: ['Standard', 'Multiple Choice'],
-      routes: ['text-standard', 'text-multiple'],
+      routes: ['standard', 'multiple'],
       text: "Text",
       icon: "translate"
     }, {
+      type: "image",
       tabTitles: ['Standard', 'Multiple Choice'],
-      routes: ['image-standard', 'image-multiple'],
+      routes: ['standard', 'multiple'],
       text: "Image",
       icon: "image"
     }, {
+      type: "audio",
       tabTitles: ['Standard', 'Multiple Choice'],
-      routes: ['speech-standard', 'speech-multiple'],
+      routes: ['standard', 'multiple'],
       text: "Speech",
       icon: "hearing"
     }, {
+      type: "flashcard",
       tabTitles: ['Standard'],
       routes: ['flashcards'],
       text: "Flashcards",
       icon: "flip_to_back"
     }]
-
-    // onMounted(() => {
-    //   M.Tabs.init(document.querySelector(".tabs"))
-    // })
 
     return {exerciseMethods}
   },

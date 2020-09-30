@@ -4,17 +4,27 @@
     <a href="#exerciseFinishedModal" class="modal-trigger" ref="finishBtn"></a>
 
     <div class="row" v-if="list">
-        <WordInfoModal v-bind:word="state.currentWord.from" v-bind:from-lang="list.settings.langSettings.fromLang"></WordInfoModal>
+      <WordInfoModal v-bind:word="state.currentWord.from"
+                     v-bind:from-lang="list.settings.langSettings.fromLang"></WordInfoModal>
 
       <div class="col offset-m2 m8 s12 offset-l4 l4">
         <h5 id="wordsLeft" style="text-align: center;">Words left: {{ list.words.length }}</h5>
 
         <div class="input-field">
-          <input disabled type="text" class="validate" style="text-align: center; font-size: 20px;"
-                 v-model="state.currentWord.from">
-          <img role="img"
-               :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.fromLang)}.svg`)"
-               class="flag-icon" alt="From Flag"/>
+          <div v-if="type === 'text'">
+            <input disabled type="text" class="validate" style="text-align: center; font-size: 20px;"
+                   v-model="state.currentWord.from">
+            <img role="img"
+                 :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.fromLang)}.svg`)"
+                 class="flag-icon" alt="From Flag"/>
+          </div>
+          <div v-if="type === 'image'" class="dynamicDiv">
+            <img :src="getBlobUrl(state.currentWord.img)" alt="no img???" class="centered-img dynamicImg"
+                 style="max-width: 80%;">
+          </div>
+          <div v-if="type === 'audio'">
+            <i class="material-icons centered-img unselectable center" style="font-size: 100px" @click="playAudio">volume_up</i>
+          </div>
         </div>
 
         <div class="input-field">
@@ -27,7 +37,7 @@
 
         <button class="waves-effect waves-light btn" style="margin-right: 10px" @click="checkWord">check</button>
         <button class='waves-effect waves-light btn' style="margin-right: 10px" @click="getHint">Hint</button>
-        <a class='modal-trigger btn' href="#infoModal"><i class="material-icons right">info</i>Info</a>
+        <a class='modal-trigger btn' href="#infoModal" v-if="type === 'text'"><i class="material-icons right">info</i>Info</a>
       </div>
 
       <div class="col s12" style="margin-top: 20px; padding: 0">
@@ -79,6 +89,7 @@ import {cleanWord} from "@/use/voc";
 import {correctMessage, wrongMessage} from "@/use/messages";
 import ExerciseFinished from "@/components/Voc/Exercises/ExerciseFinished.vue";
 import WordInfoModal from "@/components/Voc/Exercises/WordInfoModal.vue";
+import {getBlobUrl} from "@/use/blobStorage";
 
 //used to make use of typescript typing
 interface State {
@@ -100,13 +111,15 @@ export default defineComponent({
   },
   setup() {
 
+    const type = localStorage.getItem("exerciseType");
     const list = ref<Voclist>(null);
     const failedAttempts = ref<FailedAttempt[]>([]);
     const categorizedFailedAttempts: { [word: string]: string[] } = {};
 
     const to = ref<HTMLInputElement>(null);
-
     const finishBtn = ref<HTMLLinkElement>(null);
+
+    const audio = new Audio();
 
     let wordAmount;
     let mistakes = 0;
@@ -122,6 +135,7 @@ export default defineComponent({
     })
 
     const db = inject<Localdb>("db");
+
     function end() {
       finishBtn.value.click();
       localStorage.setItem("failedAttempts", JSON.stringify(categorizedFailedAttempts));
@@ -137,8 +151,10 @@ export default defineComponent({
     function restoreWords() {
       db.restoreVocList(localStorage.getItem("_id")).then(restoredList => {
         list.value = restoredList;
+        if (type === "image") list.value.words = list.value.words.filter(word => word.img);
         wordAmount = list.value.words.length;
         setNextWord();
+        audio.src = state.currentWord.toAudio;
         state.restored = true;
       })
     }
@@ -153,41 +169,77 @@ export default defineComponent({
       }
     }
 
+    function handleCorrectAnswer(){
+      to.value.classList.remove("invalid");
+      to.value.classList.add("valid");
+      correctMessage("Correct! 🤓")
+
+      hintCounter = 1;
+      list.value.words.splice(list.value.words.indexOf(state.currentWord), 1);
+      if (list.value.words.length === 0) end();
+
+    }
+
+    function handleWrongAnswer(attempt: string){
+      to.value.classList.remove("valid");
+      to.value.classList.add("invalid");
+      wrongMessage("😂😂 Wrong! 😂😂")
+
+      failedAttempts.value.push({from: state.currentWord.from, attempt: attempt, to: state.currentWord.to});
+
+      const key = state.currentWord.from + "-" + state.currentWord.to;
+      const failures = categorizedFailedAttempts[key] ? categorizedFailedAttempts[key] : [];
+      failures.push(attempt);
+      categorizedFailedAttempts[key] = failures;
+      mistakes++;
+
+    }
+
     function checkWord() {
       if (!startTime) startTime = new Date();
-
       const attempt = cleanWord(state.to);
-      if (attempt === state.currentWord.to) {
-        to.value.classList.remove("invalid");
-        to.value.classList.add("valid");
-        correctMessage("Correct! 🤓")
 
-        hintCounter = 1;
-        list.value.words.splice(list.value.words.indexOf(state.currentWord), 1);
-        if (list.value.words.length === 0) end();
-      } else {
-        to.value.classList.remove("valid");
-        to.value.classList.add("invalid");
-        wrongMessage("😂😂 Wrong! 😂😂")
-
-        failedAttempts.value.push({from: state.currentWord.from, attempt: attempt, to: state.currentWord.to});
-
-        const key = state.currentWord.from + "-" + state.currentWord.to;
-        const failures = categorizedFailedAttempts[key] ? categorizedFailedAttempts[key] : [];
-        failures.push(attempt);
-        categorizedFailedAttempts[key] = failures;
-        mistakes++;
-      }
+      if (attempt === state.currentWord.to) handleCorrectAnswer()
+      else handleWrongAnswer(attempt);
 
       state.to = "";
       setNextWord();
+
+      if (type === "audio") {
+        audio.src = state.currentWord.toAudio;
+        audio.play();
+      }
     }
 
-    return {list, state, to, getCountry, checkWord, getHint, failedAttempts, finishBtn}
+    function playAudio() {
+      audio.play();
+    }
+
+    return {list, state, to, getCountry, checkWord, getHint, failedAttempts, finishBtn, type, getBlobUrl, playAudio}
 
   },
 });
 </script>
 
 <style scoped>
+@media only screen and (max-width: 600px) {
+  .dynamicDiv {
+    height: 200px;
+  }
+
+  .dynamicImg {
+    max-height: 200px;
+  }
+}
+
+@media only screen and (min-width: 601px) {
+  .dynamicDiv {
+    height: 250px;
+  }
+
+  .dynamicImg {
+    max-height: 250px;
+  }
+}
+
 </style>
