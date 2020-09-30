@@ -23,29 +23,24 @@ export default defineComponent({
   setup() {
     const exerciseMethods: ExerciseMethods[] = [{
       type: "text",
-      tabTitles: ['Standard', 'Multiple Choice'],
-      routes: ['standard', 'multiple'],
+      tabTitles: ['Standard', 'Multiple Choice', "Flashcards"],
+      routes: ['standard', 'multiple', "flashcards"],
       text: "Text",
       icon: "translate"
     }, {
       type: "image",
-      tabTitles: ['Standard', 'Multiple Choice'],
-      routes: ['standard', 'multiple'],
+      tabTitles: ['Standard', 'Multiple Choice', "Flashcards"],
+      routes: ['standard', 'multiple', "flashcards"],
       text: "Image",
       icon: "image"
     }, {
       type: "audio",
-      tabTitles: ['Standard', 'Multiple Choice'],
-      routes: ['standard', 'multiple'],
+      tabTitles: ['Standard'],
+      routes: ['standard'],
       text: "Speech",
       icon: "hearing"
-    }, {
-      type: "flashcard",
-      tabTitles: ['Standard'],
-      routes: ['flashcards'],
-      text: "Flashcards",
-      icon: "flip_to_back"
-    }]
+    }
+    ]
 
     return {exerciseMethods}
   },

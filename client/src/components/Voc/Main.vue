@@ -1,5 +1,6 @@
 <template>
   <div>
+    <a class="modal-trigger" href="#pdfModal" ref="pdfModalTrigger"></a>
     <div class="section">
       <h5 class="center-align hide-on-large-only">🐉 Choose or create a voc list 🐉</h5>
       <h4 class="center-align hide-on-med-and-down">🐉 Choose or create a voc list 🐉</h4>
@@ -13,8 +14,9 @@
 
     <!-- use VFOR and a list of voc lists -->
     <div class="row" v-if="lists">
+      <PdfModal :list="selectedList"></PdfModal>
       <div class="col l4 m6 s12" v-for="list in lists" :key="list._id">
-        <VoclistCard v-bind:list="list" v-on:removeList="removeList"></VoclistCard>
+        <VoclistCard v-bind:list="list" v-on:removeList="removeList" v-on:openPdfModal="openPdfModal"></VoclistCard>
       </div>
     </div>
 
@@ -43,10 +45,12 @@ import VoclistCard from "./VoclistCard.vue";
 import {Localdb} from "@/use/localdb";
 import {useDeleteVoclistMutation, useGetUserQuery, Voclist} from "@/gen-types";
 import {AuthModule} from "@/use/authModule";
+import PdfModal from "@/components/Voc/PdfModal.vue";
 
 export default defineComponent({
   components: {
     VoclistCard,
+    PdfModal
   },
   setup() {
     localStorage.removeItem("_id");
@@ -55,14 +59,19 @@ export default defineComponent({
     const lists = ref<Voclist[]>(null)
     const db = inject<Localdb>("db");
 
+    const pdfModalTrigger = ref<HTMLLinkElement>(null);
+    const selectedList = ref<Voclist>(null);
+
     const {mutate: removeVoclist} = useDeleteVoclistMutation(null);
 
     async function getListsOffline() {
       lists.value = await db.getAllVoclists();
+      selectedList.value = lists.value[0];
     }
 
     async function getListsOnline(newLists: Voclist[]) {
       lists.value = newLists;
+      selectedList.value = lists.value[0];
       db.clearStore().then(() => {
         lists.value.forEach(list => {
           db.save("voclists", list)
@@ -87,7 +96,12 @@ export default defineComponent({
       })
     }
 
-    return {lists, removeList}
+    function openPdfModal(list: Voclist){
+      selectedList.value = list;
+      pdfModalTrigger.value.click();
+    }
+
+    return {lists, removeList, openPdfModal, selectedList, pdfModalTrigger}
   },
 });
 </script>

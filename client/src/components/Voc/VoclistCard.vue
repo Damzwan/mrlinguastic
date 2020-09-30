@@ -1,6 +1,6 @@
 <template>
-  <!--  <router-link to="/vocabulary/create">-->
   <div class="card horizontal hoverable unselectable">
+
     <div class="card-content" @click="toExercises" style="width: 100%; height: 100%;">
       <span class="card-title">
         {{ list.settings.title }}
@@ -93,7 +93,7 @@ export default defineComponent({
     }
 
     function toPdf() {
-      console.log("should be pdfing");
+      context.emit("openPdfModal", props.list);
     }
 
     function del() {

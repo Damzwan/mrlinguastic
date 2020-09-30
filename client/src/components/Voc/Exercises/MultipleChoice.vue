@@ -9,14 +9,22 @@
         <h5 id="wordsLeft" style="text-align: center;">Words left: {{ list.words.length }}</h5>
 
         <div class="input-field">
-          <input disabled type="text" class="validate" style="text-align: center; font-size: 20px;"
-                 v-model="state.currentWord.from">
-          <img role="img"
-               :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.fromLang)}.svg`)"
-               class="flag-icon" alt="From Flag"/>
+          <div v-if="type === 'text'">
+            <input disabled type="text" class="validate" style="text-align: center; font-size: 20px;"
+                   v-model="state.currentWord.from">
+            <img role="img"
+                 :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.fromLang)}.svg`)"
+                 class="flag-icon" alt="From Flag"/>
+          </div>
+
+          <div v-if="type === 'image'" class="dynamicDiv">
+            <img :src="getBlobUrl(state.currentWord.img)" alt="no img???" class="centered-img dynamicImg"
+                 style="max-width: 80%;">
+          </div>
+
         </div>
 
-        <a class='modal-trigger btn' href="#infoModal"><i class="material-icons right">info</i>Info</a>
+        <a class='modal-trigger btn' href="#infoModal" v-if="type === 'text'"><i class="material-icons right">info</i>Info</a>
       </div>
 
     </div>
@@ -37,10 +45,10 @@
       </div>
     </div>
 
-    <div style="position: relative; width: 100%;" class="vspace">
-      <div class="row unselectable" v-for="(option, index) in state.options" :key="index" @click="checkWord(option.to)" v-on:keyup="console.log('ok')">
+    <div style="position: relative; width: 100%;" :class="{'vspace': type === 'image', 'vspace-large': type === 'text'}">
+      <div class="row unselectable" v-for="(option, index) in state.options" :key="index" @click="checkWord(option.to)">
         <div class="col s11 l10 parallelogram" v-bind:style="{'background-color': optionColors[index]}">
-          <p style="color: white; font-size: 3.2vh">{{ option.to }}</p>
+          <p style="color: white; font-size: 3vh">{{ option.to }}</p>
         </div>
         <div class="col l2 hide-on-med-and-down">
           <i class="material-icons" style="font-size: 10vh; color: lightgray">{{arrows[index]}}</i>
@@ -51,13 +59,14 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, onMounted, reactive, ref} from "@vue/composition-api";
+import {defineComponent, inject, onMounted, onUnmounted, reactive, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
 import {Voclist, Word} from "@/gen-types";
 import {getCountry} from "@/use/languageToCountry";
 import {correctMessage, wrongMessage} from "@/use/messages";
 import ExerciseFinished from "@/components/Voc/Exercises/ExerciseFinished.vue";
 import WordInfoModal from "@/components/Voc/Exercises/WordInfoModal.vue";
+import {getBlobUrl} from "@/use/blobStorage";
 
 //used to make use of typescript typing
 interface State {
@@ -84,6 +93,9 @@ export default defineComponent({
 
     const optionColors = ["#ffc107", "#8b0000", "#006400", "#00008B"];
     const arrows = ["arrow_upward", "arrow_back", "arrow_forward", "arrow_downward"]
+
+    const type = localStorage.getItem("exerciseType");
+    const body: HTMLElement = ref(null);
 
     const state = reactive<State>({
       restored: false,
@@ -176,15 +188,21 @@ export default defineComponent({
       fillOptions();
     }
 
-    document.addEventListener("keyup", function(e: KeyboardEvent){
+    function handleKeyup(e: any){
       if (state.options.length == 0) return;
       if (e.key == "ArrowUp") checkWord(state.options[0].to)
       else if (e.key == "ArrowLeft") checkWord(state.options[1].to)
       else if (e.key == "ArrowRight") checkWord(state.options[2].to)
       else if (e.key == "ArrowDown") checkWord(state.options[3].to)
+    }
+
+    document.addEventListener("keyup", handleKeyup)
+
+    onUnmounted(() => {
+      document.removeEventListener("keyup", handleKeyup);
     })
 
-    return {list, state, getCountry, checkWord, finishBtn, optionColors, arrows}
+    return {list, state, getCountry, checkWord, finishBtn, optionColors, arrows, type, getBlobUrl}
 
   },
 });
@@ -197,7 +215,31 @@ export default defineComponent({
 
 @media only screen and (min-width: 350px) {
   .vspace{
-    margin-top: 10vh;
+    margin-top: 3vh;
+  }
+
+  .vspace-large{
+    margin-top: 8vh;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .dynamicDiv {
+    height: 200px;
+  }
+
+  .dynamicImg {
+    max-height: 200px;
+  }
+}
+
+@media only screen and (min-width: 601px) {
+  .dynamicDiv {
+    height: 250px;
+  }
+
+  .dynamicImg {
+    max-height: 250px;
   }
 }
 </style>
