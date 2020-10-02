@@ -1,4 +1,4 @@
-import {Collections, Resolvers, VoclistDbObject} from "./gen-types";
+import {Collections, Resolvers, Voclist, VoclistDbObject} from "./gen-types";
 import {MongoAPI} from "./datasources/mongodb";
 
 require('dotenv').config()
@@ -21,8 +21,8 @@ export const resolv: Resolvers = {
             await dataSources.pixabayAPI.getImages(args.word, args.lang),
         getVoices: async (_: any, args, {dataSources}: { dataSources: any }) =>
             await dataSources.azureAPI.getVoices(),
-        voclists: async (_: any, args, {dataSources}: { dataSources: any }) =>
-            await mongoAPI.getAllEntitiesByCollection<VoclistDbObject>(Collections.Voclists)
+        voclist: async (_: any, args, {dataSources}: { dataSources: any }) =>
+            await mongoAPI.getEntityByCollectionAndId<Voclist>(Collections.Voclists, args.voclistId)
     },
     Mutation: {
         updateVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
@@ -36,6 +36,10 @@ export const resolv: Resolvers = {
         deleteVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
             args.blobs.forEach(blob => dataSources.azureAPI.deleteBlob(blob, "images"));
             await Promise.all([mongoAPI.deleteEntity(Collections.Voclists, args.vocId), mongoAPI.removeVoclist(args.userId, args.vocId)]);
+            return true;
+        },
+        addSharedVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            await mongoAPI.addVoclist(args.userId, args.vocId);
             return true;
         },
     },

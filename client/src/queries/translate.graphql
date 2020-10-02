@@ -43,6 +43,33 @@ query getUser($oid: String!){
     }
 }
 
+query getVoclist($voclistId: String!){
+    voclist(voclistId: $voclistId){
+        _id
+        words{
+            from
+            to
+            toAudio
+            sentences{
+                from
+                to
+            }
+            img
+        }
+        settings{
+            description
+            langSettings{
+                fromLang
+                toLang
+                toVoice
+            }
+            title
+        }
+        lastEdited
+        creator
+    }
+}
+
 mutation updateVoclist($list: VoclistInput!, $changedBlobs: [String!], $oid: String!){
     updateVoclist(list: $list, changedBlobs: $changedBlobs, oid: $oid)
 }
@@ -53,4 +80,8 @@ mutation saveImg($img: String!){
 
 mutation deleteVoclist($userId: String!, $vocId: String!, $blobs: [String]!){
     deleteVoclist(userId: $userId, vocId: $vocId, blobs: $blobs)
+}
+
+mutation addVoclistToUser($userId: String!, $vocId: String!){
+    addSharedVoclist(userId: $userId, vocId: $vocId)
 }

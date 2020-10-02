@@ -42,13 +42,14 @@ export const typeDefs = gql`
         user(oid: String!): User!
         translateWord(word: String!, fromLang: String!, toLang: String!): String
         translateWords(words: [String!], fromLang: String!, toLang: String!): [String]
-        voclists(oid: String!): [Voclist!]
+        voclist(voclistId: String!): Voclist
         getImages(word: String!, lang: String!): [String!]
         getVoices: [Voice]
     }
 
     type Mutation{
         updateVoclist(list: VoclistInput!, changedBlobs: [String!], oid: String!): Boolean
+        addSharedVoclist(userId: String!, vocId: String!): Boolean
         deleteVoclist(userId: String!, vocId: String!, blobs: [String]!): Boolean
         saveImg(img: String!): String!
     }

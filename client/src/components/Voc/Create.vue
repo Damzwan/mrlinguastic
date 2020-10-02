@@ -211,11 +211,14 @@ export default defineComponent({
 
 
     async function finalSave() {
-      if (auth.getOid()) await updateVoclistOnline({
-        list: list as VoclistInput,
-        changedBlobs: state.changedBlobs,
-        oid: auth.getOid()
-      })
+      if (auth.getOid() && list) {
+        localStorage.setItem("justAddedVoclist", list._id);
+        await updateVoclistOnline({
+          list: list as VoclistInput,
+          changedBlobs: state.changedBlobs,
+          oid: auth.getOid()
+        })
+      }
     }
 
     watch(() => list, () => {
@@ -358,8 +361,8 @@ export default defineComponent({
       }
     }
 
-    window.onbeforeunload = async function (e) {
-      await finalSave();
+    window.onbeforeunload = function (e) {
+      finalSave();
     };
 
     return {
@@ -389,8 +392,8 @@ export default defineComponent({
   }
 
   ,
-  async beforeRouteLeave(to, from, next) {
-    await this.finalSave();
+  beforeRouteLeave(to, from, next) {
+    this.finalSave();
     next(); //TODO perhaps have a better look at this
   }
 });

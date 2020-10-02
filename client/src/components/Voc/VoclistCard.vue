@@ -54,6 +54,7 @@
 import {defineComponent} from "@vue/composition-api";
 import {getCountry} from "@/use/languageToCountry";
 import {Voclist} from '@/gen-types';
+import {correctMessage} from "@/use/messages";
 
 //the items on the back of the card are very similar so we can define an item object by an icon, a title and an action
 interface Item {
@@ -89,7 +90,10 @@ export default defineComponent({
     }
 
     function share() {
-      console.log("should be sharing");
+      const url = `http://localhost:8080/?oid=${props.list._id}#/vocabulary`
+      navigator.clipboard.writeText(url).then(function() {
+        correctMessage("link copied!")
+      })
     }
 
     function toPdf() {

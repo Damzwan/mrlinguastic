@@ -51,6 +51,7 @@ export type LangSettingsInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   updateVoclist?: Maybe<Scalars['Boolean']>;
+  addSharedVoclist?: Maybe<Scalars['Boolean']>;
   deleteVoclist?: Maybe<Scalars['Boolean']>;
   saveImg: Scalars['String'];
 };
@@ -60,6 +61,12 @@ export type MutationUpdateVoclistArgs = {
   list: VoclistInput;
   changedBlobs?: Maybe<Array<Scalars['String']>>;
   oid: Scalars['String'];
+};
+
+
+export type MutationAddSharedVoclistArgs = {
+  userId: Scalars['String'];
+  vocId: Scalars['String'];
 };
 
 
@@ -79,7 +86,7 @@ export type Query = {
   user: User;
   translateWord?: Maybe<Scalars['String']>;
   translateWords?: Maybe<Array<Maybe<Scalars['String']>>>;
-  voclists?: Maybe<Array<Voclist>>;
+  voclist?: Maybe<Voclist>;
   getImages?: Maybe<Array<Scalars['String']>>;
   getVoices?: Maybe<Array<Maybe<Voice>>>;
 };
@@ -104,8 +111,8 @@ export type QueryTranslateWordsArgs = {
 };
 
 
-export type QueryVoclistsArgs = {
-  oid: Scalars['String'];
+export type QueryVoclistArgs = {
+  voclistId: Scalars['String'];
 };
 
 
@@ -364,6 +371,7 @@ export type LangSettingsResolvers<ContextType = any, ParentType extends Resolver
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   updateVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUpdateVoclistArgs, 'list' | 'oid'>>;
+  addSharedVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddSharedVoclistArgs, 'userId' | 'vocId'>>;
   deleteVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteVoclistArgs, 'userId' | 'vocId' | 'blobs'>>;
   saveImg?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationSaveImgArgs, 'img'>>;
 };
@@ -372,7 +380,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'oid'>>;
   translateWord?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryTranslateWordArgs, 'word' | 'fromLang' | 'toLang'>>;
   translateWords?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType, RequireFields<QueryTranslateWordsArgs, 'fromLang' | 'toLang'>>;
-  voclists?: Resolver<Maybe<Array<ResolversTypes['Voclist']>>, ParentType, ContextType, RequireFields<QueryVoclistsArgs, 'oid'>>;
+  voclist?: Resolver<Maybe<ResolversTypes['Voclist']>, ParentType, ContextType, RequireFields<QueryVoclistArgs, 'voclistId'>>;
   getImages?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType, RequireFields<QueryGetImagesArgs, 'word' | 'lang'>>;
   getVoices?: Resolver<Maybe<Array<Maybe<ResolversTypes['Voice']>>>, ParentType, ContextType>;
 };

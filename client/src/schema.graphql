@@ -12,6 +12,7 @@ type LangSettings {
 }
 
 type Mutation {
+    addSharedVoclist(userId: String!, vocId: String!): Boolean
     deleteVoclist(blobs: [String]!, userId: String!, vocId: String!): Boolean
     saveImg(img: String!): String!
     updateVoclist(changedBlobs: [String!], list: VoclistInput!, oid: String!): Boolean
@@ -23,7 +24,7 @@ type Query {
     translateWord(fromLang: String!, toLang: String!, word: String!): String
     translateWords(fromLang: String!, toLang: String!, words: [String!]): [String]
     user(oid: String!): User!
-    voclists(oid: String!): [Voclist!]
+    voclist(voclistId: String!): Voclist
 }
 
 type Sentence {

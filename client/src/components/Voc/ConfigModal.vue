@@ -2,7 +2,7 @@
   <div>
     <div id="configuration" class="modal fullscreen-modal" ref="configModalElement">
       <div class="modal-content">
-        <i class="material-icons right unselectable close-btn modal-close">close</i>
+        <i class="material-icons right unselectable close-btn" @click="$router.back()">close</i>
         <h4 class="center">Configuration 👷‍♀️</h4>
         <p class="flow-text center">Let's configure some things before creating our voc list</p>
         <div class="row">
