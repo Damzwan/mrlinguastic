@@ -45,7 +45,7 @@ export const resolv: Resolvers = {
     },
     User: {
         voclists: async (_user, _args) => {
-            return await mongoAPI.getEntitiesByCollectionAndId<VoclistDbObject>(Collections.Voclists, _user.voclists)
+            return await mongoAPI.getUserVoclists(_user.voclists, _user)
         }
     }
 }

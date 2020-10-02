@@ -1,7 +1,5 @@
-import {DataSource} from 'apollo-datasource';
-import {MongoClient, Db, ObjectID, InsertOneWriteOpResult, Cursor} from 'mongodb';
-import {UserDbObject, Collections} from '../gen-types';
-import {response} from 'express';
+import {Db, MongoClient} from 'mongodb';
+import {Collections, UserDbObject, VoclistDbObject} from '../gen-types';
 
 require('dotenv').config()
 
@@ -36,10 +34,6 @@ export class MongoAPI {
         return user;
     }
 
-    async getAllEntitiesByCollection<T>(collection: Collections): Promise<T[]> {
-        return this.db.collection<T>(collection).find({}).toArray();
-    }
-
     async getEntityByCollectionAndId<T>(collection: Collections, id: string): Promise<T> {
         return await this.db.collection(collection).findOne({_id: id})
     }
@@ -69,5 +63,16 @@ export class MongoAPI {
         const user = await this.getUser(userId);
         user.voclists.splice(user.voclists.indexOf(vocId), 1);
         await this.updateEntity(Collections.Users, userId, user);
+    }
+
+    async getUserVoclists(vocIds: string[], user: UserDbObject): Promise<VoclistDbObject[]>{
+        const vocLists = await this.getEntitiesByCollectionAndId<VoclistDbObject>(Collections.Voclists, vocIds);
+        const filteredVoclists = vocLists.filter(item => item != null);
+
+        if (vocIds.length != filteredVoclists.length) {
+            user.voclists = filteredVoclists.map(voclist => voclist._id);
+            this.updateEntity(Collections.Users, user._id, user).then(r => null);
+        }
+        return filteredVoclists
     }
 }

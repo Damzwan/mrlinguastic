@@ -20,16 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/ConfigModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/ConfigModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Create.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Main.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Main.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/VoclistCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/VoclistCard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/queries/translate.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/queries/translate.graphql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/schema.graphql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen-types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/mongodb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/datasources/mongodb.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/resolvers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/resolvers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/schema.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,6 +95,7 @@
       <workItem from="1601383829023" duration="2158000" />
       <workItem from="1601500621014" duration="802000" />
       <workItem from="1601660681399" duration="782000" />
+      <workItem from="1601675838197" duration="2126000" />
     </task>
     <servers />
   </component>
