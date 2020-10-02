@@ -106,7 +106,7 @@ export default defineComponent({
     const toVoiceElement = ref<HTMLSelectElement>(null);
 
     const settings = reactive<VoclistSettings>({
-      title: "",
+      title: "unnamed list",
       description: "",
       langSettings: {fromLang: "", toLang: "", toVoice: ""}
     })

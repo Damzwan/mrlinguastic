@@ -211,7 +211,7 @@ export default defineComponent({
 
 
     async function finalSave() {
-      if (auth.getOid() && list) {
+      if (auth.getOid() && list && list.settings) {
         localStorage.setItem("justAddedVoclist", list._id);
         await updateVoclistOnline({
           list: list as VoclistInput,

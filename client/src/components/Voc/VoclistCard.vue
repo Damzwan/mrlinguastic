@@ -6,7 +6,7 @@
         {{ list.settings.title }}
         <i class="material-icons right activator" style="font-size: 35px;" v-on:click.prevent>more_vert</i>
       </span>
-      <p style="margin-top: -5px; margin-bottom: 10px;" class="truncate">{{ list.settings.description }}</p>
+      <p style="margin-top: -5px; margin-bottom: 10px; height: 25px" class="truncate">{{ list.settings.description }}</p>
 
       <div class="row">
         <div class="col s5">

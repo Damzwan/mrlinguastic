@@ -13,9 +13,9 @@
     </div>
 
     <!-- use VFOR and a list of voc lists -->
-    <div class="row" v-if="lists">
+    <div class="row" v-if="allLists">
       <PdfModal :list="selectedList" v-if="selectedList"></PdfModal>
-      <div class="col l4 m6 s12" v-for="list in lists" :key="list._id">
+      <div class="col l4 m6 s12" v-for="list in allLists" :key="list._id">
         <VoclistCard v-bind:list="list" v-on:removeList="removeList" v-on:openPdfModal="openPdfModal"></VoclistCard>
       </div>
     </div>
@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, ref, watch} from "@vue/composition-api";
+import {defineComponent, inject, reactive, ref, watch} from "@vue/composition-api";
 import VoclistCard from "./VoclistCard.vue";
 import {Localdb} from "@/use/localdb";
 import {
@@ -56,6 +56,14 @@ import PdfModal from "@/components/Voc/PdfModal.vue";
 import {correctMessage, wrongMessage} from "@/use/messages";
 import {ApolloQueryResult} from 'apollo-boost';
 
+interface State {
+  hasJustAddedList: boolean,
+  hasSharedList: boolean,
+  userVoclists: Voclist[],
+  sharedVoclist: Voclist,
+  justAddedVoclist: Voclist
+}
+
 export default defineComponent({
   components: {
     VoclistCard,
@@ -65,17 +73,26 @@ export default defineComponent({
     localStorage.removeItem("_id");
 
     const auth = inject<AuthModule>("auth");
-    const lists = ref<Voclist[]>([])
     const db = inject<Localdb>("db");
 
     const pdfModalTrigger = ref<HTMLLinkElement>(null);
     const selectedList = ref<Voclist>(null);
 
     const {mutate: removeVoclist} = useDeleteVoclistMutation(null);
+    const {mutate: addListToUser} = useAddVoclistToUserMutation(null);
+    const allLists = ref<Voclist[]>(null);
+
+    const state = reactive<State>({
+      hasJustAddedList: localStorage.getItem("justAddedVoclist") != null,
+      hasSharedList: false,
+      userVoclists: null,
+      sharedVoclist: null,
+      justAddedVoclist: null
+    })
 
     async function resetLocalDb() {
       db.clearStore().then(() => {
-        lists.value.forEach(list => {
+        allLists.value.forEach(list => {
           db.save("voclists", list)
         })
       })
@@ -87,26 +104,6 @@ export default defineComponent({
       return false;
     }
 
-    //TODO rewrite this garbage
-    function addVoclists(newLists: Voclist[]) {
-      if (lists.value.length == 0) lists.value = lists.value.concat(newLists)
-      else if (lists.value.length == 1) {
-        if (containsVoclist(newLists, lists.value[0]._id)) {
-          lists.value = newLists;
-          wrongMessage("voclist already saved!")
-        } else {
-          lists.value = lists.value.concat(newLists);
-          correctMessage("voclist added!")
-        }
-      } else if (newLists.length == 1) {
-        if (containsVoclist(lists.value, newLists[0]._id)) wrongMessage("voclist already saved!")
-        else {
-          lists.value = lists.value.concat(newLists)
-          correctMessage("voclist added!")
-        }
-      }
-    }
-
     function getSharedVoclist() {
       const sharedLink = window.location.search;
       if (!sharedLink) return;
@@ -114,45 +111,52 @@ export default defineComponent({
       const voclistId = new URLSearchParams(sharedLink).get("oid");
       if (!voclistId) return;
 
+      state.hasSharedList = true;
       const {result: sharedVoclist} = useGetVoclistQuery({voclistId: voclistId})
-      const {mutate: addListToUser} = useAddVoclistToUserMutation(null);
       watch(sharedVoclist, () => {
-        if (sharedVoclist.value.voclist){
-          addListToUser({userId: auth.getOid(), vocId: voclistId})
-          addVoclists([sharedVoclist.value.voclist]);
-        }
-        else wrongMessage("voclist does not exist!");
+        if (sharedVoclist.value.voclist) {
+          state.sharedVoclist = sharedVoclist.value.voclist;
+        } else wrongMessage("voclist does not exist!");
       })
     }
 
-    async function getListsOnline() {
-      getSharedVoclist();
+    async function getUserListsOnline() {
       const {result: userVoclists} = useGetUserQuery({oid: auth.getOid()});
-      if (userVoclists.value) addVoclists(userVoclists.value.user.voclists)
-      else watch(userVoclists, async () => addVoclists(userVoclists.value.user.voclists));
+      if (userVoclists.value) state.userVoclists = userVoclists.value.user.voclists;
+      else watch(userVoclists, async () => state.userVoclists = userVoclists.value.user.voclists);
     }
 
-    async function getListsOffline() {
-      if (navigator.onLine) getSharedVoclist();
-      addVoclists(await db.getAllVoclists());
+    async function getUserListsOffline() {
+      db.getAllVoclists().then(lists => state.userVoclists = lists)
     }
 
-    watch(lists, (newList, prevList) => {
-      selectedList.value = newList[0];
-      //all lists are loaded so we should reset the local database with the newest version
-      if (prevList && navigator.onLine) resetLocalDb()
+    function allListsLoaded() {
+      return (!state.hasSharedList || (state.hasSharedList && state.sharedVoclist))
+          && (!state.hasJustAddedList || (state.hasJustAddedList && state.justAddedVoclist))
+          && state.userVoclists
+    }
+
+    watch(state, (prevState, newState) => {
+      if (allListsLoaded() && !allLists.value) {
+        allLists.value = state.userVoclists;
+
+        if (state.hasSharedList) {
+          if (!containsVoclist(allLists.value, state.sharedVoclist._id)) {
+            if (auth.getOid()) addListToUser({userId: auth.getOid(), vocId: state.sharedVoclist._id}) //add the voclist to the user
+            allLists.value.push(state.sharedVoclist);
+            correctMessage("voclist added!")
+          } else wrongMessage("voclist already saved!")
+        }
+
+        if (state.hasJustAddedList && !containsVoclist(allLists.value, state.justAddedVoclist._id))
+          allLists.value.push(state.justAddedVoclist)
+
+        resetLocalDb();
+      }
     })
 
-    if (localStorage.getItem("justAddedVoclist")){
-      db.getVoclist(localStorage.getItem("justAddedVoclist")).then(list => addVoclists([list]))
-      localStorage.removeItem("justAddedVoclist")
-    }
-
-    if (auth.getUser() && navigator.onLine) getListsOnline();
-    else getListsOffline();
-
     function removeList(list: Voclist) {
-      lists.value.splice(lists.value.indexOf(list), 1);
+      allLists.value.splice(allLists.value.indexOf(list), 1);
       db.deleteVoclist(list._id);
       if (auth.getUser() && navigator.onLine) removeVoclist({
         vocId: list._id,
@@ -166,7 +170,15 @@ export default defineComponent({
       pdfModalTrigger.value.click();
     }
 
-    return {lists, removeList, openPdfModal, selectedList, pdfModalTrigger}
+    if (localStorage.getItem("justAddedVoclist")) {
+      db.getVoclist(localStorage.getItem("justAddedVoclist")).then(list => state.justAddedVoclist = list)
+      localStorage.removeItem("justAddedVoclist")
+    }
+    if (navigator.onLine) getSharedVoclist()
+    if (auth.getUser() && navigator.onLine) getUserListsOnline();
+    else getUserListsOffline();
+
+    return {state, removeList, openPdfModal, selectedList, pdfModalTrigger, allLists}
   },
 });
 </script>
