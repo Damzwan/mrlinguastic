@@ -4,7 +4,7 @@
       <div class="card-tabs">
         <ul class="tabs tabs-fixed-width blue-grey darken-4" ref="tabs">
           <li class="tab" v-for="(route, index) in exerciseMethod.routes" :key="index">
-            <a v-bind:href="`#${exerciseMethod.icon}${index}`"
+            <a v-bind:href="`#${exerciseMethod.icon}${index}`" v-if="exerciseMethod.requirements[index].condition"
                class="active white-text">{{ exerciseMethod.tabTitles[index] }}</a>
           </li>
         </ul>
@@ -12,13 +12,12 @@
 
       <div v-for="(routeItem, index) in exerciseMethod.routes" :key="index"
            v-bind:id="`${exerciseMethod.icon}${index}`">
-        <div class="card-content center-align" @click="goToExercise(routeItem)" style="cursor: pointer;">
+        <div class="card-content center-align" @click="goToExercise(routeItem)" style="cursor: pointer;" v-if="exerciseMethod.requirements[index].condition">
           <div class="row" style="margin-bottom: 0">
             <div class="col s2"><i class="material-icons medium unselectable rounded-icon">{{ exerciseMethod.icon }}</i>
             </div>
             <div class="col s8 offset-s2">
               <h4 class="unselectable">{{ exerciseMethod.text }}</h4>
-<!--              <p>Exercise your vocabulary by filling in the words</p>-->
             </div>
           </div>
         </div>
@@ -37,6 +36,12 @@ export interface ExerciseMethods {
   routes: string[];
   icon: string;
   text: string;
+  requirements: Requirement[]
+}
+
+interface Requirement{
+  condition: boolean
+  message: string
 }
 
 export default defineComponent({

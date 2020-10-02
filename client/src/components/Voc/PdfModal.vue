@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts">
-import {computed, ComputedRef, defineComponent, onMounted, reactive, ref,} from "@vue/composition-api";
+import {computed, ComputedRef, defineComponent, onMounted, reactive, ref, watch,} from "@vue/composition-api";
 import M from "materialize-css";
 
 import {jsPDF} from "jspdf";
@@ -105,6 +105,8 @@ export default defineComponent({
       pdfModalInstance.value = M.Modal.init(pdfModal.value);
       M.FormSelect.init(document.querySelectorAll('select'));
     })
+
+    watch(props, () => M.FormSelect.init(document.querySelectorAll('select')))
 
     //TODO garbage code xd
     const w = 210;

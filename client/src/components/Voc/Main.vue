@@ -135,10 +135,10 @@ export default defineComponent({
     async function getListsOffline() {
       if (navigator.onLine) getSharedVoclist();
       addVoclists(await db.getAllVoclists());
-      selectedList.value = lists.value[0];
     }
 
     watch(lists, (newList, prevList) => {
+      selectedList.value = newList[0];
       //all lists are loaded so we should reset the local database with the newest version
       if (prevList && navigator.onLine) resetLocalDb()
     })

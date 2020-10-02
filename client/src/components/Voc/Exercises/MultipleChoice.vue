@@ -154,6 +154,7 @@ export default defineComponent({
     function restoreWords() {
       db.restoreVocList(localStorage.getItem("_id")).then(restoredList => {
         list.value = restoredList;
+        if (type === "image") list.value.words = list.value.words.filter(word => word.img);
         wordsCopy = list.value.words.map(word => word);
         setNextWord();
         fillOptions();
