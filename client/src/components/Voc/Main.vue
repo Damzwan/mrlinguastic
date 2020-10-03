@@ -6,6 +6,8 @@
       <h4 class="center-align hide-on-med-and-down">🐉 Choose or create a voc list 🐉</h4>
     </div>
 
+    <div class="divider" style="margin-bottom: 30px"></div>
+
     <div class="fixed-action-btn">
       <router-link to="/vocabulary/create" class="btn-floating btn-large red" :class="{disabled: isOffline()}">
         <i class="large material-icons" style="font-size: 35px;">add</i>
@@ -54,7 +56,7 @@ import {
 import {AuthModule} from "@/use/authModule";
 import PdfModal from "@/components/Voc/PdfModal.vue";
 import {correctMessage, wrongMessage} from "@/use/messages";
-import {ApolloQueryResult} from 'apollo-boost';
+import moment from "moment";
 
 interface State {
   hasJustAddedList: boolean,
@@ -150,6 +152,8 @@ export default defineComponent({
 
         if (state.hasJustAddedList && !containsVoclist(allLists.value, state.justAddedVoclist._id))
           allLists.value.push(state.justAddedVoclist)
+
+        allLists.value.forEach(list => list.lastEdited = moment(list.lastEdited).format("lll"))
 
         selectedList.value = allLists.value[0];
         resetLocalDb();

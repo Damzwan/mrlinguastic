@@ -3,7 +3,6 @@ import express from "express";
 import {resolv} from "./src/resolvers";
 import {typeDefs} from "./src/schema";
 
-import {DIRECTIVES} from '@graphql-codegen/typescript-mongodb';
 import {azureAPI} from './src/datasources/azure';
 import {PixabayAPI} from './src/datasources/pixabay';
 import {YandexAPI} from "./src/datasources/yandex";
@@ -37,11 +36,8 @@ const server = new ApolloServer({
     dataSources,
     introspection: true,
     playground: true,
-    engine: {
-        reportSchema: true,
-    },
 });
 
-server.applyMiddleware({app})
 
+server.applyMiddleware({app})
 app.listen({port: 4000}, () => console.log(`Server ready at http://localhost:4000${server.graphqlPath}`))

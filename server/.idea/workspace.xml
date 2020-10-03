@@ -20,16 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/datasources/yandex.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Nav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Nav.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/ConfigModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/ConfigModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/ExerciseStats.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/ExerciseStats.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/WordInfoModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/WordInfoModal.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Main.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Main.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/PdfModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/PdfModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/VoclistCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/VoclistCard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nodemon.json" beforeDir="false" afterPath="$PROJECT_DIR$/nodemon.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/resolvers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/resolvers.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -106,7 +100,7 @@
       <workItem from="1601383829023" duration="2158000" />
       <workItem from="1601500621014" duration="802000" />
       <workItem from="1601660681399" duration="782000" />
-      <workItem from="1601675838197" duration="10808000" />
+      <workItem from="1601675838197" duration="11911000" />
     </task>
     <servers />
   </component>

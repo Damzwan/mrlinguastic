@@ -1,6 +1,7 @@
 {
     "watch": [
-        "src"
+        "src",
+        "index.ts"
     ],
     "ext": "ts",
     "exec": "graphql-codegen --config codegen.yml && npx ts-node index.ts"

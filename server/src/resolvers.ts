@@ -14,7 +14,6 @@ export const resolv: Resolvers = {
         translateWord: async (_: any, args, {dataSources}: { dataSources: any }) => {
             let translatedWord;
             if (args.word.split(" ").length == 1) translatedWord = await dataSources.yandexAPI.dictionaryLookup(args.word, args.fromLang, args.toLang)
-            console.log(translatedWord);
             return translatedWord ? translatedWord : await dataSources.azureAPI.translateWord(args.word, args.fromLang, args.toLang)
         },
         translateWords: async (_: any, args, {dataSources}: { dataSources: any }) => {
