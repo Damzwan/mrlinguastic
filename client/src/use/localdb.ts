@@ -1,11 +1,6 @@
-import {Sentence, useUpdateVoclistMutation, Voclist, VoclistSettings, Word} from "@/gen-types";
-import {inject, provide} from "@vue/composition-api";
+import {Maybe, Scalars, Sentence, Voclist, VoclistSettings, Word} from "@/gen-types";
 import {ObjectID} from 'bson';
-
-enum ObjectStore {
-    voclists,
-    stats
-}
+import {getBlobUrl} from "@/use/blobStorage";
 
 export class Localdb {
     db: IDBDatabase;
@@ -27,14 +22,10 @@ export class Localdb {
         request.onupgradeneeded = function () {
             const db = request.result;
             const objectStore = db.createObjectStore('voclists', {keyPath: '_id'});
-
             objectStore.createIndex('_id', '_id', {unique: true});
-            objectStore.createIndex('title', 'title', {unique: false});
-            objectStore.createIndex('description', 'description', {unique: false});
-            objectStore.createIndex('langSettings', 'langSettings', {unique: false});
-            objectStore.createIndex('words', 'words', {unique: false});
-            objectStore.createIndex('lastEdited', 'lastEdited', {unique: false});
-            objectStore.createIndex('creator', 'creator', {unique: false});
+
+            const objectStore2 = db.createObjectStore('downloadedVoclists', {keyPath: '_id'});
+            objectStore2.createIndex('_id', '_id', {unique: true});
         };
 
         // onsuccess handler signifies that the database opened successfully
@@ -46,9 +37,9 @@ export class Localdb {
         });
     }
 
-    async getVoclist(_id: string): Promise<Voclist> {
-        const transaction = this.db.transaction(['voclists']);
-        const store = transaction.objectStore('voclists');
+    async getItem<T>(_id: string, storeName: string): Promise<T> {
+        const transaction = this.db.transaction([storeName]);
+        const store = transaction.objectStore(storeName);
         const request = store.get(_id);
 
         return await new Promise(resolve => {
@@ -58,9 +49,25 @@ export class Localdb {
         });
     }
 
+    async getItems<T>(storeName: string): Promise<T[]> {
+        const transaction = this.db.transaction([storeName]);
+        const store = transaction.objectStore(storeName);
+        const req = store.getAllKeys();
+
+        const lists: T[] = [];
+        const _ids: IDBValidKey[] = await new Promise(resolve => {
+            req.onsuccess = function () {
+                resolve(req.result)
+            }
+        })
+
+        for (const _id of _ids) lists.push(await this.getItem<T>(_id.toString(), storeName))
+        return lists;
+    }
+
 
     async restoreVocList(_id: string): Promise<Voclist> {
-        return await this.getVoclist(_id);
+        return await this.getItem(_id, "voclists");
     }
 
     async createVoclist(settings: VoclistSettings, words: Word[], creator: string): Promise<string> {
@@ -78,7 +85,7 @@ export class Localdb {
 
     async save(storeName: string, item: any) {
         const transaction = this.db.transaction([storeName], 'readwrite');
-        const objectStore = transaction.objectStore('voclists');
+        const objectStore = transaction.objectStore(storeName);
         const request = objectStore.put(item);
 
         await new Promise(resolve => {
@@ -93,9 +100,9 @@ export class Localdb {
     }
 
 
-    async deleteVoclist(_id: string) {
-        const transaction = this.db.transaction(['voclists'], 'readwrite');
-        const objectStore = transaction.objectStore('voclists');
+    async deleteItem(_id: string, storeName: string) {
+        const transaction = this.db.transaction([storeName], 'readwrite');
+        const objectStore = transaction.objectStore(storeName);
         const request = objectStore.delete(_id);
 
         const prom = new Promise(resolve => {
@@ -106,25 +113,29 @@ export class Localdb {
         await prom;
     }
 
-    async getAllVoclists() {
-        const transaction = this.db.transaction(['voclists']);
-        const store = transaction.objectStore('voclists');
-        const req = store.getAllKeys();
-
-        const lists: Voclist[] = [];
-        const _ids: IDBValidKey[] = await new Promise(resolve => {
-            req.onsuccess = function () {
-                resolve(req.result)
-            }
-        })
-
-        for (const _id of _ids) lists.push(await this.getVoclist(_id.toString()))
-        return lists;
+    async clearStore(storeName: string) {
+        const transaction = this.db.transaction([storeName], "readwrite");
+        const store = transaction.objectStore(storeName);
+        const req = store.clear();
     }
 
-    async clearStore(){
-        const transaction = this.db.transaction(["voclists"], "readwrite");
-        const store = transaction.objectStore("voclists");
-        const req = store.clear();
+    async getBase64Url(url: string): Promise<string> {
+        const reader = new FileReader();
+        const res = await fetch(url);
+        const blob = await res.blob();
+        return new Promise(resolve1 => {
+            reader.readAsDataURL(blob);
+            reader.onload = () => {
+                resolve1(reader.result as string)
+            }
+        })
+    }
+
+    async downloadVoclist(list: Voclist) {
+        list.words = await Promise.all(list.words.map(async word => {
+            if (word.img) word.img = await this.getBase64Url(getBlobUrl(word.img));
+            return word;
+        }))
+        await this.save("downloadedVoclists", list)
     }
 }

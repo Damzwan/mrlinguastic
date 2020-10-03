@@ -18,7 +18,7 @@
           </div>
 
           <div v-if="type === 'image'" class="dynamicDiv">
-            <img :src="getBlobUrl(state.currentWord.img)" alt="no img???" class="centered-img dynamicImg"
+            <img :src="!isOfflineList() ? getBlobUrl(state.currentWord.img) : state.currentWord.img" alt="no img???" class="centered-img dynamicImg"
                  style="max-width: 80%;">
           </div>
 
@@ -67,6 +67,7 @@ import {correctMessage, wrongMessage} from "@/use/messages";
 import ExerciseFinished from "@/components/Voc/Exercises/ExerciseFinished.vue";
 import WordInfoModal from "@/components/Voc/Exercises/WordInfoModal.vue";
 import {getBlobUrl} from "@/use/blobStorage";
+import {isOfflineList} from "@/use/voc";
 
 //used to make use of typescript typing
 interface State {
@@ -151,15 +152,18 @@ export default defineComponent({
       state.options = shuffle(words);
     }
 
+    function exerciseSetup(providedList: Voclist) {
+      list.value = providedList;
+      if (type === "image") list.value.words = list.value.words.filter(word => word.img);
+      wordsCopy = list.value.words.map(word => word);
+      setNextWord();
+      fillOptions();
+      state.restored = true;
+    }
+
     function restoreWords() {
-      db.restoreVocList(localStorage.getItem("_id")).then(restoredList => {
-        list.value = restoredList;
-        if (type === "image") list.value.words = list.value.words.filter(word => word.img);
-        wordsCopy = list.value.words.map(word => word);
-        setNextWord();
-        fillOptions();
-        state.restored = true;
-      })
+      if (isOfflineList()) db.getItem<Voclist>(localStorage.getItem("_id"), "downloadedVoclists").then(nlist => exerciseSetup(nlist))
+      else db.getItem<Voclist>(localStorage.getItem("_id"), "voclists").then(nlist => exerciseSetup(nlist))
     }
 
     if (localStorage.getItem("_id")) restoreWords();
@@ -203,7 +207,7 @@ export default defineComponent({
       document.removeEventListener("keyup", handleKeyup);
     })
 
-    return {list, state, getCountry, checkWord, finishBtn, optionColors, arrows, type, getBlobUrl}
+    return {list, state, getCountry, checkWord, finishBtn, optionColors, arrows, type, getBlobUrl, isOfflineList}
 
   },
 });

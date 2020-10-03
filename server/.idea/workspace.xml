@@ -20,11 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/Exercises.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/Exercises.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/Flashcard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/Flashcard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/FlashcardCarousel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/FlashcardCarousel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/MultipleChoice.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/MultipleChoice.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/Standard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Exercises/Standard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/Main.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/Main.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Voc/VoclistCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Voc/VoclistCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/localdb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/localdb.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/voc.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/voc.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nodemon.json" beforeDir="false" afterPath="$PROJECT_DIR$/nodemon.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resolvers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/resolvers.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +105,7 @@
       <workItem from="1601383829023" duration="2158000" />
       <workItem from="1601500621014" duration="802000" />
       <workItem from="1601660681399" duration="782000" />
-      <workItem from="1601675838197" duration="11911000" />
+      <workItem from="1601675838197" duration="14346000" />
     </task>
     <servers />
   </component>

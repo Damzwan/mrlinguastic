@@ -23,7 +23,7 @@
         </div>
 
         <div v-if="type === 'image'" @click="cardClicked($event, i)">
-          <img :src="getBlobUrl(word.img)" alt="no image :(((" width="100%">
+          <img :src="!isOfflineList() ? getBlobUrl(word.img) : word.img" alt="no image :(((" width="100%">
         </div>
       </div>
     </div>
@@ -47,6 +47,7 @@ import {Word} from "@/gen-types";
 import Carousel = M.Carousel;
 import M from "materialize-css"
 import {getBlobUrl} from "@/use/blobStorage";
+import {isOfflineList} from "@/use/voc";
 
 export interface State {
   currWord: Word
@@ -129,7 +130,7 @@ export default defineComponent({
       document.removeEventListener("keyup", handleKeyup);
     })
 
-    return {carouselElement, playAudio, state, cardClicked, type, getBlobUrl}
+    return {carouselElement, playAudio, state, cardClicked, type, getBlobUrl, isOfflineList}
   },
 });
 </script>

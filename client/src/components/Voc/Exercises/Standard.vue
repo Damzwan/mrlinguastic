@@ -19,7 +19,7 @@
                  class="flag-icon" alt="From Flag"/>
           </div>
           <div v-if="type === 'image'" class="dynamicDiv">
-            <img :src="getBlobUrl(state.currentWord.img)" alt="no img???" class="centered-img dynamicImg"
+            <img :src="!isOfflineList() ? getBlobUrl(state.currentWord.img) : state.currentWord.img" alt="no img???" class="centered-img dynamicImg"
                  style="max-width: 80%;">
           </div>
           <div v-if="type === 'audio'">
@@ -85,7 +85,7 @@ import {defineComponent, inject, onMounted, reactive, ref} from "@vue/compositio
 import {Localdb} from "@/use/localdb";
 import {Voclist, Word} from "@/gen-types";
 import {getCountry} from "@/use/languageToCountry";
-import {cleanWord} from "@/use/voc";
+import {cleanWord, isOfflineList} from "@/use/voc";
 import {correctMessage, wrongMessage} from "@/use/messages";
 import ExerciseFinished from "@/components/Voc/Exercises/ExerciseFinished.vue";
 import WordInfoModal from "@/components/Voc/Exercises/WordInfoModal.vue";
@@ -148,15 +148,18 @@ export default defineComponent({
       state.currentWord = list.value.words[Math.floor(Math.random() * list.value.words.length)];
     }
 
+    function exerciseSetup(providedList: Voclist) {
+      list.value = providedList
+      if (type === "image") list.value.words = list.value.words.filter(word => word.img);
+      wordAmount = list.value.words.length;
+      setNextWord();
+      audio.src = state.currentWord.toAudio;
+      state.restored = true;
+    }
+
     function restoreWords() {
-      db.restoreVocList(localStorage.getItem("_id")).then(restoredList => {
-        list.value = restoredList;
-        if (type === "image") list.value.words = list.value.words.filter(word => word.img);
-        wordAmount = list.value.words.length;
-        setNextWord();
-        audio.src = state.currentWord.toAudio;
-        state.restored = true;
-      })
+      if (isOfflineList()) db.getItem<Voclist>(localStorage.getItem("_id"), "downloadedVoclists").then(nlist => exerciseSetup(nlist))
+      else db.getItem<Voclist>(localStorage.getItem("_id"), "voclists").then(nlist => exerciseSetup(nlist))
     }
 
     if (localStorage.getItem("_id")) restoreWords();
@@ -169,7 +172,7 @@ export default defineComponent({
       }
     }
 
-    function handleCorrectAnswer(){
+    function handleCorrectAnswer() {
       to.value.classList.remove("invalid");
       to.value.classList.add("valid");
       correctMessage("Correct! 🤓")
@@ -180,7 +183,7 @@ export default defineComponent({
 
     }
 
-    function handleWrongAnswer(attempt: string){
+    function handleWrongAnswer(attempt: string) {
       to.value.classList.remove("valid");
       to.value.classList.add("invalid");
       wrongMessage("😂😂 Wrong! 😂😂")
@@ -215,7 +218,7 @@ export default defineComponent({
       audio.play();
     }
 
-    return {list, state, to, getCountry, checkWord, getHint, failedAttempts, finishBtn, type, getBlobUrl, playAudio}
+    return {list, state, to, getCountry, checkWord, getHint, failedAttempts, finishBtn, type, getBlobUrl, playAudio, isOfflineList}
 
   },
 });

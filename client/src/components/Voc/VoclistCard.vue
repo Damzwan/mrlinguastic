@@ -67,13 +67,14 @@ interface Item {
 
 export default defineComponent({
   props: {
-    list: Object as () => Voclist
+    list: Object as () => Voclist,
+    isOffline: Boolean
   },
   setup(props, context) {
-    //We will use v-for to iterate over the items
+
     const itemsTop: Array<Item> = [
       {icon: "mode_edit", title: "Edit", action: "edit"},
-      {icon: "text_fields", title: "Rename", action: "rename"},
+      {icon: "file_download", title: "Download", action: "download"},
       {icon: "share", title: "Share", action: "share"},
     ];
     const itemsBot: Array<Item> = [
@@ -82,21 +83,31 @@ export default defineComponent({
       {icon: "arrow_back", title: "Back", action: "back"},
     ];
 
-    function edit() {
-      localStorage.setItem("_id", props.list._id);
-      context.root.$router.push("/vocabulary/create");
+    function actionNotSupportedMessage() {
+      wrongMessage("action not supported for offline lists!")
     }
 
-    function rename() {
-      console.log("should be renaming");
+    function edit() {
+      if (props.isOffline) actionNotSupportedMessage()
+      else {
+        localStorage.setItem("_id", props.list._id);
+        context.root.$router.push("/vocabulary/create");
+      }
+    }
+
+    function download() {
+      if (props.isOffline) actionNotSupportedMessage()
+      else context.emit("download", props.list);
     }
 
     function share() {
-      console.log(process.env.BASE_URL);
-      const url = `${window.location.origin}/?oid=${props.list._id}#/vocabulary`
-      navigator.clipboard.writeText(url).then(function () {
-        correctMessage("link copied!")
-      })
+      if (props.isOffline) actionNotSupportedMessage();
+      else {
+        const url = `${window.location.origin}/?oid=${props.list._id}#/vocabulary`
+        navigator.clipboard.writeText(url).then(function () {
+          correctMessage("link copied!")
+        })
+      }
     }
 
     function toPdf() {
@@ -104,21 +115,19 @@ export default defineComponent({
     }
 
     function del() {
-      context.emit("removeList", props.list);
+      context.emit("removeList", [props.list, props.isOffline]);
     }
 
     function toExercises(e) {
-      if (!navigator.onLine) wrongMessage("Not Online!")
-      else {
-        if (e.target.classList.contains("activator")) return
-        localStorage.setItem("_id", props.list._id);
-        context.root.$router.push("/vocabulary/exercises");
-      }
+      if (e.target.classList.contains("activator")) return
+      if (props.isOffline) localStorage.setItem("isOfflineList", "true")
+      localStorage.setItem("_id", props.list._id);
+      context.root.$router.push("/vocabulary/exercises");
     }
 
     function actionHandler(item: Item) {
       if (item.action == "edit") edit();
-      else if (item.action == "rename") rename();
+      else if (item.action == "download") download();
       else if (item.action == "share") share();
       else if (item.action == "toPdf") toPdf();
       else if (item.action == "delete") del();
@@ -128,18 +137,10 @@ export default defineComponent({
       itemsTop,
       itemsBot,
       actionHandler,
-      edit,
-      rename,
-      share,
-      toPdf,
-      del,
       getCountry,
       toExercises
     };
   },
-  // beforeRouteEnter(to, from, next){
-  //   localStorage.setItem("_id")
-  // }
 });
 </script>
 

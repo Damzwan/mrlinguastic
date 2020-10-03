@@ -14,11 +14,22 @@
       </router-link>
     </div>
 
-    <!-- use VFOR and a list of voc lists -->
+    <div v-if="downloadedLists && downloadedLists.length > 0">
+      <h5 class="center">Downloaded Voclists</h5>
+      <div class="row">
+        <div class="col l4 m6 s12" v-for="list in downloadedLists" :key="list._id">
+          <VoclistCard v-bind:list="list" :is-offline="true" v-on:removeList="removeList"
+                       v-on:openPdfModal="openPdfModal" v-on:download="downloadVoclist"></VoclistCard>
+        </div>
+      </div>
+      <div class="divider" style="margin-bottom: 30px"></div>
+    </div>
+
     <div class="row" v-if="allLists">
       <PdfModal :list="selectedList" v-if="selectedList"></PdfModal>
       <div class="col l4 m6 s12" v-for="list in allLists" :key="list._id">
-        <VoclistCard v-bind:list="list" v-on:removeList="removeList" v-on:openPdfModal="openPdfModal"></VoclistCard>
+        <VoclistCard v-bind:list="list" :is-offline="false" v-on:removeList="removeList"
+                     v-on:openPdfModal="openPdfModal" v-on:download="downloadVoclist"></VoclistCard>
       </div>
     </div>
 
@@ -55,7 +66,7 @@ import {
 } from "@/gen-types";
 import {AuthModule} from "@/use/authModule";
 import PdfModal from "@/components/Voc/PdfModal.vue";
-import {correctMessage, wrongMessage} from "@/use/messages";
+import {correctMessage, normalMessage, wrongMessage} from "@/use/messages";
 import moment from "moment";
 
 interface State {
@@ -73,6 +84,7 @@ export default defineComponent({
   },
   setup() {
     localStorage.removeItem("_id");
+    localStorage.removeItem("isOfflineList");
 
     const auth = inject<AuthModule>("auth");
     const db = inject<Localdb>("db");
@@ -83,17 +95,18 @@ export default defineComponent({
     const {mutate: removeVoclist} = useDeleteVoclistMutation(null);
     const {mutate: addListToUser} = useAddVoclistToUserMutation(null);
     const allLists = ref<Voclist[]>(null);
+    const downloadedLists = ref<Voclist[]>(null);
 
     const state = reactive<State>({
       hasJustAddedList: localStorage.getItem("justAddedVoclist") != null,
       hasSharedList: false,
       userVoclists: null,
       sharedVoclist: null,
-      justAddedVoclist: null
+      justAddedVoclist: null,
     })
 
     async function resetLocalDb() {
-      db.clearStore().then(() => {
+      db.clearStore("voclists").then(() => {
         allLists.value.forEach(list => {
           db.save("voclists", list)
         })
@@ -101,9 +114,9 @@ export default defineComponent({
     }
 
     function containsVoclist(lists: Voclist[], voclistId: string) {
-      for (const list of lists)
-        if (list._id === voclistId) return true;
-      return false;
+      for (let i = 0; i < lists.length; i++)
+        if (lists[i]._id === voclistId) return i;
+      return -1;
     }
 
     function getSharedVoclist() {
@@ -129,7 +142,11 @@ export default defineComponent({
     }
 
     async function getUserListsOffline() {
-      db.getAllVoclists().then(lists => state.userVoclists = lists)
+      db.getItems<Voclist>("voclists").then(lists => state.userVoclists = lists)
+    }
+
+    async function getDownloadedLists() {
+      db.getItems<Voclist>("downloadedVoclists").then(lists => downloadedLists.value = lists)
     }
 
     function allListsLoaded() {
@@ -143,31 +160,43 @@ export default defineComponent({
         allLists.value = state.userVoclists;
 
         if (state.hasSharedList) {
-          if (!containsVoclist(allLists.value, state.sharedVoclist._id)) {
+          if (containsVoclist(allLists.value, state.sharedVoclist._id) == -1) {
             if (auth.getOid()) addListToUser({userId: auth.getOid(), vocId: state.sharedVoclist._id}) //add the voclist to the user
             allLists.value.push(state.sharedVoclist);
             correctMessage("voclist added!")
           } else wrongMessage("voclist already saved!")
         }
 
-        if (state.hasJustAddedList && !containsVoclist(allLists.value, state.justAddedVoclist._id))
-          allLists.value.push(state.justAddedVoclist)
+        if (state.hasJustAddedList) {
+          const i = containsVoclist(allLists.value, state.justAddedVoclist._id);
+          if (i > -1) allLists.value[i] = state.justAddedVoclist //we replace the older(online) version with the newer one
+          else allLists.value.push(state.justAddedVoclist) //only one version so we push
+        }
 
-        allLists.value.forEach(list => list.lastEdited = moment(list.lastEdited).format("lll"))
+        allLists.value.forEach(list => list.lastEdited = moment(new Date(list.lastEdited)).format("lll"));
 
         selectedList.value = allLists.value[0];
         resetLocalDb();
       }
     })
 
-    function removeList(list: Voclist) {
-      allLists.value.splice(allLists.value.indexOf(list), 1);
-      db.deleteVoclist(list._id);
-      if (auth.getUser() && navigator.onLine) removeVoclist({
-        vocId: list._id,
-        userId: auth.getOid(),
-        blobs: list.words.filter(word => word.img).map(word => word.img)
-      })
+    function removeList(args: Array<any>) {
+      const list: Voclist = args[0];
+      const isOfflineList = args[1];
+
+      if (isOfflineList) {
+        downloadedLists.value.splice(downloadedLists.value.indexOf(list), 1);
+        db.deleteItem(list._id, "downloadedVoclists");
+      } else if (navigator.onLine) {
+        allLists.value.splice(allLists.value.indexOf(list), 1);
+        db.deleteItem(list._id, "voclists");
+        if (auth.getUser()) removeVoclist({
+          vocId: list._id,
+          userId: auth.getOid(),
+          blobs: list.words.filter(word => word.img).map(word => word.img)
+        })
+      }
+      normalMessage("deleted voclist!")
     }
 
     function openPdfModal(list: Voclist) {
@@ -179,15 +208,34 @@ export default defineComponent({
       return !navigator.onLine
     }
 
+    async function downloadVoclist(list: Voclist) {
+      if (containsVoclist(downloadedLists.value, list._id)) await db.deleteItem(list._id, "downloadedVoclists")
+      db.downloadVoclist(list).then(() => {
+        correctMessage("list downloaded!")
+        getDownloadedLists();
+      });
+    }
+
     if (localStorage.getItem("justAddedVoclist")) {
-      db.getVoclist(localStorage.getItem("justAddedVoclist")).then(list => state.justAddedVoclist = list)
+      db.getItem<Voclist>(localStorage.getItem("justAddedVoclist"), "voclists").then(list => state.justAddedVoclist = list)
       localStorage.removeItem("justAddedVoclist")
     }
     if (navigator.onLine) getSharedVoclist()
+    if (navigator.onLine) getDownloadedLists()
     if (auth.getUser() && navigator.onLine) getUserListsOnline();
     else getUserListsOffline();
 
-    return {state, removeList, openPdfModal, selectedList, pdfModalTrigger, allLists, isOffline}
+    return {
+      state,
+      removeList,
+      openPdfModal,
+      selectedList,
+      pdfModalTrigger,
+      allLists,
+      isOffline,
+      downloadVoclist,
+      downloadedLists
+    }
   },
 });
 </script>

@@ -6,7 +6,8 @@
     </div>
     <div class="row" v-if="exerciseMethods">
       <div v-for="(method, index) in exerciseMethods" :key="index">
-        <ExerciseMethod v-bind:exerciseMethod="method" v-if="method.requirements.map(req => req.condition).includes(true)"></ExerciseMethod>
+        <ExerciseMethod v-bind:exerciseMethod="method"
+                        v-if="method.requirements.map(req => req.condition).includes(true)"></ExerciseMethod>
       </div>
     </div>
   </div>
@@ -17,6 +18,7 @@ import {defineComponent, inject, ref} from "@vue/composition-api";
 import ExerciseMethod, {ExerciseMethods} from "@/components/Voc/Exercises/ExerciseMethod.vue";
 import {Localdb} from "@/use/localdb";
 import {Voclist} from "@/gen-types";
+import {isOfflineList} from "@/use/voc";
 
 
 export default defineComponent({
@@ -28,9 +30,8 @@ export default defineComponent({
     const list = ref<Voclist>(null);
     const exerciseMethods = ref<ExerciseMethods[]>(null)
 
-    db.getVoclist(localStorage.getItem("_id")).then(nlist => {
-      list.value = nlist
-
+    function exerciseSetup(providedList: Voclist) {
+      list.value = providedList;
       const words = list.value.words;
       const wordsWithImage = list.value.words.filter(word => word.img);
       const wordsWithAudio = list.value.words.filter(word => word.toAudio);
@@ -64,7 +65,10 @@ export default defineComponent({
         requirements: [{condition: wordsWithAudio.length > 0, message: "not enough words with audio"}]
       }
       ]
-    })
+    }
+
+    if (isOfflineList()) db.getItem<Voclist>(localStorage.getItem("_id"), "downloadedVoclists").then(nlist => exerciseSetup(nlist))
+    else db.getItem<Voclist>(localStorage.getItem("_id"), "voclists").then(nlist => exerciseSetup(nlist))
 
     return {exerciseMethods}
   },

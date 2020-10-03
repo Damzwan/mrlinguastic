@@ -33,6 +33,7 @@ import {Voclist, Word} from "@/gen-types";
 import Carousel = M.Carousel;
 import M from "materialize-css"
 import FlashcardCarousel from "@/components/Voc/Exercises/FlashcardCarousel.vue";
+import {isOfflineList} from "@/use/voc";
 
 interface State {
   restored: boolean;
@@ -60,11 +61,14 @@ export default defineComponent({
       carouselInstance.value = M.Carousel.init(carouselElement.value);
     })
 
+    function exerciseSetup(providedList: Voclist) {
+      list.value = providedList;
+      state.restored = true;
+    }
+
     function restoreWords() {
-      db.restoreVocList(localStorage.getItem("_id")).then(restoredList => {
-        list.value = restoredList;
-        state.restored = true;
-      })
+      if (isOfflineList()) db.getItem<Voclist>(localStorage.getItem("_id"), "downloadedVoclists").then(nlist => exerciseSetup(nlist))
+      else db.getItem<Voclist>(localStorage.getItem("_id"), "voclists").then(nlist => exerciseSetup(nlist))
     }
 
     if (localStorage.getItem("_id")) restoreWords();

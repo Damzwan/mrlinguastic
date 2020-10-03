@@ -46,3 +46,7 @@ export function cleanWord(word: string) {
     newWord = newWord.replace(/\\/g, "");
     return newWord;
 }
+
+export function isOfflineList(){
+    return localStorage.getItem("isOfflineList") != null;
+}
