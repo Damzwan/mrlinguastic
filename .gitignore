@@ -108,3 +108,4 @@ client/src/gen-types.ts
 server/src/gen-types.ts
 .env
 client/dist
+server/public
