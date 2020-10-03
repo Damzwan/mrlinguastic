@@ -51,7 +51,6 @@
       </div>
     </div>
 
-
     <div class="divider"></div>
 
     <div class="row hide-on-large-only">
@@ -119,7 +118,7 @@ export default defineComponent({
       {boldText: localStorage.getItem("duration"), normalText: "minute(s)", icon: "access_time", iconColor: "black"}]);
 
     const failureCollapsible = ref(null);
-    const ordered = Object.keys(failedAttempts).sort((a, b) => failedAttempts[a].length > failedAttempts[b].length ? 1 : -1);
+    const ordered = Object.keys(failedAttempts).sort((a, b) => failedAttempts[a].length > failedAttempts[b].length ? 1 : -1).reverse();
 
     function createChart(ctx) {
       new Chart(ctx, {

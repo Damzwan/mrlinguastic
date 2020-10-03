@@ -7,7 +7,7 @@
         <p class="flow-text center">Let's create some flashcards containing the words from <b>{{
             list.settings.title
           }}</b>
-          First select how you want the flashcards to look like and then press the button</p>
+          First select how you want the flashcards to look like, then press on the button below.</p>
         <div class="divider"></div>
 
         <div class="section row">

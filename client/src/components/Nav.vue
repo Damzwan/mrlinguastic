@@ -17,7 +17,8 @@
           <ul class="right">
             <li>
               <a @click="logIn">
-                <i class="material-icons" style="font-size: 30px;">account_circle</i>
+                <img :src="require(`@/assets/country-flags/china.svg`)" width="30px" height="30px" v-if="loggedIn" style="top: 10px; position: relative;">
+                <i class="material-icons" style="font-size: 30px;" v-else>account_circle</i>
               </a>
             </li>
           </ul>
@@ -104,7 +105,7 @@ export default defineComponent({
 
     function logIn() {
       if (!auth.getOid()) auth.login();
-      else normalMessage("already logged in!");
+      else normalMessage("Already logged in!")
     }
 
     const sidenavObjects = [
@@ -117,7 +118,16 @@ export default defineComponent({
 
     const isVocCreatePage = ref(context.root.$route.name == "Create Voc"); //flip boolean if we are on the voc create page
 
-    return {sidenav, openSideNav, closeSideNav, sidenavObjects, isVocCreatePage, saveList, logIn};
+    return {
+      sidenav,
+      openSideNav,
+      closeSideNav,
+      sidenavObjects,
+      isVocCreatePage,
+      saveList,
+      logIn,
+      loggedIn: auth.getOid()
+    };
   },
   watch: {
     $route(to) {

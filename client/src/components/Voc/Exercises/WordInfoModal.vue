@@ -4,15 +4,32 @@
       <h4 class="center"><b>{{ word }}</b></h4>
       <div class="divider"></div>
 
-      <div v-for="(option, i) in wordInfo" :key="i">
-        <div v-for="(meaning, j) in option.meanings" :key="j">
-          <p><b>type: </b> {{ meaning.partOfSpeech }}</p>
-          <div v-for="(definition, k) in meaning.definitions" :key="k">
-            <p><b>definition {{ k + 1 }} : </b> {{ definition.definition }}</p>
-            <p v-if="definition.example"><b>example: </b> {{ definition.example }}</p>
-            <p v-if="definition.synonyms"><b>synonyms:</b> {{ definition.synonyms.toString() }}</p>
+      <div v-if="wordInfo">
+        <div v-for="(option, i) in wordInfo" :key="i">
+          <div v-for="(meaning, j) in option.meanings" :key="j">
+            <p><b>type: </b> {{ meaning.partOfSpeech }}</p>
+            <div v-for="(definition, k) in meaning.definitions" :key="k">
+              <p><b>definition {{ k + 1 }} : </b> {{ definition.definition }}</p>
+              <p v-if="definition.example"><b>example: </b> {{ definition.example }}</p>
+              <p v-if="definition.synonyms"><b>synonyms:</b> {{ definition.synonyms.toString() }}</p>
+            </div>
+            <div class="black-divider"></div>
           </div>
-          <div class="black-divider"></div>
+        </div>
+      </div>
+      <div v-else>
+        <div class="preloader-wrapper fat active centered-img" style="margin-top: 20px">
+          <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -53,6 +70,7 @@ export default defineComponent({
     const wordInfo = ref<InfoOption[]>(null);
 
     async function findWordInfo() {
+      wordInfo.value = null;
       const url = `https://api.dictionaryapi.dev/api/v2/entries/${props.fromLang}/${props.word}`;
 
       wordInfo.value = await new Promise(resolve => {

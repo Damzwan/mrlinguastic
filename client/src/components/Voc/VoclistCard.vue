@@ -6,7 +6,9 @@
         {{ list.settings.title }}
         <i class="material-icons right activator" style="font-size: 35px;" v-on:click.prevent>more_vert</i>
       </span>
-      <p style="margin-top: -5px; margin-bottom: 10px; height: 25px" class="truncate">{{ list.settings.description }}</p>
+      <p style="margin-top: -5px; margin-bottom: 10px; height: 25px" class="truncate">{{
+          list.settings.description
+        }}</p>
 
       <div class="row">
         <div class="col s5">
@@ -54,7 +56,7 @@
 import {defineComponent} from "@vue/composition-api";
 import {getCountry} from "@/use/languageToCountry";
 import {Voclist} from '@/gen-types';
-import {correctMessage} from "@/use/messages";
+import {correctMessage, wrongMessage} from "@/use/messages";
 
 //the items on the back of the card are very similar so we can define an item object by an icon, a title and an action
 interface Item {
@@ -90,8 +92,9 @@ export default defineComponent({
     }
 
     function share() {
-      const url = `http://localhost:8080/?oid=${props.list._id}#/vocabulary`
-      navigator.clipboard.writeText(url).then(function() {
+      console.log(process.env.BASE_URL);
+      const url = `${window.location.origin}/?oid=${props.list._id}#/vocabulary`
+      navigator.clipboard.writeText(url).then(function () {
         correctMessage("link copied!")
       })
     }
@@ -105,9 +108,12 @@ export default defineComponent({
     }
 
     function toExercises(e) {
-      if (e.target.classList.contains("activator")) return
-      localStorage.setItem("_id", props.list._id);
-      context.root.$router.push("/vocabulary/exercises");
+      if (!navigator.onLine) wrongMessage("Not Online!")
+      else {
+        if (e.target.classList.contains("activator")) return
+        localStorage.setItem("_id", props.list._id);
+        context.root.$router.push("/vocabulary/exercises");
+      }
     }
 
     function actionHandler(item: Item) {
@@ -140,8 +146,8 @@ export default defineComponent({
 
 <style scoped>
 .action-row {
-  left: 0px;
-  height: 50%;
+  left: 0;
+  height: 51%;
   position: absolute;
   width: 100%;
 }

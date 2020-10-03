@@ -6,6 +6,7 @@ import {typeDefs} from "./src/schema";
 import {DIRECTIVES} from '@graphql-codegen/typescript-mongodb';
 import {azureAPI} from './src/datasources/azure';
 import {PixabayAPI} from './src/datasources/pixabay';
+import {YandexAPI} from "./src/datasources/yandex";
 
 require('dotenv').config()
 
@@ -27,6 +28,7 @@ app.get("/speech", async function (req, res) {
 const dataSources = () => ({
     azureAPI: azure,
     pixabayAPI: new PixabayAPI(),
+    yandexAPI: new YandexAPI()
 });
 
 const server = new ApolloServer({

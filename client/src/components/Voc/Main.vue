@@ -7,7 +7,7 @@
     </div>
 
     <div class="fixed-action-btn">
-      <router-link to="/vocabulary/create" class="btn-floating btn-large red">
+      <router-link to="/vocabulary/create" class="btn-floating btn-large red" :class="{disabled: isOffline()}">
         <i class="large material-icons" style="font-size: 35px;">add</i>
       </router-link>
     </div>
@@ -136,7 +136,7 @@ export default defineComponent({
           && state.userVoclists
     }
 
-    watch(state, (prevState, newState) => {
+    watch(state, () => {
       if (allListsLoaded() && !allLists.value) {
         allLists.value = state.userVoclists;
 
@@ -151,6 +151,7 @@ export default defineComponent({
         if (state.hasJustAddedList && !containsVoclist(allLists.value, state.justAddedVoclist._id))
           allLists.value.push(state.justAddedVoclist)
 
+        selectedList.value = allLists.value[0];
         resetLocalDb();
       }
     })
@@ -170,6 +171,10 @@ export default defineComponent({
       pdfModalTrigger.value.click();
     }
 
+    function isOffline() {
+      return !navigator.onLine
+    }
+
     if (localStorage.getItem("justAddedVoclist")) {
       db.getVoclist(localStorage.getItem("justAddedVoclist")).then(list => state.justAddedVoclist = list)
       localStorage.removeItem("justAddedVoclist")
@@ -178,7 +183,7 @@ export default defineComponent({
     if (auth.getUser() && navigator.onLine) getUserListsOnline();
     else getUserListsOffline();
 
-    return {state, removeList, openPdfModal, selectedList, pdfModalTrigger, allLists}
+    return {state, removeList, openPdfModal, selectedList, pdfModalTrigger, allLists, isOffline}
   },
 });
 </script>
