@@ -123,7 +123,7 @@ export default defineComponent({
     async function getUserListsOnline() {
       const {result: userVoclists} = useGetUserQuery({oid: auth.getOid()});
       if (userVoclists.value) state.userVoclists = userVoclists.value.user.voclists;
-      else watch(userVoclists, async () => state.userVoclists = userVoclists.value.user.voclists);
+      else watch(userVoclists, async () => userVoclists.value.user ? state.userVoclists = userVoclists.value.user.voclists : state.userVoclists = []);
     }
 
     async function getUserListsOffline() {

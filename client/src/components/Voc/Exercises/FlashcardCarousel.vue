@@ -30,7 +30,7 @@
 
     <div class="row" v-if="type === 'image'">
       <div class="col s12 m6 l4 offset-m3 offset-l4 input-field">
-        <input type="text" disabled class="center" style="font-size: 20px; color: black" ref="toInput"
+        <input type="text" disabled class="center" style="font-size: 20px; color: black"
                :value="state.clickedOnCard ? state.currWord.to : ''">
       </div>
     </div>
@@ -94,8 +94,9 @@ export default defineComponent({
     }
 
     function cardClicked(e: Event, index: number) {
-      state.clickedOnCard = true
       const target: any = e.target
+
+      if (state.index == index) state.clickedOnCard = true
       if (target.classList.contains("card-icon") || state.index != index || type === "image") return;
 
       if (state.flipped) unFlipCard();

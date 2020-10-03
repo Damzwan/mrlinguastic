@@ -23,7 +23,7 @@ type Query {
     getVoices: [Voice]
     translateWord(fromLang: String!, toLang: String!, word: String!): String
     translateWords(fromLang: String!, toLang: String!, words: [String!]): [String]
-    user(oid: String!): User!
+    user(oid: String!): User
     voclist(voclistId: String!): Voclist
 }
 

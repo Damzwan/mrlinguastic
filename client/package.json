@@ -49,7 +49,7 @@
     "@typescript-eslint/parser": "^4.2.0",
     "@vue/cli-plugin-babel": "~4.4.0",
     "@vue/cli-plugin-eslint": "~4.4.0",
-    "@vue/cli-plugin-pwa": "~4.4.0",
+    "@vue/cli-plugin-pwa": "^4.5.6",
     "@vue/cli-plugin-router": "~4.4.0",
     "@vue/cli-plugin-typescript": "~4.4.0",
     "@vue/cli-service": "~4.4.0",
@@ -79,5 +79,15 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "vue": {
+    "pwa": {
+      "name": "Mr Linguastic",
+      "themeColor": "#4DBA87",
+      "msTileColor": "#000000",
+      "appleMobileWebAppCapable": "yes",
+      "appleMobileWebAppStatusBarStyle": "black",
+      "workboxPluginMode": "GenerateSW"
+    }
+  }
 }
