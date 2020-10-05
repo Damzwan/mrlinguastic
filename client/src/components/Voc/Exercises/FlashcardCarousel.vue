@@ -1,6 +1,7 @@
 <template>
   <div>
     <WordInfoModal v-bind:fromLang="fromLang" v-bind:word="state.currWord.from"></WordInfoModal>
+    <ExampleModal :word="state.currWord"></ExampleModal>
     <i class="material-icons unselectable" style="position: absolute; font-size: 45px; color: lightgray"
        @click="$router.push('/vocabulary')">home</i>
 
@@ -14,7 +15,7 @@
         <div style="height: 400px" class="z-depth-2 red" v-if="type === 'text'">
           <p class="center" style="font-size: 2.5rem; padding-top: 50px">{{ word.from }}</p>
           <div style="position: absolute; bottom: -100px; right: 5px">
-            <i class="material-icons card-icon">add</i>
+            <a href="#exampleModal" class="modal-trigger" style="color: black"><i class="material-icons card-icon">format_list_numbered</i></a>
             <a href="#infoModal" class="modal-trigger" style="color: black;">
               <i class="material-icons card-icon">info_outline</i>
             </a>
@@ -48,6 +49,7 @@ import Carousel = M.Carousel;
 import M from "materialize-css"
 import {getBlobUrl} from "@/use/blobStorage";
 import {isOfflineList} from "@/use/voc";
+import ExampleModal from "@/components/Voc/Exercises/ExampleModal.vue";
 
 export interface State {
   currWord: Word
@@ -58,7 +60,8 @@ export interface State {
 
 export default defineComponent({
   components: {
-    WordInfoModal
+    WordInfoModal,
+    ExampleModal
   },
   props: {
     words: Array as () => Word[],
@@ -71,7 +74,7 @@ export default defineComponent({
     const type = localStorage.getItem("exerciseType");
 
     const state = reactive<State>({
-      currWord: {from: props.words[0].from, to: props.words[0].to, img: null, toAudio: null},
+      currWord: JSON.parse(JSON.stringify(props.words[0])),
       index: 0,
       flipped: false,
       clickedOnCard: false
@@ -112,7 +115,8 @@ export default defineComponent({
       let carouselIndex = carouselInstance.value.center % props.words.length;
       if (carouselIndex < 0) carouselIndex += props.words.length
       state.index = carouselIndex;
-      Object.assign(state.currWord, props.words[state.index])
+      state.currWord = JSON.parse(JSON.stringify(props.words[state.index]))
+      // Object.assign(state.currWord, props.words[state.index])
     }
 
     function handleKeyup(e: any) {

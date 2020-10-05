@@ -63,6 +63,13 @@ export default defineComponent({
         text: "Speech",
         icon: "hearing",
         requirements: [{condition: wordsWithAudio.length > 0, message: "not enough words with audio"}]
+      }, {
+        type: "list",
+        tabTitles: ['Standard'],
+        routes: ['list'],
+        text: "List",
+        icon: "format_list_numbered",
+        requirements: [{condition: words.length > 0, message: "not enough words"}]
       }
       ]
     }

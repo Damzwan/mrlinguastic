@@ -7,6 +7,7 @@ import Standard from '../components/Voc/Exercises/Standard.vue'
 import ExerciseStats from '../components/Voc/Exercises/ExerciseStats.vue'
 import MultipleChoice from '../components/Voc/Exercises/MultipleChoice.vue'
 import Flashcard from '../components/Voc/Exercises/Flashcard.vue'
+import List from '../components/Voc/Exercises/List.vue'
 
 Vue.use(VueRouter)
 
@@ -53,6 +54,11 @@ const routes: Array<RouteConfig> = [
         path: '/vocabulary/exercises/flashcards',
         name: 'Flashcards',
         component: Flashcard
+    },
+    {
+        path: '/vocabulary/exercises/list',
+        name: 'View List',
+        component: List
     },
     {
         path: '/vocabulary/exercises/stats',
