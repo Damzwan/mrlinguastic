@@ -111,6 +111,7 @@ export default defineComponent({
     //TODO garbage code xd
     const w = 210;
     const h = 297;
+
     function generatePdf() {
       const doc = new jsPDF();
       drawAllWords(doc, props.list.words).then(x => {
@@ -189,11 +190,9 @@ export default defineComponent({
       const y_ratio = big ? 0 : 0.1; //used to move the image up a bit for image + word
       for (let i = 0; i < state.rows; i++) {
         for (let j = 0; j < state.cols; j++) {
-          const imgsrc = images.shift();
+          const imgsrc: string = images.shift();
           if (imgsrc == null) continue;
-          const url = getBlobUrl(imgsrc);
-          // const objUrl = URL.createObjectURL(imgsrc);
-          // const url = await (urlToBase64(objUrl))
+          const url = imgsrc.substring(0, 4) == "data" ? imgsrc : getBlobUrl(imgsrc);
           doc.addImage(url, "PNG", ((2 * Math.abs(cheat - j) + 1) * (w / state.cols) - img_width) / 2, (((2 * i + 1) * (h / state.rows) - img_height) / 2) - (y_ratio * (h / state.rows)), img_width, img_height);
         }
       }

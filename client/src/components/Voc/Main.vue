@@ -1,5 +1,6 @@
 <template>
   <div>
+    <PdfModal :list="selectedList" v-if="selectedList"></PdfModal>
     <a class="modal-trigger" href="#pdfModal" ref="pdfModalTrigger"></a>
     <div class="section">
       <h5 class="center-align hide-on-large-only">🐉 Choose or create a voc list 🐉</h5>
@@ -25,8 +26,7 @@
       <div class="divider" style="margin-bottom: 30px"></div>
     </div>
 
-    <div class="row" v-if="allLists">
-      <PdfModal :list="selectedList" v-if="selectedList"></PdfModal>
+    <div class="row" v-if="allLists" style="margin-bottom: 70px">
       <div class="col l4 m6 s12" v-for="list in allLists" :key="list._id">
         <VoclistCard v-bind:list="list" :is-offline="false" v-on:removeList="removeList"
                      v-on:openPdfModal="openPdfModal" v-on:download="downloadVoclist"></VoclistCard>
