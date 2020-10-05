@@ -6,12 +6,12 @@
         <h4 class="center" style="margin-bottom: 30px">Words Importer 🧾</h4>
 
         <div v-if="state.imgLoading === 0" @paste="pasteImage" style="height: 100%; width: 100%">
-          <p class="flow-text center">Select an image, word document or text file to import your words from 🐱‍🐉<br> Or
+          <p class="flow-text center">Select an image or text file to import your words from 🐱‍🐉<br> Or
             paste an image using ctrl+V</p>
           <div class="file-field input-field">
             <div class="btn">
               <span>File</span>
-              <input type="file" @change="readUrl" accept="image/*">
+              <input type="file" @change="readUrl" accept="image/*, .docx, .txt" id="fileInput">
             </div>
             <div class="file-path-wrapper">
               <input class="file-path validate" type="text">
@@ -36,12 +36,47 @@
           <h6 class="center-align">Loading...</h6>
         </div>
 
+        <div v-else-if="state.imgLoading === 3">
+          <p class="flow-text center">Please fill in how the text file is formatted</p>
+          <div class="divider"></div>
+
+          <div class="row">
+            <div class="col s12 switch">
+              <label>
+                One
+                <input type="checkbox" @change="switchCheck">
+                <span class="lever"></span>
+                Two
+              </label>
+            </div>
+
+            <div class="input-field col s12">
+              <input id="example" type="text" disabled :value="txtWords[0]">
+            </div>
+
+            <div class="input-field col s12 m6">
+              <input id="firstWord" type="text">
+              <label for="firstWord">First Word</label>
+            </div>
+
+            <div class="input-field col s12 m6" v-if="isChecked">
+              <input id="splitter" type="text">
+              <label for="splitter">Splitter</label>
+            </div>
+          </div>
+
+          <div class="waves-effect waves-light btn footer-btn" @click="wordsFromTextFile">Get Words</div>
+        </div>
+
         <div v-show="state.imgLoading === 2" style="display: block; max-width: 100%; height: 70%">
           <div v-show="state.ocrLoading === 0" style="width: 100%; height: 100%">
-            <p class="flow-text center" v-if="isChecked">Please select words that are in <b>{{ getLang(langSettings.fromLang) }}</b>
+            <p class="flow-text center" v-if="isChecked">Please select words that are in
+              <b>{{ getLang(langSettings.fromLang) }}</b>
               first and words in <b>{{ getLang(langSettings.toLang) }}</b> afterwards
             </p>
-            <p class="flow-text center" v-else>Please select words that are in <b>{{ getLang(langSettings.fromLang) }}</b>. We will
+            <p class="flow-text center" v-else>Please select words that are in <b>{{
+                getLang(langSettings.fromLang)
+              }}</b>. We will
               add the translation of the selected words for you</p>
             <div class="divider"></div>
 
@@ -149,6 +184,7 @@ export default defineComponent({
 
     const prevCrop = ref<HTMLDivElement>(null);
 
+    const txtWords = ref<string[]>(null);
     const state = reactive<OcrState>({imgLoading: 0, ocrLoading: 0, importedWords: {from: [], to: []}})
     const cropper = ref<Cropper>(null);
 
@@ -168,8 +204,6 @@ export default defineComponent({
       ocrType.value.disabled = false;
       ocrType.value.checked = false;
 
-      // prevCrop.value.style.width = "0px";
-      // prevCrop.value.style.height = "0px";
       prevCrop.value.style.visibility = "hidden";
 
       state.importedWords = {from: [], to: []}
@@ -210,14 +244,109 @@ export default defineComponent({
       }
     }
 
+    function getImgUrl(blob: Blob, maxSize: number): Promise<string> {
+      return new Promise(resolve => {
+        const img = new Image();
+
+        img.onload = function () {
+          const cnvs = document.createElement('canvas') as HTMLCanvasElement;
+          const ctx = cnvs.getContext('2d');
+
+          let w = img.width;
+          let h = img.height;
+
+          if (w > h) {
+            if (w > maxSize) {
+              h *= maxSize / w;
+              w = maxSize;
+            }
+          } else {
+            if (h > maxSize) {
+              w *= maxSize / h;
+              h = maxSize;
+            }
+          }
+
+          cnvs.width = w;
+          cnvs.height = h
+          ctx.drawImage(img, 0, 0, w, h);
+
+          let imgPixels = ctx.getImageData(0, 0, w, h);
+
+          for (let y = 0; y < imgPixels.height; y++) {
+            for (let x = 0; x < imgPixels.width; x++) {
+              const i = (y * 4) * imgPixels.width + x * 4;
+              const avg = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]) / 3;
+              imgPixels.data[i] = avg;
+              imgPixels.data[i + 1] = avg;
+              imgPixels.data[i + 2] = avg;
+            }
+          }
+          ctx.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
+          resolve(cnvs.toDataURL());
+        }
+
+        img.src = URL.createObjectURL(blob);
+
+      })
+    }
+
+    async function wordsFromTextFile() {
+      let elem = document.getElementById("firstWord") as HTMLInputElement;
+      const firstWord = elem.value;
+      let splitter: string = null;
+
+      if (isChecked.value) {
+        elem = document.getElementById("splitter") as HTMLInputElement;
+        splitter = elem.value;
+      }
+
+      const startIndex = txtWords.value[0].indexOf(firstWord);
+
+      if (!isChecked.value) {
+        state.importedWords.from = txtWords.value.map(line => line.substring(startIndex))
+        await executeTranslate({
+          words: state.importedWords.from,
+          fromLang: props.langSettings.fromLang,
+          toLang: props.langSettings.toLang
+        })
+        state.importedWords.to = translatedWords.value.translateWords.map(word => cleanWord(word));
+        state.ocrLoading = 2;
+        state.imgLoading = 2;
+      } else {
+        state.importedWords.from = txtWords.value.map(line => line.substring(startIndex, line.indexOf(splitter)))
+        state.importedWords.to = txtWords.value.map(line => line.substring(line.indexOf(splitter) + 1))
+        state.imgLoading = 2;
+        state.ocrLoading = 2;
+      }
+
+
+    }
+
+    function readTextFile(blob: Blob) {
+      state.imgLoading = 1;
+      const reader = new FileReader();
+      reader.onload = event => {
+        const res = event.target.result as string;
+        txtWords.value = res.split("\n");
+        state.imgLoading = 3;
+      };
+      reader.readAsText(blob);
+    }
+
     function readUrl(event) {
       if (event.target.files && event.target.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
+        const fileInput = document.getElementById("fileInput") as HTMLInputElement;
+        const extension = fileInput.value.substring(fileInput.value.lastIndexOf(".") + 1);
+        const imgExtensions = ["jpeg", "jpg", "png"];
+
+        if (imgExtensions.includes(extension)) getImgUrl(event.target.files[0], 1400).then(url => {
           state.imgLoading = 1;
-          createCropper(e.target.result.toString())
-        }
-        reader.readAsDataURL(event.target.files[0]);
+          normalMessage("done?")
+          createCropper(url);
+        });
+        else if (extension == "txt") readTextFile(event.target.files[0])
+
       }
     }
 
@@ -312,9 +441,13 @@ export default defineComponent({
       prevCrop,
       addImportedWords,
       pasteImage,
-      getLang
+      getLang,
+      txtWords,
+      wordsFromTextFile
     }
-  },
+  }
+
+  ,
 });
 </script>
 

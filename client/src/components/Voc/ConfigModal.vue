@@ -60,19 +60,19 @@
             </div>
           </div>
 
-          <div class="col s6 m4">Auto Search Images:</div>
-          <div class="col s6 m4">
-            <div class="switch">
-              <label>
-                Off
-                <input type="checkbox" checked/>
-                <span class="lever"></span>
-                On
-              </label>
-              <i class="material-icons right unselectable question-btn tooltipped"
-                 data-tooltip="Automatically search for a matching image after each insertion">live_help</i>
-            </div>
-          </div>
+<!--          <div class="col s6 m4">Auto Search Images:</div>-->
+<!--          <div class="col s6 m4">-->
+<!--            <div class="switch">-->
+<!--              <label>-->
+<!--                Off-->
+<!--                <input type="checkbox" checked/>-->
+<!--                <span class="lever"></span>-->
+<!--                On-->
+<!--              </label>-->
+<!--              <i class="material-icons right unselectable question-btn tooltipped"-->
+<!--                 data-tooltip="Automatically search for a matching image after each insertion">live_help</i>-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
       </div>
 

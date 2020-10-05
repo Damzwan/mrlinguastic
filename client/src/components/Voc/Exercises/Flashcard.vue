@@ -51,6 +51,7 @@ export default defineComponent({
 
     const carouselElement = ref(null);
     const carouselInstance = ref<Carousel>(null);
+    const type = localStorage.getItem("exerciseType");
 
     const state = reactive<State>({
       restored: false,
@@ -63,6 +64,7 @@ export default defineComponent({
 
     function exerciseSetup(providedList: Voclist) {
       list.value = providedList;
+      if (type === "image") list.value.words = list.value.words.filter(word => word.img);
       state.restored = true;
     }
 
