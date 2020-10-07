@@ -20,7 +20,7 @@ import {AuthModule} from "@/use/authModule";
 Vue.config.productionTip = false
 
 const apolloClient = new ApolloClient({
-    uri: 'https://599866b0b7ac.ngrok.io/graphql', //TODO update in production
+    uri: 'http://localhost:4000/graphql', //TODO update in production
     cache: new InMemoryCache({
         addTypename: false
     })

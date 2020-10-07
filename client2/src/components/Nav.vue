@@ -65,7 +65,7 @@
       <li v-for="(item, index) in sidenavObjects" :key="index" v-on:click="closeSideNav">
         <div class="divider light-green darken-4" v-if="item.title === 'Install'"></div>
 
-        <router-link to="/">
+        <router-link to="/vocabulary">
           <span class="white-text center">{{ item.title }}</span>
           <span class="badge" v-if="item.badge">Coming soon</span>
           <i class="material-icons left">{{ item.icon }}</i>
@@ -76,12 +76,10 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, onMounted, ref} from "@vue/composition-api";
+import {defineComponent, inject, onMounted, ref} from "vue";
 import M from "materialize-css";
-import router from "@/router";
 import {correctMessage, normalMessage} from "@/use/messages";
 import {AuthModule} from "@/use/authModule";
-import {Route} from "vue-router";
 
 export default defineComponent({
   setup(props, context) {
@@ -117,7 +115,7 @@ export default defineComponent({
       {title: "About", icon: "info", badge: false},
     ];
 
-    const isVocCreatePage = ref(context.root.$route.path.includes("create")); //flip boolean if we are on the voc create page
+    const isVocCreatePage = ref(context.root.$route.name == "Create Voc"); //flip boolean if we are on the voc create page
 
     return {
       sidenav,
@@ -131,8 +129,8 @@ export default defineComponent({
     };
   },
   watch: {
-    $route(to: Route) {
-      this.isVocCreatePage = to.path.includes("create"); //flip boolean if we route to the voc create page
+    $route(to) {
+      this.isVocCreatePage = to.name == "Create Voc"; //flip boolean if we route to the voc create page
     }
   }
 });

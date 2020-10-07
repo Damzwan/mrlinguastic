@@ -1,7 +1,7 @@
 <template>
   <div>
     <i class="material-icons unselectable" style="position: absolute; font-size: 45px; color: lightgray"
-       @click="$router.push('/vocabulary')">home</i>
+       @click="$router.push('/')">home</i>
     <i class="material-icons unselectable" style="position: absolute; font-size: 45px; color: lightgray; right: 0"
        @click="$router.back()">replay</i>
     <div style="margin-bottom: 20px">

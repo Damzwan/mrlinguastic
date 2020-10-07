@@ -91,7 +91,7 @@ export default defineComponent({
       if (props.isOffline) actionNotSupportedMessage()
       else {
         localStorage.setItem("_id", props.list._id);
-        context.root.$router.push("/vocabulary/create");
+        context.root.$router.push("/create");
       }
     }
 
@@ -103,7 +103,7 @@ export default defineComponent({
     function share() {
       if (props.isOffline) actionNotSupportedMessage();
       else {
-        const url = `${window.location.origin}/?oid=${props.list._id}#/vocabulary`
+        const url = `${window.location.origin}/?oid=${props.list._id}#/`
         navigator.clipboard.writeText(url).then(function () {
           correctMessage("link copied!")
         })
@@ -122,7 +122,7 @@ export default defineComponent({
       if (e.target.classList.contains("activator")) return
       if (props.isOffline) localStorage.setItem("isOfflineList", "true")
       localStorage.setItem("_id", props.list._id);
-      context.root.$router.push("/vocabulary/exercises");
+      context.root.$router.push("/exercises");
     }
 
     function actionHandler(item: Item) {

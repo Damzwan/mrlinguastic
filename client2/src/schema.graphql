@@ -1,0 +1,122 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type LangSettings {
+    fromLang: String!
+    toLang: String!
+    toVoice: String!
+}
+
+type Mutation {
+    addSharedVoclist(userId: String!, vocId: String!): Boolean
+    deleteVoclist(blobs: [String]!, userId: String!, vocId: String!): Boolean
+    saveImg(img: String!): String!
+    updateVoclist(changedBlobs: [String!], list: VoclistInput!, oid: String!): Boolean
+}
+
+type Query {
+    getImages(lang: String!, word: String!): [String!]
+    getVoices: [Voice]
+    translateWord(fromLang: String!, toLang: String!, word: String!): String
+    translateWords(fromLang: String!, toLang: String!, words: [String!]): [String]
+    user(oid: String!): User!
+    voclist(voclistId: String!): Voclist
+}
+
+type Sentence {
+    from: String!
+    to: [String!]
+}
+
+type User {
+    _id: ID!
+    voclists: [Voclist!]
+}
+
+type Voclist {
+    _id: ID!
+    creator: String
+    lastEdited: String
+    settings: VoclistSettings
+    words: [Word!]
+}
+
+type VoclistSettings {
+    description: String
+    langSettings: LangSettings!
+    title: String!
+}
+
+type Voice {
+    DisplayName: String
+    Gender: String
+    ShortName: String
+}
+
+type Word {
+    from: String!
+    img: String
+    sentences: [Sentence!]
+    to: String!
+    toAudio: String
+}
+
+enum CacheControlScope {
+    PRIVATE
+    PUBLIC
+}
+
+enum Collections {
+    Users
+    Voclists
+}
+
+input AdditionalEntityFields {
+    path: String
+    type: String
+}
+
+input LangSettingsInput {
+    fromLang: String!
+    toLang: String!
+    toVoice: String!
+}
+
+input SentenceInput {
+    from: String!
+    to: [String!]
+}
+
+input UserInput {
+    username: String!
+}
+
+input VoclistInput {
+    _id: ID!
+    creator: String
+    lastEdited: String
+    settings: VoclistSettingsInput!
+    words: [WordInput!]
+}
+
+input VoclistSettingsInput {
+    description: String
+    langSettings: LangSettingsInput!
+    title: String!
+}
+
+input WordInput {
+    from: String!
+    img: String
+    sentences: [SentenceInput!]
+    to: String!
+    toAudio: String
+}
+
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload

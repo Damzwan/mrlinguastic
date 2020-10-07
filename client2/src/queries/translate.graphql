@@ -1,0 +1,87 @@
+query translateWord($word: String!, $fromLang: String!, $toLang: String!) {
+    translateWord(word: $word, fromLang: $fromLang, toLang: $toLang)
+}
+
+query translateWords($words: [String!], $fromLang: String!, $toLang: String!){
+    translateWords(words: $words, fromLang: $fromLang, toLang: $toLang)
+}
+
+query getVoices{
+    getVoices{
+        DisplayName
+        Gender
+        ShortName
+    }
+}
+
+query getUser($oid: String!){
+    user(oid: $oid){
+        voclists{
+            _id
+            words{
+                from
+                to
+                toAudio
+                sentences{
+                    from
+                    to
+                }
+                img
+            }
+            settings{
+                description
+                langSettings{
+                    fromLang
+                    toLang
+                    toVoice
+                }
+                title
+            }
+            lastEdited
+            creator
+        }
+    }
+}
+
+query getVoclist($voclistId: String!){
+    voclist(voclistId: $voclistId){
+        _id
+        words{
+            from
+            to
+            toAudio
+            sentences{
+                from
+                to
+            }
+            img
+        }
+        settings{
+            description
+            langSettings{
+                fromLang
+                toLang
+                toVoice
+            }
+            title
+        }
+        lastEdited
+        creator
+    }
+}
+
+mutation updateVoclist($list: VoclistInput!, $changedBlobs: [String!], $oid: String!){
+    updateVoclist(list: $list, changedBlobs: $changedBlobs, oid: $oid)
+}
+
+mutation saveImg($img: String!){
+    saveImg(img: $img)
+}
+
+mutation deleteVoclist($userId: String!, $vocId: String!, $blobs: [String]!){
+    deleteVoclist(userId: $userId, vocId: $vocId, blobs: $blobs)
+}
+
+mutation addVoclistToUser($userId: String!, $vocId: String!){
+    addSharedVoclist(userId: $userId, vocId: $vocId)
+}

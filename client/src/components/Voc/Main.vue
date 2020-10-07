@@ -10,7 +10,7 @@
     <div class="divider" style="margin-bottom: 30px"></div>
 
     <div class="fixed-action-btn">
-      <router-link to="/vocabulary/create" class="btn-floating btn-large red" :class="{disabled: isOffline()}">
+      <router-link to="/create" class="btn-floating btn-large red" :class="{disabled: isOffline()}">
         <i class="large material-icons" style="font-size: 35px;">add</i>
       </router-link>
     </div>
@@ -122,7 +122,7 @@ export default defineComponent({
     function getSharedVoclist() {
       const sharedLink = window.location.search;
       if (!sharedLink) return;
-      window.history.replaceState({}, document.title, "/#/vocabulary"); //remove url parameters
+      window.history.replaceState({}, document.title, "/#/"); //remove url parameters
       const voclistId = new URLSearchParams(sharedLink).get("oid");
       if (!voclistId) return;
 

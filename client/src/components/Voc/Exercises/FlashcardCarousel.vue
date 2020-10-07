@@ -3,7 +3,7 @@
     <WordInfoModal v-bind:fromLang="fromLang" v-bind:word="state.currWord.from"></WordInfoModal>
     <ExampleModal :word="state.currWord"></ExampleModal>
     <i class="material-icons unselectable" style="position: absolute; font-size: 45px; color: lightgray"
-       @click="$router.push('/vocabulary')">home</i>
+       @click="$router.push('/')">home</i>
 
     <h3 class="center">Flashcards</h3>
     <div class="divider"></div>

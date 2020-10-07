@@ -37,35 +37,66 @@
         </div>
 
         <div v-else-if="state.imgLoading === 3">
-          <p class="flow-text center">Please fill in how the text file is formatted</p>
-          <div class="divider"></div>
+          <div v-if="state.ocrLoading !== 2">
+            <p class="flow-text center">Let's try to extract some words from your text file</p>
+            <div class="divider"></div>
 
-          <div class="row">
-            <div class="col s12 switch">
-              <label>
-                One
-                <input type="checkbox" @change="switchCheck">
-                <span class="lever"></span>
-                Two
-              </label>
+            <div class="row section">
+
+              <p class="flow-text">The first line of your file is: </p>
+              <div class="input-field col s12">
+                <input type="text" disabled :value="txtWords[0]">
+              </div>
+
+              <p class="flow-text">Does this line contain the translation as well?</p>
+              <div class="col s12">
+                <div class=" switch">
+                  <label>
+                    No
+                    <input type="checkbox" v-model="isChecked">
+                    <span class="lever"></span>
+                    Yes
+                  </label>
+                </div>
+              </div>
+
+
+              <p class="flow-text" style="margin-top: 100px">Enter the first word of the first line</p>
+              <div class="input-field col s12">
+                <input id="firstWord" type="text">
+                <label for="firstWord">First Word</label>
+              </div>
+
+              <div v-if="isChecked">
+                <p class="flow-text">Enter the second line of the first line</p>
+                <div class="input-field col s12">
+                  <input id="splitter" type="text">
+                  <label for="splitter">Second Word</label>
+                </div>
+              </div>
             </div>
 
-            <div class="input-field col s12">
-              <input id="example" type="text" disabled :value="txtWords[0]">
-            </div>
-
-            <div class="input-field col s12 m6">
-              <input id="firstWord" type="text">
-              <label for="firstWord">First Word</label>
-            </div>
-
-            <div class="input-field col s12 m6" v-if="isChecked">
-              <input id="splitter" type="text">
-              <label for="splitter">Splitter</label>
-            </div>
+            <div class="waves-effect waves-light btn footer-btn" @click="wordsFromTextFile">Get Words</div>
           </div>
 
-          <div class="waves-effect waves-light btn footer-btn" @click="wordsFromTextFile">Get Words</div>
+          <div v-else-if="state.ocrLoading === 2">
+            <p class="flow-text center">Please remove or edit any words that are incorrect ❌</p>
+            <div class="row">
+              <div class="col s12"><i class="material-icons unselectable centered-img" style="font-size: 60px; color: lightgray; text-align: center" @click="swapWords">swap_horiz</i></div>
+            </div>
+            <div class="divider"></div>
+            <div class="row rounded z-depth-1" v-for="(word, index) in state.importedWords.from" :key="index">
+              <div class="col s6 input-field">
+                <input type="text" v-model="state.importedWords.from[index]" class="word center">
+              </div>
+              <div class="col s6 input-field">
+                <input type="text" v-model="state.importedWords.to[index]" class="word center">
+              </div>
+              <i class="material-icons unselectable tooltipped remove-btn" data-tooltip="Remove" @click="remove(index)"
+                 style="color: #8b0000">close</i>
+            </div>
+
+          </div>
         </div>
 
         <div v-show="state.imgLoading === 2" style="display: block; max-width: 100%; height: 70%">
@@ -198,7 +229,7 @@ export default defineComponent({
     function reset() {
       state.ocrLoading = 0;
       state.imgLoading = 0;
-      cropper.value.destroy();
+      if (cropper.value) cropper.value.destroy();
 
       isChecked.value = false;
       ocrType.value.disabled = false;
@@ -294,17 +325,18 @@ export default defineComponent({
     async function wordsFromTextFile() {
       let elem = document.getElementById("firstWord") as HTMLInputElement;
       const firstWord = elem.value;
+      const startIndex = txtWords.value[0].indexOf(firstWord);
       let splitter: string = null;
 
       if (isChecked.value) {
         elem = document.getElementById("splitter") as HTMLInputElement;
-        splitter = elem.value;
+        const secondWord = elem.value;
+        splitter = txtWords.value[0].charAt(txtWords.value[0].indexOf(secondWord) - 1);
       }
 
-      const startIndex = txtWords.value[0].indexOf(firstWord);
 
       if (!isChecked.value) {
-        state.importedWords.from = txtWords.value.map(line => line.substring(startIndex))
+        state.importedWords.from = txtWords.value.map(line => cleanWord(line.substring(startIndex)));
         await executeTranslate({
           words: state.importedWords.from,
           fromLang: props.langSettings.fromLang,
@@ -312,11 +344,11 @@ export default defineComponent({
         })
         state.importedWords.to = translatedWords.value.translateWords.map(word => cleanWord(word));
         state.ocrLoading = 2;
-        state.imgLoading = 2;
+        // state.imgLoading = 2;
       } else {
-        state.importedWords.from = txtWords.value.map(line => line.substring(startIndex, line.indexOf(splitter)))
-        state.importedWords.to = txtWords.value.map(line => line.substring(line.indexOf(splitter) + 1))
-        state.imgLoading = 2;
+        state.importedWords.from = txtWords.value.map(line => cleanWord(line.substring(startIndex, line.lastIndexOf(splitter))))
+        state.importedWords.to = txtWords.value.map(line => cleanWord(line.substring(line.lastIndexOf(splitter) + 1)))
+        // state.imgLoading = 2;
         state.ocrLoading = 2;
       }
 
@@ -342,7 +374,6 @@ export default defineComponent({
 
         if (imgExtensions.includes(extension)) getImgUrl(event.target.files[0], 1400).then(url => {
           state.imgLoading = 1;
-          normalMessage("done?")
           createCropper(url);
         });
         else if (extension == "txt") readTextFile(event.target.files[0])
@@ -426,6 +457,12 @@ export default defineComponent({
       ocrModalInstance.value.close();
     }
 
+    function swapWords(){
+      const temp = state.importedWords.from;
+      state.importedWords.from = state.importedWords.to;
+      state.importedWords.to = temp;
+    }
+
     return {
       ocrModal,
       readUrl,
@@ -443,7 +480,8 @@ export default defineComponent({
       pasteImage,
       getLang,
       txtWords,
-      wordsFromTextFile
+      wordsFromTextFile,
+      swapWords
     }
   }
 
