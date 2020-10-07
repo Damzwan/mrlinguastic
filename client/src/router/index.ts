@@ -1,12 +1,5 @@
 import Vue from 'vue'
 import VueRouter, {RouteConfig} from 'vue-router'
-import VocCreate from '../components/Voc/Create.vue'
-import Exercises from '../components/Voc/Exercises/Exercises.vue'
-import Standard from '../components/Voc/Exercises/Standard.vue'
-import ExerciseStats from '../components/Voc/Exercises/ExerciseStats.vue'
-import MultipleChoice from '../components/Voc/Exercises/MultipleChoice.vue'
-import Flashcard from '../components/Voc/Exercises/Flashcard.vue'
-import List from '../components/Voc/Exercises/List.vue'
 import Main from "@/components/Voc/Main.vue";
 
 Vue.use(VueRouter)
@@ -20,37 +13,37 @@ const routes: Array<RouteConfig> = [
     {
         path: '/create',
         name: 'Create Voclist',
-        component: VocCreate
+        component: () => import(/* webpackChunkName: "create" */ '@/components/Voc/Create.vue')
     },
     {
         path: '/exercises',
         name: 'Voc Exercises',
-        component: Exercises
+        component: () => import(/* webpackChunkName: "exercise" */ '@/components/Voc/Exercises/Exercises.vue')
     },
     {
         path: '/exercises/standard',
         name: 'Standard Exercise',
-        component: Standard
+        component: () => import(/* webpackChunkName: "exercise" */ '@/components/Voc/Exercises/Standard.vue')
     },
     {
         path: '/exercises/multiple',
         name: 'Multiple Choice Exercise',
-        component: MultipleChoice
+        component: () => import(/* webpackChunkName: "exercise" */ '@/components/Voc/Exercises/MultipleChoice.vue')
     },
     {
         path: '/exercises/flashcards',
         name: 'Flashcard Exercise',
-        component: Flashcard
+        component: () => import(/* webpackChunkName: "exercise" */ '@/components/Voc/Exercises/Flashcard.vue')
     },
     {
         path: '/exercises/list',
         name: 'View Vocabulary List',
-        component: List
+        component: () => import(/* webpackChunkName: "exercise" */ '@/components/Voc/Exercises/List.vue')
     },
     {
         path: '/exercises/stats',
         name: 'Exercise statistics',
-        component: ExerciseStats
+        component: () => import(/* webpackChunkName: "exercise" */ '@/components/Voc/Exercises/ExerciseStats.vue')
     },
     {
         path: '/about',
@@ -58,7 +51,12 @@ const routes: Array<RouteConfig> = [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+        component: () => import(/* webpackChunkName: "about" */ '@/components/About.vue')
+    },
+    {
+        path: '/donate',
+        name: 'Donate',
+        component: () => import(/* webpackChunkName: "donate" */ '@/components/Donate.vue')
     }
 ]
 

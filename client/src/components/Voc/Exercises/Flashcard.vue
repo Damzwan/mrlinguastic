@@ -29,7 +29,7 @@
 import WordInfoModal from "./WordInfoModal.vue";
 import {defineComponent, inject, onMounted, reactive, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
-import {Voclist, Word} from "@/gen-types";
+import {Voclist} from "@/gen-types";
 import Carousel = M.Carousel;
 import M from "materialize-css"
 import FlashcardCarousel from "@/components/Voc/Exercises/FlashcardCarousel.vue";

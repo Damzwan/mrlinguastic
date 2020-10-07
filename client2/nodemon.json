@@ -1,7 +1,0 @@
-{
-  "watch": [
-    "src"
-  ],
-  "ext": "graphql",
-  "exec": "graphql-codegen --config codegen.yml"
-}

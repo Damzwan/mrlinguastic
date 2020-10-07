@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, onMounted, onUnmounted, reactive, ref} from "@vue/composition-api";
+import {defineComponent, inject, onUnmounted, reactive, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
 import {Voclist, Word} from "@/gen-types";
 import {getCountry} from "@/use/languageToCountry";

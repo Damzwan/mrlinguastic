@@ -1,4 +1,4 @@
-<!--suppress HtmlFormInputWithoutLabel -->
+
 <template>
   <div v-on-clickaway="closeCollapsible" v-if="value">
     <ul class="collapsible popout" ref="collapsible">
@@ -49,7 +49,7 @@ import {
   reactive,
 } from "@vue/composition-api";
 import M, {Collapsible} from "materialize-css";
-import {useSaveImgMutation, useUpdateVoclistMutation, Word} from "@/gen-types";
+import {useSaveImgMutation, Word} from "@/gen-types";
 import {getBlobUrl} from "@/use/blobStorage";
 import {useImageSearch} from "@/use/voc";
 
@@ -88,7 +88,8 @@ export default defineComponent({
 
       //when a user expands a WordItem we remove a click event listener so that the modal does not automatically close once we click on for example an input field
       function activateInputs() {
-        collapsibleElement.value.removeEventListener("click", collapsibleInstance.value._handleCollapsibleClickBound);
+        const hack = collapsibleInstance.value as any;
+        collapsibleElement.value.removeEventListener("click", hack._handleCollapsibleClickBound);
         flipDisabled();
       }
 
@@ -102,7 +103,8 @@ export default defineComponent({
 
     function closeCollapsible() {
       if (collapsibleInstance) collapsibleInstance.value.close(0);
-      collapsibleElement.value.addEventListener("click", collapsibleInstance.value._handleCollapsibleClickBound); //we add the click event listener again
+      const hack = collapsibleInstance.value as any;
+      collapsibleElement.value.addEventListener("click", hack._handleCollapsibleClickBound); //we add the click event listener again
     }
 
     function remove() {

@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, onMounted, ref} from "@vue/composition-api";
+import {defineComponent, onMounted, ref} from "@vue/composition-api";
 import M from "materialize-css"
 import Modal = M.Modal;
 import {Word} from "@/gen-types";

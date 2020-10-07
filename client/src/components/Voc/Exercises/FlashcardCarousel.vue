@@ -43,7 +43,7 @@
 
 
 import WordInfoModal from "./WordInfoModal.vue";
-import {computed, defineComponent, onMounted, onUnmounted, reactive, ref} from "@vue/composition-api";
+import {defineComponent, onMounted, onUnmounted, reactive, ref} from "@vue/composition-api";
 import {Word} from "@/gen-types";
 import Carousel = M.Carousel;
 import M from "materialize-css"

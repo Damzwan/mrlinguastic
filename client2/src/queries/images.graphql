@@ -1,3 +1,0 @@
-query getImages($word: String!, $lang: String!){
-    getImages(word: $word, lang: $lang)
-}

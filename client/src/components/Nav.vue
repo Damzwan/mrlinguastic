@@ -2,8 +2,9 @@
   <div style="z-index: 1005">
     <nav>
       <div class="nav-wrapper green darken-4">
-        <a class="brand-logo center hide-on-med-and-down">Learn Language Now</a>
-        <a class="brand-logo center hide-on-large-only">LLN</a>
+        <router-link to="/" class="brand-logo center hide-on-med-and-down">Mr Linguastic</router-link>
+        <router-link to="/" class="brand-logo center hide-on-large-only">ML</router-link>
+
         <ul class="left">
           <li>
             <a v-on:click="openSideNav">
@@ -17,17 +18,18 @@
           <ul class="right">
             <li>
               <a @click="logIn">
-                <img :src="require(`@/assets/country-flags/china.svg`)" width="30px" height="30px" v-if="loggedIn" style="top: 10px; position: relative;">
+                <img :src="require(`@/assets/country-flags/china.svg`)" width="30px" height="30px" v-if="loggedIn"
+                     style="top: 10px; position: relative;">
                 <i class="material-icons" style="font-size: 30px;" v-else>account_circle</i>
               </a>
             </li>
           </ul>
           <ul class="right hide-on-med-and-down">
             <li>
-              <a href="donate" style="font-size: 1.6rem;">Donate</a>
+              <router-link to="donate" style="font-size: 1.6rem">Donate</router-link>
             </li>
             <li>
-              <a href="about" style="font-size: 1.6rem;">About</a>
+              <router-link to="about" style="font-size: 1.6rem">About</router-link>
             </li>
           </ul>
         </div>
@@ -63,9 +65,9 @@
 
     <ul class="sidenav green darken-4">
       <li v-for="(item, index) in sidenavObjects" :key="index" v-on:click="closeSideNav">
-        <div class="divider light-green darken-4" v-if="item.title === 'Install'"></div>
+        <div class="divider light-green darken-4" v-if="item.title === 'Donate'"></div>
 
-        <router-link to="/">
+        <router-link v-bind:to="item.path">
           <span class="white-text center">{{ item.title }}</span>
           <span class="badge" v-if="item.badge">Coming soon</span>
           <i class="material-icons left">{{ item.icon }}</i>
@@ -110,11 +112,11 @@ export default defineComponent({
     }
 
     const sidenavObjects = [
-      {title: "Vocabulary", icon: "translate", badge: false},
-      {title: "Grammer", icon: "border_color", badge: true},
-      {title: "Install", icon: "file_download", badge: false},
-      {title: "Donate", icon: "attach_money", badge: false},
-      {title: "About", icon: "info", badge: false},
+      {title: "Vocabulary", icon: "translate", badge: false, path: "/"},
+      {title: "Grammer", icon: "border_color", badge: true, path: "/"},
+      // {title: "Install", icon: "file_download", badge: false, path: "/"},
+      {title: "Donate", icon: "attach_money", badge: false, path: "/donate"},
+      {title: "About", icon: "info", badge: false, path: "/about"},
     ];
 
     const isVocCreatePage = ref(context.root.$route.path.includes("create")); //flip boolean if we are on the voc create page

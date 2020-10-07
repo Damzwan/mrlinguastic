@@ -41,7 +41,7 @@
 
 
 import WordInfoModal from "./WordInfoModal.vue";
-import {defineComponent, inject, onMounted, onUpdated, reactive, ref} from "@vue/composition-api";
+import {defineComponent, inject, onUpdated, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
 import {Voclist, Word} from "@/gen-types";
 import {isOfflineList} from "@/use/voc";
