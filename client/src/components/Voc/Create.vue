@@ -176,6 +176,8 @@ export default defineComponent({
     const auth = inject<AuthModule>("auth");
     const db = inject<Localdb>("db");
 
+    const serverUri = inject<string>("serverUri");
+
     const list = reactive<Voclist>({
       _id: null,
       settings: null,
@@ -287,7 +289,7 @@ export default defineComponent({
         from: from,
         to: to,
         img: null,
-        toAudio: `http://localhost:4000/speech?word=${to}&lang=${list.settings.langSettings.toLang}&voice=${list.settings.langSettings.toVoice}`,
+        toAudio: `${serverUri}/speech?word=${to}&lang=${list.settings.langSettings.toLang}&voice=${list.settings.langSettings.toVoice}`,
         sentences: [{from: "", to: [""]}],
       };
       list.words.push(word);
@@ -354,7 +356,7 @@ export default defineComponent({
           from: words.from[i],
           to: words.to[i],
           img: null,
-          toAudio: `http://localhost:4000/speech?word=${words.to[i]}&lang=${list.settings.langSettings.toLang}&voice=${list.settings.langSettings.toVoice}`,
+          toAudio: `${serverUri}/speech?word=${words.to[i]}&lang=${list.settings.langSettings.toLang}&voice=${list.settings.langSettings.toVoice}`,
           sentences: [{from: "", to: [""]}],
         };
         list.words.push(word);

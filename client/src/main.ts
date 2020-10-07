@@ -19,8 +19,10 @@ import {AuthModule} from "@/use/authModule";
 
 Vue.config.productionTip = false
 
+const serverUri = 'https://09547bf8eefb.ngrok.io';
+
 const apolloClient = new ApolloClient({
-    uri: 'http://localhost:4000/graphql', //TODO update in production
+    uri: serverUri + '/graphql', //TODO update in production
     cache: new InMemoryCache({
         addTypename: false
     })
@@ -51,6 +53,7 @@ Promise.all([auth.loadAuthModule(), db.connect()]).then(() => {
         setup() {
             provide("db", db) //TODO give it a normal name instead of creating a symbol
             provide("auth", auth);
+            provide("serverUri", serverUri);
             provide(DefaultApolloClient, apolloClient)
         },
         render: h => h(App)
