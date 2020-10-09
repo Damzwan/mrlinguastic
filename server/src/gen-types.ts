@@ -32,8 +32,23 @@ export enum CacheControlScope {
 
 export enum Collections {
   Users = 'Users',
-  Voclists = 'Voclists'
+  Voclists = 'Voclists',
+  Groups = 'Groups'
 }
+
+export type Group = {
+  __typename?: 'Group';
+  _id: Scalars['ID'];
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  members?: Maybe<Array<User>>;
+  voclists?: Maybe<Array<Voclist>>;
+};
+
+export type GroupInput = {
+  name: Scalars['String'];
+  description: Scalars['String'];
+};
 
 export type LangSettings = {
   __typename?: 'LangSettings';
@@ -54,6 +69,11 @@ export type Mutation = {
   addSharedVoclist?: Maybe<Scalars['Boolean']>;
   deleteVoclist?: Maybe<Scalars['Boolean']>;
   saveImg: Scalars['String'];
+  createGroup?: Maybe<Scalars['String']>;
+  addVoclistToGroup?: Maybe<Scalars['Boolean']>;
+  removeVoclistFromGroup?: Maybe<Scalars['Boolean']>;
+  addUserToGroup?: Maybe<Scalars['String']>;
+  removeUserFromGroup?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -81,12 +101,43 @@ export type MutationSaveImgArgs = {
   img: Scalars['String'];
 };
 
+
+export type MutationCreateGroupArgs = {
+  groupInfo: GroupInput;
+  userId: Scalars['String'];
+};
+
+
+export type MutationAddVoclistToGroupArgs = {
+  groupId: Scalars['String'];
+  vocId: Scalars['String'];
+};
+
+
+export type MutationRemoveVoclistFromGroupArgs = {
+  groupId: Scalars['String'];
+  vocId: Scalars['String'];
+};
+
+
+export type MutationAddUserToGroupArgs = {
+  userId: Scalars['String'];
+  groupId: Scalars['String'];
+};
+
+
+export type MutationRemoveUserFromGroupArgs = {
+  userId: Scalars['String'];
+  groupId: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   user: User;
   translateWord?: Maybe<Scalars['String']>;
   translateWords?: Maybe<Array<Maybe<Scalars['String']>>>;
   voclist?: Maybe<Voclist>;
+  group?: Maybe<Group>;
   getImages?: Maybe<Array<Scalars['String']>>;
   getVoices?: Maybe<Array<Maybe<Voice>>>;
 };
@@ -116,6 +167,11 @@ export type QueryVoclistArgs = {
 };
 
 
+export type QueryGroupArgs = {
+  groupId: Scalars['String'];
+};
+
+
 export type QueryGetImagesArgs = {
   word: Scalars['String'];
   lang: Scalars['String'];
@@ -136,6 +192,7 @@ export type User = {
   __typename?: 'User';
   _id: Scalars['ID'];
   voclists?: Maybe<Array<Voclist>>;
+  groups?: Maybe<Array<Group>>;
 };
 
 export type UserInput = {
@@ -283,6 +340,7 @@ export type ResolversTypes = {
   LangSettings: ResolverTypeWrapper<LangSettings>;
   Word: ResolverTypeWrapper<Word>;
   Sentence: ResolverTypeWrapper<Sentence>;
+  Group: ResolverTypeWrapper<GroupDbObject>;
   Voice: ResolverTypeWrapper<Voice>;
   Mutation: ResolverTypeWrapper<{}>;
   VoclistInput: VoclistInput;
@@ -291,6 +349,7 @@ export type ResolversTypes = {
   WordInput: WordInput;
   SentenceInput: SentenceInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  GroupInput: GroupInput;
   AdditionalEntityFields: AdditionalEntityFields;
   CacheControlScope: CacheControlScope;
   Collections: Collections;
@@ -309,6 +368,7 @@ export type ResolversParentTypes = {
   LangSettings: LangSettings;
   Word: Word;
   Sentence: Sentence;
+  Group: GroupDbObject;
   Voice: Voice;
   Mutation: {};
   VoclistInput: VoclistInput;
@@ -317,6 +377,7 @@ export type ResolversParentTypes = {
   WordInput: WordInput;
   SentenceInput: SentenceInput;
   Boolean: Scalars['Boolean'];
+  GroupInput: GroupInput;
   AdditionalEntityFields: AdditionalEntityFields;
   UserInput: UserInput;
   Int: Scalars['Int'];
@@ -362,6 +423,15 @@ export type CacheControlDirectiveArgs = {   maxAge?: Maybe<Scalars['Int']>;
 
 export type CacheControlDirectiveResolver<Result, Parent, ContextType = any, Args = CacheControlDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
+export type GroupResolvers<ContextType = any, ParentType extends ResolversParentTypes['Group'] = ResolversParentTypes['Group']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  members?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>;
+  voclists?: Resolver<Maybe<Array<ResolversTypes['Voclist']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
 export type LangSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['LangSettings'] = ResolversParentTypes['LangSettings']> = {
   fromLang?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   toLang?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -374,6 +444,11 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addSharedVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddSharedVoclistArgs, 'userId' | 'vocId'>>;
   deleteVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteVoclistArgs, 'userId' | 'vocId' | 'blobs'>>;
   saveImg?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationSaveImgArgs, 'img'>>;
+  createGroup?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationCreateGroupArgs, 'groupInfo' | 'userId'>>;
+  addVoclistToGroup?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddVoclistToGroupArgs, 'groupId' | 'vocId'>>;
+  removeVoclistFromGroup?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveVoclistFromGroupArgs, 'groupId' | 'vocId'>>;
+  addUserToGroup?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationAddUserToGroupArgs, 'userId' | 'groupId'>>;
+  removeUserFromGroup?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveUserFromGroupArgs, 'userId' | 'groupId'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -381,6 +456,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   translateWord?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryTranslateWordArgs, 'word' | 'fromLang' | 'toLang'>>;
   translateWords?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType, RequireFields<QueryTranslateWordsArgs, 'fromLang' | 'toLang'>>;
   voclist?: Resolver<Maybe<ResolversTypes['Voclist']>, ParentType, ContextType, RequireFields<QueryVoclistArgs, 'voclistId'>>;
+  group?: Resolver<Maybe<ResolversTypes['Group']>, ParentType, ContextType, RequireFields<QueryGroupArgs, 'groupId'>>;
   getImages?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType, RequireFields<QueryGetImagesArgs, 'word' | 'lang'>>;
   getVoices?: Resolver<Maybe<Array<Maybe<ResolversTypes['Voice']>>>, ParentType, ContextType>;
 };
@@ -394,6 +470,7 @@ export type SentenceResolvers<ContextType = any, ParentType extends ResolversPar
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   voclists?: Resolver<Maybe<Array<ResolversTypes['Voclist']>>, ParentType, ContextType>;
+  groups?: Resolver<Maybe<Array<ResolversTypes['Group']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
@@ -430,6 +507,7 @@ export type WordResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type Resolvers<ContextType = any> = {
+  Group?: GroupResolvers<ContextType>;
   LangSettings?: LangSettingsResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
@@ -469,6 +547,7 @@ export type IDirectiveResolvers<ContextType = any> = DirectiveResolvers<ContextT
 export type UserDbObject = {
   _id: string,
   voclists?: Maybe<Array<VoclistDbObject['_id']>>,
+  groups?: Maybe<Array<GroupDbObject['_id']>>,
 };
 
 export type VoclistDbObject = {
@@ -502,5 +581,13 @@ export type WordDbObject = {
 export type SentenceDbObject = {
   from: string,
   to?: Maybe<Array<string>>,
+};
+
+export type GroupDbObject = {
+  _id: string,
+  name: string,
+  description?: Maybe<string>,
+  members?: Maybe<Array<UserDbObject['_id']>>,
+  voclists?: Maybe<Array<VoclistDbObject['_id']>>,
 };
 

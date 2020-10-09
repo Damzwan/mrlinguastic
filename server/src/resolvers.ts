@@ -1,4 +1,4 @@
-import {Collections, Resolvers, Voclist, VoclistDbObject} from "./gen-types";
+import {Collections, Group, GroupDbObject, Resolvers, Voclist, VoclistDbObject} from "./gen-types";
 import {MongoAPI} from "./datasources/mongodb";
 
 require('dotenv').config()
@@ -25,7 +25,9 @@ export const resolv: Resolvers = {
         getVoices: async (_: any, args, {dataSources}: { dataSources: any }) =>
             await dataSources.azureAPI.getVoices(),
         voclist: async (_: any, args, {dataSources}: { dataSources: any }) =>
-            await mongoAPI.getEntityByCollectionAndId<Voclist>(Collections.Voclists, args.voclistId)
+            await mongoAPI.getEntityByCollectionAndId<Voclist>(Collections.Voclists, args.voclistId),
+        group: async (_: any, args, {dataSources}: { dataSources: any }) =>
+            await mongoAPI.getEntityByCollectionAndId<GroupDbObject>(Collections.Groups, args.groupId),
     },
     Mutation: {
         updateVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
@@ -45,10 +47,36 @@ export const resolv: Resolvers = {
             await mongoAPI.addVoclist(args.userId, args.vocId);
             return true;
         },
+        createGroup: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            return await mongoAPI.createGroup(args.groupInfo, args.userId);
+        },
+        addVoclistToGroup: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            await mongoAPI.addVoclistToGroup(args.groupId, args.vocId);
+            return true;
+        },
+        removeVoclistFromGroup: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            await mongoAPI.removeVoclistFromGroup(args.groupId, args.vocId);
+            return true;
+        },
+        addUserToGroup: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            return await mongoAPI.addUserToGroup(args.groupId, args.userId);
+        },
+        removeUserFromGroup: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            await mongoAPI.removeUserFromGroup(args.groupId, args.userId);
+            return true;
+        }
     },
     User: {
         voclists: async (_user, _args) => {
             return await mongoAPI.getUserVoclists(_user.voclists, _user)
-        }
+        },
+        groups: async (group, _args) => {
+            return await mongoAPI.getEntitiesByCollectionAndId<GroupDbObject>(Collections.Groups, group.groups)
+        },
+    },
+    Group: {
+        voclists: async (group, _args) => {
+            return await mongoAPI.getGroupVoclists(group.voclists, group);
+        },
     }
 }

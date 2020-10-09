@@ -35,7 +35,8 @@ export const typeDefs = gql`
 
     enum Collections {
         Users,
-        Voclists
+        Voclists,
+        Groups
     }
 
     type Query{
@@ -43,6 +44,7 @@ export const typeDefs = gql`
         translateWord(word: String!, fromLang: String!, toLang: String!): String
         translateWords(words: [String!], fromLang: String!, toLang: String!): [String]
         voclist(voclistId: String!): Voclist
+        group(groupId: String!): Group
         getImages(word: String!, lang: String!): [String!]
         getVoices: [Voice]
     }
@@ -52,11 +54,17 @@ export const typeDefs = gql`
         addSharedVoclist(userId: String!, vocId: String!): Boolean
         deleteVoclist(userId: String!, vocId: String!, blobs: [String]!): Boolean
         saveImg(img: String!): String!
+        createGroup(groupInfo: GroupInput!, userId: String!): String
+        addVoclistToGroup(groupId: String!, vocId: String!): Boolean
+        removeVoclistFromGroup(groupId: String!, vocId: String!): Boolean
+        addUserToGroup(userId: String!, groupId: String!): String
+        removeUserFromGroup(userId: String!, groupId: String!): Boolean
     }
 
     type User @entity{
         _id: ID! @id
         voclists: [Voclist!] @link
+        groups: [Group!] @link
     }
 
     input UserInput{
@@ -133,5 +141,18 @@ export const typeDefs = gql`
         DisplayName: String
         Gender: String
         ShortName: String
+    }
+    
+    type Group @entity{
+        _id: ID! @id
+        name: String! @column
+        description: String @column
+        members: [User!] @link
+        voclists: [Voclist!] @link
+    }
+
+    input GroupInput{
+        name: String!
+        description: String!
     }
 `;

@@ -11,4 +11,5 @@ generates:
       mappers:
         User: UserDbObject
         Voclist: VoclistDbObject
+        Group: GroupDbObject
       objectIdType: string
