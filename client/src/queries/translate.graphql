@@ -40,6 +40,10 @@ query getUser($oid: String!){
             lastEdited
             creator
         }
+        groups{
+            name
+            _id
+        }
     }
 }
 
@@ -70,6 +74,37 @@ query getVoclist($voclistId: String!){
     }
 }
 
+query getGroup($groupId: String!){
+    group(groupId: $groupId){
+        name
+        description
+        voclists{
+            _id
+            words{
+                from
+                to
+                toAudio
+                sentences{
+                    from
+                    to
+                }
+                img
+            }
+            settings{
+                description
+                langSettings{
+                    fromLang
+                    toLang
+                    toVoice
+                }
+                title
+            }
+            lastEdited
+            creator
+        }
+    }
+}
+
 mutation updateVoclist($list: VoclistInput!, $changedBlobs: [String!], $oid: String!){
     updateVoclist(list: $list, changedBlobs: $changedBlobs, oid: $oid)
 }
@@ -85,3 +120,51 @@ mutation deleteVoclist($userId: String!, $vocId: String!, $blobs: [String]!){
 mutation addVoclistToUser($userId: String!, $vocId: String!){
     addSharedVoclist(userId: $userId, vocId: $vocId)
 }
+
+mutation createGroup($groupInfo: GroupInput!, $userId: String!){
+    createGroup(groupInfo: $groupInfo, userId: $userId)
+}
+
+mutation addVoclistToGroup($groupId: String!, $vocId: String!){
+    addVoclistToGroup(groupId: $groupId, vocId: $vocId)
+}
+
+mutation removeVoclistFromGroup($groupId: String!, $vocId: String!){
+    removeVoclistFromGroup(groupId: $groupId, vocId: $vocId)
+}
+
+mutation addUserToGroup($groupId: String!, $userId: String!){
+    addUserToGroup(groupId: $groupId, userId: $userId)
+}
+
+mutation removeUserFromGroup($groupId: String!, $userId: String!){
+    removeUserFromGroup(groupId: $groupId, userId: $userId)
+}
+
+mutation copyVoclist($voclistId: String!){
+    copyVoclist(voclistId: $voclistId){
+        _id
+        words{
+            from
+            to
+            toAudio
+            sentences{
+                from
+                to
+            }
+            img
+        }
+        settings{
+            description
+            langSettings{
+                fromLang
+                toLang
+                toVoice
+            }
+            title
+        }
+        lastEdited
+        creator
+    }
+}
+

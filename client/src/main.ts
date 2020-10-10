@@ -19,7 +19,7 @@ import {AuthModule} from "@/use/authModule";
 
 Vue.config.productionTip = false
 
-const serverUri = 'https://09547bf8eefb.ngrok.io';
+const serverUri = 'http://localhost:4000';
 
 const apolloClient = new ApolloClient({
     uri: serverUri + '/graphql', //TODO update in production

@@ -87,6 +87,13 @@ export class MongoAPI {
         return filteredVoclists
     }
 
+    async createVoclistCopy(vocId: string){
+        const voclist = await this.getEntityByCollectionAndId<VoclistDbObject>(Collections.Voclists, vocId);
+        voclist._id = new ObjectId().toHexString();
+        this.updateEntity(Collections.Voclists, voclist._id, voclist).then();
+        return voclist
+    }
+
     async createGroup(groupInfo: GroupInput, userId: string){
         const id: string = new ObjectId().toHexString();
         const newGroup: GroupDbObject = {

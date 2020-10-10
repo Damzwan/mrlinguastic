@@ -179,8 +179,6 @@ export default defineComponent({
 
       hintCounter = 1;
       list.value.words.splice(list.value.words.indexOf(state.currentWord), 1);
-      if (list.value.words.length === 0) end();
-
     }
 
     function handleWrongAnswer(attempt: string) {
@@ -204,6 +202,11 @@ export default defineComponent({
 
       if (attempt === state.currentWord.to) handleCorrectAnswer()
       else handleWrongAnswer(attempt);
+
+      if (list.value.words.length === 0) {
+        end();
+        return;
+      }
 
       state.to = "";
       setNextWord();

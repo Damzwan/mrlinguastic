@@ -27,7 +27,7 @@ export const resolv: Resolvers = {
         voclist: async (_: any, args, {dataSources}: { dataSources: any }) =>
             await mongoAPI.getEntityByCollectionAndId<Voclist>(Collections.Voclists, args.voclistId),
         group: async (_: any, args, {dataSources}: { dataSources: any }) =>
-            await mongoAPI.getEntityByCollectionAndId<GroupDbObject>(Collections.Groups, args.groupId),
+            await mongoAPI.getEntityByCollectionAndId<GroupDbObject>(Collections.Groups, args.groupId)
     },
     Mutation: {
         updateVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
@@ -64,6 +64,9 @@ export const resolv: Resolvers = {
         removeUserFromGroup: async (_: any, args, {dataSources}: { dataSources: any }) => {
             await mongoAPI.removeUserFromGroup(args.groupId, args.userId);
             return true;
+        },
+        copyVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            return await mongoAPI.createVoclistCopy(args.voclistId)
         }
     },
     User: {

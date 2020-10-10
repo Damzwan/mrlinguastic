@@ -7,7 +7,7 @@
 
         <ul class="left">
           <li>
-            <a v-on:click="openSideNav">
+            <a v-on:click="openSideNav(true)">
               <i class="material-icons" style="font-size: 30px;">menu</i>
             </a>
           </li>
@@ -63,8 +63,8 @@
       </div>
     </nav>
 
-    <ul class="sidenav green darken-4">
-      <li v-for="(item, index) in sidenavObjects" :key="index" v-on:click="closeSideNav">
+    <ul class="sidenav green darken-4" ref="nav1">
+      <li v-for="(item, index) in sidenavObjects" :key="index" v-on:click="closeSideNav(true)">
         <div class="divider light-green darken-4" v-if="item.title === 'Donate'"></div>
 
         <router-link v-bind:to="item.path">
@@ -74,32 +74,87 @@
         </router-link>
       </li>
     </ul>
+
+    <ul class="sidenav green darken-4" ref="nav2">
+      <li>
+        <div class="user-view">
+          <a><img class="circle" src="../assets/robi.jpg"></a>
+          <a><span class="white-text name">{{ user }}</span></a>
+        </div>
+      </li>
+      <div class="divider" style="background-color: #33691e !important"></div>
+      <li><a @click="openGroupModal" class="unselectable">
+        <span class="white-text center unselectable">Create Group</span>
+        <i class="material-icons unselectable">group_add</i></a>
+      </li>
+      <li>
+        <a v-for="(group, i) in getGroups" :key="i" @click="goToGroup(group._id)" class="unselectable">
+          <span class="white-text center unselectable">{{ group.name }}</span>
+          <i class="material-icons unselectable">group</i></a>
+      </li>
+    </ul>
+
+    <div class="modal" ref="modalElement">
+      <div class="modal-content">
+        <h4 class="center">Create Group</h4>
+        <div class="divider"></div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input placeholder="Placeholder" id="groupName" type="text">
+            <label for="groupName">Name</label>
+          </div>
+          <div class="input-field col s12">
+            <input id="description" type="text">
+            <label for="description">Description</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="modal-close waves-effect waves-green btn" @click="createGroup">Create group</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import {defineComponent, inject, onMounted, ref} from "@vue/composition-api";
 import M from "materialize-css";
-import router from "@/router";
-import {correctMessage, normalMessage} from "@/use/messages";
+import {correctMessage} from "@/use/messages";
 import {AuthModule} from "@/use/authModule";
 import {Route} from "vue-router";
+import {useState} from "@/use/vuex";
+import {useCreateGroupMutation} from "@/gen-types";
 
 export default defineComponent({
   setup(props, context) {
     const auth = inject<AuthModule>("auth");
-    const sidenav = ref<M.Sidenav>(null);
+    const sidenav1 = ref<M.Sidenav>(null);
+    const sidenav2 = ref<M.Sidenav>(null);
+
+    const nav1 = ref<HTMLElement>(null)
+    const nav2 = ref<HTMLElement>(null)
+
+    const groupModal = ref<M.Modal>(null);
+    const modalElement = ref<HTMLElement>(null);
+
+    const {mutate: createGroupMutation} = useCreateGroupMutation(null);
+
+    const {getGroups, addGroup} = useState();
 
     onMounted(() => {
-      sidenav.value = M.Sidenav.init(document.querySelectorAll(".sidenav")[0]);
+      sidenav1.value = M.Sidenav.init(nav1.value);
+      sidenav2.value = M.Sidenav.init(nav2.value, {edge: "right"});
+      groupModal.value = M.Modal.init(modalElement.value)
     });
 
-    function openSideNav() {
-      sidenav.value.open();
+    function openSideNav(left: boolean) {
+      if (left) sidenav1.value.open();
+      else sidenav2.value.open();
     }
 
-    function closeSideNav() {
-      sidenav.value.close();
+    function closeSideNav(left: boolean) {
+      if (left) sidenav1.value.close();
+      else sidenav2.value.close();
     }
 
     function saveList() {
@@ -108,7 +163,31 @@ export default defineComponent({
 
     function logIn() {
       if (!auth.getOid()) auth.login();
-      else normalMessage("Already logged in!")
+      else openSideNav(false);
+    }
+
+    async function createGroup() {
+      const name = document.getElementById("groupName") as HTMLInputElement;
+      const description = document.getElementById("description") as HTMLInputElement;
+      if (name.value != "") {
+        const id = await createGroupMutation({
+          groupInfo: {name: name.value, description: description.value},
+          userId: auth.getOid()
+        })
+        correctMessage("created group!")
+        if (id.data.createGroup) addGroup({name: name.value, _id: id.data.createGroup});
+      }
+    }
+
+    function openGroupModal() {
+      groupModal.value.open();
+    }
+
+    function goToGroup(id: string) {
+      closeSideNav(false);
+      if (context.root.$route.path == "/group") return;
+      localStorage.setItem("group", id);
+      context.root.$router.push("group")
     }
 
     const sidenavObjects = [
@@ -122,14 +201,21 @@ export default defineComponent({
     const isVocCreatePage = ref(context.root.$route.path.includes("create")); //flip boolean if we are on the voc create page
 
     return {
-      sidenav,
       openSideNav,
       closeSideNav,
       sidenavObjects,
       isVocCreatePage,
       saveList,
       logIn,
-      loggedIn: auth.getOid()
+      loggedIn: auth.getOid(),
+      user: auth.getUser(),
+      nav1,
+      nav2,
+      getGroups,
+      createGroup,
+      openGroupModal,
+      modalElement,
+      goToGroup
     };
   },
   watch: {

@@ -9,7 +9,7 @@
       <div class="divider"></div>
     </div>
 
-    <div class="row flex hide-on-med-and-down" style="margin-left: 30px; margin-right: 30px">
+    <div class="row flex" v-if="!isMobile()" style="margin-left: 30px; margin-right: 30px">
       <div class="col l4">
         <div class="row" v-for="(stat, index) in stats" :key="index">
           <div class="z-depth-1 rounded stat">
@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <div class="row hide-on-large-only" style="margin-left: 20px; margin-right: 20px">
+    <div v-else style="margin-left: 20px; margin-right: 20px">
       <div class="col s12 m5 fade-enter-active" v-for="(stat, index) in stats" :key="index"
            v-bind:class="{'offset-m2': index % 2 !== 0}">
         <div class="row">
@@ -70,7 +70,7 @@
             </div>
             <div class="collapsible-body">
               <ul class="collection">
-                <li class="collection-item center" v-for="failure in failedAttempts[word]" :key="failure">
+                <li class="collection-item center" v-for="(failure, j) in failedAttempts[word]" :key="j">
                   {{ failure }}
                 </li>
               </ul>
@@ -150,16 +150,19 @@ export default defineComponent({
 
       M.Collapsible.init(failureCollapsible.value);
 
-      const cnvs = document.getElementById('cnvs') as HTMLCanvasElement;
-      const ctx = cnvs.getContext("2d");
+      let cnvs: HTMLCanvasElement= null;
+      if (!isMobile()) cnvs = document.getElementById('cnvs') as HTMLCanvasElement;
+      else cnvs = document.getElementById('cnvs-mobile') as HTMLCanvasElement;
 
-      const cnvsMobile = document.getElementById('cnvs-mobile') as HTMLCanvasElement;
-      const ctxMobile = cnvsMobile.getContext("2d");
-
-      createChart(ctx);
-      createChart(ctxMobile);
+      createChart(cnvs.getContext("2d"))
     })
-    return {stats, failureCollapsible, ordered, failedAttempts}
+
+    function isMobile(){
+      return window.screen.width < 600;
+    }
+
+
+    return {stats, failureCollapsible, ordered, failedAttempts, isMobile}
   },
 });
 </script>

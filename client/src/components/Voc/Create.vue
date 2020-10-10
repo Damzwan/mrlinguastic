@@ -124,7 +124,7 @@ import M from "materialize-css";
 import ConfigModal from "./ConfigModal.vue";
 import WordItem from "./WordItem.vue";
 import ExampleItem from "./ExampleItem.vue"
-import OcrModal from "@/components/Voc/OcrModal.vue";
+import OcrModal, {ImportedWords} from "@/components/Voc/OcrModal.vue";
 import {cleanWord, useTranslate} from "@/use/voc";
 import {getCountry, getExampleWord} from "@/use/languageToCountry";
 import {
@@ -137,7 +137,6 @@ import {
   Word, WordInput
 } from "@/gen-types";
 import {wrongMessage} from "@/use/messages";
-import {ImportedWords} from "./OcrModal.vue"
 import Modal = M.Modal;
 import {getBlobUrl} from "@/use/blobStorage";
 import {AuthModule} from "@/use/authModule";
@@ -182,7 +181,7 @@ export default defineComponent({
       _id: null,
       settings: null,
       words: [],
-      creator: "me",
+      creator: auth.getOid(),
       lastEdited: new Date().toISOString()
     })
 

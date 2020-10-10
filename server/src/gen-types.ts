@@ -74,6 +74,7 @@ export type Mutation = {
   removeVoclistFromGroup?: Maybe<Scalars['Boolean']>;
   addUserToGroup?: Maybe<Scalars['String']>;
   removeUserFromGroup?: Maybe<Scalars['Boolean']>;
+  copyVoclist?: Maybe<Voclist>;
 };
 
 
@@ -129,6 +130,11 @@ export type MutationAddUserToGroupArgs = {
 export type MutationRemoveUserFromGroupArgs = {
   userId: Scalars['String'];
   groupId: Scalars['String'];
+};
+
+
+export type MutationCopyVoclistArgs = {
+  voclistId: Scalars['String'];
 };
 
 export type Query = {
@@ -449,6 +455,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   removeVoclistFromGroup?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveVoclistFromGroupArgs, 'groupId' | 'vocId'>>;
   addUserToGroup?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationAddUserToGroupArgs, 'userId' | 'groupId'>>;
   removeUserFromGroup?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveUserFromGroupArgs, 'userId' | 'groupId'>>;
+  copyVoclist?: Resolver<Maybe<ResolversTypes['Voclist']>, ParentType, ContextType, RequireFields<MutationCopyVoclistArgs, 'voclistId'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {

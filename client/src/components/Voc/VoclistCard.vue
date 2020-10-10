@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <p class="footer">Created by {{ list.creator }}</p>
+<!--      <p class="footer">Created by {{ list.creator }}</p>-->
       <p class="footer" style="right: 5%">{{ list.lastEdited }}</p>
     </div>
 
@@ -53,10 +53,11 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from "@vue/composition-api";
+import {defineComponent, inject} from "@vue/composition-api";
 import {getCountry} from "@/use/languageToCountry";
 import {Voclist} from '@/gen-types';
 import {correctMessage, wrongMessage} from "@/use/messages";
+import {AuthModule} from "@/use/authModule";
 
 //the items on the back of the card are very similar so we can define an item object by an icon, a title and an action
 interface Item {
@@ -71,6 +72,8 @@ export default defineComponent({
     isOffline: Boolean
   },
   setup(props, context) {
+
+    const auth = inject<AuthModule>("auth");
 
     const itemsTop: Array<Item> = [
       {icon: "mode_edit", title: "Edit", action: "edit"},
@@ -102,12 +105,8 @@ export default defineComponent({
 
     function share() {
       if (props.isOffline) actionNotSupportedMessage();
-      else {
-        const url = `${window.location.origin}/?oid=${props.list._id}#/`
-        navigator.clipboard.writeText(url).then(function () {
-          correctMessage("link copied!")
-        })
-      }
+      else if (!auth.getOid()) wrongMessage("not supported when not logged in");
+      else context.emit("share", props.list._id);
     }
 
     function toPdf() {

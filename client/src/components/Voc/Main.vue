@@ -15,6 +15,30 @@
       </router-link>
     </div>
 
+    <div class="modal bottom-sheet" ref="shareModalElem">
+      <div class="modal-content" style="padding: 0">
+        <div class="collection" v-if="!clickedAddToGroup">
+          <a class="collection-item unselectable" @click="copyListLink">
+            <i class="material-icons unselectable">content_copy</i>
+            Copy link
+          </a>
+          <a class="collection-item unselectable" @click="clickedAddToGroup = true">
+            <i class="material-icons unselectable">group</i>
+            Add to group
+          </a>
+        </div>
+        <div v-else>
+          <div class="collection">
+            <a class="collection-item unselectable" v-for="group in getGroups" @click="addVoclistToGroup(group._id)"
+               :key="group._id">
+              <i class="material-icons unselectable">group</i>
+              {{ group.name }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div v-if="downloadedLists && downloadedLists.length > 0">
       <h5 class="center">Downloaded Voclists</h5>
       <div class="row">
@@ -29,7 +53,8 @@
     <div class="row" v-if="allLists" style="margin-bottom: 70px">
       <div class="col l4 m6 s12" v-for="list in allLists" :key="list._id">
         <VoclistCard v-bind:list="list" :is-offline="false" v-on:removeList="removeList"
-                     v-on:openPdfModal="openPdfModal" v-on:download="downloadVoclist"></VoclistCard>
+                     v-on:openPdfModal="openPdfModal" v-on:download="downloadVoclist"
+                     v-on:share="shareList"></VoclistCard>
       </div>
     </div>
 
@@ -53,21 +78,24 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, reactive, ref, watch} from "@vue/composition-api";
+import {defineComponent, inject, onMounted, reactive, ref, watch} from "@vue/composition-api";
 import VoclistCard from "./VoclistCard.vue";
 import {Localdb} from "@/use/localdb";
 import {
-  Exact, GetUserQuery, useAddVoclistToUserMutation,
+  useAddUserToGroupMutation,
+  useAddVoclistToGroupMutation,
+  useAddVoclistToUserMutation,
+  useCopyVoclistMutation,
   useDeleteVoclistMutation,
   useGetUserQuery,
-  useGetVoclistQuery,
-  useUpdateVoclistMutation,
-  Voclist, VoclistInput
+  Voclist
 } from "@/gen-types";
 import {AuthModule} from "@/use/authModule";
 import PdfModal from "@/components/Voc/PdfModal.vue";
 import {correctMessage, normalMessage, wrongMessage} from "@/use/messages";
 import moment from "moment";
+import {useState} from "@/use/vuex";
+import M from "materialize-css"
 
 interface State {
   hasJustAddedList: boolean,
@@ -94,8 +122,18 @@ export default defineComponent({
 
     const {mutate: removeVoclist} = useDeleteVoclistMutation(null);
     const {mutate: addListToUser} = useAddVoclistToUserMutation(null);
+    const {mutate: addListToGroup} = useAddVoclistToGroupMutation(null);
+    const {mutate: addUserToGroup} = useAddUserToGroupMutation(null);
+    const {mutate: copyVoclist} = useCopyVoclistMutation(null);
+
     const allLists = ref<Voclist[]>(null);
     const downloadedLists = ref<Voclist[]>(null);
+
+    const shareModalElem = ref<HTMLElement>(null);
+    const shareModal = ref<M.Modal>(null);
+    const clickedAddToGroup = ref<boolean>(false);
+
+    const {setState, addGroup, getGroups} = useState();
 
     const state = reactive<State>({
       hasJustAddedList: localStorage.getItem("justAddedVoclist") != null,
@@ -103,6 +141,10 @@ export default defineComponent({
       userVoclists: null,
       sharedVoclist: null,
       justAddedVoclist: null,
+    })
+
+    onMounted(() => {
+      shareModal.value = M.Modal.init(shareModalElem.value, {onCloseEnd: () => clickedAddToGroup.value = false});
     })
 
     async function resetLocalDb() {
@@ -127,18 +169,34 @@ export default defineComponent({
       if (!voclistId) return;
 
       state.hasSharedList = true;
-      const {result: sharedVoclist} = useGetVoclistQuery({voclistId: voclistId})
-      watch(sharedVoclist, () => {
-        if (sharedVoclist.value.voclist) {
-          state.sharedVoclist = sharedVoclist.value.voclist;
-        } else wrongMessage("voclist does not exist!");
+      copyVoclist({voclistId: voclistId}).then(voclist => {
+        if (!voclist) wrongMessage("voclist does not exist!");
+        else state.sharedVoclist = voclist.data.copyVoclist;
       })
+    }
+
+    async function addSharedGroup() {
+      const sharedLink = window.location.search;
+      if (!sharedLink) return;
+      const groupId = new URLSearchParams(sharedLink).get("groupId");
+      if (!groupId) return;
+
+      if (auth.getOid()) addUserToGroup({userId: auth.getOid(), groupId: groupId}).then(item => {
+        addGroup({_id: groupId, name: item.data.addUserToGroup});
+        correctMessage("added group!");
+      })
+      else wrongMessage("can't add groups when not logged in!")
     }
 
     async function getUserListsOnline() {
       const {result: userVoclists} = useGetUserQuery({oid: auth.getOid()});
       if (userVoclists.value) state.userVoclists = userVoclists.value.user.voclists;
-      else watch(userVoclists, async () => userVoclists.value.user ? state.userVoclists = userVoclists.value.user.voclists : state.userVoclists = []);
+      else watch(userVoclists, async () => {
+        userVoclists.value.user ? state.userVoclists = userVoclists.value.user.voclists : state.userVoclists = [];
+        setState(userVoclists.value.user.groups.map(group => {
+          return {_id: group._id, name: group.name}
+        }));
+      });
     }
 
     async function getUserListsOffline() {
@@ -193,7 +251,7 @@ export default defineComponent({
         if (auth.getUser()) removeVoclist({
           vocId: list._id,
           userId: auth.getOid(),
-          blobs: list.words.filter(word => word.img).map(word => word.img)
+          blobs: auth.getOid() == list.creator ? list.words.filter(word => word.img).map(word => word.img) : []
         })
       }
       normalMessage("deleted voclist!")
@@ -204,8 +262,21 @@ export default defineComponent({
       pdfModalTrigger.value.click();
     }
 
+    function shareList(listId: string) {
+      selectedList.value._id = listId; //TODO hack xdd
+      shareModal.value.open();
+    }
+
     function isOffline() {
       return !navigator.onLine
+    }
+
+    function copyListLink() {
+      const url = `${window.location.origin}/?oid=${selectedList.value._id}#/`
+      navigator.clipboard.writeText(url).then(function () {
+        correctMessage("link copied!")
+        shareModal.value.close();
+      })
     }
 
     async function downloadVoclist(list: Voclist) {
@@ -216,12 +287,21 @@ export default defineComponent({
       });
     }
 
+    async function addVoclistToGroup(groupId) {
+      addListToGroup({vocId: selectedList.value._id, groupId: groupId}).then(() => {
+        correctMessage("added voclist to group!")
+        shareModal.value.close();
+      })
+
+    }
+
     if (localStorage.getItem("justAddedVoclist")) {
       db.getItem<Voclist>(localStorage.getItem("justAddedVoclist"), "voclists").then(list => state.justAddedVoclist = list)
       localStorage.removeItem("justAddedVoclist")
     }
+    if (navigator.onLine) addSharedGroup();
     if (navigator.onLine) getSharedVoclist()
-    if (navigator.onLine) getDownloadedLists()
+    getDownloadedLists()
     if (auth.getUser() && navigator.onLine) getUserListsOnline();
     else getUserListsOffline();
 
@@ -234,7 +314,13 @@ export default defineComponent({
       allLists,
       isOffline,
       downloadVoclist,
-      downloadedLists
+      downloadedLists,
+      shareList,
+      shareModalElem,
+      copyListLink,
+      clickedAddToGroup,
+      addVoclistToGroup,
+      getGroups
     }
   },
 });

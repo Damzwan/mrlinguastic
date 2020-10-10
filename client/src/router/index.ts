@@ -57,6 +57,11 @@ const routes: Array<RouteConfig> = [
         path: '/donate',
         name: 'Donate',
         component: () => import(/* webpackChunkName: "donate" */ '@/components/Donate.vue')
+    },
+    {
+        path: '/group',
+        name: 'View Groups',
+        component: () => import(/* webpackChunkName: "group" */ '@/components/Voc/Group.vue')
     }
 ]
 

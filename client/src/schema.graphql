@@ -5,6 +5,14 @@ schema {
     mutation: Mutation
 }
 
+type Group {
+    _id: ID!
+    description: String
+    members: [User!]
+    name: String!
+    voclists: [Voclist!]
+}
+
 type LangSettings {
     fromLang: String!
     toLang: String!
@@ -13,7 +21,13 @@ type LangSettings {
 
 type Mutation {
     addSharedVoclist(userId: String!, vocId: String!): Boolean
+    addUserToGroup(groupId: String!, userId: String!): String
+    addVoclistToGroup(groupId: String!, vocId: String!): Boolean
+    copyVoclist(voclistId: String!): Voclist
+    createGroup(groupInfo: GroupInput!, userId: String!): String
     deleteVoclist(blobs: [String]!, userId: String!, vocId: String!): Boolean
+    removeUserFromGroup(groupId: String!, userId: String!): Boolean
+    removeVoclistFromGroup(groupId: String!, vocId: String!): Boolean
     saveImg(img: String!): String!
     updateVoclist(changedBlobs: [String!], list: VoclistInput!, oid: String!): Boolean
 }
@@ -21,6 +35,7 @@ type Mutation {
 type Query {
     getImages(lang: String!, word: String!): [String!]
     getVoices: [Voice]
+    group(groupId: String!): Group
     translateWord(fromLang: String!, toLang: String!, word: String!): String
     translateWords(fromLang: String!, toLang: String!, words: [String!]): [String]
     user(oid: String!): User!
@@ -34,6 +49,7 @@ type Sentence {
 
 type User {
     _id: ID!
+    groups: [Group!]
     voclists: [Voclist!]
 }
 
@@ -71,6 +87,7 @@ enum CacheControlScope {
 }
 
 enum Collections {
+    Groups
     Users
     Voclists
 }
@@ -78,6 +95,11 @@ enum Collections {
 input AdditionalEntityFields {
     path: String
     type: String
+}
+
+input GroupInput {
+    description: String!
+    name: String!
 }
 
 input LangSettingsInput {

@@ -59,6 +59,7 @@ export const typeDefs = gql`
         removeVoclistFromGroup(groupId: String!, vocId: String!): Boolean
         addUserToGroup(userId: String!, groupId: String!): String
         removeUserFromGroup(userId: String!, groupId: String!): Boolean
+        copyVoclist(voclistId: String!): Voclist
     }
 
     type User @entity{
