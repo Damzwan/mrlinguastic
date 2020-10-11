@@ -36,7 +36,7 @@ type Query {
     getImages(lang: String!, word: String!): [String!]
     getVoices: [Voice]
     group(groupId: String!): Group
-    translateWord(fromLang: String!, toLang: String!, word: String!): String
+    translateWord(fromLang: String!, toLang: String!, word: String!): [String]
     translateWords(fromLang: String!, toLang: String!, words: [String!]): [String]
     user(oid: String!): User!
     voclist(voclistId: String!): Voclist

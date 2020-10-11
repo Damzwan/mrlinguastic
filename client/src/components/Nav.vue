@@ -78,7 +78,7 @@
     <ul class="sidenav green darken-4" ref="nav2">
       <li>
         <div class="user-view">
-          <a><img class="circle" src="../assets/robi.jpg"></a>
+          <a><img class="circle" src="../assets/country-flags/china.svg"></a>
           <a><span class="white-text name">{{ user }}</span></a>
         </div>
       </li>

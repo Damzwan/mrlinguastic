@@ -41,7 +41,7 @@ export const typeDefs = gql`
 
     type Query{
         user(oid: String!): User!
-        translateWord(word: String!, fromLang: String!, toLang: String!): String
+        translateWord(word: String!, fromLang: String!, toLang: String!): [String]
         translateWords(words: [String!], fromLang: String!, toLang: String!): [String]
         voclist(voclistId: String!): Voclist
         group(groupId: String!): Group

@@ -20,7 +20,7 @@
           <div class="input-field col s12">
             <input v-bind:placeholder="getExampleWord(list.settings.langSettings.toLang)" type="text"
                    v-model="state.to" id="to"
-                   v-on:keyup.enter="insertEntry" ref="toInput"/>
+                   v-on:keyup.enter="insertEntry" ref="toInput" class="autocomplete"/>
             <img role="img"
                  :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.toLang)}.svg`)"
                  class="flag-icon" alt="From Flag"/>
@@ -241,6 +241,16 @@ export default defineComponent({
       list.settings = settings;
     }
 
+    function createObject(arr: string[]) {
+      const obj = {};
+      for (const key of arr) obj[key] = null;
+      return obj
+    }
+
+    function onAutoCompleteTo(res) {
+      state.to = res;
+    }
+
     async function translateInput() {
       toInput.value.focus();
       await executeTranslate({
@@ -249,8 +259,15 @@ export default defineComponent({
         toLang: list.settings.langSettings.toLang
       })
       state.from = cleanWord(state.from);
-      state.to = cleanWord(translatedWord.value.translateWord);
-
+      if (translatedWord.value.translateWord.length == 1) state.to = cleanWord(translatedWord.value.translateWord[0]);
+      else {
+        M.Autocomplete.init(toInput.value, {
+          data: createObject(translatedWord.value.translateWord),
+          minLength: 0,
+          onAutocomplete: onAutoCompleteTo
+        })
+        toInput.value.click();
+      }
     }
 
     //fill the image modal with images for the selectedWord

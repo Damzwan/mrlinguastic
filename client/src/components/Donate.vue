@@ -15,7 +15,7 @@
         <div class="center promo promo-example">
           <i class="material-icons" style="font-size: 100px;">group</i>
           <p style="font-size: 25px">Two students!</p>
-          <p class="light center" style="font-size: 20px">LLN was fully created by 2 students during their free
+          <p class="light center" style="font-size: 20px">Mr Linguastic was fully created by 2 students during their free
             time.</p>
         </div>
       </div>

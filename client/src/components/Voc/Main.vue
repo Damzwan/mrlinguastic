@@ -185,7 +185,7 @@ export default defineComponent({
         addGroup({_id: groupId, name: item.data.addUserToGroup});
         correctMessage("added group!");
       })
-      else wrongMessage("can't add groups when not logged in!")
+      else wrongMessage("must be logged in to add groups!")
     }
 
     async function getUserListsOnline() {
@@ -254,7 +254,7 @@ export default defineComponent({
           blobs: auth.getOid() == list.creator ? list.words.filter(word => word.img).map(word => word.img) : []
         })
       }
-      normalMessage("deleted voclist!")
+      correctMessage("deleted voclist!")
     }
 
     function openPdfModal(list: Voclist) {

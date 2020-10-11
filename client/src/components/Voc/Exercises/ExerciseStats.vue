@@ -53,7 +53,7 @@
 
     <div class="divider"></div>
 
-    <div class="row hide-on-large-only">
+    <div class="row" v-if="isMobile()">
       <div class="col s12">
         <canvas style="width: 100%" id="cnvs-mobile"></canvas>
         <div class="divider"></div>
@@ -158,7 +158,7 @@ export default defineComponent({
     })
 
     function isMobile(){
-      return window.screen.width < 600;
+      return window.screen.width < 1000;
     }
 
 

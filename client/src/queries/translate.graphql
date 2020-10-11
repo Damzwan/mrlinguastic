@@ -76,6 +76,7 @@ query getVoclist($voclistId: String!){
 
 query getGroup($groupId: String!){
     group(groupId: $groupId){
+        _id
         name
         description
         voclists{

@@ -1,32 +1,24 @@
 <template>
   <div>
     <h2 class="center-align">About</h2>
-
-    <div class="row">
-      <div class="col offset-s1 s4 offset-m3 m2">
-        <img src="../assets/damian.png" alt="Damzwan" width="100%">
-        <p style="font-size: 25px; text-align: center;">Damian Vlaicu</p>
-      </div>
-      <div class="col offset-s2 s4 offset-m2 m2">
-        <img src="../assets/robi.jpg" alt="Robster" width="100%">
-        <p style="font-size: 25px; text-align: center;">Robi Nivelle</p>
-      </div>
-    </div>
+    <div class="divider" style="margin-bottom: 30px"></div>
 
     <div class="row">
       <div class="col offset-m2 offset-s1 s10 m8 center">
-        <h4 style="font-weight: bold;">LLN What?</h4>
-        <p class="flow-text">LLN is a language learning website created by 2 students during the corona lockdown.
-          Our goal is to create a community driven language learning platform where people can study
-          multiple components of a language.</p>
+        <h4 style="font-weight: bold;">Mr LingWhat?</h4>
+        <p class="flow-text">Mr Linguastic is a language learning platform created by 2 students during the corona
+          lockdown.
+          Our goal is to create a community driven platform where people can study multiple areas of a language.</p>
 
-        <p class="flow-text">Instead of wasting time searching for a great source for vocabulary, grammer or
-          listening, we would like to create a website where everything is united.
+        <p class="flow-text">
+          Instead of wasting time searching for good sources for every area individually, we would like to create a
+          platform where everything is united.
         </p>
 
         <p class="flow-text">
-          Imagine instantly finding reading or listening material recommended by other students without wasting so much time on the searching part.
-          Importing vocabulary and irregular verb lists created by teachers or even chatting with fellow students in
+          Imagine finding reading or listening material recommended by other students without wasting so much time on
+          the searching part,
+          importing vocabulary and irregular verb lists created by teachers or even chatting with fellow students in
           the language that you would like to learn.
         </p>
 
@@ -36,11 +28,26 @@
         </p>
 
         <h4 style="font-weight: bold;">Future</h4>
-        <p class="flow-text">This is only the beginning! This project was created during our free time and we would love to continue :)
+        <p class="flow-text">This is only the beginning! This project was created during our free time while also
+          focusing on our university studies. Currently the platform only supports Vocabulary training but we would like
+          to extend this step by step.
         </p>
 
         <p class="flow-text">Want to play an active part during development? Consider supporting us on <b>patreon</b>!
         </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col offset-s1 s4 offset-m3 m2">
+        <img src="../assets/damian.png" alt="Damzwan" class="responsive-img circle">
+        <p style="font-size: 25px; text-align: center;">Damian Vlaicu</p>
+        <p style="font-size: 20px; text-align: center; margin-top: -20px">damian.vlaicu@gmail.com</p>
+      </div>
+      <div class="col offset-s2 s4 offset-m2 m2">
+        <img src="../assets/robi.jpg" alt="Robster" class="responsive-img circle">
+        <p style="font-size: 25px; text-align: center;">Robi Nivelle</p>
+        <p style="font-size: 20px; text-align: center; margin-top: -20px">robinivelle@gmail.com</p>
       </div>
     </div>
   </div>

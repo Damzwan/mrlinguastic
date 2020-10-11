@@ -4,16 +4,16 @@
     <div class="modal fullscreen-modal" ref="modal">
       <i class="material-icons right unselectable close-btn modal-close">close</i>
       <div class="modal-content" v-if="selectedList">
-        <h4 class="center">{{selectedList.settings.title}}</h4>
+        <h4 class="center">{{ selectedList.settings.title }}</h4>
         <div class="divider" style="margin-bottom: 30px"></div>
-          <div class="row rounded z-depth-1" v-for="(word, index) in selectedList.words" :key="index">
-            <div class="col s6 input-field">
-              <input type="text" :value="word.from" class="word center" disabled>
-            </div>
-            <div class="col s6 input-field">
-              <input type="text" v-model="word.to" class="word center" disabled>
-            </div>
+        <div class="row rounded z-depth-1" v-for="(word, index) in selectedList.words" :key="index">
+          <div class="col s6 input-field">
+            <input type="text" :value="word.from" class="word center" disabled>
           </div>
+          <div class="col s6 input-field">
+            <input type="text" v-model="word.to" class="word center" disabled>
+          </div>
+        </div>
 
         <div class="fixed-action-btn" style="z-index: 9999999">
           <div class="btn-floating btn-large red" @click="addVoclistToUser(selectedList)">
@@ -25,9 +25,11 @@
 
     <div v-if="result">
       <h4 class="center">
-        <i class="material-icons unselectable" style="font-size: 35px" @click="leaveGroup">exit_to_app</i>
+        <i class="material-icons unselectable tooltipped" style="font-size: 35px" @click="leaveGroup"
+           data-tooltip="Leave Group">exit_to_app</i>
         {{ result.group.name }}
-        <i class="material-icons unselectable" style="font-size: 35px" @click="copyGroupLink">content_copy</i>
+        <i class="material-icons unselectable tooltipped" style="font-size: 35px" @click="copyGroupLink"
+           data-tooltip="Copy Group Link">content_copy</i>
       </h4>
       <p class="flow-text center">{{ result.group.description }}</p>
       <div class="divider"></div>

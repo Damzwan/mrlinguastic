@@ -1,4 +1,3 @@
-
 <template>
   <div v-on-clickaway="closeCollapsible" v-if="value">
     <ul class="collapsible popout" ref="collapsible">
@@ -68,15 +67,19 @@ export default defineComponent({
     const {imgUrls, executeImageSearch} = useImageSearch(); //allow us to execute image url queries
     const {mutate: saveImgToServer} = useSaveImgMutation(null);
 
-    executeImageSearch({word: props.value.from, lang: props.fromLang}).then(() => {
-      savedImgs = imgUrls.value.getImages;
-      if (!props.value.img && savedImgs.length > 0) {
-        props.value.img = savedImgs[0]
-        saveImgToServer({img: savedImgs[0]}).then(result => {
-          props.value.img = result.data.saveImg;
-        })
-      }
-    })
+    function getImg(word: string) {
+      executeImageSearch({word: word, lang: props.fromLang}).then(() => {
+        savedImgs = imgUrls.value.getImages;
+        if (!props.value.img && savedImgs.length > 0) {
+          props.value.img = savedImgs[0]
+          saveImgToServer({img: savedImgs[0]}).then(result => {
+            props.value.img = result.data.saveImg;
+          })
+        }
+      })
+    }
+
+    getImg(props.value.from);
 
     //TODO watch from word change --> do new image search
 
@@ -120,11 +123,21 @@ export default defineComponent({
     }
 
     function updateFrom($event) {
-      context.emit('input', {from: $event.target.value, to: props.value.to})
+      context.emit('input', {
+        from: $event.target.value,
+        to: props.value.to,
+        img: props.value.img,
+        toAudio: props.value.toAudio
+      })
     }
 
     function updateTo($event) {
-      context.emit('input', {from: props.value.from, to: $event.target.value})
+      context.emit('input', {
+        from: props.value.from,
+        to: $event.target.value,
+        img: props.value.img,
+        toAudio: props.value.toAudio
+      })
     }
 
 

@@ -14,10 +14,10 @@ export const resolv: Resolvers = {
         translateWord: async (_: any, args, {dataSources}: { dataSources: any }) => {
             let translatedWord;
             if (args.word.split(" ").length == 1) translatedWord = await dataSources.yandexAPI.dictionaryLookup(args.word, args.fromLang, args.toLang)
-            return translatedWord ? translatedWord : await dataSources.azureAPI.translateWord(args.word, args.fromLang, args.toLang)
+            return translatedWord ? translatedWord : [await dataSources.azureAPI.translateWord(args.word, args.fromLang, args.toLang)]
         },
         translateWords: async (_: any, args, {dataSources}: { dataSources: any }) => {
-            const translateWordsProm = args.words.map(word => dataSources.azureAPI.translateWord(word, args.fromLang, args.toLang))
+            const translateWordsProm = args.words.map(word => dataSources.azureAPI.translateWord(word, args.fromLang, args.toLang)[0])
             return await Promise.all(translateWordsProm);
         },
         getImages: async (_: any, args, {dataSources}: { dataSources: any }) =>
