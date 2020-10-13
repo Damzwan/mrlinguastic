@@ -40,7 +40,7 @@ export const typeDefs = gql`
     }
 
     type Query{
-        user(oid: String!): User!
+        user(oid: String!): User
         translateWord(word: String!, fromLang: String!, toLang: String!): [String]
         translateWords(words: [String!], fromLang: String!, toLang: String!): [String]
         voclist(voclistId: String!): Voclist
@@ -54,6 +54,7 @@ export const typeDefs = gql`
         addSharedVoclist(userId: String!, vocId: String!): Boolean
         deleteVoclist(userId: String!, vocId: String!, blobs: [String]!): Boolean
         saveImg(img: String!): String!
+        removeImgs(imgs: [String!]): Boolean
         createGroup(groupInfo: GroupInput!, userId: String!): String
         addVoclistToGroup(groupId: String!, vocId: String!): Boolean
         removeVoclistFromGroup(groupId: String!, vocId: String!): Boolean

@@ -10,13 +10,15 @@ mongoAPI.connect().then(() => console.log("db connected!"))
 export const resolv: Resolvers = {
     Query: {
         user: async (_: any, args) =>
-            await mongoAPI.getUser(args.oid),
+            args.oid != "" ? await mongoAPI.getUser(args.oid) : null,
         translateWord: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            if (args.word == "" || args.fromLang == "" || args.toLang == "") return [""];
             let translatedWord;
             if (args.word.split(" ").length == 1) translatedWord = await dataSources.yandexAPI.dictionaryLookup(args.word, args.fromLang, args.toLang)
             return translatedWord ? translatedWord : [await dataSources.azureAPI.translateWord(args.word, args.fromLang, args.toLang)]
         },
         translateWords: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            if (args.words.length == 0 || args.fromLang == "" || args.toLang == "") return [""];
             const translateWordsProm = args.words.map(word => dataSources.azureAPI.translateWord(word, args.fromLang, args.toLang)[0])
             return await Promise.all(translateWordsProm);
         },
@@ -25,9 +27,9 @@ export const resolv: Resolvers = {
         getVoices: async (_: any, args, {dataSources}: { dataSources: any }) =>
             await dataSources.azureAPI.getVoices(),
         voclist: async (_: any, args, {dataSources}: { dataSources: any }) =>
-            await mongoAPI.getEntityByCollectionAndId<Voclist>(Collections.Voclists, args.voclistId),
+            args.voclistId != "" ? await mongoAPI.getEntityByCollectionAndId<Voclist>(Collections.Voclists, args.voclistId) : null,
         group: async (_: any, args, {dataSources}: { dataSources: any }) =>
-            await mongoAPI.getEntityByCollectionAndId<GroupDbObject>(Collections.Groups, args.groupId)
+            args.groupId != "" ? await mongoAPI.getEntityByCollectionAndId<GroupDbObject>(Collections.Groups, args.groupId) : null
     },
     Mutation: {
         updateVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
@@ -37,6 +39,10 @@ export const resolv: Resolvers = {
         },
         saveImg: async (_: any, args, {dataSources}: { dataSources: any }) => {
             return await dataSources.azureAPI.saveBlob(args.img, "images");
+        },
+        removeImgs: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            args.imgs.forEach(img => dataSources.azureAPI.deleteBlob(img, "images"));
+            return true;
         },
         deleteVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
             args.blobs.forEach(blob => dataSources.azureAPI.deleteBlob(blob, "images"));

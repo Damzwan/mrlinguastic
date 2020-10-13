@@ -56,7 +56,7 @@ export class azureAPI extends DataSource {
 
         return await new Promise(resolve => {
             request(options, function (err, res, body) {
-                resolve(body[0]["translations"][0]["text"]);
+                resolve(body[0]["translations"][0]["text"]); //TODO maybe we should send multiple possible translations as well
             });
         });
     }
