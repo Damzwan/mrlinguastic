@@ -20,35 +20,281 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="92b77b66-7b36-465c-842c-52109b0e62f1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/mrlinguastic.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/.graphqlconfig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/schema.graphql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/queries/images.graphql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/use/languageToCountry.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/use/voc.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/.graphqlconfig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/assets/global.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/assets/global.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/HelloWorld.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/HelloWorld.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Nav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Nav.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Voc/ConfigModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Voc/ConfigModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Voc/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Voc/Create.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Voc/Main.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Voc/Main.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/HelloWorld.vue" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/router/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/codegen.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/codegen.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/gen-types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/queries/user.graphql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/abkhazia.028f0e72.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/afghanistan.d196903c.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/aland-islands.2c33ce8d.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/albania.673a2c7b.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/algeria.f904aff5.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/american-samoa.95a96e20.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/andorra.5d196e60.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/angola.c4defe74.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/anguilla.439212b4.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/antigua-and-barbuda.c6c13234.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/argentina.91013f67.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/armenia.400cb965.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/aruba.c9670683.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/australia.cab2eac6.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/austria.7fc4e220.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/azerbaijan.aed905d7.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/azores-islands.1589336b.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/bahamas.11a4e225.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/bahrain.736ec7e1.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/balearic-islands.b1bb6400.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/bangladesh.d90131c1.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/barbados.9f7ce6e8.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/basque-country.ba455734.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/belarus.ac31b781.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/belize.fd9b8d37.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/benin.4a79a54d.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/bermuda.a4498a96.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/bhutan-1.bec05389.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/bhutan.1041eeda.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/bolivia.2676eec7.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/bonaire.630eefd4.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/bosnia-and-herzegovina.834689d8.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/botswana.6e0028ef.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/brazil.a102e563.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/british-columbia.d8a19e34.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/british-indian-ocean-territory.132d427f.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/british-virgin-islands.fe6974b2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/brunei.09f380ca.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/bulgaria.c0020717.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/burkina-faso.3f544e00.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/burundi.09d7af21.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/cambodia.952f3476.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/cameroon.47730c27.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/canada.ed3cd4b5.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/canary-islands.84ef5084.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/cape-verde.1e8fe55c.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/cayman-islands.ec6d0c3f.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/central-african-republic.d95f6e2a.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/ceuta.c601932c.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/chad.908f99d4.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/chile.39168277.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/christmas-island.18a45791.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/cocos-island.a9001e3c.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/colombia.0e50dcfe.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/comoros.ea4e5f33.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/cook-islands.5bdb5c9b.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/corsica.065b5ede.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/costa-rica.62626541.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/croatia.f4018d22.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/cuba.ef70ab2e.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/curacao.cdd11806.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/cyprus.ba677611.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/czech-republic.1d4cf2eb.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/democratic-republic-of-congo.945491f2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/denmark.8cc783cf.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/djibouti.44140696.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/dominica.364c9640.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/dominican-republic.19bd03ba.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/east-timor.c28ddc89.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/ecuador.b02692e3.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/egypt.72564b7b.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/england.942f27f1.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/equatorial-guinea.7c78f7e1.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/eritrea.3fd68dc7.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/estonia.bd34935d.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/ethiopia.8edd7319.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/european-union.7aea52bb.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/falkland-islands.b4efb2a3.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/faroe-islands.5548d2d0.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/fiji.1deb6f70.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/finland.01e0bc8f.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/french-polynesia.9e3240e0.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/gabon.d9a3e7fd.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/galapagos-islands.09b5e684.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/gambia.84b484d4.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/georgia.5745f290.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/germany.d810f621.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/ghana.4ebd0391.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/gibraltar.7f390617.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/greece.90595896.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/greenland.c02d7370.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/grenada.b1f94ed8.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/guam.821be54a.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/guatemala.6655d97d.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/guernsey.42432190.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/guinea-bissau.e1d3421a.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/guinea.55f0d09f.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/guyana.98839327.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/haiti.73aa4ead.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/hawaii.3c5cfd2a.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/honduras.48410614.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/hong-kong.f4509161.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/hungary.844eeb9e.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/iceland.0a541466.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/india.9ec8b782.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/indonesia.7b9fcd93.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/iran.b4e0e128.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/iraq.563968a0.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/ireland.6a991632.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/isle-of-man.f136875f.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/israel.66d49a1a.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/ivory-coast.8c48118b.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/jamaica.a1da9686.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/japan.1f905d23.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/jersey.ebf8c8c5.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/jordan.2198eac0.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/kazakhstan.e3cd3d05.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/kenya.af8f4174.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/kiribati.8f96004c.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/kosovo.944545e5.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/kuwait.34bc2795.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/kyrgyzstan.cd6ff154.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/laos.1de9d17c.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/latvia.e0713417.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/lebanon.71e18bef.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/lesotho.c23abb82.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/liberia.1be687fe.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/libya.e0c5f31f.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/liechtenstein.71e792cf.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/lithuania.ed8100f9.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/luxembourg.b59ee6e0.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/macao.ebf1ee3a.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/madagascar.3d9b8c12.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/madeira.c2491a33.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/malawi.5842e772.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/malaysia.741d5ade.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/maldives.c7689c57.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/mali.65d0a5e6.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/malta.b127219b.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/marshall-island.fe2992a7.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/martinique.c63edc99.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/mauritania.4a520f68.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/mauritius.d6c5b726.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/melilla.92b3175e.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/mexico.6ee1e6d4.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/micronesia.1170f0fb.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/moldova.9916d222.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/monaco.6bb3a6ad.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/mongolia.cfb1b2e5.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/montenegro.ebe9d55a.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/montserrat.fd06d68d.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/morocco.43807c8d.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/mozambique.4278b58a.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/myanmar.3cb6a5c7.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/namibia.8d58ac6b.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/nato.aebe2fbc.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/nauru.b3898a09.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/nepal.be4ae186.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/netherlands.f163721e.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/new-zealand.9e547785.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/nicaragua.f6092c86.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/niger.6ef02e94.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/nigeria.0f7ee783.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/niue.74efe863.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/norfolk-island.cd496e08.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/north-korea.92f5553d.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/northen-cyprus.934bed50.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/northern-marianas-islands.6548ef7d.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/norway.5fc94e90.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/oman.64766906.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/orkney-islands.dcb2a0f8.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/ossetia.4017ffaa.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/pakistan.de424f77.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/palau.c0776ae9.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/palestine.dee1e8ce.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/panama.12be5e1d.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/papua-new-guinea.f774fad8.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/paraguay.fa6c6fb2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/peru.b49d4752.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/philippines.b10798a5.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/pitcairn-islands.0baace9e.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/portugal.70a47eed.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/puerto-rico.31f55200.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/qatar.d6d7def3.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/rapa-nui.8d15c20a.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/republic-of-macedonia.7f3c8c0d.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/republic-of-poland.6e10627c.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/republic-of-the-congo.643dd9c2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/romania.edc6ec3b.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/russia.6e8cc30d.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/rwanda.9ae01851.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/saba-island.92315156.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/saint-kitts-and-nevis.a99d0f9b.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/salvador.6b4802fb.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/samoa.414be2a7.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/san-marino.a731a170.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/sao-tome-and-principe.c3055812.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/sardinia.01702ed5.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/saudi-arabia.239857ca.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/scotland.42cea563.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/senegal.61d910b6.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/serbia.5508bcdd.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/seychelles.efe0b090.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/sierra-leone.5b1acf74.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/singapore.3d05a02d.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/sint-eustatius.7f9caba8.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/sint-maarten.32163d8b.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/slovakia.0c483c31.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/slovenia.8ddb168b.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/solomon-islands.85ba2391.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/somalia.bc593c33.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/somaliland.2b344979.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/south-africa.81a39a30.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/south-korea.8a067f19.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/south-sudan.e6d5e8f7.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/spain.36938bbe.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/sri-lanka.7a136cf7.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/st-barts.0b8158f1.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/st-lucia.d451e533.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/st-vincent-and-the-grenadines.cfe9e916.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/sudan.8aa90142.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/suriname.bd4753be.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/swaziland.2591a51f.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/sweden.8a861197.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/switzerland.7df2574f.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/syria.a610efa2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/taiwan.e2db790e.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/tajikistan.2c10db83.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/tanzania.7f8345f8.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/thailand.683af0c3.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/tibet.36936c3a.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/togo.b2246fda.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/tokelau.f9738da9.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/tonga.f77429cd.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/transnistria.9ddf9349.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/trinidad-and-tobago.b4c97e5e.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/tunisia.544a0fba.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/turkey.30802ce6.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/turkmenistan.ab14830f.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/turks-and-caicos.2272cf18.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/tuvalu.8f6deca7.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/uganda.e76a6f85.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/ukraine.ce258373.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/united-arab-emirates.61f9f9f9.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/united-nations.71cca596.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/united-states-of-america.36ab476e.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/uruguay.9860a437.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/uzbekistn.d68b06bd.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/vanuatu.1c3366c8.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/vatican-city.33151433.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/venezuela.2d0527c8.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/vietnam.c4f7fdb3.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/virgin-islands.2031b4d3.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/wales.fae49de9.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/western-sahara.83c9915c.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/yemen.54afdda4.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/zambia.37586be9.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/img/zimbabwe.e56750e0.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/server/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/public/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/public/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/public/service-worker.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/resolvers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/resolvers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/schema.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +305,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1fxbYku7HXRGtmbPA5ZG4OAUSdy" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -72,6 +319,7 @@
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -83,6 +331,7 @@
       <updated>1597162741074</updated>
       <workItem from="1597162742222" duration="906000" />
       <workItem from="1597178615669" duration="87000" />
+      <workItem from="1602676337323" duration="12000" />
     </task>
     <servers />
   </component>

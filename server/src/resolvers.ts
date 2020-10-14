@@ -41,6 +41,7 @@ export const resolv: Resolvers = {
             return await dataSources.azureAPI.saveBlob(args.img, "images");
         },
         removeImgs: async (_: any, args, {dataSources}: { dataSources: any }) => {
+
             args.imgs.forEach(img => dataSources.azureAPI.deleteBlob(img, "images"));
             return true;
         },

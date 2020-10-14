@@ -10,8 +10,10 @@ import {YandexAPI} from "./src/datasources/yandex";
 require('dotenv').config()
 
 const cors = require('cors')
+const compression = require('compression')
 const app = express()
 app.use(cors())
+app.use(compression());
 app.use(express.static(__dirname + "/public/"));
 
 const azure = new azureAPI()
