@@ -1,4 +1,4 @@
-import {Collections, Group, GroupDbObject, Resolvers, Voclist, VoclistDbObject} from "./gen-types";
+import {Collections, GroupDbObject, Resolvers, Voclist} from "./gen-types";
 import {MongoAPI} from "./datasources/mongodb";
 
 require('dotenv').config()
@@ -19,8 +19,7 @@ export const resolv: Resolvers = {
         },
         translateWords: async (_: any, args, {dataSources}: { dataSources: any }) => {
             if (args.words.length == 0 || args.fromLang == "" || args.toLang == "") return [""];
-            const translateWordsProm = args.words.map(word => dataSources.azureAPI.translateWord(word, args.fromLang, args.toLang)[0])
-            return await Promise.all(translateWordsProm);
+            return await Promise.all(args.words.map(word => dataSources.azureAPI.translateWord(word, args.fromLang, args.toLang)));
         },
         getImages: async (_: any, args, {dataSources}: { dataSources: any }) =>
             await dataSources.pixabayAPI.getImages(args.word, args.lang),
