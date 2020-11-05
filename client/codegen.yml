@@ -1,0 +1,9 @@
+overwrite: true
+schema: "src/graphql/schema.graphql"
+generates:
+  src/gen-types.ts:
+    documents: "src/graphql/*.graphql"
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-vue-apollo"

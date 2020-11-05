@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6bf64ff9-4956-4a50-a243-639565bc4023" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/HelloWorld.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/About.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Home.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1imZDzldiL82AJJQYKu1gZawlpS" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="js.last.introduce.type" value="CONST" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/components/voc/create" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="project.scopes" />
+    <property name="ts.external.directory.path" value="C:\Users\damia\Documents\mrlinguastic\client\node_modules\typescript\lib" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc\create" />
+      <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc\groups" />
+      <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components" />
+      <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc" />
+      <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc\Create" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6bf64ff9-4956-4a50-a243-639565bc4023" name="Default Changelist" comment="" />
+      <created>1602514621636</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1602514621636</updated>
+      <workItem from="1602514631719" duration="31864000" />
+      <workItem from="1602591604369" duration="5699000" />
+      <workItem from="1602598186969" duration="2582000" />
+      <workItem from="1602676351465" duration="5938000" />
+      <workItem from="1603113663788" duration="703000" />
+      <workItem from="1603117493093" duration="111000" />
+      <workItem from="1603118030365" duration="2153000" />
+      <workItem from="1603129419171" duration="146000" />
+      <workItem from="1603130574054" duration="643000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="483" y="249" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1602539745166">
+      <screen x="0" y="0" width="1504" height="1003" />
+    </state>
+    <state x="483" y="249" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1504.1003@0.0.1504.1003" timestamp="1602539745166" />
+    <state width="1483" height="269" key="GridCell.Tab.0.bottom" timestamp="1602515136778">
+      <screen x="0" y="0" width="1504" height="1003" />
+    </state>
+    <state width="1483" height="269" key="GridCell.Tab.0.bottom/0.0.1504.1003@0.0.1504.1003" timestamp="1602515136778" />
+    <state width="1483" height="269" key="GridCell.Tab.0.center" timestamp="1602515136778">
+      <screen x="0" y="0" width="1504" height="1003" />
+    </state>
+    <state width="1483" height="269" key="GridCell.Tab.0.center/0.0.1504.1003@0.0.1504.1003" timestamp="1602515136778" />
+    <state width="1483" height="269" key="GridCell.Tab.0.left" timestamp="1602515136777">
+      <screen x="0" y="0" width="1504" height="1003" />
+    </state>
+    <state width="1483" height="269" key="GridCell.Tab.0.left/0.0.1504.1003@0.0.1504.1003" timestamp="1602515136777" />
+    <state width="1483" height="269" key="GridCell.Tab.0.right" timestamp="1602515136778">
+      <screen x="0" y="0" width="1504" height="1003" />
+    </state>
+    <state width="1483" height="269" key="GridCell.Tab.0.right/0.0.1504.1003@0.0.1504.1003" timestamp="1602515136778" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1602531559123">
+      <screen x="0" y="0" width="1504" height="1003" />
+    </state>
+    <state width="498" height="446" key="SwitcherDM/0.0.1504.1003@0.0.1504.1003" timestamp="1602531559123" />
+    <state x="415" y="216" width="672" height="678" key="search.everywhere.popup" timestamp="1602676676473">
+      <screen x="0" y="0" width="1504" height="1003" />
+    </state>
+    <state x="415" y="216" width="672" height="678" key="search.everywhere.popup/0.0.1504.1003@0.0.1504.1003" timestamp="1602676676473" />
+  </component>
+</project>

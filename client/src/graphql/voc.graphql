@@ -1,0 +1,186 @@
+query getImages($word: String!, $lang: String!){
+    getImages(word: $word, lang: $lang)
+}
+
+query translateWord($word: String!, $fromLang: String!, $toLang: String!) {
+    translateWord(word: $word, fromLang: $fromLang, toLang: $toLang)
+}
+
+query translateWords($words: [String!], $fromLang: String!, $toLang: String!){
+    translateWords(words: $words, fromLang: $fromLang, toLang: $toLang)
+}
+
+query getVoices{
+    getVoices{
+        DisplayName
+        Gender
+        ShortName
+    }
+}
+
+query getUser($oid: String!){
+    user(oid: $oid){
+        _id
+        voclists{
+            _id
+            words{
+                from
+                to
+                toAudio
+                sentences{
+                    from
+                    to
+                }
+                img
+            }
+            settings{
+                description
+                langSettings{
+                    fromLang
+                    toLang
+                    toVoice
+                }
+                title
+            }
+            lastEdited
+            creator
+        }
+        groups{
+            name
+            _id
+        }
+    }
+}
+
+query getVoclist($voclistId: String!){
+    voclist(voclistId: $voclistId){
+        _id
+        words{
+            from
+            to
+            toAudio
+            sentences{
+                from
+                to
+            }
+            img
+        }
+        settings{
+            description
+            langSettings{
+                fromLang
+                toLang
+                toVoice
+            }
+            title
+        }
+        lastEdited
+        creator
+    }
+}
+
+query getGroup($groupId: String!){
+    group(groupId: $groupId){
+        _id
+        name
+        description
+        voclists{
+            _id
+            words{
+                from
+                to
+                toAudio
+                sentences{
+                    from
+                    to
+                }
+                img
+            }
+            settings{
+                description
+                langSettings{
+                    fromLang
+                    toLang
+                    toVoice
+                }
+                title
+            }
+            lastEdited
+            creator
+        }
+    }
+}
+
+query getBasicGroupInfo($groupId: String!){
+    group(groupId: $groupId){
+        name
+    }
+}
+
+mutation updateVoclist($list: VoclistInput!, $changedBlobs: [String!], $oid: String!){
+    updateVoclist(list: $list, changedBlobs: $changedBlobs, oid: $oid)
+}
+
+mutation saveImg($img: String!){
+    saveImg(img: $img)
+}
+
+mutation deleteVoclist($userId: String!, $vocId: String!, $blobs: [String]!){
+    deleteVoclist(userId: $userId, vocId: $vocId, blobs: $blobs)
+}
+
+mutation addVoclistToUser($userId: String!, $vocId: String!){
+    addSharedVoclist(userId: $userId, vocId: $vocId)
+}
+
+mutation createGroup($groupInfo: GroupInput!, $userId: String!){
+    createGroup(groupInfo: $groupInfo, userId: $userId)
+}
+
+mutation addVoclistToGroup($groupId: String!, $vocId: String!){
+    addVoclistToGroup(groupId: $groupId, vocId: $vocId)
+}
+
+mutation removeVoclistFromGroup($groupId: String!, $vocId: String!){
+    removeVoclistFromGroup(groupId: $groupId, vocId: $vocId)
+}
+
+mutation addUserToGroup($groupId: String!, $userId: String!){
+    addUserToGroup(groupId: $groupId, userId: $userId)
+}
+
+mutation removeUserFromGroup($groupId: String!, $userId: String!){
+    removeUserFromGroup(groupId: $groupId, userId: $userId)
+}
+
+mutation copyVoclist($voclistId: String!){
+    copyVoclist(voclistId: $voclistId){
+        _id
+        words{
+            from
+            to
+            toAudio
+            sentences{
+                from
+                to
+            }
+            img
+        }
+        settings{
+            description
+            langSettings{
+                fromLang
+                toLang
+                toVoice
+            }
+            title
+        }
+        lastEdited
+        creator
+    }
+}
+
+mutation removeImgs($imgs: [String!]){
+    removeImgs(imgs: $imgs)
+}
+
