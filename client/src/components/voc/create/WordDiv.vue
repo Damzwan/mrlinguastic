@@ -1,12 +1,12 @@
 <template>
-  <div v-on-clickaway="closeCollapsible" v-if="value">
+  <div v-on-clickaway="closeCollapsible" @click="selectWord">
     <ul class="collapsible popout" ref="collapsible">
       <li class="rounded">
         <div class="collapsible-header">
           <input type="text" style="width: 49%;" class="word center" v-bind:class="{'non-clickable': state.disabled}"
-                 :value="value.from" v-on:input="updateFrom"/>
+                 v-on:input="updateFrom" :value="word.from"/>
           <input type="text" style="width:49%;margin-left: 2%" class="word center"
-                 v-bind:class="{'non-clickable': state.disabled}" :value="value.to" v-on:input="updateTo"/>
+                 v-bind:class="{'non-clickable': state.disabled}" :value="word.to" v-on:input="updateTo"/>
         </div>
         <div class="collapsible-body">
           <!-- hack to prevent collapsible from closing -->
@@ -19,14 +19,21 @@
           <i class="material-icons right unselectable tooltipped word-btn" data-tooltip="Remove" @click="remove"
              style="margin-right: 10px; color: #8b0000">close</i>
 
-          <i class="material-icons right unselectable tooltipped word-btn" data-tooltip="Select Image"
-             v-if="!value.img"
-             @click="getImage">image</i>
-          <div v-else class="right unselectable" style="margin-top: -33px; margin-left: 15px" @click="getImage"><img
-              :src="getBlobUrl(value.img)" style="width: 35px; height: 35px;" class="circle"></div>
+          <a href="#imgModal" class="modal-trigger">
+            <i class="material-icons right unselectable tooltipped word-btn" style="color: black"
+               data-tooltip="Select Image"
+               v-if="!word.img"
+               @click="fillImgModal">image</i>
+            <div v-else class="right unselectable" style="margin-top: -33px; margin-left: 15px" @click="fillImgModal">
+              <img
+                  :src="getBlobUrl(word.img)" style="width: 35px; height: 35px;" class="circle"
+                  alt="img not available"></div>
+          </a>
 
-          <i class="material-icons right unselectable tooltipped word-btn" data-tooltip="Example Sentences"
-             @click="getExamples">format_list_numbered</i>
+          <a href="#exampleModal" class="modal-trigger">
+            <i class="material-icons right unselectable tooltipped word-btn" data-tooltip="Example Sentences"
+               style="color: black">format_list_numbered</i>
+          </a>
 
           <div class="back-container" @click="closeCollapsible" v-if="!state.disabled">
             <i class="material-icons center unselectable tooltipped back-btn" data-tooltip="Close">arrow_upward</i>
@@ -41,19 +48,14 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  onMounted,
-  reactive,
-} from "@vue/composition-api";
+import {defineComponent, onMounted, reactive, ref,} from "@vue/composition-api";
 import M, {Collapsible} from "materialize-css";
 import {useGetImagesQuery, useSaveImgMutation, Word} from "@/gen-types";
 import {getBlobUrl} from "@/use/general";
 
 export default defineComponent({
   props: {
-    value: Object as () => Word, //for each inserted word we create a WordItem and pass a reference of the Word (by making use of v-model) to the WordItem
+    word: Object as () => Word,
     fromLang: String //TODO this is really stupid (related to executeImageSearch and importedWords).
   },
   setup(props, context) {
@@ -66,19 +68,19 @@ export default defineComponent({
     const {result: imgUrls, refetch: imgSearch} = useGetImagesQuery({word: "", lang: ""});
     const {mutate: saveImgToServer} = useSaveImgMutation(null);
 
-    function getImg(word: string) {
-      imgSearch({word: word, lang: props.fromLang}).then(() => {
+    function getImg() {
+      imgSearch({word: props.word.from, lang: props.fromLang}).then(() => {
         savedImgs = imgUrls.value.getImages;
-        if (!props.value.img && savedImgs.length > 0) {
-          props.value.img = savedImgs[0]
+        if (!props.word.img && savedImgs.length > 0) {
+          props.word.img = savedImgs[0]
           saveImgToServer({img: savedImgs[0]}).then(result => {
-            props.value.img = result.data.saveImg;
+            props.word.img = result.data.saveImg;
           })
         }
       })
     }
 
-    getImg(props.value.from);
+    getImg();
 
     function flipDisabled() {
       state.disabled = !state.disabled
@@ -106,37 +108,27 @@ export default defineComponent({
     }
 
     function remove() {
-      context.emit("removeWord", props.value.from)
+      context.emit("remove-word", props.word.from)
     }
 
-    function openImgModal() {
-      context.emit("openImgModal", [props.value, savedImgs])
+    function fillImgModal() {
+      context.emit("fill-img-modal", savedImgs)
     }
 
-    function openExamplesModal() {
-      context.emit("openExamplesModal", props.value)
+    function selectWord() {
+      context.emit("select-word", props.word);
     }
 
     function updateFrom($event) {
-      context.emit('input', {
-        from: $event.target.value,
-        to: props.value.to,
-        img: props.value.img,
-        toAudio: props.value.toAudio
-      })
+      props.word.from = $event.target.value;
     }
 
     function updateTo($event) {
-      context.emit('input', {
-        from: props.value.from,
-        to: $event.target.value,
-        img: props.value.img,
-        toAudio: props.value.toAudio
-      })
+      props.word.to = $event.target.value;
     }
 
     function playToAudio() {
-      toAudio.src = props.value.toAudio;
+      toAudio.src = props.word.toAudio;
       toAudio.play();
     }
 
@@ -145,12 +137,12 @@ export default defineComponent({
       state,
       collapsible: collapsibleElement,
       remove,
-      getImage: openImgModal,
-      getExamples: openExamplesModal,
+      fillImgModal,
       updateFrom,
       updateTo,
       playToAudio,
-      getBlobUrl
+      getBlobUrl,
+      selectWord
     };
   },
 });

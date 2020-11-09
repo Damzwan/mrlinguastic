@@ -13,10 +13,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bf64ff9-4956-4a50-a243-639565bc4023" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/gen-types.ts" afterDir="false" />
-    </list>
+    <list default="true" id="6bf64ff9-4956-4a50-a243-639565bc4023" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -76,6 +73,7 @@
       <workItem from="1603129419171" duration="146000" />
       <workItem from="1603130574054" duration="643000" />
       <workItem from="1604890597016" duration="854000" />
+      <workItem from="1604925140684" duration="9727000" />
     </task>
     <servers />
   </component>
@@ -95,6 +93,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="500" y="304" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1604928654455">
+      <screen x="0" y="0" width="1504" height="1003" />
+    </state>
+    <state x="500" y="304" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1504.1003@0.0.1504.1003" timestamp="1604928654455" />
     <state x="483" y="249" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1602539745166">
       <screen x="0" y="0" width="1504" height="1003" />
     </state>

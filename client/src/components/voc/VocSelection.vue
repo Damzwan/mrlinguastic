@@ -1,8 +1,10 @@
 <template>
   <div>
+    <!--    TODO lazy load-->
     <PdfModal :list="selectedList" v-if="selectedList"></PdfModal>
     <a class="modal-trigger" href="#pdfModal" ref="pdfTrigger"></a>
 
+<!--    TODO lazy load-->
     <ShareModal :list="selectedList" v-if="selectedList"></ShareModal>
     <a class="modal-trigger" href="#shareModal" ref="shareTrigger"></a>
 

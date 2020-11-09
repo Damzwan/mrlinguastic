@@ -1,12 +1,15 @@
 <template>
   <div>
     <div v-if="state.restored">
-      <ConfigModal v-on:saveSettings="saveSettings" v-bind:prevSettings="list.settings"
-      ></ConfigModal>
+      <ConfigModal v-on:create-list="createList" v-bind:settings="list.settings"></ConfigModal>
       <OcrModal v-if="list.settings" v-bind:langSettings="list.settings.langSettings"
                 v-on:addImportedWords="addImportedWords"></OcrModal>
+      <ImgModal v-bind:selected-word="state.selectedWord" v-bind:images-to-load="state.imagesToLoad"
+                v-on:remove-blob="state.changedBlobs.push($event.arg)"></ImgModal>
 
-      <div v-if="list.settings">
+      <CreateExampleModal v-bind:selected-word="state.selectedWord"></CreateExampleModal>
+
+      <div v-if="list.settings.langSettings.fromLang && list.settings.langSettings.toLang">
         <div class="row">
           <div class="input-field col s12">
             <input v-bind:placeholder="getExampleWord(list.settings.langSettings.fromLang)" type="text"
@@ -28,126 +31,45 @@
           <div class="divider col s12"></div>
         </div>
         <div class="reverse-order" style="margin-bottom: 20px">
-          <WordDiv div v-for="(word, index) in list.words" :key="index" v-model="list.words[index]"
+          <WordDiv div v-for="(word, index) in list.words" :key="index" v-bind:word="word"
                    v-bind:fromLang="list.settings.langSettings.fromLang"
-                   v-on:openImgModal="openImgModal" v-on:removeWord="removeWord"
-                   v-on:openExamplesModal="openExamplesModal"></WordDiv>
-        </div>
-      </div>
-      <div v-else>
-        <a href="#configuration" class="modal-trigger">please configure the language before creating your list</a>
-      </div>
-    </div>
-    <div v-else style="margin-top: 100px">
-      <div class="preloader-wrapper big active centered-img">
-        <div class="spinner-layer spinner-blue-only">
-          <div class="circle-clipper left">
-            <div class="circle"></div>
-          </div>
-          <div class="gap-patch">
-            <div class="circle"></div>
-          </div>
-          <div class="circle-clipper right">
-            <div class="circle"></div>
-          </div>
+                   v-on:fill-img-modal="fillImgModal" v-on:remove-word="removeWord"
+                   v-on:select-word="selectWord"></WordDiv>
         </div>
       </div>
     </div>
-
-
-    <!--    TODO should be a separate component-->
-    <div class="modal bottom-sheet" ref="imgModalElement">
-      <div class="modal-content" v-if="state.selectedWord && !state.selectedWord.img">
-        <h5 class="center">🖼 Select an image 🖼</h5>
-        <div class="row section" v-show="state.imagesLoaded">
-          <div class="col s4 m2 l1" v-for="(imgUrl, index) in state.imagesToLoad" :key="index">
-            <img :src="imgUrl" :alt="index" @load="onImgLoad" class="circle hoverable centered-img"
-                 style="width: 100px;height: 100px; margin-top: 20px" @click="setUrl(imgUrl)">
-          </div>
-        </div>
-        <div v-show="!state.imagesLoaded" class="preloader-wrapper big active"
-             :class="{'centered-img': !state.imagesLoaded}">
-          <div class="spinner-layer spinner-blue-only">
-            <div class="circle-clipper left">
-              <div class="circle"></div>
-            </div>
-            <div class="gap-patch">
-              <div class="circle"></div>
-            </div>
-            <div class="circle-clipper right">
-              <div class="circle"></div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div v-else-if="state.selectedWord" style="overflow: hidden">
-        <h5 class="center">🖼 Selected image 🖼</h5>
-        <div class="row section valign-wrapper">
-          <div class="col s8 m6 offset-m3">
-            <img :src="getBlobUrl(state.selectedWord.img)" alt="selected image"
-                 class="centered-img" style="height: 150px">
-          </div>
-          <div class="col s4 m3 valign-wrapper unselectable" @click="swapImg">
-            <i class="material-icons unselectable tooltipped centered-img" data-tooltip="Switch Image"
-               style="font-size: 100px; color: gray">swap_vert</i>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!--    TODO should be a separate component-->
-    <div class="modal fullscreen-modal" ref="exampleModalElement">
-      <div class="modal-content" v-if="state.selectedWord">
-        <i class="material-icons right unselectable close-btn modal-close">close</i>
-        <h4 class="center">example sentences</h4>
-        <p class="flow-text center">Create a sentence with <b>{{ state.selectedWord.from }}</b> in the first text box
-          and create sentences with <b>{{ state.selectedWord.to }}</b> in the boxes below</p>
-        <div class="divider" style="margin-bottom: 20px"></div>
-        <ExampleDiv v-for="(sentence, index) in state.selectedWord.sentences" :key="index"
-                    v-model="state.selectedWord.sentences[index]" v-on:removeSentence="removeSentence"
-                    v-bind:fromWord="state.selectedWord.from" v-bind:toWord="state.selectedWord.to"></ExampleDiv>
-        <div class="row">
-          <div class="col s12 valign-wrapper">
-            <i class="material-icons centered-img unselectable" style="font-size: 50px; color: gray"
-               @click="addSentence">add</i>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Loader v-else style="margin-top: 100px"></Loader>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, onMounted, reactive, ref, watch,} from "@vue/composition-api";
+import {defineComponent, inject, reactive, ref, watch,} from "@vue/composition-api";
 import M from "materialize-css";
 import ConfigModal from "./ConfigModal.vue";
 import WordDiv from "./WordDiv.vue";
 import ExampleDiv from "./ExampleDiv.vue"
 import OcrModal, {ImportedWords} from "@/components/voc/create/OcrModal.vue";
-import {getCountry, getExampleWord, cleanWord} from "@/use/general";
+import ImgModal from "@/components/voc/create/ImgModal.vue";
+import CreateExampleModal from "@/components/voc/create/CreateExampleModal.vue"
+import Loader from "@/components/Loader.vue"
+import {cleanWord, getBlobUrl, getCountry, getExampleWord, wrongMessage} from "@/use/general";
 import {
-  Sentence,
-  useSaveImgMutation, useTranslateWordQuery,
+  useTranslateWordQuery,
   useUpdateVoclistMutation,
   Voclist,
   VoclistInput,
   VoclistSettings,
   Word
 } from "@/gen-types";
-import {wrongMessage} from "@/use/general";
-import Modal = M.Modal;
-import {getBlobUrl} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
 import {Localdb} from "@/use/localdb";
-import {addVoclist, replaceList} from "@/use/state";
+import {replaceList} from "@/use/state";
 
 //used to make use of typescript typing
 interface State {
   from: string; //word that is typed by the user in the first input
   to: string; //word that is types by the users in the second input
   imagesToLoad: string[]; //an array of image urls that should be loaded into the imgModal
-  imagesLoaded: boolean; //a boolean to determine whether all images have been loaded yet
   selectedWord: Word; //the currently selected word by the user (when a user clicks on a word component this variable is set)
   restored: boolean;
   changedBlobs: string[];
@@ -158,17 +80,12 @@ export default defineComponent({
     WordDiv,
     ConfigModal,
     ExampleDiv,
-    OcrModal
+    OcrModal,
+    ImgModal,
+    Loader,
+    CreateExampleModal
   },
   setup() {
-
-    const imgModalElement = ref(null) //The HTML element of the imgModal
-    const imgModalInstance = ref<Modal>(null); //An instance of the imgModal, as soon as we mount we initialize this Modal. Use this instance to call modal methods
-
-    //same as above
-    const exampleModalElement = ref(null);
-    const exampleModalInstance = ref<Modal>(null);
-
     const fromInput = ref<HTMLInputElement>(null); //html element of the first input
     const toInput = ref<HTMLInputElement>(null); //html element of the second input
 
@@ -179,7 +96,15 @@ export default defineComponent({
 
     const list = reactive<Voclist>({
       _id: null,
-      settings: null,
+      settings: {
+        title: "my new voclist",
+        description: "",
+        langSettings: {
+          fromLang: null,
+          toLang: null,
+          toVoice: null
+        },
+      },
       words: [],
       creator: auth.getOid().value,
       lastEdited: new Date().toISOString()
@@ -189,7 +114,6 @@ export default defineComponent({
       from: "",
       to: "",
       imagesToLoad: [],
-      imagesLoaded: false,
       selectedWord: null,
       restored: false,
       changedBlobs: [],
@@ -202,17 +126,16 @@ export default defineComponent({
     });
 
     const {mutate: updateVoclistOnline} = useUpdateVoclistMutation(null); //TODO fix better name xd
-    const {mutate: saveImgToServer} = useSaveImgMutation(null);
 
     //TODO put this in use dir
-    function restoreWords() {
+    function restoreVoclist() {
       db.restoreVocList(localStorage.getItem("_id")).then(async restoredList => {
         Object.assign(list, restoredList);
         state.restored = true;
       })
     }
 
-    if (localStorage.getItem("_id")) restoreWords()
+    if (localStorage.getItem("_id")) restoreVoclist()
     else state.restored = true;
 
 
@@ -229,24 +152,17 @@ export default defineComponent({
     }
 
     watch(() => list, () => {
-      db.save("voclists", list)
+      if (localStorage.getItem("_id")) db.save("voclists", list)
     }, {deep: true})
 
-    //initialize the modals
-    onMounted(() => {
-      imgModalInstance.value = M.Modal.init(imgModalElement.value, {outDuration: 0});
-      exampleModalInstance.value = M.Modal.init(exampleModalElement.value);
-    });
 
-    //save the language settings that are being pushed from the ConfigModal
-    async function saveSettings(settings: VoclistSettings) {
-      if (!localStorage.getItem("_id")) {
-        list._id = await db.createVoclist(settings, list.words, list.creator);
-        localStorage.setItem("_id", list._id)
-      }
-      list.settings = settings;
+    async function createList(settings: VoclistSettings) {
+      if (localStorage.getItem("_id")) return;
+      list._id = await db.createVoclist(settings, list.words, list.creator);
+      localStorage.setItem("_id", list._id)
     }
 
+    //this is the stupid format materialize wants
     function createObject(arr: string[]) {
       const obj = {};
       for (const key of arr) obj[key] = null;
@@ -280,18 +196,10 @@ export default defineComponent({
       }
     }
 
-    //fill the image modal with images for the selectedWord
-    async function fillImgModal(imgs: string[]) {
-      state.imagesToLoad = [];
-      state.imagesLoaded = false;
-      for (const img of imgs) state.imagesToLoad.push(img);
-    }
-
     //check if a given word has already been inserted by the user
     function wordExists(from: string) {
-      for (const word of list.words) {
+      for (const word of list.words)
         if (word.from == from) return true;
-      }
       return false;
     }
 
@@ -302,7 +210,6 @@ export default defineComponent({
     }
 
     async function insertEntry() {
-      console.log("called")
       const from = cleanWord(state.from);
       const to = cleanWord(state.to);
       cleanInputs();
@@ -322,56 +229,17 @@ export default defineComponent({
       list.words.push(word);
     }
 
-    function openImgModal(params: any[]) {
-      const prevWord = state.selectedWord;
-      state.selectedWord = params[0];
-      if (prevWord != params[0]) fillImgModal(params[1]) //if the images are already loaded in the modal we should not do it again
-      imgModalInstance.value.open();
+    function fillImgModal(imgs: string[]) {
+      state.imagesToLoad = imgs;
     }
 
-    let counter = 0;
-
-    //switch a boolean as soon as all images are loaded
-    function onImgLoad() {
-      counter++;
-      if (counter == state.imagesToLoad.length) {
-        state.imagesLoaded = true;
-        counter = 0;
-      }
-    }
-
-    function openExamplesModal(word: Word) {
-      state.selectedWord = word;
-      exampleModalInstance.value.open();
-    }
-
-    //called when the user selects an image
-    function setUrl(imgUrl: string) {
-      imgModalInstance.value.close();
-      state.selectedWord.img = imgUrl;
-      saveImgToServer({img: imgUrl}).then(result => state.selectedWord.img = result.data.saveImg);
-    }
-
-    //the user wants to select a new image
-    function swapImg() {
-      if (state.selectedWord.img.substring(0, 5) != "https") state.changedBlobs.push(state.selectedWord.img);
-      state.selectedWord.img = null;
-    }
-
-    //called when the users click on the delete button of a WordItem component
     //TODO perhaps search for the word itself instead of the fromWord
     function removeWord(fromWord: string) {
       list.words = list.words.filter(word => word.from != fromWord)
     }
 
-    //called when the users click on the add button in the exampleModal
-    function addSentence() {
-      state.selectedWord.sentences.push({from: "", to: [""]})
-    }
-
-    //called when the users click on the remove button of an exampleItem component
-    function removeSentence(sentenceToRemove: Sentence) {
-      state.selectedWord.sentences = state.selectedWord.sentences.filter(sentence => sentence != sentenceToRemove)
+    function selectWord(word: Word) {
+      state.selectedWord = word;
     }
 
     async function addImportedWords(words: ImportedWords) {
@@ -403,20 +271,13 @@ export default defineComponent({
       toInput,
       getCountry,
       getExampleWord,
-      imgModalElement,
-      exampleModalElement,
-      openImgModal,
-      openExamplesModal,
-      onImgLoad,
-      setUrl,
-      swapImg,
+      fillImgModal,
       removeWord,
-      addSentence,
-      removeSentence,
       addImportedWords,
-      saveSettings,
+      createList,
       finalSave,
-      getBlobUrl
+      getBlobUrl,
+      selectWord
     };
   }
 

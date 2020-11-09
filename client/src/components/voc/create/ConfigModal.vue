@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div id="configuration" class="modal fullscreen-modal" ref="configModalElement">
+    <div id="configModal" class="modal fullscreen-modal" ref="modalElement">
       <div class="modal-content">
-        <i class="material-icons right unselectable close-btn modal-close" @click="settings.langSettings.fromLang === '' ? $router.push('/') : null">close</i>
+        <i class="material-icons right unselectable close-btn modal-close"
+           @click="!listAlreadyCreated() ? $router.push('/') : null">close</i>
         <h4 class="center">Configuration 👷‍♀️</h4>
         <p class="flow-text center">Let's configure some things before creating our voc list</p>
         <div class="row">
@@ -51,7 +52,7 @@
             </div>
 
             <div class="input-field col s12 m6">
-              <select class="icons" disabled ref="toVoiceElement" v-model="settings.langSettings.toVoice">
+              <select class="icons" disabled ref="voiceElement" v-model="settings.langSettings.toVoice">
                 <option v-for="(voice, index) in toVoices" :key="index" :value="voice.ShortName">
                   {{ voice.DisplayName }} ({{ voice.ShortName.substring(3, 5).toUpperCase() }})
                 </option>
@@ -59,73 +60,44 @@
               <label>To Voice</label>
             </div>
           </div>
-
-<!--          <div class="col s6 m4">Auto Search Images:</div>-->
-<!--          <div class="col s6 m4">-->
-<!--            <div class="switch">-->
-<!--              <label>-->
-<!--                Off-->
-<!--                <input type="checkbox" checked/>-->
-<!--                <span class="lever"></span>-->
-<!--                On-->
-<!--              </label>-->
-<!--              <i class="material-icons right unselectable question-btn tooltipped"-->
-<!--                 data-tooltip="Automatically search for a matching image after each insertion">live_help</i>-->
-<!--            </div>-->
-<!--          </div>-->
         </div>
       </div>
 
-      <div class="waves-effect waves-light btn footer-btn disabled" v-on:click="saveConfig" id="continue">Continue
+      <div class="waves-effect waves-light btn footer-btn disabled" v-on:click="createList" id="continue">Continue
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  onMounted, onUpdated,
-  reactive, Ref, ref,
-  watch,
-} from "@vue/composition-api";
+import {defineComponent, onMounted, onUpdated, ref, watch,} from "@vue/composition-api";
 import M, {Modal} from "materialize-css";
 import {useGetVoicesQuery, VoclistSettings, Voice} from "@/gen-types";
 
 export default defineComponent({
   props: {
-    prevSettings: Object as () => VoclistSettings
+    settings: Object as () => VoclistSettings
   },
   setup(props, context) {
-    const configModalElement = ref(null); //check Create.vue for similar docs
-    const configModalInstance = ref<Modal>(null);
+    const modalElement = ref(null); //check Create.vue for similar docs
+    const modal = ref<Modal>(null);
 
     const fromLangElement = ref<HTMLSelectElement>(null)
     const toLangElement = ref<HTMLSelectElement>(null)
 
-    const toVoiceElement = ref<HTMLSelectElement>(null);
+    const voiceElement = ref<HTMLSelectElement>(null);
 
-    const settings = reactive<VoclistSettings>({
-      title: "unnamed list",
-      description: "",
-      langSettings: {fromLang: "", toLang: "", toVoice: ""}
-    })
-
-    const toVoices = ref<Voice[]>([]);
+    const voices = ref<Voice[]>([]);
 
     const {result} = useGetVoicesQuery(); //we retrieve a list of all possible voices
 
-    function fillSettings() {
-      settings.title = "update"; //active the onUpdated event
-    }
-
     onMounted(() => {
-      configModalInstance.value = M.Modal.init(configModalElement.value, {inDuration: 0, outDuration: 0});
+      modal.value = M.Modal.init(modalElement.value, {inDuration: 0, outDuration: 0});
       M.FormSelect.init(document.querySelectorAll("select"));
       M.Tooltip.init(document.querySelectorAll(".tooltipped"));
 
-      if (!props.prevSettings) configModalInstance.value.open();
-      else fillSettings()
+      if (!listAlreadyCreated()) modal.value.open();
+      else enableVoiceSelect();
     });
 
 
@@ -134,64 +106,50 @@ export default defineComponent({
       return require(`@/assets/country-flags/${country}.svg`);
     }
 
-    //get the value from the selects and send it to Create.vue
-    function saveConfig() {
-      configModalInstance.value.close();
-      context.emit("saveSettings", settings);
+    function createList() {
+      modal.value.close();
+      context.emit("create-list");
     }
 
     function enableBtn() {
       document.getElementById("continue")!.classList.remove("disabled");
     }
 
-    watch(() => settings.langSettings.fromLang, () => {
-      if (props.prevSettings) return;
-      if (settings.langSettings.fromLang != "" && settings.langSettings.toLang != "") enableBtn()
+    function enableVoiceSelect() {
+      voiceElement.value.disabled = false;
+      voices.value = result.value.getVoices.filter(voice => voice.ShortName.substring(0, 2) == props.settings.langSettings.toLang);
+    }
+
+    function listAlreadyCreated() {
+      return localStorage.getItem("_id") != null;
+    }
+
+
+    watch(() => props.settings.langSettings.fromLang, () => {
+      if (props.settings.langSettings.fromLang != "" && props.settings.langSettings.toLang != "") enableBtn()
     })
 
-    watch(() => settings.langSettings.toLang, () => {
-      if (props.prevSettings) return;
-      toVoiceElement.value.disabled = false;
-      toVoices.value = result.value.getVoices.filter(voice => voice.ShortName.substring(0, 2) == settings.langSettings.toLang)
-      if (settings.langSettings.fromLang && settings.langSettings.toLang) enableBtn()
+    watch(() => props.settings.langSettings.toLang, () => {
+      if (props.settings.langSettings.fromLang && props.settings.langSettings.toLang) enableBtn()
+      enableVoiceSelect()
     })
 
     onUpdated(() => {
-
-      //I don't know why this is not possible in the fillSettings function
-      if (props.prevSettings && !fromLangElement.value.disabled) {
-        fromLangElement.value.disabled = true;
-        toLangElement.value.disabled = true;
-
-        toVoices.value = [{
-          ShortName: props.prevSettings.langSettings.toVoice,
-          DisplayName: props.prevSettings.langSettings.toVoice.substring(props.prevSettings.langSettings.toVoice.lastIndexOf("-") + 1)
-        }]
-
-        Object.assign(settings, props.prevSettings);
-        fromLangElement.value.value = settings.langSettings.fromLang; //stupid hack
-        toLangElement.value.value = settings.langSettings.toLang; // stupid hack
-
-        M.FormSelect.init(document.querySelectorAll("select"));
-        enableBtn()
-      }
-
-
-      if (toVoices.value.length > 0) {
-        M.FormSelect.init(toVoiceElement.value);
-        settings.langSettings.toVoice = toVoices.value[0].ShortName
+      if (voices.value.length > 0) {
+        M.FormSelect.init(voiceElement.value);
+        props.settings.langSettings.toVoice = voices.value[0].ShortName
       }
     })
 
     return {
       getCountryFlag,
-      saveConfig,
-      configModalElement,
-      toVoiceElement,
+      createList,
+      modalElement,
+      voiceElement,
       fromLangElement,
       toLangElement,
-      settings,
-      toVoices
+      toVoices: voices,
+      listAlreadyCreated
     };
   },
 });
@@ -202,10 +160,6 @@ export default defineComponent({
   margin-left: 5px;
   top: -2px;
   position: relative;
-}
-
-.big-space {
-  padding-top: initial;
 }
 
 @media only screen and (max-width: 600px) {
