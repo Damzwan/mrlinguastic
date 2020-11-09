@@ -220,4 +220,13 @@ export class Localdb {
 
         await this.save("user", user);
     }
+
+    async resetLocalDb(voclists: Voclist[], groups: BasicGroupInfo[]) {
+        this.clearStore("voclists").then(() => {
+            voclists.forEach(list => {
+                this.save("voclists", list)
+            })
+        })
+        this.resetUser(voclists.map(list => list._id), groups).then();
+    }
 }
