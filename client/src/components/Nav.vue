@@ -42,7 +42,7 @@
               </a>
             </li>
             <li>
-              <a href="#ocr" class="modal-trigger tooltipped" data-tooltip="Import words">
+              <a href="#ocrModal" class="modal-trigger tooltipped" data-tooltip="Import words">
                 <i class="material-icons" style="font-size: 30px;">attach_file</i>
               </a>
             </li>

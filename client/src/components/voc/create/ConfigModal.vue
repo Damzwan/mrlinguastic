@@ -97,7 +97,10 @@ export default defineComponent({
       M.Tooltip.init(document.querySelectorAll(".tooltipped"));
 
       if (!listAlreadyCreated()) modal.value.open();
-      else enableVoiceSelect();
+      else voices.value = [{
+        DisplayName: props.settings.langSettings.toVoice.substring(6),
+        ShortName: props.settings.langSettings.toVoice
+      }];
     });
 
 
@@ -126,7 +129,7 @@ export default defineComponent({
 
 
     watch(() => props.settings.langSettings.fromLang, () => {
-      if (props.settings.langSettings.fromLang != "" && props.settings.langSettings.toLang != "") enableBtn()
+      if (props.settings.langSettings.fromLang && props.settings.langSettings.toLang) enableBtn()
     })
 
     watch(() => props.settings.langSettings.toLang, () => {
@@ -138,7 +141,8 @@ export default defineComponent({
       if (voices.value.length > 0) {
         M.FormSelect.init(voiceElement.value);
         props.settings.langSettings.toVoice = voices.value[0].ShortName
-      }
+      } else if (listAlreadyCreated()) M.FormSelect.init(voiceElement.value);
+
     })
 
     return {

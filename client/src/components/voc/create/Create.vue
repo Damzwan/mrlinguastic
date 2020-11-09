@@ -258,8 +258,8 @@ export default defineComponent({
       }
     }
 
-    window.onbeforeunload = function (e) {
-      finalSave();
+    window.onbeforeunload = async function (e) {
+      await finalSave();
     };
 
     return {

@@ -1,11 +1,12 @@
 <template>
   <div>
-    <div id="ocr" class="modal fullscreen-modal" ref="ocrModal">
+    <div id="ocrModal" class="modal fullscreen-modal" ref="modalElement">
       <div class="modal-content" style="height: 100%">
         <i class="material-icons right unselectable close-btn modal-close">close</i>
         <h4 class="center" style="margin-bottom: 30px">Words Importer 🧾</h4>
 
-        <div v-if="state.imgLoading === 0" @paste="pasteImage" style="height: 100%; width: 100%">
+        <div v-if="state.importState === ImportState.NoFileUploaded" @paste="pasteImage"
+             style="height: 100%; width: 100%">
           <p class="flow-text center">Select an image or text file to import your words from 🐱‍🐉<br> Or
             paste an image using ctrl+V</p>
           <div class="file-field input-field">
@@ -19,33 +20,32 @@
           </div>
         </div>
 
-        <div v-else-if="state.imgLoading === 1">
-          <div class="preloader-wrapper fat active centered-img">
-            <div class="spinner-layer spinner-blue-only">
-              <div class="circle-clipper left">
-                <div class="circle"></div>
-              </div>
-              <div class="gap-patch">
-                <div class="circle"></div>
-              </div>
-              <div class="circle-clipper right">
-                <div class="circle"></div>
-              </div>
+        <div v-else-if="state.importState === ImportState.Img">
+          <div v-show="cropperLoaded">
+            <p class="flow-text center">Please select the words you want to import from the image</p>
+            <div class="divider"></div>
+
+            <div v-bind:style="{height: getNiceSize() + 'px'}">
+              <img src="" alt="this should be image" ref="img" style="max-width: 1280px">
             </div>
+            <div class="waves-effect waves-light btn footer-btn" @click="sendImg">Continue</div>
+
+            <i class="material-icons unselectable" style="font-size: 40px" @click="zoomIn">zoom_out</i>
+            <i class="material-icons unselectable" style="font-size: 40px" @click="zoomOut">zoom_in</i>
+
           </div>
-          <h6 class="center-align">Loading...</h6>
+          <Loader v-if="!cropperLoaded"></Loader>
         </div>
 
-        <div v-else-if="state.imgLoading === 3">
-          <div v-if="state.ocrLoading !== 2">
+        <div v-else-if="state.importState === ImportState.ReadyToImport">
+          <div v-if="!isProcessing">
             <p class="flow-text center">Let's try to extract some words from your text file</p>
             <div class="divider"></div>
 
             <div class="row section">
-
               <p class="flow-text">The first line of your file is: </p>
               <div class="input-field col s12">
-                <input type="text" disabled :value="txtWords[0]">
+                <input type="text" disabled :value="state.importedText[0]">
               </div>
 
               <p class="flow-text">Does this line contain the translation as well?</p>
@@ -53,7 +53,7 @@
                 <div class=" switch">
                   <label>
                     No
-                    <input type="checkbox" v-model="isChecked">
+                    <input type="checkbox" v-model="dontTranslateWords">
                     <span class="lever"></span>
                     Yes
                   </label>
@@ -61,112 +61,65 @@
               </div>
 
 
-              <p class="flow-text" style="margin-top: 100px">Enter the first word of the first line</p>
+              <p class="flow-text" style="margin-top: 100px">Enter the first word of this line</p>
               <div class="input-field col s12">
                 <input id="firstWord" type="text">
                 <label for="firstWord">First Word</label>
               </div>
 
-              <div v-if="isChecked">
-                <p class="flow-text">Enter the second line of the first line</p>
+              <div v-if="dontTranslateWords">
+                <p class="flow-text">Enter the second word of this line</p>
                 <div class="input-field col s12">
                   <input id="splitter" type="text">
                   <label for="splitter">Second Word</label>
+                </div>
+              </div>
+              <div v-else>
+                <p class="flow-text">What language is this word?</p>
+                <div class="input-field col s12 m6">
+                  <select ref="langSelect">
+                    <option :value="langSettings.fromLang">{{ getLang(langSettings.fromLang) }}</option>
+                    <option :value="langSettings.toLang">{{ getLang(langSettings.toLang) }}</option>
+                  </select>
                 </div>
               </div>
             </div>
 
             <div class="waves-effect waves-light btn footer-btn" @click="wordsFromTextFile">Get Words</div>
           </div>
-
-          <div v-else-if="state.ocrLoading === 2">
-            <p class="flow-text center">Please remove or edit any words that are incorrect ❌</p>
-            <div class="row">
-              <div class="col s12"><i class="material-icons unselectable centered-img"
-                                      style="font-size: 60px; color: lightgray; text-align: center" @click="swapWords">swap_horiz</i>
-              </div>
-            </div>
-            <div class="divider"></div>
-            <div class="row rounded z-depth-1" v-for="(word, index) in state.importedWords.from" :key="index">
-              <div class="col s6 input-field">
-                <input type="text" v-model="state.importedWords.from[index]" class="word center">
-              </div>
-              <div class="col s6 input-field">
-                <input type="text" v-model="state.importedWords.to[index]" class="word center">
-              </div>
-              <i class="material-icons unselectable tooltipped remove-btn" data-tooltip="Remove" @click="remove(index)"
-                 style="color: #8b0000">close</i>
-            </div>
-
-          </div>
+          <Loader v-if="isProcessing"></Loader>
         </div>
 
-        <div v-show="state.imgLoading === 2" style="display: block; max-width: 100%; height: 70%">
-          <div v-show="state.ocrLoading === 0" style="width: 100%; height: 100%">
-            <p class="flow-text center" v-if="isChecked">Please select words that are in
-              <b>{{ getLang(langSettings.fromLang) }}</b>
-              first and words in <b>{{ getLang(langSettings.toLang) }}</b> afterwards
-            </p>
-            <p class="flow-text center" v-else>Please select words that are in <b>{{
-                getLang(langSettings.fromLang)
-              }}</b>. We will
-              add the translation of the selected words for you</p>
-            <div class="divider"></div>
-
-            <div ref="prevCrop" class="cropbox-outline"></div>
-            <img src="" alt="this should be image" ref="img" @load="state.imgLoading = 2" style="max-width: 1280px">
-            <div class="waves-effect waves-light btn footer-btn" @click="sendImg">Send</div>
-
-            <div class="switch down_left">
-              <label>
-                One
-                <input type="checkbox" ref="ocrType" @change="switchCheck">
-                <span class="lever"></span>
-                Two
-              </label>
+        <div v-else-if="state.importState === ImportState.Imported">
+          <p class="flow-text center">Please remove or edit any words that are incorrect ❌</p>
+          <div class="row">
+            <div class="col s12"><i class="material-icons unselectable centered-img"
+                                    style="font-size: 60px; color: lightgray; text-align: center" @click="swapWords">swap_horiz</i>
             </div>
+          </div>
+          <div class="divider"></div>
 
-            <i class="material-icons unselectable" style="font-size: 40px" @click="zoomIn">zoom_out</i>
-            <i class="material-icons unselectable" style="font-size: 40px" @click="zoomOut">zoom_in</i>
+          <div class="row">
+            <div class="col s6 center"><b>Should be {{ getLang(langSettings.fromLang) }}</b></div>
+            <div class="col s6 center"><b>Should be {{ getLang(langSettings.toLang) }}</b></div>
           </div>
 
-          <div v-if="state.ocrLoading === 1">
-            <div class="preloader-wrapper fat active centered-img">
-              <div class="spinner-layer spinner-blue-only">
-                <div class="circle-clipper left">
-                  <div class="circle"></div>
-                </div>
-                <div class="gap-patch">
-                  <div class="circle"></div>
-                </div>
-                <div class="circle-clipper right">
-                  <div class="circle"></div>
-                </div>
-              </div>
+          <div class="row rounded z-depth-1" v-for="(word, index) in state.importedWords.from" :key="index">
+            <div class="col s6 input-field">
+              <input type="text" v-model="state.importedWords.from[index]" class="word center">
             </div>
-            <h6 class="center-align">Loading...</h6>
-          </div>
-
-          <div v-else-if="state.ocrLoading === 2">
-            <p class="flow-text center">Please remove or edit any words that are incorrect ❌</p>
-            <div class="divider"></div>
-            <div class="row rounded z-depth-1" v-for="(word, index) in state.importedWords.from" :key="index">
-              <div class="col s6 input-field">
-                <input type="text" v-model="state.importedWords.from[index]" class="word center">
-              </div>
-              <div class="col s6 input-field">
-                <input type="text" v-model="state.importedWords.to[index]" class="word center">
-              </div>
-              <i class="material-icons unselectable tooltipped remove-btn" data-tooltip="Remove" @click="remove(index)"
-                 style="color: #8b0000">close</i>
+            <div class="col s6 input-field">
+              <input type="text" v-model="state.importedWords.to[index]" class="word center">
             </div>
-
+            <i class="material-icons unselectable tooltipped remove-btn" data-tooltip="Remove" @click="remove(index)"
+               style="color: #8b0000">close</i>
           </div>
         </div>
       </div>
-
     </div>
-    <div class="fixed-action-btn" style="z-index: 9999999" v-if="state.ocrLoading === 2">
+
+
+    <div class="fixed-action-btn" style="z-index: 9999999" v-if="state.importState === ImportState.Imported">
       <div class="btn-floating btn-large red" @click="addImportedWords">
         <i class="large material-icons" style="font-size: 35px;">add</i>
       </div>
@@ -175,23 +128,30 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive, ref,} from "@vue/composition-api";
+import {defineComponent, onMounted, onUpdated, reactive, ref,} from "@vue/composition-api";
 import M from "materialize-css";
 
 import 'cropperjs/dist/cropper.css';
 import Cropper from 'cropperjs';
 
 import {createWorker} from "tesseract.js"
-import {cleanWord} from "@/use/general";
-import {normalMessage} from "@/use/general";
+import {cleanWord, getLang} from "@/use/general";
 import {LangSettings, useTranslateWordsQuery} from "@/gen-types";
-import {getLang} from "@/use/general";
+import Loader from "@/components/Loader.vue"
 
-interface OcrState {
-  imgLoading: number;
-  ocrLoading: number;
-  importedWords: ImportedWords;
+enum ImportState {
+  NoFileUploaded,
+  Img,
+  ReadyToImport,
+  Imported
 }
+
+interface State {
+  importState: ImportState;
+  importedWords: ImportedWords;
+  importedText: string[];
+}
+
 
 export interface ImportedWords {
   from: string[];
@@ -202,13 +162,31 @@ export default defineComponent({
   props: {
     langSettings: Object as () => LangSettings
   },
+  components: {
+    Loader
+  },
   setup(props, context) {
-
 
     const iso2to3 = {en: "eng", fr: "fra", it: "ita", nl: "nld"};
 
-    const ocrModal = ref(null);
-    const ocrModalInstance = ref<M.Modal>(null);
+    const modalElement = ref<HTMLElement>(null);
+    const modal = ref<M.Modal>(null);
+
+    const cropper = ref<Cropper>(null);
+    const img = ref<HTMLImageElement>(null); //The image the user uploads
+    const cropperLoaded = ref(false);
+    const isProcessing = ref(false);
+
+    const langSelect = ref<HTMLSelectElement>(null);
+
+    const dontTranslateWords = ref(false);
+
+
+    const state = reactive<State>({
+      importState: ImportState.NoFileUploaded,
+      importedWords: {from: [], to: []},
+      importedText: null
+    })
 
     const {result: translatedWords, refetch: executeTranslate} = useTranslateWordsQuery({
       words: ["First"],
@@ -216,44 +194,26 @@ export default defineComponent({
       toLang: "en"
     })
 
-    const img = ref<HTMLImageElement>(null); //The image the user uploads, used to push
-    const ocrType = ref<HTMLInputElement>(null); //The switch to determine if we should ocr only 1 image or two
-
-    const prevCrop = ref<HTMLDivElement>(null);
-
-    const txtWords = ref<string[]>(null);
-    const state = reactive<OcrState>({imgLoading: 0, ocrLoading: 0, importedWords: {from: [], to: []}})
-    const cropper = ref<Cropper>(null);
-
     //worker setup
     const worker = createWorker();
-    worker.load();
-    worker.loadLanguage(iso2to3[props.langSettings.fromLang] + "+" + iso2to3[props.langSettings.toLang])
+    worker.load().then(() => worker.loadLanguage(iso2to3[props.langSettings.fromLang] + "+" + iso2to3[props.langSettings.toLang]))
 
-    const isChecked = ref(false);
 
     function reset() {
-      state.ocrLoading = 0;
-      state.imgLoading = 0;
+      cropperLoaded.value = false;
+      isProcessing.value = false;
+      state.importState = ImportState.NoFileUploaded;
+      dontTranslateWords.value = false;
+
       if (cropper.value) cropper.value.destroy();
-
-      isChecked.value = false;
-      ocrType.value.disabled = false;
-      ocrType.value.checked = false;
-
-      prevCrop.value.style.visibility = "hidden";
-
       state.importedWords = {from: [], to: []}
     }
 
     onMounted(() => {
       M.Tooltip.init(document.getElementById("infoTip"));
-      ocrModalInstance.value = M.Modal.init(ocrModal.value, {inDuration: 0, outDuration: 0, onCloseEnd: reset});
+      modal.value = M.Modal.init(modalElement.value, {inDuration: 0, outDuration: 0, onCloseEnd: reset});
     })
 
-    function switchCheck() {
-      isChecked.value = !isChecked.value;
-    }
 
     //perhaps resize image before creating a cropper
     function createCropper(imgUrl: string) {
@@ -261,11 +221,12 @@ export default defineComponent({
       img.value.onload = function () {
         cropper.value = new Cropper(img.value, {
           dragMode: "move",
-          viewMode: 2,
+          viewMode: 3,
           responsive: false,
           zoomOnTouch: false,
-          autoCropArea: 0.5
+          autoCropArea: 0.5,
         })
+        cropperLoaded.value = true;
       }
     }
 
@@ -328,46 +289,39 @@ export default defineComponent({
       })
     }
 
-    async function wordsFromTextFile() {
+    async function wordsFromText() {
+      isProcessing.value = true;
       let elem = document.getElementById("firstWord") as HTMLInputElement;
       const firstWord = elem.value;
-      const startIndex = txtWords.value[0].indexOf(firstWord);
+      const startIndex = state.importedText[0].indexOf(firstWord);
       let splitter: string = null;
 
-      if (isChecked.value) {
+      if (dontTranslateWords.value) {
         elem = document.getElementById("splitter") as HTMLInputElement;
         const secondWord = elem.value;
-        splitter = txtWords.value[0].charAt(txtWords.value[0].indexOf(secondWord) - 1);
-      }
-
-
-      if (!isChecked.value) {
-        state.importedWords.from = txtWords.value.map(line => cleanWord(line.substring(startIndex)));
+        splitter = state.importedText[0].charAt(state.importedText[0].indexOf(secondWord) - 1);
+        state.importedWords.from = state.importedText.map(line => cleanWord(line.substring(startIndex, line.lastIndexOf(splitter))))
+        state.importedWords.to = state.importedText.map(line => cleanWord(line.substring(line.lastIndexOf(splitter) + 1)))
+      } else {
+        const userLang = langSelect.value.value;
+        state.importedWords.from = state.importedText.map(line => cleanWord(line.substring(startIndex)));
         await executeTranslate({
           words: state.importedWords.from,
-          fromLang: props.langSettings.fromLang,
-          toLang: props.langSettings.toLang
+          fromLang: userLang == props.langSettings.fromLang ? props.langSettings.fromLang : props.langSettings.toLang,
+          toLang: userLang == props.langSettings.fromLang ? props.langSettings.toLang : props.langSettings.fromLang
         })
         state.importedWords.to = translatedWords.value.translateWords.map(word => cleanWord(word));
-        state.ocrLoading = 2;
-        // state.imgLoading = 2;
-      } else {
-        state.importedWords.from = txtWords.value.map(line => cleanWord(line.substring(startIndex, line.lastIndexOf(splitter))))
-        state.importedWords.to = txtWords.value.map(line => cleanWord(line.substring(line.lastIndexOf(splitter) + 1)))
-        // state.imgLoading = 2;
-        state.ocrLoading = 2;
+        if (userLang != props.langSettings.fromLang) swapWords();
       }
-
-
+      state.importState = ImportState.Imported;
     }
 
     function readTextFile(blob: Blob) {
-      state.imgLoading = 1;
       const reader = new FileReader();
       reader.onload = event => {
         const res = event.target.result as string;
-        txtWords.value = res.split("\n");
-        state.imgLoading = 3;
+        state.importedText = res.split("\n");
+        state.importState = ImportState.ReadyToImport;
       };
       reader.readAsText(blob);
     }
@@ -378,11 +332,10 @@ export default defineComponent({
         const extension = fileInput.value.substring(fileInput.value.lastIndexOf(".") + 1);
         const imgExtensions = ["jpeg", "jpg", "png"];
 
-        if (imgExtensions.includes(extension)) getImgUrl(event.target.files[0], 1400).then(url => {
-          state.imgLoading = 1;
-          createCropper(url);
-        });
-        else if (extension == "txt") readTextFile(event.target.files[0])
+        if (imgExtensions.includes(extension)) {
+          state.importState = ImportState.Img;
+          getImgUrl(event.target.files[0], 1400).then(url => createCropper(url));
+        } else if (extension == "txt") readTextFile(event.target.files[0])
 
       }
     }
@@ -395,11 +348,25 @@ export default defineComponent({
       cropper.value.zoom(0.1);
     }
 
-    async function ocr(imgUrl: string, lang: string) {
-      await worker.initialize(lang);
+    async function ocr(imgUrl: string) {
+      await worker.initialize(iso2to3[props.langSettings.fromLang] + "+" + iso2to3[props.langSettings.toLang]);
       const {data: {text}} = await worker.recognize(imgUrl);
       return text;
     }
+
+    async function handleOcr() {
+      cropperLoaded.value = false; //turn back the loading screen
+      const croppedImg = cropper.value.getCroppedCanvas().toDataURL();
+      const textBlock = await ocr(croppedImg)
+      state.importedText = textToWords(textBlock);
+      state.importState = ImportState.ReadyToImport;
+    }
+
+    onUpdated(() => {
+      if (state.importState === ImportState.ReadyToImport) {
+        M.FormSelect.init(langSelect.value);
+      }
+    })
 
     function textToWords(text: string) {
       const receivedWords = text.split("\n");
@@ -411,55 +378,13 @@ export default defineComponent({
       return words;
     }
 
-    async function handleSingleOcr(words: string[]) {
-      state.importedWords.from = words;
-      await executeTranslate({words: words, fromLang: props.langSettings.fromLang, toLang: props.langSettings.toLang})
-      state.importedWords.to = translatedWords.value.translateWords.map(word => cleanWord(word));
-      state.ocrLoading = 2;
-    }
-
-    async function handleDoubleOcr(words: string[]) {
-      if (state.importedWords.from.length == 0) {
-        state.importedWords.from = words
-        ocrType.value.disabled = true;
-      } else {
-        state.importedWords.to = words;
-        state.ocrLoading = 2;
-      }
-    }
-
-    function drawCropBoxOutline() {
-      const cropBoxData = cropper.value.getCropBoxData();
-      prevCrop.value.style.width = cropBoxData.width.toString() + "px";
-      prevCrop.value.style.height = cropBoxData.height.toString() + "px";
-      prevCrop.value.style.transform = `translateX(${cropBoxData.left}px) translateY(${cropBoxData.top}px)`
-      prevCrop.value.style.visibility = "visible";
-    }
-
-    async function sendImg() {
-      const firstOcr = state.importedWords.from.length == 0;
-      if ((firstOcr && !ocrType.value.checked) || !firstOcr) state.ocrLoading = 1;
-      if (firstOcr && ocrType.value.checked) {
-        drawCropBoxOutline();
-        normalMessage(`words sent!`)
-      }
-
-      const croppedImg = cropper.value.getCroppedCanvas().toDataURL();
-      const lang = firstOcr ? iso2to3[props.langSettings.fromLang] : iso2to3[props.langSettings.toLang]
-      const text = await ocr(croppedImg, lang)
-      const words = textToWords(text);
-
-      if (!ocrType.value.checked) await handleSingleOcr(words);
-      else await handleDoubleOcr(words);
-    }
-
-    function remove(index: number) {
+    function removeWord(index: number) {
       state.importedWords.from.splice(index, 1);
       state.importedWords.to.splice(index, 1);
     }
 
     function addImportedWords() {
-      ocrModalInstance.value.close();
+      modal.value.close();
       context.emit("addImportedWords", state.importedWords)
     }
 
@@ -469,25 +394,30 @@ export default defineComponent({
       state.importedWords.to = temp;
     }
 
+    function getNiceSize() {
+      return window.screen.height * 0.6;
+    }
+
     return {
-      ocrModal,
+      modalElement,
       readUrl,
       state,
       img,
       zoomIn,
       zoomOut,
-      sendImg,
-      ocrType,
-      isChecked,
-      switchCheck,
-      remove,
-      prevCrop,
+      sendImg: handleOcr,
+      dontTranslateWords,
+      remove: removeWord,
       addImportedWords,
       pasteImage,
       getLang,
-      txtWords,
-      wordsFromTextFile,
-      swapWords
+      wordsFromTextFile: wordsFromText,
+      swapWords,
+      ImportState,
+      cropperLoaded,
+      getNiceSize,
+      isProcessing,
+      langSelect
     }
   }
 
@@ -497,19 +427,9 @@ export default defineComponent({
 
 <style scoped>
 
-.down_left {
-  position: absolute;
-  left: 30px;
-  bottom: 20px;
-}
-
 .rounded {
   padding: 3px;
   border-radius: 10px;
-}
-
-.line-under {
-  border-bottom: 1px solid #9e9e9e;
 }
 
 .remove-btn {
@@ -520,25 +440,5 @@ export default defineComponent({
 .word {
   height: 1.5rem !important;
   margin-bottom: 0 !important;
-}
-
-.fat {
-  width: 128px;
-  height: 128px;
-}
-
-.cropbox-outline {
-  position: absolute;
-  z-index: 1;
-  outline-style: dashed;
-  outline-color: red;
-  pointer-events: none;
-  visibility: hidden;
-}
-
-.question-btn {
-  position: absolute;
-  left: 150px;
-  bottom: 15px;
 }
 </style>
