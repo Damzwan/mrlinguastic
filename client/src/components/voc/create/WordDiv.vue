@@ -181,11 +181,6 @@ export default defineComponent({
   margin-top: -30px;
 }
 
-.non-clickable {
-  pointer-events: none;
-  user-select: none;
-}
-
 .back-container {
   position: absolute;
   overflow: hidden;

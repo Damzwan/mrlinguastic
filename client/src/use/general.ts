@@ -56,6 +56,16 @@ export const getExampleWord = function (code: langCode) {
     return items[code];
 }
 
+export const getSymbols = function (code: langCode) {
+    const items = {
+        "en": [],
+        "fr": ["é", "è", "ç", "à", "ù", "ê", "â", "î", "ô", "û", "ë", "ï", "ü"],
+        "it": ["à", "è", "é", "ì", "ò", "ó", "ù"],
+        "nl": []
+    }
+    return items[code];
+}
+
 export function isOffline() {
     return !navigator.onLine;
 }
@@ -80,7 +90,7 @@ export function isOfflineList() {
     return localStorage.getItem("isOfflineList") != null;
 }
 
-export function formatDate(date: string){
+export function formatDate(date: string) {
     return moment(new Date(date)).format("lll");
 }
 

@@ -136,7 +136,7 @@ import Cropper from 'cropperjs';
 
 import {createWorker} from "tesseract.js"
 import {cleanWord, getLang} from "@/use/general";
-import {LangSettings, useTranslateWordsQuery} from "@/gen-types";
+import {LangSettings} from "@/gen-types";
 import Loader from "@/components/Loader.vue"
 import {useTranslateWordsQueryLazy} from "@/use/lazyQueries";
 
@@ -188,12 +188,6 @@ export default defineComponent({
       importedWords: {from: [], to: []},
       importedText: null
     })
-
-    // const {result: translatedWords, refetch: executeTranslate} = useTranslateWordsQuery({
-    //   words: ["First"],
-    //   fromLang: "en",
-    //   toLang: "en"
-    // })
 
     const {result: translatedWords, load: executeTranslate} = useTranslateWordsQueryLazy();
 

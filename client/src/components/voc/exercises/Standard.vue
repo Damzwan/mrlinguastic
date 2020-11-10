@@ -19,7 +19,8 @@
                  class="flag-icon" alt="From Flag"/>
           </div>
           <div v-if="type === 'image'" class="dynamicDiv">
-            <img :src="!isOfflineList() ? getBlobUrl(state.currentWord.img) : state.currentWord.img" alt="no img???" class="centered-img dynamicImg"
+            <img :src="!isOfflineList() ? getBlobUrl(state.currentWord.img) : state.currentWord.img" alt="no img???"
+                 class="centered-img dynamicImg"
                  style="max-width: 80%;">
           </div>
           <div v-if="type === 'audio'">
@@ -37,7 +38,15 @@
 
         <button class="waves-effect waves-light btn" style="margin-right: 10px" @click="checkWord">check</button>
         <button class='waves-effect waves-light btn' style="margin-right: 10px" @click="getHint">Hint</button>
-        <a class='modal-trigger btn' href="#infoModal" v-if="type === 'text'"><i class="material-icons right">info</i>Info</a>
+        <a class='modal-trigger btn' href="#infoModal" v-if="type === 'text'" style="margin-right: 10px"><i
+            class="material-icons right">info</i>Info</a>
+        <a class='dropdown-trigger waves-effect waves-light btn' data-target="symbols"><i class='material-icons center'>more_vert</i></a>
+
+        <ul id="symbols" class='dropdown-content' style="min-width: 60px">
+          <li v-for="symbol in getSymbols(list.settings.langSettings.toLang)" :key="symbol"
+              @click="selectSymbol(symbol)"><a class="center">{{ symbol }}</a>
+          </li>
+        </ul>
       </div>
 
       <div class="col s12" style="margin-top: 20px; padding: 0">
@@ -62,34 +71,22 @@
       </div>
 
     </div>
-    <div v-else style="margin-top: 100px">
-      <div class="preloader-wrapper big active centered-img">
-        <div class="spinner-layer spinner-blue-only">
-          <div class="circle-clipper left">
-            <div class="circle"></div>
-          </div>
-          <div class="gap-patch">
-            <div class="circle"></div>
-          </div>
-          <div class="circle-clipper right">
-            <div class="circle"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Loader v-else style="margin-top: 100px"></Loader>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, onMounted, reactive, ref} from "@vue/composition-api";
+import {defineComponent, inject, onMounted, onUpdated, reactive, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
 import {Voclist, Word} from "@/gen-types";
-import {getCountry} from "@/use/general";
+import {getCountry, getSymbols} from "@/use/general";
 import {cleanWord, isOfflineList} from "@/use/general";
 import {correctMessage, wrongMessage} from "@/use/general";
 import ExerciseFinished from "@/components/voc/exercises/ExerciseFinished.vue";
 import WordInfoModal from "@/components/voc/exercises/WordInfoModal.vue";
 import {getBlobUrl} from "@/use/general";
+import M from "materialize-css"
+import Loader from "@/components/Loader.vue"
 
 //used to make use of typescript typing
 interface State {
@@ -107,7 +104,8 @@ export interface FailedAttempt {
 export default defineComponent({
   components: {
     ExerciseFinished,
-    WordInfoModal
+    WordInfoModal,
+    Loader
   },
   setup() {
 
@@ -168,7 +166,6 @@ export default defineComponent({
       state.to = state.currentWord.to.substring(0, Math.ceil(hintCounter * state.currentWord.to.length / 3));
       if (hintCounter < 3) {
         hintCounter++;
-        //totalsHintsUsed++;
       }
     }
 
@@ -221,7 +218,30 @@ export default defineComponent({
       audio.play();
     }
 
-    return {list, state, to, getCountry, checkWord, getHint, failedAttempts, finishBtn, type, getBlobUrl, playAudio, isOfflineList}
+    function selectSymbol(symbol: string) {
+      state.to += symbol;
+    }
+
+    onUpdated(() => {
+      if (list) M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
+    })
+
+    return {
+      list,
+      state,
+      to,
+      getCountry,
+      checkWord,
+      getHint,
+      failedAttempts,
+      finishBtn,
+      type,
+      getBlobUrl,
+      playAudio,
+      isOfflineList,
+      getSymbols,
+      selectSymbol
+    }
 
   },
 });

@@ -21,7 +21,10 @@
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/OcrModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/OcrModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/WordDiv.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/WordDiv.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/Standard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/Standard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/general.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/general.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -107,7 +110,7 @@
       <workItem from="1603129403447" duration="170000" />
       <workItem from="1603130528738" duration="41000" />
       <workItem from="1604890574149" duration="20000" />
-      <workItem from="1604965599533" duration="4991000" />
+      <workItem from="1604965599533" duration="5394000" />
     </task>
     <servers />
   </component>
