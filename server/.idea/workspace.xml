@@ -20,10 +20,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/datasources/reverso.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/OcrModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/OcrModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/WordDiv.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/WordDiv.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/graphql/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/graphql/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/graphql/voc.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/graphql/voc.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/lazyQueries.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/lazyQueries.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen-types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resolvers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/resolvers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/schema.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,6 +119,7 @@
       <workItem from="1603129403447" duration="170000" />
       <workItem from="1603130528738" duration="41000" />
       <workItem from="1604890574149" duration="20000" />
+      <workItem from="1604965599533" duration="3607000" />
     </task>
     <servers />
   </component>

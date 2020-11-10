@@ -52,8 +52,9 @@ import OcrModal, {ImportedWords} from "@/components/voc/create/OcrModal.vue";
 import ImgModal from "@/components/voc/create/ImgModal.vue";
 import CreateExampleModal from "@/components/voc/create/CreateExampleModal.vue"
 import Loader from "@/components/Loader.vue"
-import {cleanWord, getBlobUrl, getCountry, getExampleWord, wrongMessage} from "@/use/general";
+import {cleanWord, getBlobUrl, getCountry, getExampleWord, getLang, langCode, wrongMessage} from "@/use/general";
 import {
+  Sentence,
   useTranslateWordQuery,
   useUpdateVoclistMutation,
   Voclist,
@@ -64,6 +65,7 @@ import {
 import {AuthModule} from "@/use/authModule";
 import {Localdb} from "@/use/localdb";
 import {replaceList} from "@/use/state";
+import {useGetExamplesQueryLazy, useTranslateWordQueryLazy} from "@/use/lazyQueries";
 
 //used to make use of typescript typing
 interface State {
@@ -119,12 +121,8 @@ export default defineComponent({
       changedBlobs: [],
     })
 
-    const {result: translatedWord, refetch: executeTranslate} = useTranslateWordQuery({
-      word: "",
-      fromLang: "",
-      toLang: ""
-    });
-
+    const {result: translatedWord, load: executeTranslate} = useTranslateWordQueryLazy();
+    const {result: examples, load: getExamplesQuery} = useGetExamplesQueryLazy();
     const {mutate: updateVoclistOnline} = useUpdateVoclistMutation(null); //TODO fix better name xd
 
     //TODO put this in use dir
@@ -180,20 +178,23 @@ export default defineComponent({
       if (from == "") return;
       toInput.value.focus();
 
-      await executeTranslate({
+      executeTranslate(null, {
         word: from,
         fromLang: list.settings.langSettings.fromLang,
         toLang: list.settings.langSettings.toLang
       })
-      if (translatedWord.value.translateWord.length == 1) state.to = cleanWord(translatedWord.value.translateWord[0]);
-      else {
-        M.Autocomplete.init(toInput.value, {
-          data: createObject(translatedWord.value.translateWord),
-          minLength: 0,
-          onAutocomplete: onAutoCompleteTo
-        })
-        toInput.value.click();
-      }
+
+      watch(translatedWord, () => {
+        if (translatedWord.value.translateWord.length == 1) state.to = cleanWord(translatedWord.value.translateWord[0]);
+        else {
+          M.Autocomplete.init(toInput.value, {
+            data: createObject(translatedWord.value.translateWord),
+            minLength: 0,
+            onAutocomplete: onAutoCompleteTo
+          })
+          toInput.value.click();
+        }
+      })
     }
 
     //check if a given word has already been inserted by the user
@@ -227,6 +228,16 @@ export default defineComponent({
         sentences: [{from: "", to: [""]}],
       };
       list.words.push(word);
+
+      getExamplesQuery(null, {
+        from: word.from, to: word.to,
+        fromLang: getLang(list.settings.langSettings.fromLang as langCode), toLang: getLang(list.settings.langSettings.toLang as langCode)
+      })
+
+      watch(examples, () => {
+        console.log(examples.value.getExamples)
+        word.sentences = examples.value.getExamples;
+      })
     }
 
     function fillImgModal(imgs: string[]) {
@@ -293,10 +304,5 @@ export default defineComponent({
 .reverse-order {
   display: flex;
   flex-direction: column-reverse;
-}
-
-.rounded {
-  padding: 3px;
-  border-radius: 10px;
 }
 </style>

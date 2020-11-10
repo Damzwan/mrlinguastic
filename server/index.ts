@@ -6,6 +6,7 @@ import {typeDefs} from "./src/schema";
 import {azureAPI} from './src/datasources/azure';
 import {PixabayAPI} from './src/datasources/pixabay';
 import {YandexAPI} from "./src/datasources/yandex";
+import {reversoAPI} from "./src/datasources/reverso";
 
 require('dotenv').config()
 
@@ -29,7 +30,8 @@ app.get("/speech", async function (req, res) {
 const dataSources = () => ({
     azureAPI: azure,
     pixabayAPI: new PixabayAPI(),
-    yandexAPI: new YandexAPI()
+    yandexAPI: new YandexAPI(),
+    reversoAPI: new reversoAPI()
 });
 
 const server = new ApolloServer({
@@ -39,7 +41,6 @@ const server = new ApolloServer({
     introspection: true,
     playground: true,
 });
-
 
 server.applyMiddleware({app})
 app.listen({port: 4000}, () => console.log(`Server ready at http://localhost:4000${server.graphqlPath}`))

@@ -28,7 +28,10 @@ export const resolv: Resolvers = {
         voclist: async (_: any, args, {dataSources}: { dataSources: any }) =>
             args.voclistId != "" ? await mongoAPI.getEntityByCollectionAndId<Voclist>(Collections.Voclists, args.voclistId) : null,
         group: async (_: any, args, {dataSources}: { dataSources: any }) =>
-            args.groupId != "" ? await mongoAPI.getEntityByCollectionAndId<GroupDbObject>(Collections.Groups, args.groupId) : null
+            args.groupId != "" ? await mongoAPI.getEntityByCollectionAndId<GroupDbObject>(Collections.Groups, args.groupId) : null,
+        getExamples: async (_: any, args, {dataSources}: { dataSources: any }) =>
+            await dataSources.reversoAPI.getExamples(args.from, args.to, args.fromLang, args.toLang)
+
     },
     Mutation: {
         updateVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {

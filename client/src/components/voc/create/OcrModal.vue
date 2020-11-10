@@ -128,7 +128,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, onUpdated, reactive, ref,} from "@vue/composition-api";
+import {defineComponent, onMounted, onUpdated, reactive, ref, watch,} from "@vue/composition-api";
 import M from "materialize-css";
 
 import 'cropperjs/dist/cropper.css';
@@ -138,6 +138,7 @@ import {createWorker} from "tesseract.js"
 import {cleanWord, getLang} from "@/use/general";
 import {LangSettings, useTranslateWordsQuery} from "@/gen-types";
 import Loader from "@/components/Loader.vue"
+import {useTranslateWordsQueryLazy} from "@/use/lazyQueries";
 
 enum ImportState {
   NoFileUploaded,
@@ -188,11 +189,13 @@ export default defineComponent({
       importedText: null
     })
 
-    const {result: translatedWords, refetch: executeTranslate} = useTranslateWordsQuery({
-      words: ["First"],
-      fromLang: "en",
-      toLang: "en"
-    })
+    // const {result: translatedWords, refetch: executeTranslate} = useTranslateWordsQuery({
+    //   words: ["First"],
+    //   fromLang: "en",
+    //   toLang: "en"
+    // })
+
+    const {result: translatedWords, load: executeTranslate} = useTranslateWordsQueryLazy();
 
     //worker setup
     const worker = createWorker();
@@ -302,18 +305,21 @@ export default defineComponent({
         splitter = state.importedText[0].charAt(state.importedText[0].indexOf(secondWord) - 1);
         state.importedWords.from = state.importedText.map(line => cleanWord(line.substring(startIndex, line.lastIndexOf(splitter))))
         state.importedWords.to = state.importedText.map(line => cleanWord(line.substring(line.lastIndexOf(splitter) + 1)))
+        state.importState = ImportState.Imported;
       } else {
         const userLang = langSelect.value.value;
         state.importedWords.from = state.importedText.map(line => cleanWord(line.substring(startIndex)));
-        await executeTranslate({
+        executeTranslate(null, {
           words: state.importedWords.from,
           fromLang: userLang == props.langSettings.fromLang ? props.langSettings.fromLang : props.langSettings.toLang,
           toLang: userLang == props.langSettings.fromLang ? props.langSettings.toLang : props.langSettings.fromLang
         })
-        state.importedWords.to = translatedWords.value.translateWords.map(word => cleanWord(word));
-        if (userLang != props.langSettings.fromLang) swapWords();
+        watch(translatedWords, () => {
+          state.importedWords.to = translatedWords.value.translateWords.map(word => cleanWord(word));
+          if (userLang != props.langSettings.fromLang) swapWords();
+          state.importState = ImportState.Imported;
+        })
       }
-      state.importState = ImportState.Imported;
     }
 
     function readTextFile(blob: Blob) {

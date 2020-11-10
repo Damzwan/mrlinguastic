@@ -48,15 +48,16 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive, ref,} from "@vue/composition-api";
+import {defineComponent, onMounted, reactive, ref, watch,} from "@vue/composition-api";
 import M, {Collapsible} from "materialize-css";
 import {useGetImagesQuery, useSaveImgMutation, Word} from "@/gen-types";
-import {getBlobUrl} from "@/use/general";
+import {getBlobUrl, getLang} from "@/use/general";
+import {useGetExamplesQueryLazy} from "@/use/lazyQueries";
 
 export default defineComponent({
   props: {
     word: Object as () => Word,
-    fromLang: String //TODO this is really stupid (related to executeImageSearch and importedWords).
+    fromLang: String, //TODO this is really stupid (related to executeImageSearch and importedWords).
   },
   setup(props, context) {
     const collapsibleInstance = ref<Collapsible>(null);
@@ -79,7 +80,6 @@ export default defineComponent({
         }
       })
     }
-
     getImg();
 
     function flipDisabled() {

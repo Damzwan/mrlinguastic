@@ -47,6 +47,7 @@ export const typeDefs = gql`
         group(groupId: String!): Group
         getImages(word: String!, lang: String!): [String!]
         getVoices: [Voice]
+        getExamples(from: String!, to: String, fromLang: String!, toLang: String!): [Sentence!]
     }
 
     type Mutation{
@@ -144,7 +145,7 @@ export const typeDefs = gql`
         Gender: String
         ShortName: String
     }
-    
+
     type Group @entity{
         _id: ID! @id
         name: String! @column

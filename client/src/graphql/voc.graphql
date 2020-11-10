@@ -117,6 +117,13 @@ query getBasicGroupInfo($groupId: String!){
     }
 }
 
+query getExamples($from: String!, $to: String!, $fromLang: String!, $toLang: String!){
+    getExamples(from: $from, to: $to, fromLang: $fromLang, toLang: $toLang){
+        from
+        to
+    }
+}
+
 mutation updateVoclist($list: VoclistInput!, $changedBlobs: [String!], $oid: String!){
     updateVoclist(list: $list, changedBlobs: $changedBlobs, oid: $oid)
 }

@@ -34,6 +34,7 @@ type Mutation {
 }
 
 type Query {
+    getExamples(from: String!, fromLang: String!, to: String, toLang: String!): [Sentence!]
     getImages(lang: String!, word: String!): [String!]
     getVoices: [Voice]
     group(groupId: String!): Group

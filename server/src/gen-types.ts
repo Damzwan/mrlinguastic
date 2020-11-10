@@ -152,6 +152,7 @@ export type Query = {
   group?: Maybe<Group>;
   getImages?: Maybe<Array<Scalars['String']>>;
   getVoices?: Maybe<Array<Maybe<Voice>>>;
+  getExamples?: Maybe<Array<Sentence>>;
 };
 
 
@@ -187,6 +188,14 @@ export type QueryGroupArgs = {
 export type QueryGetImagesArgs = {
   word: Scalars['String'];
   lang: Scalars['String'];
+};
+
+
+export type QueryGetExamplesArgs = {
+  from: Scalars['String'];
+  to?: Maybe<Scalars['String']>;
+  fromLang: Scalars['String'];
+  toLang: Scalars['String'];
 };
 
 export type Sentence = {
@@ -473,6 +482,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   group?: Resolver<Maybe<ResolversTypes['Group']>, ParentType, ContextType, RequireFields<QueryGroupArgs, 'groupId'>>;
   getImages?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType, RequireFields<QueryGetImagesArgs, 'word' | 'lang'>>;
   getVoices?: Resolver<Maybe<Array<Maybe<ResolversTypes['Voice']>>>, ParentType, ContextType>;
+  getExamples?: Resolver<Maybe<Array<ResolversTypes['Sentence']>>, ParentType, ContextType, RequireFields<QueryGetExamplesArgs, 'from' | 'fromLang' | 'toLang'>>;
 };
 
 export type SentenceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Sentence'] = ResolversParentTypes['Sentence']> = {
