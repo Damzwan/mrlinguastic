@@ -97,6 +97,7 @@
       </li>
     </ul>
 
+<!--    Maybe lazy load this as well-->
     <div class="modal" ref="modalElement">
       <div class="modal-content">
         <h4 class="center">Create Group</h4>

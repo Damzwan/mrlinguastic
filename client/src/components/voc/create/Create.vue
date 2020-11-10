@@ -2,14 +2,17 @@
   <div>
     <div v-if="state.restored">
       <ConfigModal v-on:create-list="createList" v-bind:settings="list.settings"></ConfigModal>
-      <OcrModal v-if="list.settings" v-bind:langSettings="list.settings.langSettings"
-                v-on:addImportedWords="addImportedWords"></OcrModal>
-      <ImgModal v-bind:selected-word="state.selectedWord" v-bind:images-to-load="state.imagesToLoad"
-                v-on:remove-blob="removeBlob"></ImgModal>
-
-      <CreateExampleModal v-bind:selected-word="state.selectedWord"></CreateExampleModal>
-
       <div v-if="list.settings.langSettings.fromLang && list.settings.langSettings.toLang">
+        <OcrModal v-bind:langSettings="list.settings.langSettings"
+                  v-on:addImportedWords="addImportedWords"></OcrModal>
+
+        <div v-if="state.selectedWord">
+          <ImgModal v-bind:selected-word="state.selectedWord" v-bind:images-to-load="state.imagesToLoad"
+                    v-on:remove-blob="removeBlob"></ImgModal>
+          <CreateExampleModal v-bind:selected-word="state.selectedWord"></CreateExampleModal>
+        </div>
+
+
         <div class="row">
           <div class="input-field col s12">
             <input v-bind:placeholder="getExampleWord(list.settings.langSettings.fromLang)" type="text"
@@ -47,21 +50,12 @@ import {defineComponent, inject, onUnmounted, reactive, ref, watch,} from "@vue/
 import M from "materialize-css";
 import ConfigModal from "./ConfigModal.vue";
 import WordDiv from "./WordDiv.vue";
-import ExampleDiv from "./ExampleDiv.vue"
 import OcrModal, {ImportedWords} from "@/components/voc/create/OcrModal.vue";
 import ImgModal from "@/components/voc/create/ImgModal.vue";
 import CreateExampleModal from "@/components/voc/create/CreateExampleModal.vue"
 import Loader from "@/components/Loader.vue"
 import {cleanWord, getBlobUrl, getCountry, getExampleWord, getLang, langCode, wrongMessage} from "@/use/general";
-import {
-  Sentence,
-  useTranslateWordQuery,
-  useUpdateVoclistMutation,
-  Voclist,
-  VoclistInput,
-  VoclistSettings,
-  Word
-} from "@/gen-types";
+import {useUpdateVoclistMutation, Voclist, VoclistInput, VoclistSettings, Word} from "@/gen-types";
 import {AuthModule} from "@/use/authModule";
 import {Localdb} from "@/use/localdb";
 import {replaceList} from "@/use/state";
@@ -81,11 +75,10 @@ export default defineComponent({
   components: {
     WordDiv,
     ConfigModal,
-    ExampleDiv,
-    OcrModal,
-    ImgModal,
+    OcrModal: () => import('@/components/voc/create/OcrModal.vue'),
+    ImgModal: () => import('@/components/voc/create/ImgModal.vue'),
     Loader,
-    CreateExampleModal
+    CreateExampleModal: () => import('@/components/voc/create/CreateExampleModal.vue')
   },
   setup() {
     const fromInput = ref<HTMLInputElement>(null); //html element of the first input

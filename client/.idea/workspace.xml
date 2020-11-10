@@ -15,10 +15,6 @@
   <component name="ChangeListManager">
     <list default="true" id="6bf64ff9-4956-4a50-a243-639565bc4023" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/js/chunk-2d216214.e39f12c4.js" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/js/chunk-2d216214.e39f12c4.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/js/chunk-2d216257.256ee085.js" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/js/chunk-2d216257.256ee085.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/service-worker.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +77,7 @@
       <workItem from="1604890597016" duration="854000" />
       <workItem from="1604925140684" duration="22366000" />
       <workItem from="1604964268478" duration="17259000" />
-      <workItem from="1605009834171" duration="8929000" />
+      <workItem from="1605009834171" duration="9835000" />
     </task>
     <servers />
   </component>
