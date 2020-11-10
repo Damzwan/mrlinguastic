@@ -1,7 +1,7 @@
 import {GetUserQuery, Maybe, Scalars, Sentence, User, Voclist, VoclistSettings, Word} from "@/gen-types";
-import {ObjectID} from 'bson';
 import {getBlobUrl} from "@/use/general";
 import {BasicGroupInfo} from "@/use/state";
+import {v1 as uuidv1} from 'uuid';
 
 // import {getBlobUrl} from "@/use/blobStorage";
 
@@ -90,7 +90,7 @@ export class Localdb {
 
     async createVoclist(settings: VoclistSettings, words: Word[], creator: string): Promise<string> {
         const list: Voclist = {
-            _id: new ObjectID().toString(),
+            _id: uuidv1(),
             settings: settings,
             words: words,
             lastEdited: new Date().toISOString(),

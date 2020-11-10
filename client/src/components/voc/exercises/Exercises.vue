@@ -89,4 +89,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.divider{
+  background-color: black !important;
+}
 </style>

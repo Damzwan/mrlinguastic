@@ -19,7 +19,7 @@
             <li>
               <a @click="openSideNav(false)">
                 <img :src="require(`@/assets/country-flags/china.svg`)" width="30px" height="30px" v-if="loggedIn"
-                     style="top: 10px; position: relative;">
+                     style="top: 10px; position: relative;" alt="profile picture">
                 <i class="material-icons" style="font-size: 30px;" v-else>account_circle</i>
               </a>
             </li>
@@ -78,12 +78,12 @@
     <ul class="sidenav green darken-4" ref="nav2">
       <li>
         <div class="user-view">
-          <a><img class="circle" src="../assets/country-flags/china.svg"></a>
+          <a><img class="circle" src="../assets/country-flags/china.svg" alt="Profile picture"></a>
           <a v-if="user"><span class="white-text name">{{ user }}</span></a>
           <a v-else @click="logIn" class="btn green" style="width: 60px; height: 35px;">log in!</a>
         </div>
+        <div class="divider" style="background-color: #33691e !important"></div>
       </li>
-      <div class="divider" style="background-color: #33691e !important"></div>
       <li>
         <a @click="openGroupModal" class="unselectable">
           <span class="white-text center unselectable">Create Group</span>

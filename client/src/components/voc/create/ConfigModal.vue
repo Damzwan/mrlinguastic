@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div id="configModal" class="modal fullscreen-modal" ref="modalElement">
+    <div id="configModal" class="modal fullscreen-modal" ref="modalElement"
+         :style="{backgroundImage: 'url(' + require('../../../assets/triangle.svg') + ')'}">
       <div class="modal-content">
         <i class="material-icons right unselectable close-btn modal-close"
            @click="!listAlreadyCreated() ? $router.push('/') : null">close</i>
@@ -174,5 +175,9 @@ export default defineComponent({
   .big-space-2 {
     padding-top: 50%;
   }
+}
+
+label{
+  color: #424242 ;
 }
 </style>

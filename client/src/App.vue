@@ -32,7 +32,7 @@ export default Vue.extend({
 
     const {mutate: copyVoclist} = useCopyVoclistMutation({}); //we need this for some fucking reason and i do not understand
 
-    async function handleLoggedOutMode(){
+    async function handleLoggedOutMode() {
       let user: UserDbObject = await db.getItem("0", "user");
       if (!user) user = await db.createUser();
       setUser({
@@ -43,7 +43,7 @@ export default Vue.extend({
       if (navigator.onLine) await checkForSharedItems(auth.getOid().value);
     }
 
-    async function handleLoggedInMode(){
+    async function handleLoggedInMode() {
       load(null, {oid: auth.getOid().value})
       watch(result, async () => {
         setUser(result.value.user);
@@ -59,3 +59,9 @@ export default Vue.extend({
   }
 });
 </script>
+
+<style>
+body {
+  background-image: url('assets/triangle.svg');
+}
+</style>

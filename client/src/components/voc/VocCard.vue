@@ -1,5 +1,5 @@
 <template>
-  <div class="card horizontal hoverable unselectable">
+  <div class="card horizontal hoverable unselectable" style="background-color: #e8f2d1" @click="selectList">
 
     <div class="card-content" @click="toExercises" style="width: 100%; height: 100%;">
       <span class="card-title">
@@ -58,7 +58,6 @@ import {formatDate, getCountry} from "@/use/general";
 import {Voclist} from '@/gen-types';
 import {wrongMessage} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
-import moment from "moment";
 
 //the items on the back of the card are very similar so we can define an item object by an icon, a title and an action
 interface Item {
@@ -91,7 +90,7 @@ export default defineComponent({
       wrongMessage("action not supported for offline lists!")
     }
 
-    function notOnlineMessage(){
+    function notOnlineMessage() {
       wrongMessage("cannot perform this action when offline!")
     }
 
@@ -107,23 +106,23 @@ export default defineComponent({
     function download() {
       if (!navigator.onLine) notOnlineMessage();
       else if (props.isOffline) actionNotSupportedMessage()
-      else context.emit("download", props.list);
+      else context.emit("download");
     }
 
     function share() {
       if (!navigator.onLine) notOnlineMessage();
       else if (props.isOffline) actionNotSupportedMessage();
       else if (!auth.getOid().value) wrongMessage("not supported when not logged in");
-      else context.emit("share", props.list);
+      else context.emit("share");
     }
 
     function toPdf() {
       if (!navigator.onLine) notOnlineMessage();
-      else context.emit("pdf", props.list);
+      else context.emit("pdf");
     }
 
     function del() {
-      context.emit("remove", props.list);
+      context.emit("remove");
     }
 
     function toExercises(e) {
@@ -141,6 +140,10 @@ export default defineComponent({
       else if (item.action == "delete") del();
     }
 
+    function selectList() {
+      context.emit("select-list", props.list)
+    }
+
     return {
       itemsTop,
       itemsBot,
@@ -148,6 +151,7 @@ export default defineComponent({
       getCountry,
       toExercises,
       formatDate,
+      selectList
     };
   },
 });

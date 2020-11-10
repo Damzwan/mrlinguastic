@@ -40,7 +40,7 @@
         <button class='waves-effect waves-light btn' style="margin-right: 10px" @click="getHint">Hint</button>
         <a class='modal-trigger btn' href="#infoModal" v-if="type === 'text'" style="margin-right: 10px"><i
             class="material-icons right">info</i>Info</a>
-        <a class='dropdown-trigger waves-effect waves-light btn' data-target="symbols"><i class='material-icons center'>more_vert</i></a>
+        <a class='dropdown-trigger waves-effect waves-light btn' data-target="symbols"><i class='material-icons center'>arrow_drop_down</i></a>
 
         <ul id="symbols" class='dropdown-content' style="min-width: 60px">
           <li v-for="symbol in getSymbols(list.settings.langSettings.toLang)" :key="symbol"
@@ -266,6 +266,10 @@ export default defineComponent({
   .dynamicImg {
     max-height: 250px;
   }
+}
+
+input{
+  border-bottom: 1px solid #000000 !important;
 }
 
 </style>

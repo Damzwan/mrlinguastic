@@ -1,8 +1,8 @@
 <template>
   <div v-on-clickaway="closeCollapsible" @click="selectWord">
     <ul class="collapsible popout" ref="collapsible">
-      <li class="rounded">
-        <div class="collapsible-header">
+      <li class="rounded" style="background-color: #e8f2d1">
+        <div class="collapsible-header" style="background-color: #e8f2d1">
           <input type="text" style="width: 49%;" class="word center" v-bind:class="{'non-clickable': state.disabled}"
                  v-on:input="updateFrom" :value="word.from"/>
           <input type="text" style="width:49%;margin-left: 2%" class="word center"

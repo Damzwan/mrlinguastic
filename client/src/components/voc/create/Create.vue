@@ -28,7 +28,7 @@
                  :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.toLang)}.svg`)"
                  class="flag-icon" alt="From Flag"/>
           </div>
-          <div class="divider col s12"></div>
+          <!--          <div class="divider col s12"></div>-->
         </div>
         <div class="reverse-order" style="margin-bottom: 20px">
           <WordDiv div v-for="(word, index) in list.words" :key="index" v-bind:word="word"
@@ -138,6 +138,7 @@ export default defineComponent({
 
 
     async function finalSave() {
+      if (!localStorage.getItem("_id")) return;
       replaceList(list);
       db.addListToUser(list._id).then()
 
@@ -323,5 +324,17 @@ export default defineComponent({
 .reverse-order {
   display: flex;
   flex-direction: column-reverse;
+}
+
+::placeholder {
+  color: #424242;
+}
+
+input {
+  border-bottom: 1px solid #000000 !important;
+}
+
+.divider {
+  background-color: black;
 }
 </style>

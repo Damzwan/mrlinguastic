@@ -1,12 +1,12 @@
 <template>
   <div>
-    <!--    TODO lazy load-->
-    <PdfModal :list="selectedList" v-if="selectedList"></PdfModal>
-    <a class="modal-trigger" href="#pdfModal" ref="pdfTrigger"></a>
+    <div v-if="selectedList">
+      <PdfModal :list="selectedList"></PdfModal>
+      <a class="modal-trigger" href="#pdfModal" ref="pdfTrigger"></a>
 
-<!--    TODO lazy load-->
-    <ShareModal :list="selectedList" v-if="selectedList"></ShareModal>
-    <a class="modal-trigger" href="#shareModal" ref="shareTrigger"></a>
+      <ShareModal :list="selectedList"></ShareModal>
+      <a class="modal-trigger" href="#shareModal" ref="shareTrigger"></a>
+    </div>
 
     <div class="section">
       <h5 class="center-align hide-on-large-only">🐉 Choose or create a voc list 🐉</h5>
@@ -25,7 +25,7 @@
       <div class="row">
         <div class="col l4 m6 s12" v-for="list in downloadedLists" :key="list._id">
           <VocCard v-bind:list="list" :is-offline="true" v-on:remove="removeOfflineList"
-                   v-on:pdf="openPdfModal"></VocCard>
+                   v-on:pdf="openPdfModal" v-on:select-list="selectList"></VocCard>
         </div>
       </div>
       <div class="divider" style="margin-bottom: 30px"></div>
@@ -35,13 +35,11 @@
       <div class="col l4 m6 s12" v-for="list in userLists" :key="list._id">
         <VocCard v-bind:list="list" :is-offline="false" v-on:remove="removeOnlineList" v-on:pdf="openPdfModal"
                  v-on:download="download"
-                 v-on:share="share"></VocCard>
+                 v-on:share="share" v-on:select-list="selectList"></VocCard>
       </div>
     </div>
 
-    <div v-else>
-      <Loader></Loader>
-    </div>
+    <Loader v-else></Loader>
 
   </div>
 </template>
@@ -55,14 +53,13 @@ import VocCard from "@/components/voc/VocCard.vue";
 import Loader from "@/components/Loader.vue";
 import {correctMessage, isOffline, wrongMessage} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
-import PdfModal from "@/components/voc/PdfModal.vue";
 import ShareModal from "@/components/voc/ShareModal.vue";
 
 export default defineComponent({
   components: {
     VocCard,
     Loader,
-    PdfModal,
+    PdfModal: () => import('@/components/voc/PdfModal.vue'),
     ShareModal
   },
   setup() {
@@ -83,46 +80,43 @@ export default defineComponent({
 
     db.getItems<Voclist>("downloadedVoclists").then(lists => lists ? downloadedLists.value = lists : null);
 
-    if (userLists.value && userLists.value[0]) selectedList.value = userLists.value[0];
-    watch(userLists, () => {
-      selectedList.value = userLists.value[0];
-    })
-
-    function removeOfflineList(list: Voclist) {
-      downloadedLists.value.splice(downloadedLists.value.indexOf(list), 1);
-      db.deleteItem(list._id, "downloadedVoclists");
+    function removeOfflineList() {
+      downloadedLists.value.splice(downloadedLists.value.indexOf(selectedList.value), 1);
+      db.deleteItem(selectedList.value._id, "downloadedVoclists");
       correctMessage("deleted offline voclist!")
     }
 
-    function removeOnlineList(list: Voclist) {
+    function removeOnlineList() {
       if (navigator.onLine) {
-        removeVoclistFromState(list);
+        removeVoclistFromState(selectedList.value);
         if (auth.getOid().value) removeVoclist({
-          vocId: list._id, userId: auth.getOid().value,
-          blobs: auth.getOid().value == list.creator ? list.words.filter(word => word.img).map(word => word.img) : []
+          vocId: selectedList.value._id, userId: auth.getOid().value,
+          blobs: auth.getOid().value == selectedList.value.creator ? selectedList.value.words.filter(word => word.img).map(word => word.img) : []
         })
-        else removeImgs({imgs: list.creator ? list.words.filter(word => word.img).map(word => word.img) : []})
-        db.removeListFromUser(list._id);
+        else removeImgs({imgs: selectedList.value.creator ? selectedList.value.words.filter(word => word.img).map(word => word.img) : []})
+        db.removeListFromUser(selectedList.value._id);
         correctMessage("deleted voclist!")
       } else wrongMessage("must be online to delete this voclist!")
     }
 
-    function openPdfModal(list: Voclist) {
-      selectedList.value = list;
+    function openPdfModal() {
       pdfTrigger.value.click();
     }
 
-    async function download(list: Voclist) {
-      if (downloadedLists.value.includes(list)) await db.deleteItem(list._id, "downloadedVoclists")
-      db.downloadVoclist(list).then(list => {
+    async function download() {
+      if (downloadedLists.value.includes(selectedList.value)) await db.deleteItem(selectedList.value._id, "downloadedVoclists")
+      db.downloadVoclist(selectedList.value).then(list => {
         correctMessage("list downloaded!");
         downloadedLists.value.push(list);
       });
     }
 
-    function share(list: Voclist) {
-      selectedList.value = list;
+    function share() {
       shareTrigger.value.click();
+    }
+
+    function selectList(list: Voclist) {
+      selectedList.value = list;
     }
 
     return {
@@ -136,11 +130,15 @@ export default defineComponent({
       download,
       share,
       pdfTrigger,
-      shareTrigger
+      shareTrigger,
+      selectList
     }
   },
 });
 </script>
 
 <style scoped>
+.divider {
+  background-color: black !important;
+}
 </style>

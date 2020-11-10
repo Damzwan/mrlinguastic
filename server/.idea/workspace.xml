@@ -20,12 +20,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../client/src/assets/triangle.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/OcrModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/OcrModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Nav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Nav.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/VocCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/VocCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/VocSelection.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/VocSelection.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/ConfigModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/ConfigModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/WordDiv.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/WordDiv.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseMethod.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseMethod.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/Exercises.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/Exercises.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/Standard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/Standard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/use/general.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/general.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/localdb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/localdb.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/chunk-2d216214.e39f12c4.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/chunk-2d216214.e39f12c4.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/chunk-2d216257.256ee085.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/chunk-2d216257.256ee085.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/service-worker.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +124,8 @@
       <workItem from="1603129403447" duration="170000" />
       <workItem from="1603130528738" duration="41000" />
       <workItem from="1604890574149" duration="20000" />
-      <workItem from="1604965599533" duration="5394000" />
+      <workItem from="1604965599533" duration="6024000" />
+      <workItem from="1605009468473" duration="3572000" />
     </task>
     <servers />
   </component>
@@ -137,10 +152,11 @@
       <screen x="0" y="0" width="1504" height="1003" />
     </state>
     <state x="359" y="265" width="726" height="522" key="#com.intellij.ide.util.TreeDirectoryChooserDialog/0.0.1504.1003/198.-1080.1920.1080@0.0.1504.1003" timestamp="1597308839047" />
-    <state x="533" y="257" key="FileChooserDialogImpl" timestamp="1597653444629">
+    <state x="533" y="257" key="FileChooserDialogImpl" timestamp="1605009821240">
       <screen x="0" y="0" width="1504" height="1003" />
     </state>
     <state x="533" y="257" key="FileChooserDialogImpl/0.0.1504.1003/198.-1080.1920.1080@0.0.1504.1003" timestamp="1597653444629" />
+    <state x="533" y="257" key="FileChooserDialogImpl/0.0.1504.1003@0.0.1504.1003" timestamp="1605009821240" />
     <state x="254" y="147" key="SettingsEditor" timestamp="1597309057802">
       <screen x="0" y="0" width="1504" height="1003" />
     </state>
