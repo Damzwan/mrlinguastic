@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, ref,} from "@vue/composition-api";
+import {defineComponent, onMounted, ref, watch,} from "@vue/composition-api";
 import {useSaveImgMutation, Word} from "@/gen-types";
 import M from "materialize-css"
 import Modal = M.Modal;
@@ -39,7 +39,7 @@ export default defineComponent({
     selectedWord: Object() as () => Word,
     imagesToLoad: Array
   },
-  components:{
+  components: {
     Loader
   },
   setup(props, ctx) {
@@ -60,10 +60,6 @@ export default defineComponent({
       }
     }
 
-    function reset() {
-      imagesLoaded.value = false;
-    }
-
     //called when the user selects an image
     function setUrl(imgUrl: string) {
       modal.value.close();
@@ -78,11 +74,15 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      modal.value = M.Modal.init(modalElement.value, {onCloseEnd: reset});
+      modal.value = M.Modal.init(modalElement.value);
+    })
+
+    watch(() => props.imagesToLoad, () => {
+      imagesLoaded.value = false;
     })
 
     return {imagesLoaded, onImgLoad, modalElement, setUrl, swapImg, getBlobUrl}
 
-  }
+  },
 });
 </script>

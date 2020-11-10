@@ -3,7 +3,12 @@ import * as VueApolloComposable from "@vue/apollo-composable";
 import {
     GetBasicGroupInfoDocument,
     GetBasicGroupInfoQuery,
-    GetBasicGroupInfoQueryVariables, GetExamplesDocument, GetExamplesQuery, GetExamplesQueryVariables,
+    GetBasicGroupInfoQueryVariables,
+    GetExamplesDocument,
+    GetExamplesQuery,
+    GetExamplesQueryVariables, GetImagesDocument,
+    GetImagesQuery,
+    GetImagesQueryVariables,
     GetUserDocument,
     GetUserQuery,
     GetUserQueryVariables,
@@ -13,7 +18,9 @@ import {
     ReactiveFunction,
     TranslateWordDocument,
     TranslateWordQuery,
-    TranslateWordQueryVariables, TranslateWordsDocument, TranslateWordsQuery,
+    TranslateWordQueryVariables,
+    TranslateWordsDocument,
+    TranslateWordsQuery,
     TranslateWordsQueryVariables
 } from "@/gen-types";
 import {Ref} from "@vue/composition-api";
@@ -43,4 +50,8 @@ export function useTranslateWordsQueryLazy() {
 
 export function useGetExamplesQueryLazy() {
     return VueApolloComposable.useLazyQuery<GetExamplesQuery, GetExamplesQueryVariables>(GetExamplesDocument);
+}
+
+export function useGetImagesQueryLazy() {
+    return VueApolloComposable.useLazyQuery<GetImagesQuery, GetImagesQueryVariables>(GetImagesDocument);
 }

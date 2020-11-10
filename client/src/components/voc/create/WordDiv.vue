@@ -52,7 +52,7 @@ import {defineComponent, onMounted, reactive, ref, watch,} from "@vue/compositio
 import M, {Collapsible} from "materialize-css";
 import {useGetImagesQuery, useSaveImgMutation, Word} from "@/gen-types";
 import {getBlobUrl, getLang} from "@/use/general";
-import {useGetExamplesQueryLazy} from "@/use/lazyQueries";
+import {useGetExamplesQueryLazy, useGetImagesQueryLazy} from "@/use/lazyQueries";
 
 export default defineComponent({
   props: {
@@ -66,11 +66,13 @@ export default defineComponent({
     const toAudio = document.createElement("audio");
     let savedImgs = [];
 
-    const {result: imgUrls, refetch: imgSearch} = useGetImagesQuery({word: "", lang: ""});
+    const {result: imgUrls, load: imgSearch} = useGetImagesQueryLazy();
     const {mutate: saveImgToServer} = useSaveImgMutation(null);
 
     function getImg() {
-      imgSearch({word: props.word.from, lang: props.fromLang}).then(() => {
+      imgSearch(null, {word: props.word.from, lang: props.fromLang});
+
+      watch(imgUrls, () => {
         savedImgs = imgUrls.value.getImages;
         if (!props.word.img && savedImgs.length > 0) {
           props.word.img = savedImgs[0]
@@ -80,6 +82,7 @@ export default defineComponent({
         }
       })
     }
+
     getImg();
 
     function flipDisabled() {

@@ -230,12 +230,13 @@ export default defineComponent({
       list.words.push(word);
 
       getExamplesQuery(null, {
-        from: word.from, to: word.to,
-        fromLang: getLang(list.settings.langSettings.fromLang as langCode), toLang: getLang(list.settings.langSettings.toLang as langCode)
+        from: word.from,
+        to: word.to,
+        fromLang: getLang(list.settings.langSettings.fromLang as langCode),
+        toLang: getLang(list.settings.langSettings.toLang as langCode)
       })
 
       watch(examples, () => {
-        console.log(examples.value.getExamples)
         word.sentences = examples.value.getExamples;
       })
     }
@@ -266,6 +267,17 @@ export default defineComponent({
           sentences: [{from: "", to: [""]}],
         };
         list.words.push(word);
+
+        getExamplesQuery(null, {
+          from: word.from,
+          to: word.to,
+          fromLang: getLang(list.settings.langSettings.fromLang as langCode),
+          toLang: getLang(list.settings.langSettings.toLang as langCode)
+        })
+
+        watch(examples, () => {
+          word.sentences = examples.value.getExamples;
+        })
       }
     }
 
