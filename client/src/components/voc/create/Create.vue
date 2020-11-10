@@ -5,7 +5,7 @@
       <OcrModal v-if="list.settings" v-bind:langSettings="list.settings.langSettings"
                 v-on:addImportedWords="addImportedWords"></OcrModal>
       <ImgModal v-bind:selected-word="state.selectedWord" v-bind:images-to-load="state.imagesToLoad"
-                v-on:remove-blob="state.changedBlobs.push($event.arg)"></ImgModal>
+                v-on:remove-blob="removeBlob"></ImgModal>
 
       <CreateExampleModal v-bind:selected-word="state.selectedWord"></CreateExampleModal>
 
@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, reactive, ref, watch,} from "@vue/composition-api";
+import {defineComponent, inject, onUnmounted, reactive, ref, watch,} from "@vue/composition-api";
 import M from "materialize-css";
 import ConfigModal from "./ConfigModal.vue";
 import WordDiv from "./WordDiv.vue";
@@ -74,7 +74,7 @@ interface State {
   imagesToLoad: string[]; //an array of image urls that should be loaded into the imgModal
   selectedWord: Word; //the currently selected word by the user (when a user clicks on a word component this variable is set)
   restored: boolean;
-  changedBlobs: string[];
+  blobsToRemove: string[];
 }
 
 export default defineComponent({
@@ -118,7 +118,7 @@ export default defineComponent({
       imagesToLoad: [],
       selectedWord: null,
       restored: false,
-      changedBlobs: [],
+      blobsToRemove: [],
     })
 
     const {result: translatedWord, load: executeTranslate} = useTranslateWordQueryLazy();
@@ -144,7 +144,7 @@ export default defineComponent({
       if (auth.getOid().value && list && list.settings)
         updateVoclistOnline({
           list: list as VoclistInput,
-          changedBlobs: state.changedBlobs,
+          changedBlobs: state.blobsToRemove,
           oid: auth.getOid().value
         }).then()
     }
@@ -281,9 +281,15 @@ export default defineComponent({
       }
     }
 
-    window.onbeforeunload = async function (e) {
-      await finalSave();
-    };
+    function removeBlob(blob: string) {
+      state.blobsToRemove.push(blob);
+    }
+
+    window.addEventListener("beforeunload", finalSave)
+
+    onUnmounted(() => {
+      window.removeEventListener("beforeunload", finalSave)
+    })
 
     return {
       state,
@@ -300,7 +306,8 @@ export default defineComponent({
       createList,
       finalSave,
       getBlobUrl,
-      selectWord
+      selectWord,
+      removeBlob
     };
   }
 
