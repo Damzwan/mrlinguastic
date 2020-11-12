@@ -11,12 +11,12 @@
           <div class="input-field col s12">
             <input type="text" id="title" v-model="settings.title"
                    placeholder="Unsaved Word List"/>
-            <label for="title">Title</label>
+            <label for="title" class="active">Title</label>
           </div>
 
           <div class="input-field col s12">
             <textarea id="description" class="materialize-textarea" v-model="settings.description"></textarea>
-            <label for="description">Some information about the list</label>
+            <label for="description" class="active">Some information about the list</label>
           </div>
 
           <div class="big-space-1">

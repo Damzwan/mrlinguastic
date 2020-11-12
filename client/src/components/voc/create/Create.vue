@@ -303,9 +303,7 @@ export default defineComponent({
       selectWord,
       removeBlob
     };
-  }
-
-  ,
+  },
   beforeRouteLeave(to, from, next) {
     this.finalSave();
     next(); //TODO perhaps have a better look at this

@@ -15,9 +15,9 @@
     <div class="divider" style="margin-bottom: 30px"></div>
 
     <div class="fixed-action-btn">
-      <router-link to="/create" class="btn-floating btn-large red" :class="{disabled: isOffline()}">
+      <div @click="goToCreatePage" class="btn-floating btn-large red" :class="{disabled: isOffline()}">
         <i class="large material-icons" style="font-size: 35px;">add</i>
-      </router-link>
+      </div>
     </div>
 
     <div v-if="downloadedLists && downloadedLists.length > 0">
@@ -54,6 +54,7 @@ import Loader from "@/components/Loader.vue";
 import {correctMessage, isOffline, wrongMessage} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
 import ShareModal from "@/components/voc/ShareModal.vue";
+import {Route} from "vue-router";
 
 export default defineComponent({
   components: {
@@ -62,8 +63,7 @@ export default defineComponent({
     PdfModal: () => import('@/components/voc/PdfModal.vue'),
     ShareModal
   },
-  setup() {
-    localStorage.removeItem("_id");
+  setup(props, ctx) {
     localStorage.removeItem("isOfflineList");
     const db = inject<Localdb>("db");
     const auth = inject<AuthModule>("auth");
@@ -119,6 +119,11 @@ export default defineComponent({
       selectedList.value = list;
     }
 
+    function goToCreatePage() {
+      localStorage.removeItem("_id");
+      ctx.root.$router.push("/create");
+    }
+
     return {
       downloadedLists,
       userLists,
@@ -131,9 +136,10 @@ export default defineComponent({
       share,
       pdfTrigger,
       shareTrigger,
-      selectList
+      selectList,
+      goToCreatePage
     }
-  },
+  }
 });
 </script>
 

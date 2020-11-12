@@ -1,5 +1,7 @@
 <template>
-  <div class="card horizontal hoverable unselectable" style="background-color: #e8f2d1" @click="selectList">
+  <div class="card horizontal hoverable unselectable"
+       :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}"
+       @click="selectList">
 
     <div class="card-content" @click="toExercises" style="width: 100%; height: 100%;">
       <span class="card-title">

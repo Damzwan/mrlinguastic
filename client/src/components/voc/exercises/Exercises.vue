@@ -66,9 +66,12 @@ export default defineComponent({
         type: "audio",
         tabTitles: ['Standard'],
         routes: ['standard'],
-        text: "Speech",
+        text: "Audio",
         icon: "hearing",
-        requirements: [{condition: wordsWithAudio.length > 0 && navigator.onLine, message: "not enough words with audio"}]
+        requirements: [{
+          condition: wordsWithAudio.length > 0 && navigator.onLine,
+          message: "not enough words with audio"
+        }]
       }, {
         type: "list",
         tabTitles: ['Standard'],
@@ -76,7 +79,23 @@ export default defineComponent({
         text: "List",
         icon: "format_list_numbered",
         requirements: [{condition: words.length > 0, message: "not enough words"}]
-      }
+      },
+        {
+          type: "game",
+          tabTitles: ['Space Invader'],
+          routes: ['spaceinvader'],
+          text: "Games",
+          icon: "videogame_asset",
+          requirements: [{condition: words.length > 0, message: "not enough words"}]
+        },
+        {
+          type: "definition",
+          tabTitles: ['Guess the word'],
+          routes: ['guess-the-word'],
+          text: "Definitions",
+          icon: "directions_bike",
+          requirements: [{condition: words.length > 0 && navigator.onLine, message: "not enough words"}]
+        }
       ]
     }
 
@@ -89,7 +108,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.divider{
+.divider {
   background-color: black !important;
 }
 </style>

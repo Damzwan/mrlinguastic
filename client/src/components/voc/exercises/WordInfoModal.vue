@@ -42,18 +42,18 @@ import M from "materialize-css"
 import Modal = M.Modal;
 import {wrongMessage} from "@/use/general";
 
-interface InfoOption {
+export interface InfoOption {
   word: string;
   phonetics: string[];
   meanings: Meaning[];
 }
 
-interface Meaning {
+export interface Meaning {
   partOfSpeech: string;
   definitions: Definition[];
 }
 
-interface Definition {
+export interface Definition {
   definition: string;
   example: string;
   synonyms: string[];

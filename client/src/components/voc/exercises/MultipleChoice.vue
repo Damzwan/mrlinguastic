@@ -29,21 +29,7 @@
 
     </div>
 
-    <div v-else style="margin-top: 100px">
-      <div class="preloader-wrapper big active centered-img">
-        <div class="spinner-layer spinner-blue-only">
-          <div class="circle-clipper left">
-            <div class="circle"></div>
-          </div>
-          <div class="gap-patch">
-            <div class="circle"></div>
-          </div>
-          <div class="circle-clipper right">
-            <div class="circle"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Loader v-else></Loader>
 
     <div style="position: relative; width: 100%;" :class="{'vspace': type === 'image', 'vspace-large': type === 'text'}">
       <div class="row unselectable" v-for="(option, index) in state.options" :key="index" @click="checkWord(option.to)">
@@ -68,6 +54,7 @@ import ExerciseFinished from "@/components/voc/exercises/ExerciseFinished.vue";
 import WordInfoModal from "@/components/voc/exercises/WordInfoModal.vue";
 import {getBlobUrl} from "@/use/general";
 import {isOfflineList} from "@/use/general";
+import Loader from "@/components/Loader.vue"
 
 //used to make use of typescript typing
 interface State {
@@ -79,7 +66,8 @@ interface State {
 export default defineComponent({
   components: {
     ExerciseFinished,
-    WordInfoModal
+    WordInfoModal,
+    Loader
   },
   setup() {
 
