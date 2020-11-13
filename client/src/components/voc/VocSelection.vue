@@ -53,14 +53,13 @@ import VocCard from "@/components/voc/VocCard.vue";
 import Loader from "@/components/Loader.vue";
 import {correctMessage, isOffline, wrongMessage} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
-import ShareModal from "@/components/voc/ShareModal.vue";
 
 export default defineComponent({
   components: {
     VocCard,
     Loader,
     PdfModal: () => import('@/components/voc/PdfModal.vue'),
-    ShareModal
+    ShareModal: () => import(/* webpackPrefetch: true */ '@/components/voc/ShareModal.vue')
   },
   setup(props, ctx) {
     localStorage.removeItem("isOfflineList");

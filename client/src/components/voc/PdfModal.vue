@@ -3,7 +3,7 @@
     <div class="modal fullscreen-modal" ref="pdfModal" id="pdfModal">
       <div class="modal-content" style="height: 100%">
         <i class="material-icons right unselectable close-btn modal-close">close</i>
-        <h3 class="center">Export to Flashcards</h3>
+        <h3 class="center">📋 Export to Flashcards 📋</h3>
         <p class="flow-text center">Let's create some flashcards containing the words from <b>{{
             list.settings.title
           }}</b>

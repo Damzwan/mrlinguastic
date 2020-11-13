@@ -73,12 +73,12 @@ interface State {
 
 export default defineComponent({
   components: {
-    WordDiv,
+    WordDiv: () => import(/* webpackPrefetch: true */ '@/components/voc/create/WordDiv.vue'),
     ConfigModal,
     OcrModal: () => import('@/components/voc/create/OcrModal.vue'),
-    ImgModal: () => import('@/components/voc/create/ImgModal.vue'),
+    ImgModal: () => import(/* webpackPrefetch: true */ '@/components/voc/create/ImgModal.vue'),
     Loader,
-    CreateExampleModal: () => import('@/components/voc/create/CreateExampleModal.vue')
+    CreateExampleModal: () => import(/* webpackPrefetch: true */ '@/components/voc/create/CreateExampleModal.vue')
   },
   setup() {
     const fromInput = ref<HTMLInputElement>(null); //html element of the first input
