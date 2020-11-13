@@ -14,12 +14,6 @@
             <input type="text" v-model="word.to" class="word center" disabled>
           </div>
         </div>
-
-        <div class="fixed-action-btn" style="z-index: 9999999" v-if="selectedList.creator !== oid">
-          <div class="btn-floating btn-large red" @click="addVoclistToUser(selectedList)">
-            <i class="large material-icons" style="font-size: 35px;">add</i>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -36,34 +30,42 @@
 
       <div class="row" style="margin-top: 30px">
         <div class="col l4 m6 s12" v-for="(list, i) in result.group.voclists" :key="i">
-          <GroupVocCard :list="list" v-on:remove="removeListFromGroup" v-on:add="addVoclistToUser"
+          <GroupVocCard :list="list" v-on:remove="removeListFromGroup"
                         v-on:showList="showList"></GroupVocCard>
         </div>
       </div>
     </div>
 
     <Loader v-else></Loader>
+
+    <div class="fixed-action-btn" style="z-index: 9999999"
+         v-if="selectedList && selectedList.creator !== oid && isModalOpen">
+      <div class="btn-floating btn-large red" @click="addVoclistToUser(selectedList)">
+        <i class="large material-icons" style="font-size: 35px;">add</i>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import {defineComponent, inject, onMounted, ref, watch} from "@vue/composition-api";
 import {
-  useAddVoclistToUserMutation, useCopyVoclistMutation,
+  useAddVoclistToUserMutation,
+  useCopyVoclistMutation,
   useGetGroupQuery,
   useRemoveUserFromGroupMutation,
-  useRemoveVoclistFromGroupMutation, Voclist
+  useRemoveVoclistFromGroupMutation,
+  Voclist
 } from "@/gen-types";
-import {getCountry} from "@/use/general";
-import {correctMessage} from "@/use/general";
+import {correctMessage, getCountry} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
 import GroupVocCard from "@/components/voc/groups/GroupVocCard.vue";
 import Loader from "@/components/Loader.vue";
 
 import M from "materialize-css"
-import {addVoclist, event, removeGroup, sendEvent, userLists} from "@/use/state";
+import {addVoclist, event, removeGroup, sendEvent} from "@/use/state";
 import {Localdb} from "@/use/localdb";
-import {Route} from "vue-router";
+import {v1 as uuidv1} from 'uuid';
 
 
 export default defineComponent({
@@ -86,31 +88,40 @@ export default defineComponent({
     const modal = ref<HTMLElement>(null);
     const modalInstance = ref<M.Modal>(null);
 
+    const isModalOpen = ref(false);
+
+    function flipIsModalOpen() {
+      isModalOpen.value = !isModalOpen.value;
+    }
+
     onMounted(() => {
-      modalInstance.value = M.Modal.init(modal.value);
+      modalInstance.value = M.Modal.init(modal.value, {onOpenStart: flipIsModalOpen, onCloseStart: flipIsModalOpen});
     })
 
     async function removeListFromGroup(list: Voclist) {
-      removeListMutation({vocId: list._id, groupId: localStorage.getItem("group")}).then(() => {
-        correctMessage("removed list from group");
-        const voclists = result.value.group.voclists;
-        voclists.splice(voclists.indexOf(list), 1);
-      })
+      correctMessage("removed list from group");
+      const voclists = result.value.group.voclists;
+      voclists.splice(voclists.indexOf(list), 1);
+
+      await removeListMutation({vocId: list._id, groupId: localStorage.getItem("group")})
     }
 
     async function addVoclistToUser(list: Voclist) {
       if (auth.getOid().value) {
         copyVoclist({voclistId: list._id}).then(async voclist => {
-          await addListMutation({vocId: voclist.data.copyVoclist._id, userId: auth.getOid().value})
           db.save("voclists", voclist.data.copyVoclist).then(() => db.addListToUser(voclist.data.copyVoclist._id))
           addVoclist(voclist.data.copyVoclist);
           correctMessage("added voclist to collection!");
+          modalInstance.value.close();
+          await addListMutation({vocId: voclist.data.copyVoclist._id, userId: auth.getOid().value})
         });
       } else {
-        addVoclist(list);
-        await db.save("voclists", list);
-        await db.addListToUser(list._id);
+        const copy = Object.assign({}, list);
+        copy._id = uuidv1();
+        addVoclist(copy);
         correctMessage("added voclist to collection!");
+        modalInstance.value.close();
+        await Promise.all([db.save("voclists", copy), db.addListToUser(copy._id)])
       }
     }
 
@@ -153,6 +164,7 @@ export default defineComponent({
       selectedList,
       modal,
       oid: auth.getOid(),
+      isModalOpen
     }
   },
 });

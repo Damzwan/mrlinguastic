@@ -64,17 +64,15 @@ export default defineComponent({
     }
 
     function addVoclistToGroup(groupId: string) {
-      addListToGroup({vocId: props.list._id, groupId: groupId}).then(() => {
-        correctMessage("added voclist to group!")
-        shareModal.value.close();
-      })
+      correctMessage("added voclist to group!")
+      shareModal.value.close();
+      addListToGroup({vocId: props.list._id, groupId: groupId})
     }
 
     function addVoclistToCommunity(communityId: string) {
-      addListToGroup({vocId: props.list._id, groupId: communityId}).then(() => {
-        correctMessage("added voclist to community!")
-        shareModal.value.close();
-      })
+      correctMessage("added voclist to community!")
+      shareModal.value.close();
+      addListToGroup({vocId: props.list._id, groupId: communityId});
     }
 
     onMounted(() => {

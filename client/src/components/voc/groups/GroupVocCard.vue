@@ -5,8 +5,6 @@
       <i class="material-icons right" style="font-size: 35px; position: absolute; right: 15px; color: red"
          @click="$emit('remove', list)" v-if="list.creator === oid">
         close</i>
-      <i class="material-icons right" style="font-size: 35px; position: absolute; right: 65px; color: green" v-if="list.creator !== oid"
-         @click="$emit('add', list)">add</i>
       <span class="card-title">
         {{ list.settings.title }}
       </span>
@@ -28,7 +26,7 @@
         </div>
       </div>
 
-<!--      <p class="footer">Created by {{ list.creator }}</p>-->
+      <!--      <p class="footer">Created by {{ list.creator }}</p>-->
       <p class="footer" style="right: 5%">{{ list.lastEdited }}</p>
     </div>
   </div>
@@ -59,7 +57,7 @@ export default defineComponent({
     const list: Voclist = props.list;
     list.lastEdited = moment(new Date(list.lastEdited)).format("lll");
 
-    function showList(e: any){
+    function showList(e: any) {
       if (e.target.classList.contains("material-icons")) return;
       context.emit("showList", list);
     }

@@ -5,7 +5,7 @@
         <i class="material-icons right unselectable close-btn modal-close">close</i>
         <h4 class="center" style="margin-bottom: 30px">Words Importer 🧾</h4>
 
-        <div v-if="state.importState === ImportState.NoFileUploaded" @paste="pasteImage"
+        <div v-if="state.importState === ImportState.NoFileUploaded"
              style="height: 100%; width: 100%">
           <p class="flow-text center">Select an image or text file to import your words from 🐱‍🐉<br> Or
             paste an image using ctrl+V</p>
@@ -67,20 +67,19 @@
                 <label for="firstWord">First Word</label>
               </div>
 
+              <p class="flow-text">What language is the first word?</p>
+              <div class="input-field col s12">
+                <select ref="langSelect">
+                  <option :value="langSettings.fromLang">{{ getLang(langSettings.fromLang) }}</option>
+                  <option :value="langSettings.toLang">{{ getLang(langSettings.toLang) }}</option>
+                </select>
+              </div>
+
               <div v-if="dontTranslateWords">
                 <p class="flow-text">Enter the second word of this line</p>
                 <div class="input-field col s12">
                   <input id="splitter" type="text">
                   <label for="splitter">Second Word</label>
-                </div>
-              </div>
-              <div v-else>
-                <p class="flow-text">What language is this word?</p>
-                <div class="input-field col s12 m6">
-                  <select ref="langSelect">
-                    <option :value="langSettings.fromLang">{{ getLang(langSettings.fromLang) }}</option>
-                    <option :value="langSettings.toLang">{{ getLang(langSettings.toLang) }}</option>
-                  </select>
                 </div>
               </div>
             </div>
@@ -92,11 +91,6 @@
 
         <div v-else-if="state.importState === ImportState.Imported">
           <p class="flow-text center">Please remove or edit any words that are incorrect ❌</p>
-          <div class="row">
-            <div class="col s12"><i class="material-icons unselectable centered-img"
-                                    style="font-size: 60px; color: lightgray; text-align: center" @click="swapWords">swap_horiz</i>
-            </div>
-          </div>
           <div class="divider"></div>
 
           <div class="row">
@@ -128,7 +122,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, onUpdated, reactive, ref, watch,} from "@vue/composition-api";
+import {defineComponent, onMounted, onUnmounted, onUpdated, reactive, ref, watch,} from "@vue/composition-api";
 import M from "materialize-css";
 
 import 'cropperjs/dist/cropper.css';
@@ -218,7 +212,7 @@ export default defineComponent({
       img.value.onload = function () {
         cropper.value = new Cropper(img.value, {
           dragMode: "move",
-          viewMode: 3,
+          viewMode: 2,
           responsive: false,
           zoomOnTouch: false,
           autoCropArea: 0.5,
@@ -233,9 +227,11 @@ export default defineComponent({
       if (items == null) return;
       for (let i = 0; i < items.length; i++) {
         if (items[i].type.indexOf("image") == -1) continue;
+        state.importState = ImportState.Img;
         const blob = items[i].getAsFile();
         const URLObj = window.URL || window.webkitURL;
-        createCropper(URLObj.createObjectURL(blob))
+        const url = URLObj.createObjectURL(blob);
+        setTimeout(createCropper, 100, url); //TODO stupid hack :/
       }
     }
 
@@ -293,15 +289,16 @@ export default defineComponent({
       const startIndex = state.importedText[0].indexOf(firstWord);
       let splitter: string = null;
 
+      const userLang = langSelect.value.value;
       if (dontTranslateWords.value) {
         elem = document.getElementById("splitter") as HTMLInputElement;
         const secondWord = elem.value;
         splitter = state.importedText[0].charAt(state.importedText[0].indexOf(secondWord) - 1);
         state.importedWords.from = state.importedText.map(line => cleanWord(line.substring(startIndex, line.lastIndexOf(splitter))))
-        state.importedWords.to = state.importedText.map(line => cleanWord(line.substring(line.lastIndexOf(splitter) + 1)))
+        state.importedWords.to = state.importedText.map(line => cleanWord(line.substring(line.lastIndexOf(splitter) + 1)));
+        if (userLang != props.langSettings.fromLang) swapWords();
         state.importState = ImportState.Imported;
       } else {
-        const userLang = langSelect.value.value;
         state.importedWords.from = state.importedText.map(line => cleanWord(line.substring(startIndex)));
         executeTranslate(null, {
           words: state.importedWords.from,
@@ -397,6 +394,12 @@ export default defineComponent({
     function getNiceSize() {
       return window.screen.height * 0.6;
     }
+
+    document.addEventListener("paste", pasteImage);
+
+    onUnmounted(() => {
+      document.removeEventListener("paste", pasteImage);
+    })
 
     return {
       modalElement,

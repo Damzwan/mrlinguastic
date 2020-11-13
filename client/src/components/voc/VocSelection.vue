@@ -21,7 +21,7 @@
     </div>
 
     <div v-if="downloadedLists && downloadedLists.length > 0">
-      <h5 class="center">Downloaded Voclists</h5>
+      <h5 class="center">Downloaded</h5>
       <div class="row">
         <div class="col l4 m6 s12" v-for="list in downloadedLists" :key="list._id">
           <VocCard v-bind:list="list" :is-offline="true" v-on:remove="removeOfflineList"
