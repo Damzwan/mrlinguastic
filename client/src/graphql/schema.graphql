@@ -23,7 +23,8 @@ type Mutation {
     addSharedVoclist(userId: String!, vocId: String!): Boolean
     addUserToGroup(groupId: String!, userId: String!): String
     addVoclistToGroup(groupId: String!, vocId: String!): Boolean
-    copyVoclist(voclistId: String!): Voclist
+    copyImgs(imgs: [String!]): [String!]
+    copyVoclist(userId: String!, voclistId: String!): Voclist
     createGroup(groupInfo: GroupInput!, userId: String!): String
     deleteVoclist(blobs: [String]!, userId: String!, vocId: String!): Boolean
     removeImgs(imgs: [String!]): Boolean

@@ -160,8 +160,8 @@ mutation removeUserFromGroup($groupId: String!, $userId: String!){
     removeUserFromGroup(groupId: $groupId, userId: $userId)
 }
 
-mutation copyVoclist($voclistId: String!){
-    copyVoclist(voclistId: $voclistId){
+mutation copyVoclist($voclistId: String!, $userId: String!){
+    copyVoclist(userId: $userId,voclistId: $voclistId){
         _id
         words{
             from
@@ -189,5 +189,9 @@ mutation copyVoclist($voclistId: String!){
 
 mutation removeImgs($imgs: [String!]){
     removeImgs(imgs: $imgs)
+}
+
+mutation copyImgs($imgs: [String!]){
+    copyImgs(imgs: $imgs)
 }
 

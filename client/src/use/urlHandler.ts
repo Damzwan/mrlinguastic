@@ -1,21 +1,25 @@
 import {useGetBasicGroupInfoQueryLazy, useGetVoclistQueryLazy} from "@/use/lazyQueries";
-import {useAddUserToGroupMutation, useCopyVoclistMutation, Voclist} from "@/gen-types";
+import {useAddUserToGroupMutation, useCopyImgsMutation, useCopyVoclistMutation, Voclist} from "@/gen-types";
 import {addGroup, addVoclist, BasicGroupInfo} from "@/use/state";
 import {correctMessage, wrongMessage} from "@/use/general";
 import {inject, watch} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
+import {AuthModule} from "@/use/authModule";
+import {v1 as uuidv1} from "uuid";
 
 export function useUrlHandler() {
     const {result: voclist, load: getVoclist} = useGetVoclistQueryLazy();
     const {result: group, load: getGroup} = useGetBasicGroupInfoQueryLazy();
 
+    const {mutate: copyImgs} = useCopyImgsMutation({});
     const {mutate: copyVoclist} = useCopyVoclistMutation({});
     const {mutate: addUserToGroup} = useAddUserToGroupMutation({});
 
     const db = inject<Localdb>("db")
+    const auth = inject<AuthModule>("auth")
 
     async function getSharedVoclistOnline(voclistId: string) {
-        const voclist = await copyVoclist({voclistId: voclistId})
+        const voclist = await copyVoclist({voclistId: voclistId, userId: auth.getOid().value})
         if (voclist) {
             addVoclist(voclist.data?.copyVoclist as Voclist);
             correctMessage("added voclist");
@@ -26,6 +30,13 @@ export function useUrlHandler() {
         getVoclist(null, {voclistId: voclistId});
         watch(voclist, async () => {
             if (voclist.value) {
+                const copy = voclist.value.voclist;
+                copy._id = uuidv1();
+                const copiedImgs = await copyImgs({imgs: copy.words.map(word => word.img)});
+
+                for (let i = 0; i < copy.words.length; i++)
+                    copy.words[i].img = copiedImgs.data?.copyImgs[i];
+
                 addVoclist(voclist.value.voclist as Voclist);
                 await db.save("voclists", voclist.value.voclist as Voclist)
                 await db.addListToUser(voclistId);

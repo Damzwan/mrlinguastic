@@ -70,6 +70,7 @@ export type Mutation = {
   deleteVoclist?: Maybe<Scalars['Boolean']>;
   saveImg: Scalars['String'];
   removeImgs?: Maybe<Scalars['Boolean']>;
+  copyImgs?: Maybe<Array<Scalars['String']>>;
   createGroup?: Maybe<Scalars['String']>;
   addVoclistToGroup?: Maybe<Scalars['Boolean']>;
   removeVoclistFromGroup?: Maybe<Scalars['Boolean']>;
@@ -109,6 +110,11 @@ export type MutationRemoveImgsArgs = {
 };
 
 
+export type MutationCopyImgsArgs = {
+  imgs?: Maybe<Array<Scalars['String']>>;
+};
+
+
 export type MutationCreateGroupArgs = {
   groupInfo: GroupInput;
   userId: Scalars['String'];
@@ -141,6 +147,7 @@ export type MutationRemoveUserFromGroupArgs = {
 
 export type MutationCopyVoclistArgs = {
   voclistId: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 export type Query = {
@@ -466,12 +473,13 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteVoclistArgs, 'userId' | 'vocId' | 'blobs'>>;
   saveImg?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationSaveImgArgs, 'img'>>;
   removeImgs?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveImgsArgs, never>>;
+  copyImgs?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType, RequireFields<MutationCopyImgsArgs, never>>;
   createGroup?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationCreateGroupArgs, 'groupInfo' | 'userId'>>;
   addVoclistToGroup?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddVoclistToGroupArgs, 'groupId' | 'vocId'>>;
   removeVoclistFromGroup?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveVoclistFromGroupArgs, 'groupId' | 'vocId'>>;
   addUserToGroup?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationAddUserToGroupArgs, 'userId' | 'groupId'>>;
   removeUserFromGroup?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveUserFromGroupArgs, 'userId' | 'groupId'>>;
-  copyVoclist?: Resolver<Maybe<ResolversTypes['Voclist']>, ParentType, ContextType, RequireFields<MutationCopyVoclistArgs, 'voclistId'>>;
+  copyVoclist?: Resolver<Maybe<ResolversTypes['Voclist']>, ParentType, ContextType, RequireFields<MutationCopyVoclistArgs, 'voclistId' | 'userId'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {

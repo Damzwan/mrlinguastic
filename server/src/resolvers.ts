@@ -1,5 +1,6 @@
-import {Collections, GroupDbObject, Resolvers, Voclist} from "./gen-types";
+import {Collections, GroupDbObject, Resolvers, Voclist, VoclistDbObject} from "./gen-types";
 import {MongoAPI} from "./datasources/mongodb";
+import {ObjectId} from "mongodb";
 
 require('dotenv').config()
 
@@ -43,9 +44,11 @@ export const resolv: Resolvers = {
             return await dataSources.azureAPI.saveBlob(args.img, "images");
         },
         removeImgs: async (_: any, args, {dataSources}: { dataSources: any }) => {
-
             args.imgs.forEach(img => dataSources.azureAPI.deleteBlob(img, "images"));
             return true;
+        },
+        copyImgs: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            return args.imgs.map(img => dataSources.azureAPI.copyBlob(img))
         },
         deleteVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
             args.blobs.forEach(blob => dataSources.azureAPI.deleteBlob(blob, "images"));
@@ -75,7 +78,12 @@ export const resolv: Resolvers = {
             return true;
         },
         copyVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
-            return await mongoAPI.createVoclistCopy(args.voclistId)
+            const voclist = await mongoAPI.getEntityByCollectionAndId<VoclistDbObject>(Collections.Voclists, args.voclistId);
+            voclist._id = new ObjectId().toHexString();
+            voclist.words.forEach(word => word.img = dataSources.azureAPI.copyBlob(word.img));
+            mongoAPI.updateEntity(Collections.Voclists, voclist._id, voclist).then();
+            mongoAPI.addVoclist(args.userId, voclist._id).then();
+            return voclist;
         }
     },
     User: {

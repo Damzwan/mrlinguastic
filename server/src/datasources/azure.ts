@@ -136,8 +136,17 @@ export class azureAPI extends DataSource {
         const blobName = uuidv4(); // Create a unique name for the blob
         const container = containerName == "audio" ? this.audioContainerClient : this.imagesContainerClient;
         const blockBlobClient = container.getBlockBlobClient(blobName); // Get a block blob client
-        const uploadBlobResponse = await blockBlobClient.upload(buffer, buffer.byteLength); //TODO should probably not be await
+        const uploadBlobResponse = await blockBlobClient.upload(buffer, buffer.byteLength);
         console.log("Blob was uploaded successfully. requestId: ", uploadBlobResponse.requestId);
+        return blobName;
+    }
+
+    copyBlob(blob: string | null): string | null {
+        if (!blob) return null;
+        const blobName = uuidv4(); // Create a unique name for the blob
+        const sourceBlob = this.imagesContainerClient.getBlobClient(blob);
+        const blockBlobClient = this.imagesContainerClient.getBlockBlobClient(blobName); // Get a block blob client
+        blockBlobClient.beginCopyFromURL(sourceBlob.url).then();
         return blobName;
     }
 

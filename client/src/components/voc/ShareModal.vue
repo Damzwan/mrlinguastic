@@ -46,8 +46,8 @@ export default defineComponent({
     const shareModal = ref<Modal>(null);
     const clickedAddToGroup = ref(false);
     const clickedAddToCommunity = ref(false);
-    const community = communities.value.reduce((acc, community) =>
-        community.country == getCountry(props.list.settings.langSettings.toLang as langCode) ? acc = community : acc)
+    const community = communities.value.length > 0 ? communities.value.reduce((acc, community) =>
+        community.country == getCountry(props.list.settings.langSettings.toLang as langCode) ? acc = community : acc) : null;
 
     const {mutate: addListToGroup} = useAddVoclistToGroupMutation({});
 

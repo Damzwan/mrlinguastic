@@ -24,7 +24,7 @@
       <h5 class="center">Downloaded</h5>
       <div class="row">
         <div class="col l4 m6 s12" v-for="list in downloadedLists" :key="list._id">
-          <VocCard v-bind:list="list" :is-offline="true" v-on:remove="removeOfflineList"
+          <VocCard v-bind:list="list" :is-offline="true" v-on:remove="removeDownloadedList"
                    v-on:pdf="openPdfModal" v-on:select-list="selectList"></VocCard>
         </div>
       </div>
@@ -45,16 +45,15 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, ref, watch} from "@vue/composition-api";
-import {downloadedLists, removeVoclistFromState, replaceDownloadedVoclist, userLists} from "@/use/state";
-import {Maybe, useDeleteVoclistMutation, useRemoveImgsMutation, Voclist} from "@/gen-types";
+import {defineComponent, inject, ref} from "@vue/composition-api";
+import {downloadedLists, removeVoclistFromState, userLists} from "@/use/state";
+import {useDeleteVoclistMutation, useRemoveImgsMutation, Voclist} from "@/gen-types";
 import {Localdb} from "@/use/localdb";
 import VocCard from "@/components/voc/VocCard.vue";
 import Loader from "@/components/Loader.vue";
 import {correctMessage, isOffline, wrongMessage} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
 import ShareModal from "@/components/voc/ShareModal.vue";
-import {Route} from "vue-router";
 
 export default defineComponent({
   components: {
@@ -76,7 +75,7 @@ export default defineComponent({
     const {mutate: removeVoclist} = useDeleteVoclistMutation({});
     const {mutate: removeImgs} = useRemoveImgsMutation({});
 
-    function removeOfflineList() {
+    function removeDownloadedList() {
       downloadedLists.value.splice(downloadedLists.value.indexOf(selectedList.value), 1);
       db.deleteItem(selectedList.value._id, "downloadedVoclists");
       correctMessage("deleted offline voclist!")
@@ -87,9 +86,9 @@ export default defineComponent({
         removeVoclistFromState(selectedList.value);
         if (auth.getOid().value) removeVoclist({
           vocId: selectedList.value._id, userId: auth.getOid().value,
-          blobs: auth.getOid().value == selectedList.value.creator ? selectedList.value.words.filter(word => word.img).map(word => word.img) : []
+          blobs: selectedList.value.words.filter(word => word.img).map(word => word.img)
         })
-        else removeImgs({imgs: selectedList.value.creator ? selectedList.value.words.filter(word => word.img).map(word => word.img) : []})
+        else removeImgs({imgs: selectedList.value.words.filter(word => word.img).map(word => word.img)})
         db.removeListFromUser(selectedList.value._id);
         correctMessage("deleted voclist!")
       } else wrongMessage("must be online to delete this voclist!")
@@ -133,7 +132,7 @@ export default defineComponent({
       downloadedLists,
       userLists,
       isOffline,
-      removeOfflineList,
+      removeDownloadedList,
       removeOnlineList,
       selectedList,
       openPdfModal,

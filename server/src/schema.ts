@@ -56,12 +56,13 @@ export const typeDefs = gql`
         deleteVoclist(userId: String!, vocId: String!, blobs: [String]!): Boolean
         saveImg(img: String!): String!
         removeImgs(imgs: [String!]): Boolean
+        copyImgs(imgs: [String!]): [String!]
         createGroup(groupInfo: GroupInput!, userId: String!): String
         addVoclistToGroup(groupId: String!, vocId: String!): Boolean
         removeVoclistFromGroup(groupId: String!, vocId: String!): Boolean
         addUserToGroup(userId: String!, groupId: String!): String
         removeUserFromGroup(userId: String!, groupId: String!): Boolean
-        copyVoclist(voclistId: String!): Voclist
+        copyVoclist(voclistId: String!, userId: String!): Voclist
     }
 
     type User @entity{

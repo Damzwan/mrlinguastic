@@ -50,7 +50,7 @@
 <script lang="ts">
 import {defineComponent, inject, onMounted, ref, watch} from "@vue/composition-api";
 import {
-  useAddVoclistToUserMutation,
+  useAddVoclistToUserMutation, useCopyImgsMutation,
   useCopyVoclistMutation,
   useGetGroupQuery,
   useRemoveUserFromGroupMutation,
@@ -79,6 +79,7 @@ export default defineComponent({
     const {mutate: addListMutation} = useAddVoclistToUserMutation(null);
     const {mutate: leaveGroupMutation} = useRemoveUserFromGroupMutation(null);
     const {mutate: copyVoclist} = useCopyVoclistMutation(null);
+    const {mutate: copyImgs} = useCopyImgsMutation(null);
     const {result, refetch, loading} = useGetGroupQuery({groupId: localStorage.getItem("group")}, {fetchPolicy: "cache-and-network"});
 
     const auth = inject<AuthModule>("auth");
@@ -108,7 +109,7 @@ export default defineComponent({
 
     async function addVoclistToUser(list: Voclist) {
       if (auth.getOid().value) {
-        copyVoclist({voclistId: list._id}).then(async voclist => {
+        copyVoclist({voclistId: list._id, userId: auth.getOid().value}).then(async voclist => {
           db.save("voclists", voclist.data.copyVoclist).then(() => db.addListToUser(voclist.data.copyVoclist._id))
           addVoclist(voclist.data.copyVoclist);
           correctMessage("added voclist to collection!");
@@ -118,6 +119,11 @@ export default defineComponent({
       } else {
         const copy = Object.assign({}, list);
         copy._id = uuidv1();
+
+        const copiedImgs = await copyImgs({imgs: copy.words.map(word => word.img)});
+        for (let i = 0; i < copy.words.length; i++)
+          copy.words[i].img = copiedImgs.data?.copyImgs[i];
+
         addVoclist(copy);
         correctMessage("added voclist to collection!");
         modalInstance.value.close();
