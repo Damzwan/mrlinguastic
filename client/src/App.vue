@@ -9,7 +9,7 @@
 import Vue from "vue";
 import {useCopyVoclistMutation, Voclist} from "@/gen-types";
 import {provide, watch} from "@vue/composition-api";
-import {groups, setUser, userLists} from "@/use/state";
+import {groups, setUser, userLists, setDownloadedLists} from "@/use/state";
 import {AuthModule} from "@/use/authModule";
 import {Localdb, UserDbObject} from "@/use/localdb";
 import Nav from "./components/Nav.vue";
@@ -53,6 +53,7 @@ export default Vue.extend({
     }
 
     Promise.all([auth.loadAuthModule(), db.connect()]).then(() => {
+      db.getItems<Voclist>("downloadedVoclists").then(lists => setDownloadedLists(lists));
       if (!auth.getOid().value || !navigator.onLine) handleLoggedOutMode()
       else handleLoggedInMode();
     })

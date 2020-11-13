@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div v-if="result">
+    <div v-if="result && !loading">
       <h5 class="center">
         <i class="material-icons unselectable tooltipped" style="font-size: 35px" @click="leaveGroup"
            data-tooltip="Leave Group">exit_to_app</i>
@@ -42,14 +42,12 @@
       </div>
     </div>
 
-    <div v-else>
-      <Loader></Loader>
-    </div>
+    <Loader v-else></Loader>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, onMounted, ref} from "@vue/composition-api";
+import {defineComponent, inject, onMounted, ref, watch} from "@vue/composition-api";
 import {
   useAddVoclistToUserMutation, useCopyVoclistMutation,
   useGetGroupQuery,
@@ -63,8 +61,9 @@ import GroupVocCard from "@/components/voc/groups/GroupVocCard.vue";
 import Loader from "@/components/Loader.vue";
 
 import M from "materialize-css"
-import {addVoclist, removeGroup, userLists} from "@/use/state";
+import {addVoclist, event, removeGroup, sendEvent, userLists} from "@/use/state";
 import {Localdb} from "@/use/localdb";
+import {Route} from "vue-router";
 
 
 export default defineComponent({
@@ -78,7 +77,7 @@ export default defineComponent({
     const {mutate: addListMutation} = useAddVoclistToUserMutation(null);
     const {mutate: leaveGroupMutation} = useRemoveUserFromGroupMutation(null);
     const {mutate: copyVoclist} = useCopyVoclistMutation(null);
-    const {result, loading} = useGetGroupQuery({groupId: localStorage.getItem("group")}, {fetchPolicy: "cache-and-network"});
+    const {result, refetch, loading} = useGetGroupQuery({groupId: localStorage.getItem("group")}, {fetchPolicy: "cache-and-network"});
 
     const auth = inject<AuthModule>("auth");
     const db = inject<Localdb>("db");
@@ -135,8 +134,15 @@ export default defineComponent({
       modalInstance.value.open();
     }
 
+    watch(event, () => {
+      if (!event.value) return;
+      refetch({groupId: localStorage.getItem("group")})
+      sendEvent(null); //notify that message has been read
+    })
+
     return {
       result,
+      refetch,
       loading,
       getCountry,
       removeListFromGroup,
@@ -146,7 +152,7 @@ export default defineComponent({
       showList,
       selectedList,
       modal,
-      oid: auth.getOid()
+      oid: auth.getOid(),
     }
   },
 });

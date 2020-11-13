@@ -152,9 +152,10 @@ export class Localdb {
         })
     }
 
+    //TODO the way to check if this is a base64 url or not is a bit bad haha
     async downloadVoclist(list: Voclist): Promise<Voclist> {
         list.words = await Promise.all(list.words!.map(async word => {
-            if (word.img) word.img = await this.getBase64Url(getBlobUrl(word.img));
+            if (word.img) word.img.length == 36 ? word.img = await this.getBase64Url(getBlobUrl(word.img)) : word.img;
             return word;
         }))
         this.save("downloadedVoclists", list).then();

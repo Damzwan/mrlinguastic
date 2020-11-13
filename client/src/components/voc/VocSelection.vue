@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import {defineComponent, inject, ref, watch} from "@vue/composition-api";
-import {removeVoclistFromState, userLists} from "@/use/state";
+import {downloadedLists, removeVoclistFromState, replaceDownloadedVoclist, userLists} from "@/use/state";
 import {Maybe, useDeleteVoclistMutation, useRemoveImgsMutation, Voclist} from "@/gen-types";
 import {Localdb} from "@/use/localdb";
 import VocCard from "@/components/voc/VocCard.vue";
@@ -68,7 +68,6 @@ export default defineComponent({
     const db = inject<Localdb>("db");
     const auth = inject<AuthModule>("auth");
 
-    const downloadedLists = ref<Maybe<Voclist[]>>(null);
     const selectedList = ref<Voclist>(null);
 
     const pdfTrigger = ref<HTMLLinkElement>(null);
@@ -76,9 +75,6 @@ export default defineComponent({
 
     const {mutate: removeVoclist} = useDeleteVoclistMutation({});
     const {mutate: removeImgs} = useRemoveImgsMutation({});
-
-
-    db.getItems<Voclist>("downloadedVoclists").then(lists => lists ? downloadedLists.value = lists : null);
 
     function removeOfflineList() {
       downloadedLists.value.splice(downloadedLists.value.indexOf(selectedList.value), 1);
@@ -104,10 +100,19 @@ export default defineComponent({
     }
 
     async function download() {
-      if (downloadedLists.value.includes(selectedList.value)) await db.deleteItem(selectedList.value._id, "downloadedVoclists")
+      let index = -1;
+      for (let i = 0; i < downloadedLists.value.length; i++)
+        if (downloadedLists.value[i]._id == selectedList.value._id) index = i;
+
       db.downloadVoclist(selectedList.value).then(list => {
-        correctMessage("list downloaded!");
-        downloadedLists.value.push(list);
+        if (index == -1) {
+          downloadedLists.value.push(list);
+          correctMessage("list downloaded!");
+        } else {
+          downloadedLists.value.splice(index);
+          downloadedLists.value.push(list)
+          correctMessage("updated downloaded voclist");
+        }
       });
     }
 

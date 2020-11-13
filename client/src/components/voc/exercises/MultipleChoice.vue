@@ -206,16 +206,6 @@ export default defineComponent({
   clip-path: polygon(0 0, 100% 0%, 96% 100%, 0% 100%);
 }
 
-@media only screen and (min-width: 350px) {
-  .vspace{
-    margin-top: 3vh;
-  }
-
-  .vspace-large{
-    margin-top: 8vh;
-  }
-}
-
 @media only screen and (max-width: 600px) {
   .dynamicDiv {
     height: 200px;

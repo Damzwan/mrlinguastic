@@ -10,8 +10,13 @@
           <i class="material-icons unselectable">group</i>
           Add to group
         </a>
+        <a class="collection-item unselectable" @click="addVoclistToCommunity(community._id)" v-if="community">
+          <img :src="require(`@/assets/country-flags/${community.country}.svg`)" alt="flag" class="left"
+               width="24px" style="position: relative; margin-right: 10px">
+          Add to {{ community.name }} Community
+        </a>
       </div>
-      <div v-else>
+      <div v-else-if="clickedAddToGroup">
         <div class="collection">
           <a class="collection-item unselectable" v-for="group in groups" @click="addVoclistToGroup(group._id)"
              :key="group._id">
@@ -28,9 +33,9 @@
 import {defineComponent, onMounted, reactive, ref, watch,} from "@vue/composition-api";
 import {useAddVoclistToGroupMutation, Voclist, Word} from "@/gen-types";
 import M from "materialize-css";
-import {correctMessage} from "@/use/general";
+import {Community, correctMessage, getCommunity, getCountry, langCode, wrongMessage} from "@/use/general";
 import Modal = M.Modal;
-import {groups} from "@/use/state";
+import {communities, groups} from "@/use/state";
 
 export default defineComponent({
   props: {
@@ -40,6 +45,9 @@ export default defineComponent({
     const modal = ref<HTMLElement>(null);
     const shareModal = ref<Modal>(null);
     const clickedAddToGroup = ref(false);
+    const clickedAddToCommunity = ref(false);
+    const community = communities.value.reduce((acc, community) =>
+        community.country == getCountry(props.list.settings.langSettings.toLang as langCode) ? acc = community : acc)
 
     const {mutate: addListToGroup} = useAddVoclistToGroupMutation({});
 
@@ -62,11 +70,27 @@ export default defineComponent({
       })
     }
 
+    function addVoclistToCommunity(communityId: string) {
+      addListToGroup({vocId: props.list._id, groupId: communityId}).then(() => {
+        correctMessage("added voclist to community!")
+        shareModal.value.close();
+      })
+    }
+
     onMounted(() => {
       shareModal.value = M.Modal.init(modal.value, {onCloseEnd: reset})
     })
 
-    return {modal, copyListLink, groups, addVoclistToGroup, clickedAddToGroup}
+    return {
+      modal,
+      copyListLink,
+      groups,
+      addVoclistToGroup,
+      clickedAddToGroup,
+      clickedAddToCommunity,
+      community,
+      addVoclistToCommunity
+    }
   }
 });
 </script>

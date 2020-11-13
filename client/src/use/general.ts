@@ -4,6 +4,12 @@ import moment from "moment";
 export type langCode = "en" | "fr" | "it" | "nl"
 type langMap = { [key in langCode]: string };
 
+export interface Community {
+    _id: string,
+    country: string,
+    name: string
+}
+
 export function getBlobUrl(blobName: string) {
     if (blobName.substring(0, 5) == "https") return blobName;
     return `https://mrlinguasticblobs.blob.core.windows.net/images/${blobName}?sv=2019-12-12&ss=bfqt&srt=o&sp=rx&se=2021-08-28T20:58:09Z&st=2020-08-28T12:58:09Z&spr=https&sig=igpY0VHeNftYhjSiIVFKSdeAscwRCLVeVRH9VmOzu2Q=&_=1598623419376`
@@ -92,5 +98,23 @@ export function isOfflineList() {
 
 export function formatDate(date: string) {
     return moment(new Date(date)).format("lll");
+}
+
+const communities: Community[] = [{_id: "5fadcd07e4d3a016b4aa9b7c", country: "united-kingdom", name: "English"}, {
+    _id: "5fadcd41e4d3a016b4aa9b7d", country: "france", name: "French"
+}, {_id: "5fadcd58e4d3a016b4aa9b7e", country: "italy", name: "Italian"}, {
+    _id: "5fadcd79e4d3a016b4aa9b7f",
+    country: "belgium",
+    name: "Dutch"
+}]
+
+export function getCommunity(id: string) {
+    for (const community of communities)
+        if (community._id == id) return community;
+    return null;
+}
+
+export function getCommunities() {
+    return communities;
 }
 

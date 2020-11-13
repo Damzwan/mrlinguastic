@@ -1,6 +1,7 @@
 import {computed, inject, reactive} from "@vue/composition-api";
 import {User, Voclist} from "@/gen-types";
 import {Localdb} from "@/use/localdb";
+import {getCommunity} from "@/use/general";
 
 export interface BasicGroupInfo {
     _id: string;
@@ -9,14 +10,27 @@ export interface BasicGroupInfo {
 
 interface State {
     user: User | null
+    downloadedLists: Voclist[] | null,
+    event: string | null
 }
 
 const state = reactive<State>({
-    user: null
+    user: null,
+    downloadedLists: null,
+    event: null
 })
 
 function setUser(newUser: User) {
     state.user = newUser
+}
+
+function setDownloadedLists(lists: Voclist[]) {
+    state.downloadedLists = lists;
+}
+
+function replaceDownloadedVoclist(i: number, list: Voclist) {
+    state.downloadedLists[i] = list;
+    console.log(state.downloadedLists[i])
 }
 
 function replaceList(newList: Voclist) {
@@ -48,9 +62,19 @@ function removeGroup(groupId: string) {
         if (state.user.groups[i]._id == groupId) state.user.groups.splice(i, 1);
 }
 
+function sendEvent(msg: string | null) {
+    state.event = msg;
+}
+
 const userLists = computed(() => state.user ? state.user.voclists : null);
 
-const groups = computed(() => state.user ? state.user.groups : null);
+const groups = computed(() => state.user ? state.user.groups.filter(group => !getCommunity(group._id)) : null);
+const communities = computed(() => state.user ? state.user.groups
+    .filter(group => getCommunity(group._id)).map(group => getCommunity(group._id)) : null)
+
+const downloadedLists = computed(() => state.downloadedLists)
+
+const event = computed(() => state.event)
 
 export {
     setUser,
@@ -60,5 +84,11 @@ export {
     replaceList,
     removeGroup,
     removeVoclistFromState,
-    groups
+    groups,
+    communities,
+    downloadedLists,
+    setDownloadedLists,
+    replaceDownloadedVoclist,
+    event,
+    sendEvent
 }

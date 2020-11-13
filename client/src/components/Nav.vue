@@ -82,22 +82,36 @@
           <a v-if="user"><span class="white-text name">{{ user }}</span></a>
           <a v-else @click="logIn" class="btn green" style="width: 60px; height: 35px;">log in!</a>
         </div>
-        <div class="divider" style="background-color: #33691e !important"></div>
+        <div class="divider"></div>
       </li>
       <li>
+        <a class="unselectable modal-trigger" href="#communityModal">
+          <span class="white-text center unselectable">Join Community</span>
+          <i class="material-icons unselectable">group_add</i>
+        </a>
+      </li>
+      <li v-for="(community) in communities" :key="community._id">
+        <a @click="goToGroup(community._id)" class="unselectable">
+          <span class="white-text center unselectable" style="margin-left: 10px">{{ community.name }}</span>
+          <img :src="require(`@/assets/country-flags/${community.country}.svg`)" alt="flag" class="left"
+               width="24px" style="top: 12px; position: relative;">
+        </a>
+      </li>
+      <li>
+        <div class="divider"></div>
         <a @click="openGroupModal" class="unselectable">
           <span class="white-text center unselectable">Create Group</span>
           <i class="material-icons unselectable">group_add</i>
         </a>
       </li>
-      <li>
-        <a v-for="(group, i) in groups" :key="i" @click="goToGroup(group._id)" class="unselectable">
+      <li v-for="(group) in groups" :key="group._id">
+        <a @click="goToGroup(group._id)" class="unselectable">
           <span class="white-text center unselectable">{{ group.name }}</span>
           <i class="material-icons unselectable">group</i></a>
       </li>
     </ul>
 
-<!--    Maybe lazy load this as well-->
+    <!--    Maybe lazy load this as well-->
     <div class="modal" ref="modalElement">
       <div class="modal-content">
         <h4 class="center">Create Group</h4>
@@ -117,17 +131,41 @@
         </div>
       </div>
     </div>
+
+    <div class="modal" ref="communityModalElem" id="communityModal">
+      <div class="modal-content" v-if="communities">
+        <h4 class="center">Join a community</h4>
+        <div class="divider"></div>
+        <div class="collection">
+          <a class="collection-item row" v-for="(community, i) in getCommunities()" :key="i">
+            <div class="col s9 m10">
+              <img :src="require(`@/assets/country-flags/${community.country}.svg`)" alt="flag" class="left"
+                   width="24px" style="position: relative; margin-right: 10px">
+              {{ community.name }} community
+            </div>
+            <div class="col s3 m2">
+              <a class="waves-effect waves-green btn" @click="joinCommunity(community)"
+                 :class="{disabled: communities.includes(community)}">Join</a>
+            </div>
+          </a>
+        </div>
+        <div class="modal-footer">
+          <div class="modal-close waves-effect waves-green btn-flat">Close</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import {defineComponent, inject, onMounted, ref} from "@vue/composition-api";
 import M from "materialize-css";
-import {correctMessage, wrongMessage} from "@/use/general";
+import {Community, correctMessage, getCommunities, getCommunity, wrongMessage} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
 import {Route} from "vue-router";
-import {useCreateGroupMutation} from "@/gen-types";
-import {addGroup, groups} from "@/use/state";
+import {Group, useAddUserToGroupMutation, useCreateGroupMutation} from "@/gen-types";
+import {addGroup, communities, groups, sendEvent} from "@/use/state";
+import {Localdb} from "@/use/localdb";
 
 export default defineComponent({
   setup(props, context) {
@@ -140,13 +178,16 @@ export default defineComponent({
 
     const groupModal = ref<M.Modal>(null);
     const modalElement = ref<HTMLElement>(null);
+    const communityModalElem = ref<HTMLElement>(null);
 
     const {mutate: createGroupMutation} = useCreateGroupMutation(null);
+    const {mutate: addUserToGroup} = useAddUserToGroupMutation({});
 
     onMounted(() => {
       sidenav1.value = M.Sidenav.init(nav1.value);
       sidenav2.value = M.Sidenav.init(nav2.value, {edge: "right"});
       groupModal.value = M.Modal.init(modalElement.value)
+      M.Modal.init(communityModalElem.value)
     });
 
     function openSideNav(left: boolean) {
@@ -189,9 +230,18 @@ export default defineComponent({
     function goToGroup(id: string) {
       closeSideNav(false);
       if (!navigator.onLine) wrongMessage("must be online")
-      if (context.root.$route.path == "/group" || !navigator.onLine) return;
       localStorage.setItem("group", id);
-      context.root.$router.push("group")
+      if (context.root.$route.path == "/group") sendEvent("new group") //we are already in the group page
+      else context.root.$router.push("group");
+    }
+
+    const db = inject<Localdb>("db");
+
+    function joinCommunity(community: Community) {
+      addGroup({_id: community._id, name: community.name})
+      auth.getOid().value ? addUserToGroup({userId: auth.getOid().value, groupId: community._id}) :
+          db.addGroupToUser({_id: community._id, name: community.name});
+      correctMessage("Joined community!");
     }
 
     const sidenavObjects = [
@@ -218,7 +268,11 @@ export default defineComponent({
       openGroupModal,
       modalElement,
       goToGroup,
-      groups
+      groups,
+      communities,
+      getCommunities,
+      communityModalElem,
+      joinCommunity
     };
   },
   watch: {
@@ -228,3 +282,16 @@ export default defineComponent({
   }
 });
 </script>
+
+<style scoped>
+.divider {
+  background-color: #33691e !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .collection {
+    left: -10%;
+    width: 120%;
+  }
+}
+</style>
