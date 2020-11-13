@@ -49,7 +49,7 @@ export function useTranslateWordsQueryLazy() {
 }
 
 export function useGetExamplesQueryLazy() {
-    return VueApolloComposable.useLazyQuery<GetExamplesQuery, GetExamplesQueryVariables>(GetExamplesDocument);
+    return VueApolloComposable.useLazyQuery<GetExamplesQuery, GetExamplesQueryVariables>(GetExamplesDocument, null, {fetchPolicy: "network"});
 }
 
 export function useGetImagesQueryLazy() {

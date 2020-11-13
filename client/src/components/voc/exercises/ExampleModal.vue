@@ -25,7 +25,7 @@ export default defineComponent({
   props: {
     word: Object as () => Word
   },
-  setup(props) {
+  setup() {
     const modalElement = ref(null)
     const modal = ref<Modal>(null);
 

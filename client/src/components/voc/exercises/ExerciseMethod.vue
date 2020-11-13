@@ -1,18 +1,19 @@
 <template>
   <div class="col l4 m6 s12">
-    <div class="card" style="background-color: #e8f2d1">
+    <div class="card" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
       <div class="card-tabs">
         <ul class="tabs tabs-fixed-width blue-grey darken-4" ref="tabs">
-          <li class="tab" v-for="(route, index) in exerciseMethod.routes" :key="index">
-            <a v-bind:href="`#${exerciseMethod.icon}${index}`" v-if="exerciseMethod.requirements[index].condition"
-               class="active white-text">{{ exerciseMethod.tabTitles[index] }}</a>
+          <li class="tab" v-for="(i) in filterRoutes(exerciseMethod)" :key="i">
+            <a v-bind:href="`#${exerciseMethod.icon}${i}`" class="active white-text">{{
+                exerciseMethod.tabTitles[i]
+              }}</a>
           </li>
         </ul>
       </div>
 
-      <div v-for="(routeItem, index) in exerciseMethod.routes" :key="index"
-           v-bind:id="`${exerciseMethod.icon}${index}`">
-        <div class="card-content center-align" @click="goToExercise(routeItem)" style="cursor: pointer;" v-if="exerciseMethod.requirements[index].condition">
+      <div v-for="(i) in filterRoutes(exerciseMethod)" :key="i"
+           v-bind:id="`${exerciseMethod.icon}${i}`">
+        <div class="card-content center-align" @click="goToExercise(exerciseMethod.routes[i])" style="cursor: pointer;">
           <div class="row" style="margin-bottom: 0">
             <div class="col s2"><i class="material-icons medium unselectable rounded-icon">{{ exerciseMethod.icon }}</i>
             </div>
@@ -39,7 +40,7 @@ export interface ExerciseMethods {
   requirements: Requirement[]
 }
 
-interface Requirement{
+interface Requirement {
   condition: boolean
   message: string
 }
@@ -61,7 +62,14 @@ export default defineComponent({
       context.root.$router.push(`exercises/${route}`);
     }
 
-    return {goToExercise, tabs}
+    function filterRoutes(exerciseMethod: ExerciseMethods) {
+      const routes = [];
+      for (let i = 0; i < exerciseMethod.routes.length; i++)
+        if (exerciseMethod.requirements[i].condition) routes.push(i);
+      return routes;
+    }
+
+    return {goToExercise, tabs, filterRoutes}
   },
 });
 </script>

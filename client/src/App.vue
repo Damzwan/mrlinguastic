@@ -63,6 +63,6 @@ export default Vue.extend({
 
 <style>
 body {
-  background-image: url('assets/triangle.svg');
+  background-image: url('assets/triangle2.svg');
 }
 </style>

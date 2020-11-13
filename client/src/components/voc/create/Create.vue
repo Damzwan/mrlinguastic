@@ -49,10 +49,7 @@
 import {defineComponent, inject, onUnmounted, reactive, ref, watch,} from "@vue/composition-api";
 import M from "materialize-css";
 import ConfigModal from "./ConfigModal.vue";
-import WordDiv from "./WordDiv.vue";
-import OcrModal, {ImportedWords} from "@/components/voc/create/OcrModal.vue";
-import ImgModal from "@/components/voc/create/ImgModal.vue";
-import CreateExampleModal from "@/components/voc/create/CreateExampleModal.vue"
+import {ImportedWords} from "@/components/voc/create/OcrModal.vue";
 import Loader from "@/components/Loader.vue"
 import {cleanWord, getBlobUrl, getCountry, getExampleWord, getLang, langCode, wrongMessage} from "@/use/general";
 import {useUpdateVoclistMutation, Voclist, VoclistInput, VoclistSettings, Word} from "@/gen-types";

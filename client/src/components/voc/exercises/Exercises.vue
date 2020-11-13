@@ -94,7 +94,7 @@ export default defineComponent({
           routes: ['guess-the-word'],
           text: "Definitions",
           icon: "directions_bike",
-          requirements: [{condition: words.length > 0 && navigator.onLine, message: "not enough words"}]
+          requirements: [{condition: words.length >= 4 && navigator.onLine, message: "not enough words"}]
         }
       ]
     }

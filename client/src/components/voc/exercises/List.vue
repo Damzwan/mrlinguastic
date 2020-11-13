@@ -40,18 +40,16 @@
 <script lang="ts">
 
 
-import WordInfoModal from "./WordInfoModal.vue";
 import {defineComponent, inject, onUpdated, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
 import {Voclist, Word} from "@/gen-types";
 import {isOfflineList} from "@/use/general";
-import ExampleModal from "@/components/voc/exercises/ExampleModal.vue";
 import M from "materialize-css"
 
 export default defineComponent({
   components: {
-    WordInfoModal,
-    ExampleModal
+    WordInfoModal: () => import(/* webpackPrefetch: true */ '@/components/voc/exercises/WordInfoModal.vue'),
+    ExampleModal: () => import(/* webpackPrefetch: true */ '@/components/voc/exercises/ExampleModal.vue')
   },
   setup() {
     const db = inject<Localdb>("db");

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <i class="material-icons unselectable" style="position: absolute; font-size: 45px; color: lightgray"
+    <i class="material-icons unselectable" style="position: absolute; font-size: 45px; color: black"
        @click="$router.push('/')">home</i>
-    <i class="material-icons unselectable" style="position: absolute; font-size: 45px; color: lightgray; right: 0"
+    <i class="material-icons unselectable" style="position: absolute; font-size: 45px; color: black; right: 0"
        @click="$router.back()">replay</i>
     <div style="margin-bottom: 20px">
       <h4 class="center-align">🏆 Stats 🏆</h4>
@@ -12,7 +12,7 @@
     <div class="row flex" v-if="!isMobile()" style="margin-left: 30px; margin-right: 30px">
       <div class="col l4">
         <div class="row" v-for="(stat, index) in stats" :key="index">
-          <div class="z-depth-1 rounded stat">
+          <div class="z-depth-1 rounded stat" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
             <div class="rounded-icon" style="position: absolute;">
               <i class="material-icons" style="font-size: 70px; margin-top: 5px" v-bind:style="{color: stat.iconColor}">{{
                   stat.icon
@@ -35,7 +35,7 @@
       <div class="col s12 m5 fade-enter-active" v-for="(stat, index) in stats" :key="index"
            v-bind:class="{'offset-m2': index % 2 !== 0}">
         <div class="row">
-          <div class="z-depth-1 rounded stat">
+          <div class="z-depth-1 rounded stat" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
             <div class="rounded-icon" style="position: absolute;">
               <i class="material-icons" style="font-size: 70px; margin-top: 5px" v-bind:style="{color: stat.iconColor}">{{
                   stat.icon
@@ -65,12 +65,12 @@
       <div style="margin-left: 10px; margin-right: 10px; margin-top: 20px">
         <ul class="collapsible" ref="failureCollapsible">
           <li v-for="(word, index) in ordered" :key="index">
-            <div class="collapsible-header">{{ word }}
+            <div class="collapsible-header" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">{{ word }}
               <div style="right: 50px; font-weight: bold; position: absolute;">{{ failedAttempts[word].length }}</div>
             </div>
-            <div class="collapsible-body">
-              <ul class="collection">
-                <li class="collection-item center" v-for="(failure, j) in failedAttempts[word]" :key="j">
+            <div class="collapsible-body" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
+              <ul class="collection" >
+                <li class="collection-item center" v-for="(failure, j) in failedAttempts[word]" :key="j" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
                   {{ failure }}
                 </li>
               </ul>
@@ -193,10 +193,6 @@ export default defineComponent({
   transition: opacity 0.25s ease-out;
 }
 
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
-
 .collapsible-body {
   padding: 0.5rem;
 }
@@ -205,4 +201,22 @@ export default defineComponent({
   margin: 0;
   border: 1px solid #e0e0e0 !important;
 }
+
+.divider{
+  background-color: black;
+}
+
+.collapsible .collection {
+  margin: 0;
+  border: 1px solid #000000 !important;
+}
+
+.collection .collection-item {
+  border-bottom: 1px solid #000000;
+}
+
+.collapsible-header{
+  border-bottom: 0;
+}
+
 </style>

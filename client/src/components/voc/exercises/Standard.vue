@@ -12,7 +12,7 @@
 
         <div class="input-field">
           <div v-if="type === 'text'">
-            <input disabled type="text" class="validate" style="text-align: center; font-size: 20px;"
+            <input disabled type="text" class="validate" style="text-align: center; font-size: 20px; opacity: 1"
                    v-model="state.currentWord.from">
             <img role="img"
                  :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.fromLang)}.svg`)"
@@ -76,15 +76,20 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, onMounted, onUpdated, reactive, ref} from "@vue/composition-api";
+import {defineComponent, inject, onUpdated, reactive, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
 import {Voclist, Word} from "@/gen-types";
-import {getCountry, getSymbols} from "@/use/general";
-import {cleanWord, isOfflineList} from "@/use/general";
-import {correctMessage, wrongMessage} from "@/use/general";
+import {
+  cleanWord,
+  correctMessage,
+  getBlobUrl,
+  getCountry,
+  getSymbols,
+  isOfflineList,
+  wrongMessage
+} from "@/use/general";
 import ExerciseFinished from "@/components/voc/exercises/ExerciseFinished.vue";
 import WordInfoModal from "@/components/voc/exercises/WordInfoModal.vue";
-import {getBlobUrl} from "@/use/general";
 import M from "materialize-css"
 import Loader from "@/components/Loader.vue"
 
@@ -104,7 +109,7 @@ export interface FailedAttempt {
 export default defineComponent({
   components: {
     ExerciseFinished,
-    WordInfoModal,
+    WordInfoModal: () => import(/* webpackPrefetch: true */ '@/components/voc/exercises/WordInfoModal.vue'),
     Loader
   },
   setup() {
@@ -272,4 +277,8 @@ input{
   border-bottom: 1px solid #000000 !important;
 }
 
+::placeholder{
+  color: black;
+  opacity: 0.3;
+}
 </style>

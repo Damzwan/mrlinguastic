@@ -1,3 +1,4 @@
+
 module.exports = {
     pluginOptions: {
         webpackBundleAnalyzer: {
@@ -7,9 +8,9 @@ module.exports = {
     configureWebpack: {
         resolve: {
             alias: {
-                moment: 'moment/src/moment',
-                M: "materialize-css/dist/js/materialize.min.js"
+                moment: 'moment/min/moment.min.js',
+                'materialize-css/dist/js': "materialize-css/dist/js/materialize.min.js"
             }
-        }
+        },
     }
 };

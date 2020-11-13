@@ -1,8 +1,6 @@
 <template>
   <div>
     <h2 class="center-align">About</h2>
-    <div class="divider" style="margin-bottom: 30px"></div>
-
     <div class="row">
       <div class="col offset-m2 offset-s1 s10 m8 center">
         <h4 style="font-weight: bold;">Mr LingWhat?</h4>

@@ -30,12 +30,12 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive, ref, watch,} from "@vue/composition-api";
-import {useAddVoclistToGroupMutation, Voclist, Word} from "@/gen-types";
+import {defineComponent, onMounted, ref,} from "@vue/composition-api";
+import {useAddVoclistToGroupMutation, Voclist} from "@/gen-types";
 import M from "materialize-css";
-import {Community, correctMessage, getCommunity, getCountry, langCode, wrongMessage} from "@/use/general";
-import Modal = M.Modal;
+import {correctMessage, getCountry, langCode} from "@/use/general";
 import {communities, groups} from "@/use/state";
+import Modal = M.Modal;
 
 export default defineComponent({
   props: {

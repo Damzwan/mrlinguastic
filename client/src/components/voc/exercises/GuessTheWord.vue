@@ -183,7 +183,7 @@ export default defineComponent({
       list.value = nList;
       await fillEntries();
 
-      if (entries.value.length == 0) {
+      if (entries.value.length < 4) {
         end();
         return;
       }
