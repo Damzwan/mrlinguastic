@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div id="ocrModal" class="modal fullscreen-modal" ref="modalElement" :style="{backgroundImage: 'url(' + require('../../../assets/triangle.svg') + ')'}">
+    <div id="ocrModal" class="modal fullscreen-modal" ref="modalElement"
+         :style="{backgroundImage: 'url(' + require('../../../assets/triangle.svg') + ')'}">
       <div class="modal-content" style="height: 100%">
         <i class="material-icons right unselectable close-btn modal-close">close</i>
         <h4 class="center" style="margin-bottom: 30px">Words Importer 🧾</h4>
@@ -68,7 +69,7 @@
               </div>
 
               <p class="flow-text">What language is the first word?</p>
-              <div class="input-field col s12">
+              <div class="input-field col s12 m6">
                 <select ref="langSelect">
                   <option :value="langSettings.fromLang">{{ getLang(langSettings.fromLang) }}</option>
                   <option :value="langSettings.toLang">{{ getLang(langSettings.toLang) }}</option>
@@ -443,5 +444,30 @@ export default defineComponent({
 .word {
   height: 1.5rem !important;
   margin-bottom: 0 !important;
+}
+
+::placeholder {
+  color: black;
+}
+
+input {
+  border-bottom: 1px #000000;
+}
+
+input:not([type]):disabled, input:not([type])[readonly="readonly"], input[type="text"]:not(.browser-default):disabled, input[type="text"]:not(.browser-default)[readonly="readonly"], input[type="password"]:not(.browser-default):disabled, input[type="password"]:not(.browser-default)[readonly="readonly"], input[type="email"]:not(.browser-default):disabled, input[type="email"]:not(.browser-default)[readonly="readonly"], input[type="url"]:not(.browser-default):disabled, input[type="url"]:not(.browser-default)[readonly="readonly"], input[type="time"]:not(.browser-default):disabled, input[type="time"]:not(.browser-default)[readonly="readonly"], input[type="date"]:not(.browser-default):disabled, input[type="date"]:not(.browser-default)[readonly="readonly"], input[type="datetime"]:not(.browser-default):disabled, input[type="datetime"]:not(.browser-default)[readonly="readonly"], input[type="datetime-local"]:not(.browser-default):disabled, input[type="datetime-local"]:not(.browser-default)[readonly="readonly"], input[type="tel"]:not(.browser-default):disabled, input[type="tel"]:not(.browser-default)[readonly="readonly"], input[type="number"]:not(.browser-default):disabled, input[type="number"]:not(.browser-default)[readonly="readonly"], input[type="search"]:not(.browser-default):disabled, input[type="search"]:not(.browser-default)[readonly="readonly"], textarea.materialize-textarea:disabled, textarea.materialize-textarea[readonly="readonly"] {
+  color: rgba(0, 0, 0, 1);
+  border-bottom: 1px dotted #000000;
+}
+
+label {
+  color: black;
+}
+
+.select-wrapper input.select-dropdown {
+  border-bottom: 1px solid #000000 !important;
+}
+
+.divider {
+  background-color: black;
 }
 </style>

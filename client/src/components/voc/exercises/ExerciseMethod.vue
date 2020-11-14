@@ -2,7 +2,7 @@
   <div class="col l4 m6 s12">
     <div class="card" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
       <div class="card-tabs">
-        <ul class="tabs tabs-fixed-width blue-grey darken-4" ref="tabs">
+        <ul class="tabs tabs-fixed-width" ref="tabs">
           <li class="tab" v-for="(i) in filterRoutes(exerciseMethod)" :key="i">
             <a v-bind:href="`#${exerciseMethod.icon}${i}`" class="active white-text">{{
                 exerciseMethod.tabTitles[i]
@@ -83,12 +83,16 @@ export default defineComponent({
 }
 
 .tabs .tab a.active {
-  background-color: #455a64;
+  background-color: #8d6e63  ;
   color: #000;
 }
 
 .tabs .tab a:focus.active {
-  background-color: #455a64;
+  background-color: #8d6e63  ;
   color: #000;
+}
+
+.tabs {
+  background-color: #795548 !important;
 }
 </style>
