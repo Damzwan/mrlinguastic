@@ -32,14 +32,14 @@ export function useUrlHandler() {
             if (voclist.value) {
                 const copy = voclist.value.voclist;
                 copy._id = uuidv1();
-                const copiedImgs = await copyImgs({imgs: copy.words.map(word => word.img)});
+                const copiedImgs = await copyImgs({imgs: copy.words.map(word => word.img ? word.img : null)});
 
                 for (let i = 0; i < copy.words.length; i++)
                     copy.words[i].img = copiedImgs.data?.copyImgs[i];
 
                 addVoclist(voclist.value.voclist as Voclist);
                 await db.save("voclists", voclist.value.voclist as Voclist)
-                await db.addListToUser(voclistId);
+                await db.addListToUser(copy._id);
                 correctMessage("added voclist");
             } else wrongMessage("list does not exist");
         })

@@ -191,7 +191,7 @@ mutation removeImgs($imgs: [String!]){
     removeImgs(imgs: $imgs)
 }
 
-mutation copyImgs($imgs: [String!]){
+mutation copyImgs($imgs: [String]){
     copyImgs(imgs: $imgs)
 }
 

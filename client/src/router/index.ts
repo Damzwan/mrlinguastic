@@ -12,12 +12,12 @@ const routes: Array<RouteConfig> = [
     {
         path: '/create',
         name: 'Create Voclist',
-        component: () => import(/* webpackChunkName: "create" */ '@/components/voc/create/Create.vue')
+        component: () => import(/* webpackChunkName: "create" */ /* webpackPrefetch: true */ '@/components/voc/create/Create.vue')
     },
     {
         path: '/exercises',
         name: 'Voc Exercises',
-        component: () => import(/* webpackChunkName: "exercise" */ '@/components/voc/exercises/Exercises.vue')
+        component: () => import(/* webpackChunkName: "exercise" */ /* webpackPrefetch: true */ '@/components/voc/exercises/Exercises.vue')
     },
     {
         path: '/exercises/standard',

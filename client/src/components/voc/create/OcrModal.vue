@@ -99,7 +99,7 @@
             <div class="col s6 center"><b>Should be {{ getLang(langSettings.toLang) }}</b></div>
           </div>
 
-          <div class="row rounded z-depth-1" v-for="(word, index) in state.importedWords.from" :key="index">
+          <div class="row rounded z-depth-1" v-for="(word, index) in state.importedWords.from" :key="index" style="background-color: #ead9a1">
             <div class="col s6 input-field">
               <input type="text" v-model="state.importedWords.from[index]" class="word center">
             </div>

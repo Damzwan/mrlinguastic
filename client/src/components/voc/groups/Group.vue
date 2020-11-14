@@ -20,7 +20,7 @@
     <div v-if="result && !loading">
       <h5 class="center">
         <i class="material-icons unselectable tooltipped" style="font-size: 35px" @click="leaveGroup"
-              data-tooltip="Leave Group">exit_to_app</i>
+           data-tooltip="Leave Group">exit_to_app</i>
         {{ result.group.name }}
         <i class="material-icons unselectable tooltipped" style="font-size: 35px" @click="copyGroupLink"
            data-tooltip="Copy Group Link">content_copy</i>
@@ -50,7 +50,8 @@
 <script lang="ts">
 import {defineComponent, inject, onMounted, onUpdated, ref, watch} from "@vue/composition-api";
 import {
-  useAddVoclistToUserMutation, useCopyImgsMutation,
+  useAddVoclistToUserMutation,
+  useCopyImgsMutation,
   useCopyVoclistMutation,
   useGetGroupQuery,
   useRemoveUserFromGroupMutation,
@@ -137,9 +138,18 @@ export default defineComponent({
 
     function copyGroupLink() {
       const url = `${window.location.origin}/?groupId=${localStorage.getItem("group")}#/`
-      navigator.clipboard.writeText(url).then(function () {
-        correctMessage("link copied!")
-      })
+
+      if (navigator.share) {
+        navigator.share({
+          title: 'mrlinguastic group',
+          text: result.value.group.name,
+          url: url,
+        })
+      } else {
+        navigator.clipboard.writeText(url).then(function () {
+          correctMessage("link copied!")
+        })
+      }
     }
 
     function leaveGroup() {

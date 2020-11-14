@@ -18,8 +18,8 @@
 <script lang="ts">
 import {defineComponent, onMounted, ref} from "@vue/composition-api";
 import M from "materialize-css"
-import Modal = M.Modal;
 import {Word} from "@/gen-types";
+import Modal = M.Modal;
 
 export default defineComponent({
   props: {

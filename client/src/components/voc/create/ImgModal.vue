@@ -1,5 +1,6 @@
 <template>
-  <div class="modal bottom-sheet" ref="modalElement" id="imgModal" :style="{backgroundImage: 'url(' + require('../../../assets/triangle.svg') + ')'}">
+  <div class="modal bottom-sheet" ref="modalElement" id="imgModal"
+       :style="{backgroundImage: 'url(' + require('../../../assets/triangle.svg') + ')'}">
     <div class="modal-content" v-if="selectedWord && !selectedWord.img">
       <h5 class="center">🖼 Select an image 🖼</h5>
       <div class="row section" v-show="imagesLoaded">
@@ -30,9 +31,9 @@
 import {defineComponent, onMounted, ref, watch,} from "@vue/composition-api";
 import {useSaveImgMutation, Word} from "@/gen-types";
 import M from "materialize-css"
-import Modal = M.Modal;
 import {getBlobUrl} from "@/use/general";
 import Loader from "@/components/Loader.vue"
+import Modal = M.Modal;
 
 export default defineComponent({
   props: {
@@ -63,8 +64,9 @@ export default defineComponent({
     //called when the user selects an image
     function setUrl(imgUrl: string) {
       modal.value.close();
-      props.selectedWord.img = imgUrl;
-      saveImgToServer({img: imgUrl}).then(result => props.selectedWord.img = result.data.saveImg);
+      const selectedWord = props.selectedWord;
+      selectedWord.img = imgUrl;
+      saveImgToServer({img: imgUrl}).then(result => selectedWord.img = result.data.saveImg);
     }
 
     //the user wants to select a new image

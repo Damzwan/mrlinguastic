@@ -2,8 +2,6 @@
   <div>
     <WordInfoModal v-bind:fromLang="fromLang" v-bind:word="state.currWord.from"></WordInfoModal>
     <ExampleModal :word="state.currWord"></ExampleModal>
-    <!--    <i class="material-icons unselectable" style="position: absolute; font-size: 45px; color: black"-->
-    <!--       @click="$router.push('/')">home</i>-->
 
     <h3 class="center">Flashcards</h3>
     <div class="divider" style="background-color: black"></div>
@@ -12,8 +10,7 @@
     <div class="carousel" ref="carouselElement" style="margin-top: -10vh">
       <div class="carousel-item" :class="{'text-card': type === 'text', 'img-card': type === 'image'}"
            v-for="(word, i) in words" :key="i" @click="cardClicked($event, i)">
-        <div style="height: 400px" class="z-depth-2" v-if="type === 'text'"
-             :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
+        <div style="height: 400px;background-color: #ead9a1" class="z-depth-2" v-if="type === 'text'">
           <p class="center" style="font-size: 2.5rem; padding-top: 50px">{{ word.from }}</p>
           <div style="position: absolute; bottom: -100px; right: 5px">
             <a href="#exampleModal" class="modal-trigger" style="color: black"><i class="material-icons card-icon">format_list_numbered</i></a>
@@ -175,7 +172,7 @@ export default defineComponent({
 }
 
 input:not([type]):disabled, input:not([type])[readonly="readonly"], input[type="text"]:not(.browser-default):disabled, input[type="text"]:not(.browser-default)[readonly="readonly"], input[type="password"]:not(.browser-default):disabled, input[type="password"]:not(.browser-default)[readonly="readonly"], input[type="email"]:not(.browser-default):disabled, input[type="email"]:not(.browser-default)[readonly="readonly"], input[type="url"]:not(.browser-default):disabled, input[type="url"]:not(.browser-default)[readonly="readonly"], input[type="time"]:not(.browser-default):disabled, input[type="time"]:not(.browser-default)[readonly="readonly"], input[type="date"]:not(.browser-default):disabled, input[type="date"]:not(.browser-default)[readonly="readonly"], input[type="datetime"]:not(.browser-default):disabled, input[type="datetime"]:not(.browser-default)[readonly="readonly"], input[type="datetime-local"]:not(.browser-default):disabled, input[type="datetime-local"]:not(.browser-default)[readonly="readonly"], input[type="tel"]:not(.browser-default):disabled, input[type="tel"]:not(.browser-default)[readonly="readonly"], input[type="number"]:not(.browser-default):disabled, input[type="number"]:not(.browser-default)[readonly="readonly"], input[type="search"]:not(.browser-default):disabled, input[type="search"]:not(.browser-default)[readonly="readonly"], textarea.materialize-textarea:disabled, textarea.materialize-textarea[readonly="readonly"] {
-  border-bottom: 1px dotted rgba(0,0,0,1);
+  border-bottom: 1px dotted rgba(0, 0, 0, 1);
   color: black;
 }
 </style>

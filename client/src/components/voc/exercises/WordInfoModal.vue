@@ -37,10 +37,10 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, onMounted, ref} from "@vue/composition-api";
+import {defineComponent, onMounted, ref} from "@vue/composition-api";
 import M from "materialize-css"
-import Modal = M.Modal;
 import {wrongMessage} from "@/use/general";
+import Modal = M.Modal;
 
 export interface InfoOption {
   word: string;

@@ -1,6 +1,6 @@
 <template>
   <div class="card horizontal hoverable unselectable"
-       :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}"
+       style="background-color: #ead9a1"
        @click="selectList">
 
     <div class="card-content" @click="toExercises" style="width: 100%; height: 100%;">
@@ -56,9 +56,8 @@
 
 <script lang="ts">
 import {defineComponent, inject} from "@vue/composition-api";
-import {formatDate, getCountry} from "@/use/general";
+import {formatDate, getCountry, wrongMessage} from "@/use/general";
 import {Voclist} from '@/gen-types';
-import {wrongMessage} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
 
 //the items on the back of the card are very similar so we can define an item object by an icon, a title and an action

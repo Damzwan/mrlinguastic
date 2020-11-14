@@ -58,19 +58,9 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  inject,
-  onMounted,
-  onUnmounted,
-  onUpdated,
-  reactive,
-  ref,
-  unref,
-  watch
-} from "@vue/composition-api";
+import {defineComponent, inject, onMounted, onUnmounted, onUpdated, reactive, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
-import {Voclist, Word} from "@/gen-types";
+import {Voclist} from "@/gen-types";
 import {correctMessage, getCountry, isOfflineList, wrongMessage} from "@/use/general";
 import Loader from "@/components/Loader.vue"
 import {InfoOption} from "@/components/voc/exercises/WordInfoModal.vue";

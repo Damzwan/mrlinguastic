@@ -89,7 +89,6 @@ import {
   wrongMessage
 } from "@/use/general";
 import ExerciseFinished from "@/components/voc/exercises/ExerciseFinished.vue";
-import WordInfoModal from "@/components/voc/exercises/WordInfoModal.vue";
 import M from "materialize-css"
 import Loader from "@/components/Loader.vue"
 

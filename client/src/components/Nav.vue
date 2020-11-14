@@ -160,10 +160,10 @@
 <script lang="ts">
 import {defineComponent, inject, onMounted, ref} from "@vue/composition-api";
 import M from "materialize-css";
-import {Community, correctMessage, getCommunities, getCommunity, wrongMessage} from "@/use/general";
+import {Community, correctMessage, getCommunities, wrongMessage} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
 import {Route} from "vue-router";
-import {Group, useAddUserToGroupMutation, useCreateGroupMutation} from "@/gen-types";
+import {useAddUserToGroupMutation, useCreateGroupMutation} from "@/gen-types";
 import {addGroup, communities, groups, sendEvent} from "@/use/state";
 import {Localdb} from "@/use/localdb";
 

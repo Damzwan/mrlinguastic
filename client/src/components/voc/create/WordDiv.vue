@@ -1,8 +1,8 @@
 <template>
   <div v-on-clickaway="closeCollapsible" @click="selectWord">
     <ul class="collapsible popout" ref="collapsible">
-      <li class="rounded" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
-        <div class="collapsible-header" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
+      <li class="rounded" style="background-color: #ead9a1">
+        <div class="collapsible-header" style="background-color: #ead9a1">
           <input type="text" style="width: 49%;" class="word center" v-bind:class="{'non-clickable': state.disabled}"
                  v-on:input="updateFrom" :value="word.from"/>
           <input type="text" style="width:49%;margin-left: 2%" class="word center"
@@ -49,7 +49,6 @@ import {defineComponent, onMounted, reactive, ref, watch,} from "@vue/compositio
 import M, {Collapsible} from "materialize-css";
 import {useGetExamplesQuery, useGetImagesQuery, useSaveImgMutation, Word} from "@/gen-types";
 import {getBlobUrl, getLang, langCode} from "@/use/general";
-import {useGetExamplesQueryLazy, useGetImagesQueryLazy} from "@/use/lazyQueries";
 
 export default defineComponent({
   props: {
@@ -75,7 +74,6 @@ export default defineComponent({
       });
 
       watch(examples, () => {
-        console.log("executed")
         props.word.sentences = examples.value.getExamples;
       })
     }
@@ -199,5 +197,10 @@ export default defineComponent({
   transform: translate(0%, 50%);
   color: darkgray;
   font-size: 35px;
+}
+
+.non-clickable {
+  pointer-events: none;
+  user-select: none;
 }
 </style>

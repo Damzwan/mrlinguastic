@@ -30,10 +30,10 @@ import WordInfoModal from "./WordInfoModal.vue";
 import {defineComponent, inject, onMounted, reactive, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
 import {Voclist} from "@/gen-types";
-import Carousel = M.Carousel;
 import M from "materialize-css"
 import FlashcardCarousel from "@/components/voc/exercises/FlashcardCarousel.vue";
 import {isOfflineList} from "@/use/general";
+import Carousel = M.Carousel;
 
 interface State {
   restored: boolean;

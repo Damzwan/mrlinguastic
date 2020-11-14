@@ -48,12 +48,9 @@
 import {defineComponent, inject, onUnmounted, reactive, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
 import {Voclist, Word} from "@/gen-types";
-import {getCountry} from "@/use/general";
-import {correctMessage, wrongMessage} from "@/use/general";
+import {correctMessage, getBlobUrl, getCountry, isOfflineList, wrongMessage} from "@/use/general";
 import ExerciseFinished from "@/components/voc/exercises/ExerciseFinished.vue";
 import WordInfoModal from "@/components/voc/exercises/WordInfoModal.vue";
-import {getBlobUrl} from "@/use/general";
-import {isOfflineList} from "@/use/general";
 import Loader from "@/components/Loader.vue"
 
 //used to make use of typescript typing

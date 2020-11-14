@@ -57,10 +57,18 @@ export default defineComponent({
 
     function copyListLink() {
       const url = `${window.location.origin}/?oid=${props.list._id}#/`
-      navigator.clipboard.writeText(url).then(function () {
-        correctMessage("link copied!")
-        shareModal.value.close();
-      })
+      if (navigator.share) {
+        navigator.share({
+          title: 'mrlinguastic voclist',
+          text: props.list.settings.title,
+          url: url,
+        })
+      } else {
+        navigator.clipboard.writeText(url).then(function () {
+          correctMessage("link copied!")
+        })
+      }
+      shareModal.value.close();
     }
 
     function addVoclistToGroup(groupId: string) {

@@ -52,12 +52,12 @@ import M from "materialize-css";
 import ConfigModal from "./ConfigModal.vue";
 import {ImportedWords} from "@/components/voc/create/OcrModal.vue";
 import Loader from "@/components/Loader.vue"
-import {cleanWord, getBlobUrl, getCountry, getExampleWord, getLang, langCode, wrongMessage} from "@/use/general";
+import {cleanWord, getBlobUrl, getCountry, getExampleWord, wrongMessage} from "@/use/general";
 import {useUpdateVoclistMutation, Voclist, VoclistInput, VoclistSettings, Word} from "@/gen-types";
 import {AuthModule} from "@/use/authModule";
 import {Localdb} from "@/use/localdb";
 import {replaceList} from "@/use/state";
-import {useGetExamplesQueryLazy, useTranslateWordQueryLazy} from "@/use/lazyQueries";
+import {useTranslateWordQueryLazy} from "@/use/lazyQueries";
 
 //used to make use of typescript typing
 interface State {

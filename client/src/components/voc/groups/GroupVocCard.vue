@@ -38,7 +38,6 @@
 import {defineComponent, inject} from "@vue/composition-api";
 import {getCountry} from "@/use/general";
 import {Voclist} from '@/gen-types';
-import {correctMessage, wrongMessage} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
 import moment from "moment";
 
