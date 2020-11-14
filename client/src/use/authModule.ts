@@ -49,6 +49,10 @@ export class AuthModule {
         await this.msal.loginRedirect();
     }
 
+    async logout() {
+        await this.msal.logout();
+    }
+
     private static computeOid(account: AccountInfo) {
         return account.homeAccountId.substring(0, account.homeAccountId.search("-b2c"));
     }

@@ -6,7 +6,7 @@
       <div class="modal-content" v-if="selectedList">
         <h4 class="center">{{ selectedList.settings.title }}</h4>
         <div class="divider" style="margin-bottom: 30px"></div>
-        <div class="row rounded z-depth-1" v-for="(word, index) in selectedList.words" :key="index">
+        <div class="row rounded z-depth-1" v-for="(word, index) in selectedList.words" :key="index" style="background-color: #ead9a1">
           <div class="col s6 input-field">
             <input type="text" :value="word.from" class="word center" disabled>
           </div>

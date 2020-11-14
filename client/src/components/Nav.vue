@@ -79,8 +79,11 @@
       <li>
         <div class="user-view">
           <a><img class="circle" src="../assets/country-flags/china.svg" alt="Profile picture"></a>
-          <a v-if="user"><span class="white-text name">{{ user }}</span></a>
-          <a v-else @click="logIn" class="btn green" style="width: 60px; height: 35px;">log in!</a>
+          <div v-if="user">
+            <a><span class="white-text name">{{ user }}</span></a>
+            <a @click="logOut" class="btn green" style="width: 100px; height: 35px;">log out!</a>
+          </div>
+          <a v-else @click="logIn" class="btn green" style="width: 100px; height: 35px;">log in!</a>
         </div>
         <div class="divider"></div>
       </li>
@@ -205,7 +208,11 @@ export default defineComponent({
     }
 
     function logIn() {
-      if (!auth.getOid().value) auth.login();
+      if (!auth.getOid().value && navigator.onLine) auth.login();
+    }
+
+    function logOut() {
+      if (navigator.onLine) auth.logout();
     }
 
     async function createGroup() {
@@ -272,7 +279,8 @@ export default defineComponent({
       communities,
       getCommunities,
       communityModalElem,
-      joinCommunity
+      joinCommunity,
+      logOut
     };
   },
   watch: {
