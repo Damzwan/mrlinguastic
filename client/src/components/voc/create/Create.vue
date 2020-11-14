@@ -36,6 +36,7 @@
         <div class="reverse-order" style="margin-bottom: 20px">
           <WordDiv div v-for="(word, index) in list.words" :key="index" v-bind:word="word"
                    v-bind:fromLang="list.settings.langSettings.fromLang"
+                   v-bind:toLang="list.settings.langSettings.toLang"
                    v-on:fill-img-modal="fillImgModal" v-on:remove-word="removeWord"
                    v-on:select-word="selectWord"></WordDiv>
         </div>
@@ -112,7 +113,6 @@ export default defineComponent({
     })
 
     const {result: translatedWord, load: executeTranslate} = useTranslateWordQueryLazy();
-    const {result: examples, load: getExamplesQuery} = useGetExamplesQueryLazy();
     const {mutate: updateVoclistOnline} = useUpdateVoclistMutation(null); //TODO fix better name xd
 
     //TODO put this in use dir
@@ -126,18 +126,17 @@ export default defineComponent({
     if (localStorage.getItem("_id")) restoreVoclist()
     else state.restored = true;
 
-
-    async function finalSave() {
+    function finalSave() {
       if (!localStorage.getItem("_id")) return;
-      replaceList(list);
-      db.addListToUser(list._id).then()
-
-      if (auth.getOid().value && list && list.settings)
+      if (auth.getOid().value && list && list.settings) {
         updateVoclistOnline({
           list: list as VoclistInput,
           changedBlobs: state.blobsToRemove,
           oid: auth.getOid().value
-        }).then()
+        })
+      }
+      replaceList(list);
+      db.addListToUser(list._id);
     }
 
     watch(() => list, () => {
@@ -219,17 +218,6 @@ export default defineComponent({
         sentences: [{from: "", to: [""]}],
       };
       list.words.push(word);
-
-      getExamplesQuery(null, {
-        from: word.from,
-        to: word.to,
-        fromLang: getLang(list.settings.langSettings.fromLang as langCode),
-        toLang: getLang(list.settings.langSettings.toLang as langCode)
-      })
-
-      watch(examples, () => {
-        word.sentences = examples.value.getExamples;
-      })
     }
 
     function fillImgModal(imgs: string[]) {
@@ -258,17 +246,6 @@ export default defineComponent({
           sentences: [{from: "", to: [""]}],
         };
         list.words.push(word);
-
-        getExamplesQuery(null, {
-          from: word.from,
-          to: word.to,
-          fromLang: getLang(list.settings.langSettings.fromLang as langCode),
-          toLang: getLang(list.settings.langSettings.toLang as langCode)
-        })
-
-        watch(examples, () => {
-          word.sentences = examples.value.getExamples;
-        })
       }
     }
 

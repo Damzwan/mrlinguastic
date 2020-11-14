@@ -38,7 +38,6 @@
           <div class="back-container" @click="closeCollapsible" v-if="!state.disabled">
             <i class="material-icons center unselectable tooltipped back-btn" data-tooltip="Close">arrow_upward</i>
           </div>
-
         </div>
       </li>
     </ul>
@@ -50,14 +49,15 @@
 <script lang="ts">
 import {defineComponent, onMounted, reactive, ref, watch,} from "@vue/composition-api";
 import M, {Collapsible} from "materialize-css";
-import {useGetImagesQuery, useSaveImgMutation, Word} from "@/gen-types";
-import {getBlobUrl, getLang} from "@/use/general";
+import {useGetExamplesQuery, useGetImagesQuery, useSaveImgMutation, Word} from "@/gen-types";
+import {getBlobUrl, getLang, langCode} from "@/use/general";
 import {useGetExamplesQueryLazy, useGetImagesQueryLazy} from "@/use/lazyQueries";
 
 export default defineComponent({
   props: {
     word: Object as () => Word,
     fromLang: String, //TODO this is really stupid (related to executeImageSearch and importedWords).
+    toLang: String
   },
   setup(props, context) {
     const collapsibleInstance = ref<Collapsible>(null);
@@ -66,24 +66,33 @@ export default defineComponent({
     const toAudio = document.createElement("audio");
     let savedImgs = [];
 
-    const {result: imgUrls, load: imgSearch} = useGetImagesQueryLazy();
     const {mutate: saveImgToServer} = useSaveImgMutation(null);
 
-    function getImg() {
-      imgSearch(null, {word: props.word.from, lang: props.fromLang});
+    if (props.word.sentences.length == 1 && props.word.sentences[0].from == "") {
+      const {result: examples} = useGetExamplesQuery({
+        fromLang: getLang(props.fromLang as langCode),
+        toLang: getLang(props.toLang as langCode),
+        from: props.word.from,
+        to: props.word.to
+      });
 
-      watch(imgUrls, () => {
-        savedImgs = imgUrls.value.getImages;
-        if (!props.word.img && savedImgs.length > 0) {
-          props.word.img = savedImgs[0]
-          saveImgToServer({img: savedImgs[0]}).then(result => {
-            props.word.img = result.data.saveImg;
-          })
-        }
+      watch(examples, () => {
+        console.log("executed")
+        props.word.sentences = examples.value.getExamples;
       })
     }
 
-    getImg();
+    const {result: imgUrls} = useGetImagesQuery({word: props.word.from, lang: props.fromLang})
+
+    watch(imgUrls, () => {
+      savedImgs = imgUrls.value.getImages;
+      if (!props.word.img && savedImgs.length > 0) {
+        props.word.img = savedImgs[0]
+        saveImgToServer({img: savedImgs[0]}).then(result => {
+          props.word.img = result.data.saveImg;
+        })
+      }
+    })
 
     function flipDisabled() {
       state.disabled = !state.disabled
@@ -145,7 +154,7 @@ export default defineComponent({
       updateTo,
       playToAudio,
       getBlobUrl,
-      selectWord
+      selectWord,
     };
   },
 });
