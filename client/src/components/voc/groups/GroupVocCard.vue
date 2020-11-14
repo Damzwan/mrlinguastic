@@ -1,5 +1,6 @@
 <template>
-  <div class="card horizontal hoverable unselectable">
+  <div class="card horizontal hoverable unselectable"
+       :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
 
     <div class="card-content" style="width: 100%" @click="showList">
       <i class="material-icons right" style="font-size: 35px; position: absolute; right: 15px; color: red"

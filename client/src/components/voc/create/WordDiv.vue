@@ -13,15 +13,13 @@
           <span style="visibility: hidden">"</span>
           <div style="margin-top: 10px"></div>
 
-          <i class="material-icons left unselectable tooltipped word-btn" style="margin-left: 10px"
-             data-tooltip="Play audio"
+          <i class="material-icons left unselectable word-btn" style="margin-left: 10px"
              @click="playToAudio">volume_up</i>
-          <i class="material-icons right unselectable tooltipped word-btn" data-tooltip="Remove" @click="remove"
+          <i class="material-icons right unselectable word-btn" @click="remove"
              style="margin-right: 10px; color: #8b0000">close</i>
 
           <a href="#imgModal" class="modal-trigger">
-            <i class="material-icons right unselectable tooltipped word-btn" style="color: black"
-               data-tooltip="Select Image"
+            <i class="material-icons right unselectable word-btn" style="color: black"
                v-if="!word.img"
                @click="fillImgModal">image</i>
             <div v-else class="right unselectable" style="margin-top: -33px; margin-left: 15px" @click="fillImgModal">
@@ -31,12 +29,12 @@
           </a>
 
           <a href="#exampleModal" class="modal-trigger">
-            <i class="material-icons right unselectable tooltipped word-btn" data-tooltip="Example Sentences"
+            <i class="material-icons right unselectable word-btn"
                style="color: black">format_list_numbered</i>
           </a>
 
           <div class="back-container" @click="closeCollapsible" v-if="!state.disabled">
-            <i class="material-icons center unselectable tooltipped back-btn" data-tooltip="Close">arrow_upward</i>
+            <i class="material-icons center unselectable back-btn">arrow_upward</i>
           </div>
         </div>
       </li>

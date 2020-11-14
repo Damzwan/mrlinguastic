@@ -20,7 +20,7 @@
     <div v-if="result && !loading">
       <h5 class="center">
         <i class="material-icons unselectable tooltipped" style="font-size: 35px" @click="leaveGroup"
-           data-tooltip="Leave Group">exit_to_app</i>
+              data-tooltip="Leave Group">exit_to_app</i>
         {{ result.group.name }}
         <i class="material-icons unselectable tooltipped" style="font-size: 35px" @click="copyGroupLink"
            data-tooltip="Copy Group Link">content_copy</i>
@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, onMounted, ref, watch} from "@vue/composition-api";
+import {defineComponent, inject, onMounted, onUpdated, ref, watch} from "@vue/composition-api";
 import {
   useAddVoclistToUserMutation, useCopyImgsMutation,
   useCopyVoclistMutation,
@@ -97,6 +97,10 @@ export default defineComponent({
 
     onMounted(() => {
       modalInstance.value = M.Modal.init(modal.value, {onOpenStart: flipIsModalOpen, onCloseStart: flipIsModalOpen});
+    })
+
+    onUpdated(() => {
+      M.Tooltip.init(document.querySelectorAll('.tooltipped'));
     })
 
     async function removeListFromGroup(list: Voclist) {
@@ -189,5 +193,9 @@ export default defineComponent({
 .word {
   height: 1.5rem !important;
   margin-bottom: 0 !important;
+}
+
+.divider {
+  background-color: black;
 }
 </style>

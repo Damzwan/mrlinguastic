@@ -47,7 +47,7 @@
               </a>
             </li>
             <li>
-              <a href="#configModal" class="modal-trigger tooltipped" data-tooltip="Settings">
+              <a href="#configModal" class="modal-trigger tooltipped" data-tooltip="Settings" data-position="left">
                 <i class="material-icons" style="font-size: 30px;">settings</i>
               </a>
             </li>
