@@ -12,7 +12,7 @@
         </a>
         <a class="collection-item unselectable" @click="addVoclistToCommunity(community._id)" v-if="community">
           <img :src="require(`@/assets/country-flags/${community.country}.svg`)" alt="flag" class="left"
-               width="24px" style="position: relative; margin-right: 10px">
+               width="24px" height="24px" style="position: relative; margin-right: 10px">
           Add to {{ community.name }} Community
         </a>
       </div>

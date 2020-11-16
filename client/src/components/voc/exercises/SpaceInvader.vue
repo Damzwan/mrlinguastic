@@ -89,7 +89,7 @@
 
 <script lang="ts">
 import {defineComponent, inject, onMounted, ref} from "@vue/composition-api";
-import {isOfflineList} from "@/use/general";
+import {cleanWord, isOfflineList} from "@/use/general";
 import {Voclist, Word} from "@/gen-types";
 import {Localdb} from "@/use/localdb";
 import SpaceInvaderMonster from "@/components/voc/exercises/SpaceInvaderMonster.vue";
@@ -207,7 +207,7 @@ export default defineComponent({
     }
 
     function checkAnswer() {
-      const i = indexOf(userInput.value.value, true)
+      const i = indexOf(cleanWord(userInput.value.value), true)
       if (i != -1) {
         spawnedMonsters.value.splice(i, 1);
         if (spawnedMonsters.value.length == 0 && list.value.words.length == 0) handleVictory();

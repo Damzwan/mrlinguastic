@@ -1,6 +1,6 @@
 <template>
   <div class="modal bottom-sheet" ref="modalElement" id="imgModal"
-       :style="{backgroundImage: 'url(' + require('../../../assets/triangle.svg') + ')'}">
+       :style="{backgroundImage: 'url(' + require('../../../assets/triangle2.svg') + ')'}">
     <div class="modal-content" v-if="selectedWord && !selectedWord.img">
       <h5 class="center">🖼 Select an image 🖼</h5>
       <div class="row section" v-show="imagesLoaded">

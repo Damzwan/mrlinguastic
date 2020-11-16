@@ -78,7 +78,7 @@
     <ul class="sidenav green darken-4" ref="nav2">
       <li>
         <div class="user-view">
-          <a><img class="circle" src="../assets/country-flags/china.svg" alt="Profile picture"></a>
+          <a><img class="circle" src="../assets/country-flags/china.svg" alt="Profile picture" width="64px" height="64px"></a>
           <div v-if="user">
             <a><span class="white-text name">{{ user }}</span></a>
             <a @click="logOut" class="btn green" style="width: 100px; height: 35px;">log out!</a>
@@ -97,7 +97,7 @@
         <a @click="goToGroup(community._id)" class="unselectable">
           <span class="white-text center unselectable" style="margin-left: 10px">{{ community.name }}</span>
           <img :src="require(`@/assets/country-flags/${community.country}.svg`)" alt="flag" class="left"
-               width="24px" style="top: 12px; position: relative;">
+               width="24px" height="24px" style="top: 12px; position: relative;">
         </a>
       </li>
       <li>
@@ -143,7 +143,7 @@
           <a class="collection-item row" v-for="(community, i) in getCommunities()" :key="i">
             <div class="col s9 m10">
               <img :src="require(`@/assets/country-flags/${community.country}.svg`)" alt="flag" class="left"
-                   width="24px" style="position: relative; margin-right: 10px">
+                   width="24px" height="24px" style="position: relative; margin-right: 10px">
               {{ community.name }} community
             </div>
             <div class="col s3 m2">

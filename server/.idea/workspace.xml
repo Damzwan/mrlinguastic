@@ -20,36 +20,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/certificate.crt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/privateKey.key" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/Nav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Nav.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/voc/ShareModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/ShareModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/VocCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/VocCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/ConfigModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/ConfigModal.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/ExampleDiv.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/ExampleDiv.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/ImgModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/ImgModal.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/OcrModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/OcrModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/WordDiv.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/WordDiv.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExampleModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExampleModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseMethod.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseMethod.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/Flashcard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/Flashcard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/FlashcardCarousel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/FlashcardCarousel.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/GuessTheWord.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/GuessTheWord.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/MultipleChoice.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/MultipleChoice.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/SpaceInvader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/SpaceInvader.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/Standard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/Standard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/WordInfoModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/WordInfoModal.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/voc/groups/Group.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/groups/Group.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/groups/GroupVocCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/groups/GroupVocCard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/graphql/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/graphql/schema.graphql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/graphql/voc.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/graphql/voc.graphql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/router/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/use/urlHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/urlHandler.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/vue.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/service-worker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen-types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/schema.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,8 +70,9 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../client" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="ts.external.directory.path" value="C:\Users\damia\Documents\mrlinguastic\server\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -140,6 +131,8 @@
       <workItem from="1605224995838" duration="3836000" />
       <workItem from="1605277779886" duration="8895000" />
       <workItem from="1605328953583" duration="2932000" />
+      <workItem from="1605521585891" duration="4338000" />
+      <workItem from="1605526351032" duration="1660000" />
     </task>
     <servers />
   </component>
@@ -171,10 +164,11 @@
     </state>
     <state x="533" y="257" key="FileChooserDialogImpl/0.0.1504.1003/198.-1080.1920.1080@0.0.1504.1003" timestamp="1597653444629" />
     <state x="533" y="257" key="FileChooserDialogImpl/0.0.1504.1003@0.0.1504.1003" timestamp="1605009821240" />
-    <state x="254" y="147" key="SettingsEditor" timestamp="1597309057802">
+    <state x="254" y="147" key="SettingsEditor" timestamp="1605522725679">
       <screen x="0" y="0" width="1504" height="1003" />
     </state>
     <state x="254" y="147" key="SettingsEditor/0.0.1504.1003/198.-1080.1920.1080@0.0.1504.1003" timestamp="1597309057802" />
+    <state x="254" y="147" key="SettingsEditor/0.0.1504.1003@0.0.1504.1003" timestamp="1605522725679" />
     <state x="415" y="216" width="672" height="678" key="search.everywhere.popup" timestamp="1597306538405">
       <screen x="0" y="0" width="1504" height="1003" />
     </state>

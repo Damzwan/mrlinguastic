@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="configModal" class="modal fullscreen-modal" ref="modalElement"
-         :style="{backgroundImage: 'url(' + require('../../../assets/triangle.svg') + ')'}">
+         :style="{backgroundImage: 'url(' + require('../../../assets/triangle2.svg') + ')'}">
       <div class="modal-content">
         <i class="material-icons right unselectable close-btn modal-close"
            @click="!listAlreadyCreated() ? $router.push('/') : null">close</i>

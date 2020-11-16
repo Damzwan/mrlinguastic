@@ -21,7 +21,7 @@
             <img role="img"
                  :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.fromLang)}.svg`)"
                  class="flag-icon"
-                 alt="From Flag"/>
+                 alt="From Flag" width="30px" height="30px"/>
           </div>
           <div class="input-field col s12">
             <input v-bind:placeholder="getExampleWord(list.settings.langSettings.toLang)" type="text"
@@ -29,7 +29,7 @@
                    v-on:keyup.enter="insertEntry" ref="toInput" class="autocomplete"/>
             <img role="img"
                  :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.toLang)}.svg`)"
-                 class="flag-icon" alt="From Flag"/>
+                 class="flag-icon" alt="From Flag" width="30px" height="30px"/>
           </div>
           <!--          <div class="divider col s12"></div>-->
         </div>

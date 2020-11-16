@@ -15,7 +15,7 @@ import {InMemoryCache} from 'apollo-cache-inmemory'
 
 Vue.config.productionTip = false
 
-const serverUri = 'https://775d6757849c.ngrok.io'; //TODO update in production
+const serverUri = 'https://bbf6b98615a7.ngrok.io'; //TODO update in production
 
 const apolloClient = new ApolloClient({
     uri: serverUri + '/graphql',

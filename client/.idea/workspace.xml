@@ -13,7 +13,16 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bf64ff9-4956-4a50-a243-639565bc4023" name="Default Changelist" comment="" />
+    <list default="true" id="6bf64ff9-4956-4a50-a243-639565bc4023" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../server/certificate.crt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../server/privateKey.key" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../server/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/service-worker.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,7 +43,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.last.introduce.type" value="CONST" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/components/voc/create" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../server" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -85,7 +94,11 @@
       <workItem from="1605224972518" duration="16632000" />
       <workItem from="1605277604487" duration="18255000" />
       <workItem from="1605311493659" duration="16833000" />
-      <workItem from="1605363192518" duration="449000" />
+      <workItem from="1605363192518" duration="542000" />
+      <workItem from="1605383651256" duration="150000" />
+      <workItem from="1605391703226" duration="434000" />
+      <workItem from="1605521545340" duration="38000" />
+      <workItem from="1605526337806" duration="5988000" />
     </task>
     <servers />
   </component>
@@ -117,6 +130,10 @@
       <screen x="0" y="0" width="1504" height="1003" />
     </state>
     <state x="483" y="249" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1504.1003@0.0.1504.1003" timestamp="1602539745166" />
+    <state x="533" y="257" key="FileChooserDialogImpl" timestamp="1605521580252">
+      <screen x="0" y="0" width="1504" height="1003" />
+    </state>
+    <state x="533" y="257" key="FileChooserDialogImpl/0.0.1504.1003@0.0.1504.1003" timestamp="1605521580252" />
     <state width="1483" height="269" key="GridCell.Tab.0.bottom" timestamp="1602515136778">
       <screen x="0" y="0" width="1504" height="1003" />
     </state>

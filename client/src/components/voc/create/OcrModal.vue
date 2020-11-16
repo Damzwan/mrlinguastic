@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="ocrModal" class="modal fullscreen-modal" ref="modalElement"
-         :style="{backgroundImage: 'url(' + require('../../../assets/triangle.svg') + ')'}">
+         :style="{backgroundImage: 'url(' + require('../../../assets/triangle2.svg') + ')'}">
       <div class="modal-content" style="height: 100%">
         <i class="material-icons right unselectable close-btn modal-close">close</i>
         <h4 class="center" style="margin-bottom: 30px">Words Importer 🧾</h4>

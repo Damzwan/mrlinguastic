@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="modal fullscreen-modal" ref="modal">
+    <div class="modal fullscreen-modal" ref="modal" :style="{backgroundImage: 'url(' + require('@/assets/triangle2.svg') + ')'}">
       <i class="material-icons right unselectable close-btn modal-close">close</i>
       <div class="modal-content" v-if="selectedList">
         <h4 class="center">{{ selectedList.settings.title }}</h4>
