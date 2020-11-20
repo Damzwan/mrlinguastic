@@ -400,6 +400,8 @@ export default defineComponent({
 
     onUnmounted(() => {
       document.removeEventListener("paste", pasteImage);
+      modal.value.destroy();
+
     })
 
     return {

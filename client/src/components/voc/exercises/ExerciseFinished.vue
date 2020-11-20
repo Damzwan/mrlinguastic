@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, ref} from "@vue/composition-api";
+import {defineComponent, onMounted, onUnmounted, ref} from "@vue/composition-api";
 import M from "materialize-css"
 import Modal = M.Modal;
 
@@ -22,6 +22,10 @@ export default defineComponent({
 
     onMounted(() => {
       modal.value = M.Modal.init(modalElement.value, {inDuration: 500})
+    })
+
+    onUnmounted(() => {
+      modal.value.destroy();
     })
 
     function toStats(){

@@ -58,7 +58,16 @@
 </template>
 
 <script lang="ts">
-import {computed, ComputedRef, defineComponent, onMounted, reactive, ref, watch,} from "@vue/composition-api";
+import {
+  computed,
+  ComputedRef,
+  defineComponent,
+  onMounted,
+  onUnmounted,
+  reactive,
+  ref,
+  watch,
+} from "@vue/composition-api";
 import M from "materialize-css";
 
 import {jsPDF} from "jspdf";
@@ -66,6 +75,7 @@ import {Voclist, Word} from "@/gen-types";
 import {getLang} from "@/use/general";
 import Modal = M.Modal;
 import {getBlobUrl} from "@/use/general";
+import {useVoclistUpdater} from "@/use/listUpdater";
 
 export interface State {
   displayFront: string,
@@ -87,6 +97,7 @@ export default defineComponent({
   setup(props, context) {
     const pdfModal = ref(null)
     const pdfModalInstance = ref<Modal>(null);
+    const {updateVoclist} = useVoclistUpdater();
 
     const state = reactive<State>({
       front: computed(() => parseInt(state.displayFront)),
@@ -106,16 +117,21 @@ export default defineComponent({
       M.FormSelect.init(document.querySelectorAll('select'));
     })
 
+    onUnmounted(() => {
+      pdfModalInstance.value.destroy();
+    })
+
     watch(props, () => M.FormSelect.init(document.querySelectorAll('select')))
 
     //TODO garbage code xd
     const w = 210;
     const h = 297;
 
-    function generatePdf() {
+    async function generatePdf() {
       const doc = new jsPDF();
-      drawAllWords(doc, props.list.words).then(x => {
-        doc.save(props.list.settings.title)
+      const updatedVoclist = await updateVoclist(props.list._id);
+      drawAllWords(doc, updatedVoclist.words).then(x => {
+        doc.save(updatedVoclist.settings.title)
       });
     }
 

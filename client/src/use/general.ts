@@ -1,5 +1,6 @@
 import M from "materialize-css";
 import moment from "moment";
+import {BasicVoclist, Voclist} from "@/gen-types";
 
 export type langCode = "en" | "fr" | "it" | "nl"
 type langMap = { [key in langCode]: string };
@@ -116,5 +117,15 @@ export function getCommunity(id: string) {
 
 export function getCommunities() {
     return communities;
+}
+
+export function convertToBasicVoclist(list: Voclist): BasicVoclist {
+    return {
+        _id: list._id,
+        lastEdited: list.lastEdited,
+        wordsLength: list.words.length,
+        creator: list.creator,
+        settings: list.settings
+    }
 }
 

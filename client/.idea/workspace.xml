@@ -14,14 +14,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6bf64ff9-4956-4a50-a243-639565bc4023" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../server/certificate.crt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../server/privateKey.key" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/codegen.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/codegen.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../server/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../server/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/public/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/service-worker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/datasources/mongodb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/datasources/mongodb.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/gen-types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/resolvers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/resolvers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/schema.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,15 +54,15 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc\create" />
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc\groups" />
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components" />
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc" />
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc\Create" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -99,6 +100,8 @@
       <workItem from="1605391703226" duration="434000" />
       <workItem from="1605521545340" duration="38000" />
       <workItem from="1605526337806" duration="5988000" />
+      <workItem from="1605705827916" duration="179000" />
+      <workItem from="1605885069489" duration="15264000" />
     </task>
     <servers />
   </component>

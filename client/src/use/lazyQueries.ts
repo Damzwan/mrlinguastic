@@ -14,7 +14,7 @@ import {
     GetUserQueryVariables,
     GetVoclistDocument,
     GetVoclistQuery,
-    GetVoclistQueryVariables,
+    GetVoclistQueryVariables, GetWordsDocument, GetWordsQuery, GetWordsQueryVariables,
     ReactiveFunction,
     TranslateWordDocument,
     TranslateWordQuery,
@@ -54,4 +54,8 @@ export function useGetExamplesQueryLazy() {
 
 export function useGetImagesQueryLazy() {
     return VueApolloComposable.useLazyQuery<GetImagesQuery, GetImagesQueryVariables>(GetImagesDocument);
+}
+
+export function useGetWordsQueryLazy() {
+    return VueApolloComposable.useLazyQuery<GetWordsQuery, GetWordsQueryVariables>(GetWordsDocument);
 }

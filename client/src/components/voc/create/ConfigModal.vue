@@ -71,7 +71,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, onUpdated, ref, watch,} from "@vue/composition-api";
+import {defineComponent, onMounted, onUnmounted, onUpdated, ref, watch,} from "@vue/composition-api";
 import M, {Modal} from "materialize-css";
 import {useGetVoicesQuery, VoclistSettings, Voice} from "@/gen-types";
 
@@ -104,6 +104,9 @@ export default defineComponent({
       }];
     });
 
+    onUnmounted(() => {
+      modal.value.destroy();
+    })
 
     //TODO should destroy xd
     function getCountryFlag(country: string) {

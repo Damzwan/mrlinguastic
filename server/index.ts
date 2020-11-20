@@ -52,15 +52,15 @@ const server = new ApolloServer({
 });
 
 server.applyMiddleware({app})
-// app.listen({port: 4000}, () => console.log(`Server ready at http://localhost:4000${server.graphqlPath}`))
+app.listen({port: 4000}, () => console.log(`Server ready at http://localhost:4000${server.graphqlPath}`))
 
-spdy
-    .createServer(options, app)
-    .listen(4000, (error) => {
-        if (error) {
-            console.error(error)
-            return process.exit(1)
-        } else {
-            console.log('Listening on port: ' + 4000 + '.')
-        }
-    })
+// spdy
+//     .createServer(options, app)
+//     .listen(4000, (error) => {
+//         if (error) {
+//             console.error(error)
+//             return process.exit(1)
+//         } else {
+//             console.log('Listening on port: ' + 4000 + '.')
+//         }
+//     })

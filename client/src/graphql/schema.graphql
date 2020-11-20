@@ -5,12 +5,20 @@ schema {
     mutation: Mutation
 }
 
+type BasicVoclist {
+    _id: ID!
+    creator: String!
+    lastEdited: String!
+    settings: VoclistSettings!
+    wordsLength: Int!
+}
+
 type Group {
     _id: ID!
     description: String
     members: [User!]
     name: String!
-    voclists: [Voclist!]
+    voclists: [BasicVoclist!]
 }
 
 type LangSettings {
@@ -26,7 +34,7 @@ type Mutation {
     copyImgs(imgs: [String]): [String]
     copyVoclist(userId: String!, voclistId: String!): Voclist
     createGroup(groupInfo: GroupInput!, userId: String!): String
-    deleteVoclist(blobs: [String]!, userId: String!, vocId: String!): Boolean
+    deleteVoclist(userId: String!, vocId: String!): Boolean
     removeImgs(imgs: [String!]): Boolean
     removeUserFromGroup(groupId: String!, userId: String!): Boolean
     removeVoclistFromGroup(groupId: String!, vocId: String!): Boolean
@@ -43,6 +51,7 @@ type Query {
     translateWords(fromLang: String!, toLang: String!, words: [String!]): [String]
     user(oid: String!): User
     voclist(voclistId: String!): Voclist
+    words(voclistId: String!): [Word!]
 }
 
 type Sentence {
@@ -53,7 +62,7 @@ type Sentence {
 type User {
     _id: ID!
     groups: [Group!]
-    voclists: [Voclist!]
+    voclists: [BasicVoclist!]
 }
 
 type Voclist {

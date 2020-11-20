@@ -1,5 +1,5 @@
 import {computed, inject, reactive} from "@vue/composition-api";
-import {User, Voclist} from "@/gen-types";
+import {BasicVoclist, Group, User, Voclist} from "@/gen-types";
 import {Localdb} from "@/use/localdb";
 import {getCommunity} from "@/use/general";
 
@@ -9,19 +9,22 @@ export interface BasicGroupInfo {
 }
 
 interface State {
-    user: User | null
+    groups: Group[]
+    onlineVoclists: BasicVoclist[] | null
     downloadedLists: Voclist[] | null,
     event: string | null
 }
 
 const state = reactive<State>({
-    user: null,
+    groups: null,
+    onlineVoclists: null,
     downloadedLists: null,
     event: null
 })
 
 function setUser(newUser: User) {
-    state.user = newUser
+    state.groups = newUser.groups;
+    state.onlineVoclists = newUser.voclists
 }
 
 function setDownloadedLists(lists: Voclist[]) {
@@ -30,13 +33,13 @@ function setDownloadedLists(lists: Voclist[]) {
 
 function replaceDownloadedVoclist(i: number, list: Voclist) {
     state.downloadedLists[i] = list;
-    console.log(state.downloadedLists[i])
 }
 
 function replaceList(newList: Voclist) {
-    for (let i = 0; i < state.user.voclists.length; i++) {
-        if (state.user.voclists[i]._id == newList._id) {
-            state.user.voclists[i] = newList;
+    for (let i = 0; i < state.onlineVoclists.length; i++) {
+        if (state.onlineVoclists[i]._id == newList._id) {
+            state.onlineVoclists[i].wordsLength = newList.words.length;
+            state.onlineVoclists[i].settings = newList.settings;
             return;
         }
     }
@@ -44,32 +47,50 @@ function replaceList(newList: Voclist) {
 }
 
 function addVoclist(list: Voclist) {
-    state.user.voclists.push(list);
+    state.onlineVoclists.push({
+        _id: list._id,
+        creator: list.creator,
+        lastEdited: list.lastEdited,
+        wordsLength: list.words.length,
+        settings: list.settings
+    });
 }
 
 function removeVoclistFromState(list: Voclist) {
-    state.user.voclists.splice(state.user.voclists.indexOf(list), 1);
+    for (let i = 0; i < state.onlineVoclists.length; i++) {
+        if (state.onlineVoclists[i]._id == list._id) {
+            state.onlineVoclists.splice(i, 1);
+            return;
+        }
+    }
 }
 
 function addGroup(group: BasicGroupInfo) {
-    for (let i = 0; i < state.user.groups.length; i++)
-        if (state.user.groups[i]._id == group._id) return;
-    state.user.groups.push(group);
+    for (let i = 0; i < state.groups.length; i++)
+        if (state.groups[i]._id == group._id) return;
+    state.groups.push(group);
 }
 
 function removeGroup(groupId: string) {
-    for (let i = 0; i < state.user.groups.length; i++)
-        if (state.user.groups[i]._id == groupId) state.user.groups.splice(i, 1);
+    for (let i = 0; i < state.groups.length; i++)
+        if (state.groups[i]._id == groupId) state.groups.splice(i, 1);
 }
 
 function sendEvent(msg: string | null) {
     state.event = msg;
 }
 
-const userLists = computed(() => state.user ? state.user.voclists : null);
+function getOnlineListFromState(id: string) {
+    if (!userLists.value) return null;
+    for (let i = 0; i < userLists.value.length; i++)
+        if (userLists.value[i]._id == id) return userLists.value[i]
+    return null;
+}
 
-const groups = computed(() => state.user ? state.user.groups.filter(group => !getCommunity(group._id)) : null);
-const communities = computed(() => state.user ? state.user.groups
+const userLists = computed(() => state.onlineVoclists ? state.onlineVoclists : null);
+
+const groups = computed(() => state.groups ? state.groups.filter(group => !getCommunity(group._id)) : null);
+const communities = computed(() => state.groups ? state.groups
     .filter(group => getCommunity(group._id)).map(group => getCommunity(group._id)) : null)
 
 const downloadedLists = computed(() => state.downloadedLists)
@@ -90,5 +111,6 @@ export {
     setDownloadedLists,
     replaceDownloadedVoclist,
     event,
-    sendEvent
+    sendEvent,
+    getOnlineListFromState
 }

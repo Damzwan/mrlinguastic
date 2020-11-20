@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, ref,} from "@vue/composition-api";
+import {defineComponent, onMounted, onUnmounted, ref,} from "@vue/composition-api";
 import {useAddVoclistToGroupMutation, Voclist} from "@/gen-types";
 import M from "materialize-css";
 import {correctMessage, getCountry, langCode} from "@/use/general";
@@ -85,6 +85,10 @@ export default defineComponent({
 
     onMounted(() => {
       shareModal.value = M.Modal.init(modal.value, {onCloseEnd: reset})
+    })
+
+    onUnmounted(() => {
+      shareModal.value.destroy();
     })
 
     return {

@@ -12,4 +12,5 @@ generates:
         User: UserDbObject
         Voclist: VoclistDbObject
         Group: GroupDbObject
+        BasicVoclist: BasicVoclistDbObject
       objectIdType: string

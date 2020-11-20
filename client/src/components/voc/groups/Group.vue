@@ -1,12 +1,14 @@
 <template>
   <div>
 
-    <div class="modal fullscreen-modal" ref="modal" :style="{backgroundImage: 'url(' + require('@/assets/triangle2.svg') + ')'}">
+    <div class="modal fullscreen-modal" ref="modal"
+         :style="{backgroundImage: 'url(' + require('@/assets/triangle2.svg') + ')'}">
       <i class="material-icons right unselectable close-btn modal-close">close</i>
       <div class="modal-content" v-if="selectedList">
         <h4 class="center">{{ selectedList.settings.title }}</h4>
         <div class="divider" style="margin-bottom: 30px"></div>
-        <div class="row rounded z-depth-1" v-for="(word, index) in selectedList.words" :key="index" style="background-color: #ead9a1">
+        <div class="row rounded z-depth-1" v-for="(word, index) in selectedList.words" :key="index"
+             style="background-color: #ead9a1">
           <div class="col s6 input-field">
             <input type="text" :value="word.from" class="word center" disabled>
           </div>
@@ -48,8 +50,9 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, onMounted, onUpdated, ref, watch} from "@vue/composition-api";
+import {defineComponent, inject, onMounted, onUnmounted, onUpdated, ref, watch} from "@vue/composition-api";
 import {
+  BasicVoclist,
   useAddVoclistToUserMutation,
   useCopyImgsMutation,
   useCopyVoclistMutation,
@@ -67,6 +70,7 @@ import M from "materialize-css"
 import {addVoclist, event, removeGroup, sendEvent} from "@/use/state";
 import {Localdb} from "@/use/localdb";
 import {v1 as uuidv1} from 'uuid';
+import {useVoclistUpdater} from "@/use/listUpdater";
 
 
 export default defineComponent({
@@ -82,6 +86,7 @@ export default defineComponent({
     const {mutate: copyVoclist} = useCopyVoclistMutation(null);
     const {mutate: copyImgs} = useCopyImgsMutation(null);
     const {result, refetch, loading} = useGetGroupQuery({groupId: localStorage.getItem("group")}, {fetchPolicy: "cache-and-network"});
+    const {createVoclistFromBasic} = useVoclistUpdater();
 
     const auth = inject<AuthModule>("auth");
     const db = inject<Localdb>("db");
@@ -100,6 +105,10 @@ export default defineComponent({
       modalInstance.value = M.Modal.init(modal.value, {onOpenStart: flipIsModalOpen, onCloseStart: flipIsModalOpen});
     })
 
+    onUnmounted(() => {
+      modalInstance.value.destroy();
+    })
+
     onUpdated(() => {
       M.Tooltip.init(document.querySelectorAll('.tooltipped'));
     })
@@ -107,7 +116,9 @@ export default defineComponent({
     async function removeListFromGroup(list: Voclist) {
       correctMessage("removed list from group");
       const voclists = result.value.group.voclists;
-      voclists.splice(voclists.indexOf(list), 1);
+      for (let i = 0; i < voclists.length; i++)
+        if (voclists[i]._id == list._id)
+          voclists.splice(i, 1);
 
       await removeListMutation({vocId: list._id, groupId: localStorage.getItem("group")})
     }
@@ -160,8 +171,8 @@ export default defineComponent({
       else db.removeGroupFromUser(localStorage.getItem("group"));
     }
 
-    function showList(list: Voclist) {
-      selectedList.value = list;
+    async function showList(list: BasicVoclist) {
+      if (!selectedList.value || list._id != selectedList.value._id) selectedList.value = await createVoclistFromBasic(list);
       modalInstance.value.open();
     }
 

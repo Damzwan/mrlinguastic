@@ -53,6 +53,7 @@ import VocCard from "@/components/voc/VocCard.vue";
 import Loader from "@/components/Loader.vue";
 import {correctMessage, isOffline, wrongMessage} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
+import {useVoclistUpdater} from "@/use/listUpdater";
 
 export default defineComponent({
   components: {
@@ -71,6 +72,8 @@ export default defineComponent({
     const pdfTrigger = ref<HTMLLinkElement>(null);
     const shareTrigger = ref<HTMLLinkElement>(null);
 
+    const {updateVoclist} = useVoclistUpdater();
+
     const {mutate: removeVoclist} = useDeleteVoclistMutation({});
     const {mutate: removeImgs} = useRemoveImgsMutation({});
 
@@ -80,14 +83,16 @@ export default defineComponent({
       correctMessage("deleted offline voclist!")
     }
 
-    function removeOnlineList() {
+    async function removeOnlineList() {
       if (navigator.onLine) {
         removeVoclistFromState(selectedList.value);
         if (auth.getOid().value) removeVoclist({
-          vocId: selectedList.value._id, userId: auth.getOid().value,
-          blobs: selectedList.value.words.filter(word => word.img).map(word => word.img)
+          vocId: selectedList.value._id, userId: auth.getOid().value
         })
-        else removeImgs({imgs: selectedList.value.words.filter(word => word.img).map(word => word.img)})
+        else {
+          const offlineList = await db.getItem<Voclist>(selectedList.value._id, "voclists");
+          removeImgs({imgs: offlineList.words.filter(word => word.img).map(word => word.img)})
+        }
         db.removeListFromUser(selectedList.value._id);
         correctMessage("deleted voclist!")
       } else wrongMessage("must be online to delete this voclist!")
@@ -102,7 +107,8 @@ export default defineComponent({
       for (let i = 0; i < downloadedLists.value.length; i++)
         if (downloadedLists.value[i]._id == selectedList.value._id) index = i;
 
-      db.downloadVoclist(selectedList.value).then(list => {
+      const updatedList = await updateVoclist(selectedList.value._id);
+      db.downloadVoclist(updatedList).then(list => {
         if (index == -1) {
           downloadedLists.value.push(list);
           correctMessage("list downloaded!");

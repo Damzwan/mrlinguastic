@@ -1,4 +1,4 @@
-import {Collections, GroupDbObject, Resolvers, Voclist, VoclistDbObject} from "./gen-types";
+import {Collections, GroupDbObject, Resolvers, Voclist, VoclistDbObject, Word} from "./gen-types";
 import {MongoAPI} from "./datasources/mongodb";
 import {ObjectId} from "mongodb";
 
@@ -28,6 +28,8 @@ export const resolv: Resolvers = {
             await dataSources.azureAPI.getVoices(),
         voclist: async (_: any, args, {dataSources}: { dataSources: any }) =>
             args.voclistId != "" ? await mongoAPI.getEntityByCollectionAndId<Voclist>(Collections.Voclists, args.voclistId) : null,
+        words: async (_: any, args, {dataSources}: { dataSources: any }) =>
+            args.voclistId != "" ? await mongoAPI.getWordsFromVoclist(args.voclistId) : null,
         group: async (_: any, args, {dataSources}: { dataSources: any }) =>
             args.groupId != "" ? await mongoAPI.getEntityByCollectionAndId<GroupDbObject>(Collections.Groups, args.groupId) : null,
         getExamples: async (_: any, args, {dataSources}: { dataSources: any }) =>
@@ -51,7 +53,8 @@ export const resolv: Resolvers = {
             return args.imgs.map(img => dataSources.azureAPI.copyBlob(img))
         },
         deleteVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
-            args.blobs.forEach(blob => dataSources.azureAPI.deleteBlob(blob, "images"));
+            const words = await mongoAPI.getWordsFromVoclist(args.vocId);
+            words.forEach(word => word.img ? dataSources.azureAPI.deleteBlob(word.img, "images") : null)
             await Promise.all([mongoAPI.deleteEntity(Collections.Voclists, args.vocId), mongoAPI.removeVoclist(args.userId, args.vocId)]);
             return true;
         },
@@ -88,7 +91,7 @@ export const resolv: Resolvers = {
     },
     User: {
         voclists: async (_user, _args) => {
-            return await mongoAPI.getUserVoclists(_user.voclists, _user)
+            return await Promise.all(_user.voclists.map(voclist => mongoAPI.getBasicVoclist(voclist)));
         },
         groups: async (group, _args) => {
             return await mongoAPI.getEntitiesByCollectionAndId<GroupDbObject>(Collections.Groups, group.groups)

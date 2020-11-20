@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import {useCopyVoclistMutation, Voclist} from "@/gen-types";
+import {useCopyVoclistMutation, User, Voclist} from "@/gen-types";
 import {provide, watch} from "@vue/composition-api";
 import {groups, setUser, userLists, setDownloadedLists} from "@/use/state";
 import {AuthModule} from "@/use/authModule";
@@ -15,6 +15,7 @@ import {Localdb, UserDbObject} from "@/use/localdb";
 import Nav from "./components/Nav.vue";
 import {useUrlHandler} from "@/use/urlHandler";
 import {useGetUserQueryLazy} from "@/use/lazyQueries";
+import {convertToBasicVoclist} from "@/use/general";
 
 export default Vue.extend({
   components: {
@@ -37,7 +38,8 @@ export default Vue.extend({
       if (!user) user = await db.createUser();
       setUser({
         _id: user._id,
-        voclists: await Promise.all(user.voclists.map(vocId => db.getItem<Voclist>(vocId, "voclists"))),
+        voclists: (await Promise.all(user.voclists.map(vocId => db.getItem<Voclist>(vocId, "voclists"))))
+            .map(list => convertToBasicVoclist(list)),
         groups: user.groups
       });
       if (navigator.onLine) await checkForSharedItems(auth.getOid().value);
@@ -46,9 +48,8 @@ export default Vue.extend({
     async function handleLoggedInMode() {
       load(null, {oid: auth.getOid().value})
       watch(result, async () => {
-        setUser(result.value.user);
+        setUser(result.value.user as User);
         await checkForSharedItems(auth.getOid().value);
-        await db.resetLocalDb(userLists.value, groups.value)
       })
     }
 

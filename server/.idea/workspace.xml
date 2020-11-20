@@ -20,26 +20,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/certificate.crt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/privateKey.key" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/use/listUpdater.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Nav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Nav.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/PdfModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/PdfModal.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/voc/ShareModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/ShareModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/VocCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/VocCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/VocSelection.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/VocSelection.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/ConfigModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/ConfigModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/CreateExampleModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/CreateExampleModal.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/ImgModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/ImgModal.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/OcrModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/OcrModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/SpaceInvader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/SpaceInvader.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExampleModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExampleModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseFinished.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseFinished.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseMethod.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseMethod.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/Exercises.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/Exercises.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/WordInfoModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/WordInfoModal.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/voc/groups/Group.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/groups/Group.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/groups/GroupVocCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/groups/GroupVocCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/graphql/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/graphql/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/graphql/voc.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/graphql/voc.graphql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/general.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/general.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/lazyQueries.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/lazyQueries.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/state.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/state.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/urlHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/urlHandler.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/codegen.yml" beforeDir="false" afterPath="$PROJECT_DIR$/codegen.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/service-worker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/mongodb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/datasources/mongodb.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen-types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resolvers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/resolvers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/schema.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,6 +147,8 @@
       <workItem from="1605328953583" duration="2932000" />
       <workItem from="1605521585891" duration="4338000" />
       <workItem from="1605526351032" duration="1660000" />
+      <workItem from="1605705797603" duration="884000" />
+      <workItem from="1605885055334" duration="13147000" />
     </task>
     <servers />
   </component>

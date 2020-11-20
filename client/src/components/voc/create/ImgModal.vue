@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, ref, watch,} from "@vue/composition-api";
+import {defineComponent, onMounted, onUnmounted, ref, watch,} from "@vue/composition-api";
 import {useSaveImgMutation, Word} from "@/gen-types";
 import M from "materialize-css"
 import {getBlobUrl} from "@/use/general";
@@ -77,6 +77,10 @@ export default defineComponent({
 
     onMounted(() => {
       modal.value = M.Modal.init(modalElement.value);
+    })
+
+    onUnmounted(() => {
+      modal.value.destroy();
     })
 
     watch(() => props.imagesToLoad, () => {

@@ -1,6 +1,6 @@
 import {useGetBasicGroupInfoQueryLazy, useGetVoclistQueryLazy} from "@/use/lazyQueries";
 import {useAddUserToGroupMutation, useCopyImgsMutation, useCopyVoclistMutation, Voclist} from "@/gen-types";
-import {addGroup, addVoclist, BasicGroupInfo} from "@/use/state";
+import {addGroup, addVoclist} from "@/use/state";
 import {correctMessage, wrongMessage} from "@/use/general";
 import {inject, watch} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
@@ -23,6 +23,8 @@ export function useUrlHandler() {
         if (voclist) {
             addVoclist(voclist.data?.copyVoclist as Voclist);
             correctMessage("added voclist");
+            await Promise.all([db.save("voclists", voclist.data?.copyVoclist as Voclist),
+                db.addListToUser(voclist.data?.copyVoclist._id)])
         } else wrongMessage("list does not exist");
     }
 
@@ -38,8 +40,7 @@ export function useUrlHandler() {
                     copy.words[i].img = copiedImgs.data?.copyImgs[i];
 
                 addVoclist(voclist.value.voclist as Voclist);
-                await db.save("voclists", voclist.value.voclist as Voclist)
-                await db.addListToUser(copy._id);
+                await Promise.all([db.save("voclists", voclist.value.voclist as Voclist), db.addListToUser(copy._id)])
                 correctMessage("added voclist");
             } else wrongMessage("list does not exist");
         })
@@ -50,6 +51,7 @@ export function useUrlHandler() {
         if (group.data.addUserToGroup) {
             addGroup({_id: groupId, name: group.data.addUserToGroup});
             correctMessage("added group!");
+            await db.addGroupToUser({_id: groupId, name: group.data.addUserToGroup});
         } else wrongMessage("group does not exist");
     }
 
@@ -58,8 +60,8 @@ export function useUrlHandler() {
         watch(group, async () => {
             if (group.value) {
                 addGroup({_id: groupId, name: group.value.group.name});
-                await db.addGroupToUser({_id: groupId, name: group.value.group.name});
                 correctMessage("added group!");
+                await db.addGroupToUser({_id: groupId, name: group.value.group.name});
             } else wrongMessage("group does not exist");
         })
     }

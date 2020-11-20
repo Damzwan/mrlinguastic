@@ -83,16 +83,16 @@ export default defineComponent({
 }
 
 .tabs .tab a.active {
-  background-color: #8d6e63  ;
+  background-color: #48605a;
   color: #000;
 }
 
 .tabs .tab a:focus.active {
-  background-color: #8d6e63  ;
+  background-color: #526c66  ;
   color: #000;
 }
 
 .tabs {
-  background-color: #795548 !important;
+  background-color: #48605a !important;
 }
 </style>

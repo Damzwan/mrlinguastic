@@ -23,16 +23,9 @@ query getUser($oid: String!){
         _id
         voclists{
             _id
-            words{
-                from
-                to
-                toAudio
-                sentences{
-                    from
-                    to
-                }
-                img
-            }
+            lastEdited
+            creator
+            wordsLength
             settings{
                 description
                 langSettings{
@@ -42,12 +35,23 @@ query getUser($oid: String!){
                 }
                 title
             }
-            lastEdited
-            creator
         }
         groups{
             name
             _id
+        }
+    }
+}
+
+query getWords($vocId: String!){
+    words(voclistId: $vocId){
+        from
+        to
+        img
+        toAudio
+        sentences{
+            from
+            to
         }
     }
 }
@@ -86,16 +90,6 @@ query getGroup($groupId: String!){
         description
         voclists{
             _id
-            words{
-                from
-                to
-                toAudio
-                sentences{
-                    from
-                    to
-                }
-                img
-            }
             settings{
                 description
                 langSettings{
@@ -105,6 +99,7 @@ query getGroup($groupId: String!){
                 }
                 title
             }
+            wordsLength
             lastEdited
             creator
         }
@@ -132,8 +127,8 @@ mutation saveImg($img: String!){
     saveImg(img: $img)
 }
 
-mutation deleteVoclist($userId: String!, $vocId: String!, $blobs: [String]!){
-    deleteVoclist(userId: $userId, vocId: $vocId, blobs: $blobs)
+mutation deleteVoclist($userId: String!, $vocId: String!){
+    deleteVoclist(userId: $userId, vocId: $vocId)
 }
 
 mutation addVoclistToUser($userId: String!, $vocId: String!){

@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, ref} from "@vue/composition-api";
+import {defineComponent, onMounted, onUnmounted, ref} from "@vue/composition-api";
 import M from "materialize-css"
 import {wrongMessage} from "@/use/general";
 import Modal = M.Modal;
@@ -88,6 +88,10 @@ export default defineComponent({
 
     onMounted(() => {
       modal.value = M.Modal.init(modalElement.value, {onOpenStart: findWordInfo})
+    })
+
+    onUnmounted(() => {
+      modal.value.destroy();
     })
 
     return {modalElement, wordInfo}

@@ -45,6 +45,7 @@ export const typeDefs = gql`
         translateWords(words: [String!], fromLang: String!, toLang: String!): [String]
         voclist(voclistId: String!): Voclist
         group(groupId: String!): Group
+        words(voclistId: String!): [Word!]
         getImages(word: String!, lang: String!): [String!]
         getVoices: [Voice]
         getExamples(from: String!, to: String, fromLang: String!, toLang: String!): [Sentence!]
@@ -53,7 +54,7 @@ export const typeDefs = gql`
     type Mutation{
         updateVoclist(list: VoclistInput!, changedBlobs: [String!], oid: String!): Boolean
         addSharedVoclist(userId: String!, vocId: String!): Boolean
-        deleteVoclist(userId: String!, vocId: String!, blobs: [String]!): Boolean
+        deleteVoclist(userId: String!, vocId: String!): Boolean
         saveImg(img: String!): String!
         removeImgs(imgs: [String!]): Boolean
         copyImgs(imgs: [String]): [String]
@@ -67,7 +68,7 @@ export const typeDefs = gql`
 
     type User @entity{
         _id: ID! @id
-        voclists: [Voclist!] @link
+        voclists: [BasicVoclist!] @link
         groups: [Group!] @link
     }
 
@@ -81,6 +82,14 @@ export const typeDefs = gql`
         words: [Word!] @embedded
         creator: String @column
         lastEdited: String @column
+    }
+
+    type BasicVoclist @entity{
+        _id: ID! @id
+        settings: VoclistSettings! @embedded
+        lastEdited: String! @column
+        wordsLength: Int! @column
+        creator: String! @column
     }
 
     input VoclistInput{
@@ -152,7 +161,7 @@ export const typeDefs = gql`
         name: String! @column
         description: String @column
         members: [User!] @link
-        voclists: [Voclist!] @link
+        voclists: [BasicVoclist!] @link
     }
 
     input GroupInput{
