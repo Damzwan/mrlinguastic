@@ -69,7 +69,7 @@
               </div>
 
               <p class="flow-text">What language is the first word?</p>
-              <div class="input-field col s12 m6">
+              <div class="input-field col s12">
                 <select ref="langSelect">
                   <option :value="langSettings.fromLang">{{ getLang(langSettings.fromLang) }}</option>
                   <option :value="langSettings.toLang">{{ getLang(langSettings.toLang) }}</option>
@@ -99,7 +99,8 @@
             <div class="col s6 center"><b>Should be {{ getLang(langSettings.toLang) }}</b></div>
           </div>
 
-          <div class="row rounded z-depth-1" v-for="(word, index) in state.importedWords.from" :key="index" style="background-color: #ead9a1">
+          <div class="row rounded z-depth-1" v-for="(word, index) in state.importedWords.from" :key="index"
+               style="background-color: #ead9a1">
             <div class="col s6 input-field">
               <input type="text" v-model="state.importedWords.from[index]" class="word center">
             </div>
@@ -134,6 +135,7 @@ import {cleanWord, getLang} from "@/use/general";
 import {LangSettings} from "@/gen-types";
 import Loader from "@/components/Loader.vue"
 import {useTranslateWordsQueryLazy} from "@/use/lazyQueries";
+import Tooltip = M.Tooltip;
 
 enum ImportState {
   NoFileUploaded,
@@ -176,6 +178,7 @@ export default defineComponent({
     const langSelect = ref<HTMLSelectElement>(null);
 
     const dontTranslateWords = ref(false);
+    const tooltip = ref<Tooltip>(null);
 
 
     const state = reactive<State>({
@@ -191,7 +194,7 @@ export default defineComponent({
     worker.load().then(() => worker.loadLanguage(iso2to3[props.langSettings.fromLang] + "+" + iso2to3[props.langSettings.toLang]))
 
 
-    function reset() {
+    async function reset() {
       cropperLoaded.value = false;
       isProcessing.value = false;
       state.importState = ImportState.NoFileUploaded;
@@ -202,10 +205,15 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      M.Tooltip.init(document.getElementById("infoTip"));
+      tooltip.value = M.Tooltip.init(document.getElementById("infoTip"));
       modal.value = M.Modal.init(modalElement.value, {inDuration: 0, outDuration: 0, onCloseEnd: reset});
     })
 
+    onUnmounted(() => {
+      document.removeEventListener("paste", pasteImage);
+      modal.value.destroy();
+      if (tooltip.value) tooltip.value.destroy();
+    })
 
     //perhaps resize image before creating a cropper
     function createCropper(imgUrl: string) {
@@ -319,6 +327,7 @@ export default defineComponent({
       reader.onload = event => {
         const res = event.target.result as string;
         state.importedText = res.split("\n");
+        state.importedText = state.importedText.map(line => line.toLowerCase())
         state.importState = ImportState.ReadyToImport;
       };
       reader.readAsText(blob);
@@ -398,11 +407,6 @@ export default defineComponent({
 
     document.addEventListener("paste", pasteImage);
 
-    onUnmounted(() => {
-      document.removeEventListener("paste", pasteImage);
-      modal.value.destroy();
-
-    })
 
     return {
       modalElement,

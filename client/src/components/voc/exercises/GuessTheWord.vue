@@ -227,6 +227,7 @@ export default defineComponent({
 
     onUnmounted(() => {
       document.removeEventListener("keyup", handleKeyup);
+      modal.value.destroy();
     })
 
     onMounted(() => {

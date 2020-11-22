@@ -88,7 +88,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, onMounted, ref} from "@vue/composition-api";
+import {defineComponent, inject, onMounted, onUnmounted, ref} from "@vue/composition-api";
 import {cleanWord, isOfflineList} from "@/use/general";
 import {Voclist, Word} from "@/gen-types";
 import {Localdb} from "@/use/localdb";
@@ -235,6 +235,11 @@ export default defineComponent({
       modal.value = M.Modal.init(modalElem.value);
       difficultyModal.value = M.Modal.init(difficultyModalElem.value, {onCloseEnd: exerciseSetup});
       difficultyModal.value.open();
+    })
+
+    onUnmounted(() => {
+      modal.value.destroy();
+      difficultyModal.value.destroy();
     })
 
     function setDifficulty(level: number) {

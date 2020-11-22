@@ -76,7 +76,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, onUpdated, reactive, ref} from "@vue/composition-api";
+import {defineComponent, inject, onUnmounted, onUpdated, reactive, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
 import {Voclist, Word} from "@/gen-types";
 import {
@@ -91,6 +91,7 @@ import {
 import ExerciseFinished from "@/components/voc/exercises/ExerciseFinished.vue";
 import M from "materialize-css"
 import Loader from "@/components/Loader.vue"
+import Dropdown = M.Dropdown;
 
 //used to make use of typescript typing
 interface State {
@@ -122,6 +123,7 @@ export default defineComponent({
     const finishBtn = ref<HTMLLinkElement>(null);
 
     const audio = new Audio();
+    const dropdowns = ref<Dropdown[]>(null);
 
     let wordAmount;
     let mistakes = 0;
@@ -227,7 +229,11 @@ export default defineComponent({
     }
 
     onUpdated(() => {
-      if (list) M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
+      if (list) dropdowns.value = M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'))
+    })
+
+    onUnmounted(() => {
+      dropdowns.value.forEach(dropdown => dropdown.destroy())
     })
 
     return {
@@ -272,11 +278,11 @@ export default defineComponent({
   }
 }
 
-input{
+input {
   border-bottom: 1px solid #000000 !important;
 }
 
-::placeholder{
+::placeholder {
   color: black;
   opacity: 0.3;
 }

@@ -27,7 +27,7 @@
 
 
 import WordInfoModal from "./WordInfoModal.vue";
-import {defineComponent, inject, onMounted, reactive, ref} from "@vue/composition-api";
+import {defineComponent, inject, onMounted, onUnmounted, reactive, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
 import {Voclist} from "@/gen-types";
 import M from "materialize-css"
@@ -60,6 +60,10 @@ export default defineComponent({
 
     onMounted(() => {
       carouselInstance.value = M.Carousel.init(carouselElement.value);
+    })
+
+    onUnmounted(() => {
+      if (carouselInstance.value) carouselInstance.value.destroy();
     })
 
     function exerciseSetup(providedList: Voclist) {

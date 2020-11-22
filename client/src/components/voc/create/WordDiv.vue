@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive, ref, watch,} from "@vue/composition-api";
+import {defineComponent, onMounted, onUnmounted, reactive, ref, watch,} from "@vue/composition-api";
 import M, {Collapsible} from "materialize-css";
 import {useGetExamplesQuery, useGetImagesQuery, useSaveImgMutation, Word} from "@/gen-types";
 import {getBlobUrl, getLang, langCode} from "@/use/general";
@@ -108,6 +108,11 @@ export default defineComponent({
         onCloseStart: flipDisabled,
       });
     });
+
+    onUnmounted(() => {
+      collapsibleInstance.value.destroy();
+    })
+
 
     function closeCollapsible() {
       if (collapsibleInstance) collapsibleInstance.value.close(0);

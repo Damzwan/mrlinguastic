@@ -65,12 +65,14 @@
       <div style="margin-left: 10px; margin-right: 10px; margin-top: 20px">
         <ul class="collapsible" ref="failureCollapsible">
           <li v-for="(word, index) in ordered" :key="index">
-            <div class="collapsible-header" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">{{ word }}
+            <div class="collapsible-header" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
+              {{ word }}
               <div style="right: 50px; font-weight: bold; position: absolute;">{{ failedAttempts[word].length }}</div>
             </div>
             <div class="collapsible-body" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
-              <ul class="collection" >
-                <li class="collection-item center" v-for="(failure, j) in failedAttempts[word]" :key="j" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
+              <ul class="collection">
+                <li class="collection-item center" v-for="(failure, j) in failedAttempts[word]" :key="j"
+                    :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
                   {{ failure }}
                 </li>
               </ul>
@@ -83,9 +85,10 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive, ref} from "@vue/composition-api";
+import {defineComponent, onMounted, onUnmounted, reactive, ref} from "@vue/composition-api";
 import Chart, {LinearScale} from 'chart.js';
 import M from "materialize-css";
+import Collapsible = M.Collapsible;
 
 export interface Stat {
   boldText: string;
@@ -117,6 +120,7 @@ export default defineComponent({
       {boldText: localStorage.getItem("duration"), normalText: "minute(s)", icon: "access_time", iconColor: "black"}]);
 
     const failureCollapsible = ref(null);
+    const collapsibleInstance = ref<Collapsible>(null);
     const ordered = Object.keys(failedAttempts).sort((a, b) => failedAttempts[a].length > failedAttempts[b].length ? 1 : -1).reverse();
 
     function createChart(ctx) {
@@ -148,16 +152,20 @@ export default defineComponent({
 
     onMounted(() => {
 
-      M.Collapsible.init(failureCollapsible.value);
+      collapsibleInstance.value = M.Collapsible.init(failureCollapsible.value);
 
-      let cnvs: HTMLCanvasElement= null;
+      let cnvs: HTMLCanvasElement = null;
       if (!isMobile()) cnvs = document.getElementById('cnvs') as HTMLCanvasElement;
       else cnvs = document.getElementById('cnvs-mobile') as HTMLCanvasElement;
 
       createChart(cnvs.getContext("2d"))
     })
 
-    function isMobile(){
+    onUnmounted(() => {
+      collapsibleInstance.value.destroy();
+    })
+
+    function isMobile() {
       return window.screen.width < 1000;
     }
 
@@ -202,7 +210,7 @@ export default defineComponent({
   border: 1px solid #e0e0e0 !important;
 }
 
-.divider{
+.divider {
   background-color: black;
 }
 
@@ -215,7 +223,7 @@ export default defineComponent({
   border-bottom: 1px solid #000000;
 }
 
-.collapsible-header{
+.collapsible-header {
   border-bottom: 0;
 }
 

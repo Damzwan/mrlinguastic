@@ -127,6 +127,7 @@ export default defineComponent({
 
     onUnmounted(() => {
       document.removeEventListener("keyup", handleKeyup);
+      if (carouselInstance.value) carouselInstance.value.destroy();
     })
 
     return {carouselElement, playAudio, state, cardClicked, type, getBlobUrl, isOfflineList}

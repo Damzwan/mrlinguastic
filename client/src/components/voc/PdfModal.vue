@@ -76,6 +76,7 @@ import {getLang} from "@/use/general";
 import Modal = M.Modal;
 import {getBlobUrl} from "@/use/general";
 import {useVoclistUpdater} from "@/use/listUpdater";
+import FormSelect = M.FormSelect;
 
 export interface State {
   displayFront: string,
@@ -98,6 +99,7 @@ export default defineComponent({
     const pdfModal = ref(null)
     const pdfModalInstance = ref<Modal>(null);
     const {updateVoclist} = useVoclistUpdater();
+    const selects = ref<FormSelect[]>(null);
 
     const state = reactive<State>({
       front: computed(() => parseInt(state.displayFront)),
@@ -114,11 +116,12 @@ export default defineComponent({
 
     onMounted(() => {
       pdfModalInstance.value = M.Modal.init(pdfModal.value);
-      M.FormSelect.init(document.querySelectorAll('select'));
+      selects.value = M.FormSelect.init(document.querySelectorAll('select'));
     })
 
     onUnmounted(() => {
       pdfModalInstance.value.destroy();
+      if (selects.value) selects.value.forEach(select => select.destroy())
     })
 
     watch(props, () => M.FormSelect.init(document.querySelectorAll('select')))

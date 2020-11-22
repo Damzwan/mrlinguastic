@@ -22,12 +22,14 @@
             <i class="material-icons icon left-margin unselectable" @click="playAudio()">volume_up</i>
           </td>
           <td v-else style="width: 60px">
-            <a class='dropdown-trigger btn-floating' v-bind:data-target="`mobileDrop${i}`"><i class='material-icons center'>more_vert</i></a>
+            <a class='dropdown-trigger btn-floating' v-bind:data-target="`mobileDrop${i}`"><i
+                class='material-icons center'>more_vert</i></a>
 
             <ul :id="`mobileDrop${i}`" class='dropdown-content' style="min-width: 60px">
               <li><a href="#!" @click="playAudio()"><i class="material-icons">volume_up</i></a></li>
               <li><a href="#infoModal" class="modal-trigger"><i class="material-icons">info_outline</i></a></li>
-              <li><a href="#exampleModal" class="modal-trigger"><i class="material-icons">format_list_numbered</i></a></li>
+              <li><a href="#exampleModal" class="modal-trigger"><i class="material-icons">format_list_numbered</i></a>
+              </li>
             </ul>
           </td>
         </tr>
@@ -40,11 +42,12 @@
 <script lang="ts">
 
 
-import {defineComponent, inject, onUpdated, ref} from "@vue/composition-api";
+import {defineComponent, inject, onUnmounted, onUpdated, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
 import {Voclist, Word} from "@/gen-types";
 import {isOfflineList} from "@/use/general";
 import M from "materialize-css"
+import Dropdown = M.Dropdown;
 
 export default defineComponent({
   components: {
@@ -57,6 +60,8 @@ export default defineComponent({
     const currWord = ref<Word>(null);
     const audio = new Audio();
 
+    const dropdowns = ref<Dropdown[]>(null);
+
     function exerciseSetup(providedList: Voclist) {
       list.value = providedList;
       currWord.value = list.value.words[0];
@@ -67,19 +72,23 @@ export default defineComponent({
       else db.getItem<Voclist>(localStorage.getItem("_id"), "voclists").then(nlist => exerciseSetup(nlist))
     }
 
-    function playAudio(){
+    function playAudio() {
       audio.src = currWord.value.toAudio;
       audio.play()
     }
 
-    function hasSmallScreen(){
+    function hasSmallScreen() {
       return window.screen.width <= 600
     }
 
     if (localStorage.getItem("_id")) restoreWords();
 
     onUpdated(() => {
-      M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'));
+      dropdowns.value = M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'));
+    })
+
+    onUnmounted(() => {
+      dropdowns.value.forEach(dropdown => dropdown.destroy())
     })
 
     return {list, currWord, playAudio, hasSmallScreen}
