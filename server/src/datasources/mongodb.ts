@@ -29,7 +29,7 @@ export class MongoAPI {
 
         if (!user) {
             user = {_id: oid, voclists: [], groups: []};
-            await this.db.collection<UserDbObject>(Collections.Users).insertOne(user);
+            this.db.collection<UserDbObject>(Collections.Users).insertOne(user);
         }
         return user;
     }
@@ -77,14 +77,7 @@ export class MongoAPI {
     }
 
     async getUserVoclists(vocIds: string[], user: UserDbObject): Promise<VoclistDbObject[]> {
-        const vocLists = await this.getEntitiesByCollectionAndId<VoclistDbObject>(Collections.Voclists, vocIds);
-        const filteredVoclists = vocLists.filter(item => item != null);
-
-        if (vocIds.length != filteredVoclists.length) {
-            user.voclists = filteredVoclists.map(voclist => voclist._id);
-            this.updateEntity(Collections.Users, user._id, user).then(r => null);
-        }
-        return filteredVoclists
+        return await this.getEntitiesByCollectionAndId<VoclistDbObject>(Collections.Voclists, vocIds);
     }
 
     async getGroupVoclists(vocIds: string[], group: GroupDbObject): Promise<BasicVoclist[]> {

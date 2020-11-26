@@ -12,7 +12,7 @@
     <div class="row flex" v-if="!isMobile()" style="margin-left: 30px; margin-right: 30px">
       <div class="col l4">
         <div class="row" v-for="(stat, index) in stats" :key="index">
-          <div class="z-depth-1 rounded stat" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
+          <div class="z-depth-1 rounded stat" style="background-color: #ead9a1">
             <div class="rounded-icon" style="position: absolute;">
               <i class="material-icons" style="font-size: 70px; margin-top: 5px" v-bind:style="{color: stat.iconColor}">{{
                   stat.icon
@@ -35,7 +35,7 @@
       <div class="col s12 m5 fade-enter-active" v-for="(stat, index) in stats" :key="index"
            v-bind:class="{'offset-m2': index % 2 !== 0}">
         <div class="row">
-          <div class="z-depth-1 rounded stat" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
+          <div class="z-depth-1 rounded stat" style="background-color: #ead9a1">
             <div class="rounded-icon" style="position: absolute;">
               <i class="material-icons" style="font-size: 70px; margin-top: 5px" v-bind:style="{color: stat.iconColor}">{{
                   stat.icon
@@ -65,14 +65,14 @@
       <div style="margin-left: 10px; margin-right: 10px; margin-top: 20px">
         <ul class="collapsible" ref="failureCollapsible">
           <li v-for="(word, index) in ordered" :key="index">
-            <div class="collapsible-header" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
+            <div class="collapsible-header" style="background-color: #ead9a1">
               {{ word }}
               <div style="right: 50px; font-weight: bold; position: absolute;">{{ failedAttempts[word].length }}</div>
             </div>
-            <div class="collapsible-body" :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
+            <div class="collapsible-body" style="background-color: #ead9a1">
               <ul class="collection">
                 <li class="collection-item center" v-for="(failure, j) in failedAttempts[word]" :key="j"
-                    :style="{backgroundImage: 'url(' + require('@/assets/ugly.svg') + ')'}">
+                    style="background-color: #ead9a1">
                   {{ failure }}
                 </li>
               </ul>

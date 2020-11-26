@@ -83,7 +83,7 @@ export default defineComponent({
 }
 
 .tabs .tab a.active {
-  background-color: #48605a;
+  background-color: #526c66;
   color: #000;
 }
 

@@ -166,6 +166,7 @@ export default defineComponent({
         }
       } else {
         wrongMessage("😂😂 Wrong! 😂😂")
+        window.navigator.vibrate(200);
 
         const key = state.currentWord.from + "-" + state.currentWord.to;
         const failures = categorizedFailedAttempts[key] ? categorizedFailedAttempts[key] : [];

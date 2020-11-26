@@ -20,19 +20,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../client/src/assets/notduolingologo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/PdfModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/PdfModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/ConfigModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/ConfigModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/OcrModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/OcrModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/WordDiv.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/WordDiv.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/img/icons/android-chrome-192x192.png" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/img/icons/android-chrome-192x192.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/img/icons/android-chrome-512x512.png" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/img/icons/android-chrome-512x512.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/img/icons/android-chrome-maskable-192x192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/img/icons/android-chrome-maskable-512x512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/img/icons/apple-touch-icon-120x120.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/img/icons/apple-touch-icon-152x152.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/img/icons/apple-touch-icon-180x180.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/img/icons/apple-touch-icon-60x60.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/img/icons/apple-touch-icon-76x76.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/img/icons/apple-touch-icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/img/icons/apple-touch-icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/img/icons/favicon-16x16.png" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/img/icons/favicon-16x16.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/img/icons/favicon-32x32.png" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/img/icons/favicon-32x32.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/img/icons/msapplication-icon-144x144.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/img/icons/mstile-150x150.png" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/img/icons/mstile-150x150.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/img/icons/safari-pinned-tab.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/img/icons/safari-pinned-tab.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/assets/ugly.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Nav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Nav.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/VocCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/VocCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseMethod.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseMethod.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseStats.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseStats.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/Flashcard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/Flashcard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/FlashcardCarousel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/FlashcardCarousel.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/GuessTheWord.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/GuessTheWord.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/List.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/SpaceInvader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/SpaceInvader.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/Standard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/Standard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/general.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/general.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/azure.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/azure.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/mongodb.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/mongodb.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/mongodb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/datasources/mongodb.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/pixabay.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/pixabay.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/reverso.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/reverso.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/yandex.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/yandex.js.map" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +76,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1g2ICuRdGqvOmMS9cXtNIStii6v" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -63,13 +92,16 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/dist" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="ts.external.directory.path" value="C:\Users\damia\Documents\mrlinguastic\server\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\damia\Documents\mrlinguastic\server\dist" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\damia\Documents\mrlinguastic\server" />
     </key>
@@ -129,11 +161,28 @@
       <workItem from="1605705797603" duration="884000" />
       <workItem from="1605885055334" duration="13147000" />
       <workItem from="1606075192030" duration="2275000" />
+      <workItem from="1606147307486" duration="1704000" />
+      <workItem from="1606200072760" duration="5456000" />
+      <workItem from="1606358360301" duration="1633000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/src/datasources/yandex.js" />
+        <option value="$PROJECT_DIR$/src/datasources/reverso.js.map" />
+        <option value="$PROJECT_DIR$/src/datasources/yandex.js.map" />
+        <option value="$PROJECT_DIR$/src/datasources/pixabay.js.map" />
+        <option value="$PROJECT_DIR$/src/datasources/mongodb.js.map" />
+        <option value="$PROJECT_DIR$/src/datasources/azure.js.map" />
+        <option value="$PROJECT_DIR$/src/datasources/reverso.js" />
+        <option value="$PROJECT_DIR$/src/datasources/pixabay.js" />
+        <option value="$PROJECT_DIR$/src/datasources/mongodb.js" />
+        <option value="$PROJECT_DIR$/src/datasources/azure.js" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -151,10 +200,10 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="359" y="265" width="726" height="522" key="#com.intellij.ide.util.TreeDirectoryChooserDialog" timestamp="1597308839047">
+    <state x="519" y="304" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1606202118794">
       <screen x="0" y="0" width="1504" height="1003" />
     </state>
-    <state x="359" y="265" width="726" height="522" key="#com.intellij.ide.util.TreeDirectoryChooserDialog/0.0.1504.1003/198.-1080.1920.1080@0.0.1504.1003" timestamp="1597308839047" />
+    <state x="519" y="304" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1504.1003@0.0.1504.1003" timestamp="1606202118794" />
     <state x="533" y="257" key="FileChooserDialogImpl" timestamp="1605009821240">
       <screen x="0" y="0" width="1504" height="1003" />
     </state>
@@ -163,11 +212,6 @@
     <state x="254" y="147" key="SettingsEditor" timestamp="1605522725679">
       <screen x="0" y="0" width="1504" height="1003" />
     </state>
-    <state x="254" y="147" key="SettingsEditor/0.0.1504.1003/198.-1080.1920.1080@0.0.1504.1003" timestamp="1597309057802" />
     <state x="254" y="147" key="SettingsEditor/0.0.1504.1003@0.0.1504.1003" timestamp="1605522725679" />
-    <state x="415" y="216" width="672" height="678" key="search.everywhere.popup" timestamp="1597306538405">
-      <screen x="0" y="0" width="1504" height="1003" />
-    </state>
-    <state x="415" y="216" width="672" height="678" key="search.everywhere.popup/0.0.1504.1003/198.-1080.1920.1080@0.0.1504.1003" timestamp="1597306538405" />
   </component>
 </project>

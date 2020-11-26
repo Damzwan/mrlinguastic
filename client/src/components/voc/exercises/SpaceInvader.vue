@@ -220,6 +220,7 @@ export default defineComponent({
       mistakes.value.push(spawnedMonsters.value[i]);
       spawnedMonsters.value.splice(i, 1);
       currLives.value--;
+      window.navigator.vibrate(600);
       if (currLives.value == 0) handleDefeat();
       else if (spawnedMonsters.value.length == 0 && list.value.words.length == 0) handleVictory();
     }

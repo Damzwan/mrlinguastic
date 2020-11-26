@@ -149,7 +149,10 @@ export default defineComponent({
     }
 
     function setNextWord() {
-      state.currentWord = list.value.words[Math.floor(Math.random() * list.value.words.length)];
+      let word = list.value.words[Math.floor(Math.random() * list.value.words.length)];
+      while (list.value.words.length > 1 && word == state.currentWord)
+        word = list.value.words[Math.floor(Math.random() * list.value.words.length)];
+      state.currentWord = word;
     }
 
     function exerciseSetup(providedList: Voclist) {
@@ -179,8 +182,6 @@ export default defineComponent({
       to.value.classList.remove("invalid");
       to.value.classList.add("valid");
       correctMessage("Correct! 🤓")
-
-      hintCounter = 1;
       list.value.words.splice(list.value.words.indexOf(state.currentWord), 1);
     }
 
@@ -188,6 +189,7 @@ export default defineComponent({
       to.value.classList.remove("valid");
       to.value.classList.add("invalid");
       wrongMessage("😂😂 Wrong! 😂😂")
+      window.navigator.vibrate(200);
 
       failedAttempts.value.push({from: state.currentWord.from, attempt: attempt, to: state.currentWord.to});
 
@@ -212,6 +214,7 @@ export default defineComponent({
       }
 
       state.to = "";
+      hintCounter = 1;
       setNextWord();
 
       if (type === "audio") {

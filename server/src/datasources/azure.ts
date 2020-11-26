@@ -1,7 +1,5 @@
 import {DataSource} from 'apollo-datasource';
 
-require('dotenv').config()
-
 //translation
 import request from 'request';
 import {v4 as uuidv4} from 'uuid';

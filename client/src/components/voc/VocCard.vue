@@ -14,7 +14,7 @@
 
       <div class="row">
         <div class="col s5">
-          <p style="font-weight: bold; font-size: 15px;">{{ list.wordsLength }}
+          <p style="font-weight: bold; font-size: 15px;">{{ list.wordsLength ? list.wordsLength : list.words.length }}
             words</p>
         </div>
         <div class="col s1" style="margin-right: 10px">

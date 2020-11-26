@@ -1,7 +1,5 @@
-import {ApolloServer, AuthenticationError} from 'apollo-server-express';
+import {ApolloServer} from 'apollo-server-express';
 import express from "express";
-
-const spdy = require('spdy');
 import {resolv} from "./src/resolvers";
 import {typeDefs} from "./src/schema";
 
@@ -22,11 +20,6 @@ app.use(compression());
 app.use(express.static(__dirname + "/public/"));
 
 const azure = new azureAPI()
-
-const options = {
-    key: fs.readFileSync(path.join(__dirname, '/privateKey.key')),
-    cert: fs.readFileSync(path.join(__dirname, '/certificate.crt'))
-}
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
@@ -52,15 +45,6 @@ const server = new ApolloServer({
 });
 
 server.applyMiddleware({app})
-app.listen({port: 4000}, () => console.log(`Server ready at http://localhost:4000${server.graphqlPath}`))
 
-// spdy
-//     .createServer(options, app)
-//     .listen(4000, (error) => {
-//         if (error) {
-//             console.error(error)
-//             return process.exit(1)
-//         } else {
-//             console.log('Listening on port: ' + 4000 + '.')
-//         }
-//     })
+const PORT = process.env.PORT || 4000;
+app.listen({port: PORT}, () => console.log(`Our app is running on port ${PORT}`))

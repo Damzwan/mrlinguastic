@@ -2,8 +2,12 @@
   <div style="z-index: 1005">
     <nav>
       <div class="nav-wrapper green darken-4">
-        <router-link to="/" class="brand-logo center hide-on-med-and-down">Mr Linguastic</router-link>
-        <router-link to="/" class="brand-logo center hide-on-large-only">ML</router-link>
+        <router-link to="/" class="brand-logo center hide-on-med-and-down">Mr.Linguastic</router-link>
+        <router-link to="/" class="brand-logo center hide-on-med-and-down"><img src="../assets/notduolingologo.png" alt="" width="55px" height="55px" style="margin-top: 5px; margin-left: 250px"></router-link>
+        <router-link to="/" class="brand-logo center hide-on-med-and-down"><img src="../assets/notduolingologo.png" alt="" width="55px" height="55px" style="margin-top: 5px; margin-right: 250px"></router-link>
+        <router-link to="/" class="brand-logo center hide-on-large-only">
+          <img src="../assets/notduolingologo.png" alt="" width="45px" height="45px" style="margin-top: 5px">
+        </router-link>
 
         <ul class="left">
           <li>
@@ -78,7 +82,8 @@
     <ul class="sidenav green darken-4" ref="nav2">
       <li>
         <div class="user-view">
-          <a><img class="circle" src="../assets/country-flags/china.svg" alt="Profile picture" width="64px" height="64px"></a>
+          <a><img class="circle" src="../assets/country-flags/china.svg" alt="Profile picture" width="64px"
+                  height="64px"></a>
           <div v-if="user">
             <a><span class="white-text name">{{ user }}</span></a>
             <a @click="logOut" class="btn green" style="width: 100px; height: 35px;">log out!</a>
