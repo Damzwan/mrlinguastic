@@ -3,8 +3,14 @@
     <nav>
       <div class="nav-wrapper green darken-4">
         <router-link to="/" class="brand-logo center hide-on-med-and-down">Mr.Linguastic</router-link>
-        <router-link to="/" class="brand-logo center hide-on-med-and-down"><img src="../assets/notduolingologo.png" alt="" width="55px" height="55px" style="margin-top: 5px; margin-left: 250px"></router-link>
-        <router-link to="/" class="brand-logo center hide-on-med-and-down"><img src="../assets/notduolingologo.png" alt="" width="55px" height="55px" style="margin-top: 5px; margin-right: 250px"></router-link>
+        <router-link to="/" class="brand-logo center hide-on-med-and-down"><img src="../assets/notduolingologo.png"
+                                                                                alt="" width="55px" height="55px"
+                                                                                style="margin-top: 5px; margin-left: 250px">
+        </router-link>
+        <router-link to="/" class="brand-logo center hide-on-med-and-down"><img src="../assets/notduolingologo.png"
+                                                                                alt="" width="55px" height="55px"
+                                                                                style="margin-top: 5px; margin-right: 250px">
+        </router-link>
         <router-link to="/" class="brand-logo center hide-on-large-only">
           <img src="../assets/notduolingologo.png" alt="" width="45px" height="45px" style="margin-top: 5px">
         </router-link>
@@ -41,8 +47,9 @@
         <div v-else>
           <ul class="right">
             <li class="hide-on-small-and-down">
-              <a @click="saveList" class="tooltipped" data-tooltip="Save">
-                <i class="material-icons" style="font-size: 30px;">save</i>
+              <a class="tooltipped" :data-tooltip="wordsLoading > 0 ? 'Saving...' : 'Up to date!'">
+                <i class="material-icons"
+                   style="font-size: 30px;">{{ wordsLoading > 0 ? 'do_not_disturb_alt' : 'done' }}</i>
               </a>
             </li>
             <li>
@@ -58,8 +65,9 @@
           </ul>
           <ul class="left hide-on-med-and-up">
             <li>
-              <a @click="saveList" class="tooltipped" data-tooltip="Save">
-                <i class="material-icons" style="font-size: 30px;">save</i>
+              <a class="tooltipped" :data-tooltip="wordsLoading > 0 ? 'Saving...' : 'Up to date!'">
+                <i class="material-icons"
+                   style="font-size: 30px;">{{ wordsLoading > 0 ? 'do_not_disturb_alt' : 'done' }}</i>
               </a>
             </li>
           </ul>
@@ -172,7 +180,7 @@ import {Community, correctMessage, getCommunities, wrongMessage} from "@/use/gen
 import {AuthModule} from "@/use/authModule";
 import {Route} from "vue-router";
 import {useAddUserToGroupMutation, useCreateGroupMutation} from "@/gen-types";
-import {addGroup, communities, groups, sendEvent} from "@/use/state";
+import {addGroup, communities, groups, sendEvent, wordsLoading} from "@/use/state";
 import {Localdb} from "@/use/localdb";
 
 export default defineComponent({
@@ -285,7 +293,8 @@ export default defineComponent({
       getCommunities,
       communityModalElem,
       joinCommunity,
-      logOut
+      logOut,
+      wordsLoading
     };
   },
   watch: {

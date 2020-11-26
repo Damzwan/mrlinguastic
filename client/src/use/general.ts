@@ -32,6 +32,12 @@ export function correctMessage(text: string) {
     new M.Toast({html: text, classes: 'green darken-4 centered-img center', displayLength: 2000})
 }
 
+export function removeAllToasts() {
+    const toastElement = document.querySelector('.toast');
+    const toastInstance = M.Toast.getInstance(toastElement);
+    toastInstance.dismiss();
+}
+
 /**
  * Show a normal error message
  * @param text the text of the message
@@ -45,7 +51,7 @@ export function normalMessage(text: string) {
  * @return the country matching the country code
  */
 export const getCountry = function (code: langCode) {
-    const items: langMap = {"en": "united-kingdom", "fr": "france", "it": "italy", "nl": "belgium"}
+    const items: langMap = {"en": "united-kingdom", "fr": "france", "it": "italy", "nl": "netherlands"}
     return items[code];
 }
 
@@ -101,12 +107,10 @@ export function formatDate(date: string) {
     return moment(new Date(date)).format("lll");
 }
 
-const communities: Community[] = [{_id: "5fadcd07e4d3a016b4aa9b7c", country: "united-kingdom", name: "English"}, {
-    _id: "5fadcd41e4d3a016b4aa9b7d", country: "france", name: "French"
-}, {_id: "5fadcd58e4d3a016b4aa9b7e", country: "italy", name: "Italian"}, {
-    _id: "5fadcd79e4d3a016b4aa9b7f",
-    country: "belgium",
-    name: "Dutch"
+const communities: Community[] = [{_id: "5fbfb207f21c541728fd3af3", country: "united-kingdom", name: "English"}, {
+    _id: "5fbfb248f21c541728fd3af4", country: "france", name: "French"
+}, {_id: "5fbfb270f21c541728fd3af5", country: "italy", name: "Italian"}, {
+    _id: "5fbfb3abf21c541728fd3af6", country: "netherlands", name: "Dutch"
 }]
 
 export function getCommunity(id: string) {

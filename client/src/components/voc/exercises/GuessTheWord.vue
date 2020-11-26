@@ -61,7 +61,7 @@
 import {defineComponent, inject, onMounted, onUnmounted, onUpdated, reactive, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
 import {Voclist} from "@/gen-types";
-import {correctMessage, getCountry, isOfflineList, wrongMessage} from "@/use/general";
+import {correctMessage, getCountry, isOfflineList, removeAllToasts, wrongMessage} from "@/use/general";
 import Loader from "@/components/Loader.vue"
 import {InfoOption} from "@/components/voc/exercises/WordInfoModal.vue";
 import M from "materialize-css"
@@ -194,6 +194,7 @@ export default defineComponent({
 
 
     function checkWord(attempt: string) {
+      removeAllToasts();
       if (attempt === state.currEntry.word) {
         correctMessage("Correct! 🤓")
         currEntries.value.splice(currEntries.value.indexOf(state.currEntry), 1);

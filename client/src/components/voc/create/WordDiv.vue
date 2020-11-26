@@ -49,6 +49,7 @@ import {defineComponent, onMounted, onUnmounted, reactive, ref, watch,} from "@v
 import M, {Collapsible} from "materialize-css";
 import {useGetExamplesQuery, useGetImagesQuery, useSaveImgMutation, Word} from "@/gen-types";
 import {getBlobUrl, getLang, langCode} from "@/use/general";
+import {decrementWordsLoading, incrementWordsLoading} from "@/use/state";
 
 export default defineComponent({
   props: {
@@ -62,10 +63,13 @@ export default defineComponent({
     const state = reactive({disabled: true}); //when a Word is in its collapsed state it
     const toAudio = document.createElement("audio");
     let savedImgs = [];
+    let requestsWaiting = 0;
 
     const {mutate: saveImgToServer} = useSaveImgMutation(null);
 
     if (props.word.sentences.length == 1 && props.word.sentences[0].from == "") {
+      incrementWordsLoading();
+      requestsWaiting++;
       const {result: examples} = useGetExamplesQuery({
         fromLang: getLang(props.fromLang as langCode),
         toLang: getLang(props.toLang as langCode),
@@ -75,10 +79,18 @@ export default defineComponent({
 
       watch(examples, () => {
         props.word.sentences = examples.value.getExamples;
+        decrementWordsLoading();
+        requestsWaiting--;
       })
     }
 
     const {result: imgUrls} = useGetImagesQuery({word: props.word.from, lang: props.fromLang})
+
+    //request already cached...
+    if (!imgUrls.value){
+      incrementWordsLoading();
+      requestsWaiting++;
+    }
 
     watch(imgUrls, () => {
       savedImgs = imgUrls.value.getImages;
@@ -86,7 +98,12 @@ export default defineComponent({
         props.word.img = savedImgs[0]
         saveImgToServer({img: savedImgs[0]}).then(result => {
           props.word.img = result.data.saveImg;
+          decrementWordsLoading()
+          requestsWaiting--;
         })
+      } else {
+        decrementWordsLoading();
+        requestsWaiting--;
       }
     })
 
@@ -122,6 +139,7 @@ export default defineComponent({
 
     function remove() {
       context.emit("remove-word", props.word.from)
+      for (let i = 0; i < requestsWaiting; i++) decrementWordsLoading();
     }
 
     function fillImgModal() {

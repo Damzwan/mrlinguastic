@@ -9,13 +9,15 @@
 import Vue from "vue";
 import {useCopyVoclistMutation, User, Voclist} from "@/gen-types";
 import {provide, watch} from "@vue/composition-api";
-import {groups, setUser, userLists, setDownloadedLists} from "@/use/state";
+import {setDownloadedLists, setUser} from "@/use/state";
 import {AuthModule} from "@/use/authModule";
 import {Localdb, UserDbObject} from "@/use/localdb";
 import Nav from "./components/Nav.vue";
 import {useUrlHandler} from "@/use/urlHandler";
 import {useGetUserQueryLazy} from "@/use/lazyQueries";
 import {convertToBasicVoclist} from "@/use/general";
+import {useServiceWorkerRefresher} from "@/use/serviceWorkerRefresher";
+import M from "materialize-css"
 
 export default Vue.extend({
   components: {
@@ -30,6 +32,7 @@ export default Vue.extend({
 
     const {result, load} = useGetUserQueryLazy();
     const {checkForSharedItems} = useUrlHandler();
+    const {updateExists, refreshApp} = useServiceWorkerRefresher();
 
     const {mutate: copyVoclist} = useCopyVoclistMutation({}); //we need this for some fucking reason and i do not understand
 
@@ -57,6 +60,12 @@ export default Vue.extend({
       db.getItems<Voclist>("downloadedVoclists").then(lists => setDownloadedLists(lists));
       if (!auth.getOid().value || !navigator.onLine) handleLoggedOutMode()
       else handleLoggedInMode();
+    })
+
+    watch(updateExists, () => {
+      if (!updateExists.value) return;
+      const toastHTML = '<span>A newer version is out, please update the app!</span><button @click="refreshApp()" class="btn-flat toast-action">Update</button>';
+      M.toast({html: toastHTML, displayLength: 10000});
     })
   }
 });

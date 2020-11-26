@@ -26,7 +26,7 @@
                 <option value="en" :data-icon="getCountryFlag('united-kingdom')">English</option>
                 <option value="fr" :data-icon="getCountryFlag('france')">French</option>
                 <option value="it" :data-icon="getCountryFlag('italy')">Italian</option>
-                <option value="nl" :data-icon="getCountryFlag('belgium')">Dutch</option>
+                <option value="nl" :data-icon="getCountryFlag('netherlands')">Dutch</option>
               </select>
               <label>
                 From Language
@@ -45,7 +45,7 @@
                 <option value="en" :data-icon="getCountryFlag('united-kingdom')">English</option>
                 <option value="fr" :data-icon="getCountryFlag('france')">French</option>
                 <option value="it" :data-icon="getCountryFlag('italy')">Italian</option>
-                <option value="nl" :data-icon="getCountryFlag('belgium')">Dutch</option>
+                <option value="nl" :data-icon="getCountryFlag('netherlands')">Dutch</option>
               </select>
               <label>To Language<i class="material-icons right unselectable question-btn tooltipped"
                                    data-tooltip="This should be the language you would like to learn">live_help</i>

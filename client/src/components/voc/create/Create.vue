@@ -56,7 +56,7 @@ import {cleanWord, getBlobUrl, getCountry, getExampleWord, wrongMessage} from "@
 import {useUpdateVoclistMutation, Voclist, VoclistInput, VoclistSettings, Word} from "@/gen-types";
 import {AuthModule} from "@/use/authModule";
 import {Localdb} from "@/use/localdb";
-import {replaceList} from "@/use/state";
+import {replaceList, resetWordsLoading} from "@/use/state";
 import {useTranslateWordQueryLazy} from "@/use/lazyQueries";
 
 //used to make use of typescript typing
@@ -115,7 +115,8 @@ export default defineComponent({
     const {result: translatedWord, load: executeTranslate} = useTranslateWordQueryLazy();
     const {mutate: updateVoclistOnline} = useUpdateVoclistMutation(null); //TODO fix better name xd
 
-    //TODO put this in use dir
+    resetWordsLoading();
+
     function restoreVoclist() {
       db.restoreVocList(localStorage.getItem("_id")).then(async restoredList => {
         Object.assign(list, restoredList);

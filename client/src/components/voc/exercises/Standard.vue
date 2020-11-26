@@ -85,7 +85,7 @@ import {
   getBlobUrl,
   getCountry,
   getSymbols,
-  isOfflineList,
+  isOfflineList, removeAllToasts,
   wrongMessage
 } from "@/use/general";
 import ExerciseFinished from "@/components/voc/exercises/ExerciseFinished.vue";
@@ -205,6 +205,7 @@ export default defineComponent({
       if (!startTime) startTime = new Date();
       const attempt = cleanWord(state.to);
 
+      removeAllToasts();
       if (attempt === state.currentWord.to) handleCorrectAnswer()
       else handleWrongAnswer(attempt);
 

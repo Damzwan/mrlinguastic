@@ -14,37 +14,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6bf64ff9-4956-4a50-a243-639565bc4023" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../server/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../server/Procfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/certificate.crt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../server/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/privateKey.key" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/android-chrome-192x192.png" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/img/icons/android-chrome-192x192.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/android-chrome-512x512.png" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/img/icons/android-chrome-512x512.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/android-chrome-maskable-192x192.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/android-chrome-maskable-512x512.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/apple-touch-icon-120x120.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/apple-touch-icon-152x152.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/apple-touch-icon-180x180.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/apple-touch-icon-60x60.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/apple-touch-icon-76x76.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/apple-touch-icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/img/icons/apple-touch-icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/favicon-16x16.png" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/img/icons/favicon-16x16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/favicon-32x32.png" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/img/icons/favicon-32x32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/msapplication-icon-144x144.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/mstile-150x150.png" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/img/icons/mstile-150x150.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/safari-pinned-tab.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/img/icons/safari-pinned-tab.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/img/belgium.49147ca6.svg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/public/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/service-worker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/datasources/azure.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/datasources/azure.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/datasources/mongodb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/datasources/mongodb.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../server/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/datasources/reverso.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/datasources/reverso.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,15 +53,16 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\damia\Documents\mrlinguastic\client\src\assets\country-flags" />
+      <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc\create" />
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc\groups" />
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components" />
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc" />
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc\Create" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -128,7 +106,8 @@
       <workItem from="1606147347313" duration="4598000" />
       <workItem from="1606157739187" duration="768000" />
       <workItem from="1606197540919" duration="5475000" />
-      <workItem from="1606358336463" duration="2081000" />
+      <workItem from="1606358336463" duration="14383000" />
+      <workItem from="1606406397817" duration="2158000" />
     </task>
     <servers />
   </component>

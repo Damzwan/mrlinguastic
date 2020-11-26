@@ -12,14 +12,16 @@ interface State {
     groups: Group[]
     onlineVoclists: BasicVoclist[] | null
     downloadedLists: Voclist[] | null,
-    event: string | null
+    event: string | null,
+    wordsLoading: number
 }
 
 const state = reactive<State>({
     groups: null,
     onlineVoclists: null,
     downloadedLists: null,
-    event: null
+    event: null,
+    wordsLoading: 0
 })
 
 function setUser(newUser: User) {
@@ -87,6 +89,18 @@ function getOnlineListFromState(id: string) {
     return null;
 }
 
+function incrementWordsLoading() {
+    state.wordsLoading++;
+}
+
+function decrementWordsLoading() {
+    if (state.wordsLoading > 0) state.wordsLoading--;
+}
+
+function resetWordsLoading() {
+    state.wordsLoading = 0;
+}
+
 const userLists = computed(() => state.onlineVoclists ? state.onlineVoclists : null);
 
 const groups = computed(() => state.groups ? state.groups.filter(group => !getCommunity(group._id)) : null);
@@ -96,6 +110,8 @@ const communities = computed(() => state.groups ? state.groups
 const downloadedLists = computed(() => state.downloadedLists)
 
 const event = computed(() => state.event)
+
+const wordsLoading = computed(() => state.wordsLoading)
 
 export {
     setUser,
@@ -112,5 +128,9 @@ export {
     replaceDownloadedVoclist,
     event,
     sendEvent,
-    getOnlineListFromState
+    getOnlineListFromState,
+    wordsLoading,
+    incrementWordsLoading,
+    decrementWordsLoading,
+    resetWordsLoading
 }
