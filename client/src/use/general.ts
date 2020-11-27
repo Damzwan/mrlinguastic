@@ -33,9 +33,7 @@ export function correctMessage(text: string) {
 }
 
 export function removeAllToasts() {
-    const toastElement = document.querySelector('.toast');
-    const toastInstance = M.Toast.getInstance(toastElement);
-    toastInstance.dismiss();
+    M.Toast.dismissAll();
 }
 
 /**

@@ -32,7 +32,7 @@ export default Vue.extend({
 
     const {result, load} = useGetUserQueryLazy();
     const {checkForSharedItems} = useUrlHandler();
-    const {updateExists, refreshApp} = useServiceWorkerRefresher();
+    const {updateExists} = useServiceWorkerRefresher();
 
     const {mutate: copyVoclist} = useCopyVoclistMutation({}); //we need this for some fucking reason and i do not understand
 
@@ -64,8 +64,8 @@ export default Vue.extend({
 
     watch(updateExists, () => {
       if (!updateExists.value) return;
-      const toastHTML = '<span>A newer version is out, please update the app!</span><button @click="refreshApp()" class="btn-flat toast-action">Update</button>';
-      M.toast({html: toastHTML, displayLength: 10000});
+      const toastHTML = '<span>A newer version is out, please update the app!</span><button onclick="window.location.reload(true)" class="btn-flat toast-action">Update</button>';
+      M.toast({html: toastHTML, displayLength: 6000});
     })
   }
 });

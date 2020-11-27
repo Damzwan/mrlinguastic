@@ -26,6 +26,9 @@ module.exports = {
         manifestOptions: {
             background_color: "#1b5e20",
             description: "Learn a language how you want it"
+        },
+        workboxOptions: {
+            skipWaiting: true
         }
     }
 };

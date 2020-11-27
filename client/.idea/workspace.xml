@@ -15,13 +15,8 @@
   <component name="ChangeListManager">
     <list default="true" id="6bf64ff9-4956-4a50-a243-639565bc4023" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../server/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/public/img/belgium.49147ca6.svg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/public/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/../server/public/service-worker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/datasources/mongodb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/datasources/mongodb.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/datasources/reverso.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/datasources/reverso.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +102,8 @@
       <workItem from="1606157739187" duration="768000" />
       <workItem from="1606197540919" duration="5475000" />
       <workItem from="1606358336463" duration="14383000" />
-      <workItem from="1606406397817" duration="2158000" />
+      <workItem from="1606406397817" duration="3004000" />
+      <workItem from="1606430357883" duration="3103000" />
     </task>
     <servers />
   </component>

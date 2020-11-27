@@ -20,22 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../client/src/use/serviceWorkerRefresher.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/assets/country-flags/belgium.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Nav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Nav.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/VocCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/VocCard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/ConfigModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/ConfigModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/WordDiv.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/WordDiv.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/GuessTheWord.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/GuessTheWord.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/MultipleChoice.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/MultipleChoice.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/Standard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/Standard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/registerServiceWorker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/registerServiceWorker.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/use/general.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/general.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/use/state.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/state.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -139,7 +124,7 @@
       <workItem from="1606147307486" duration="1704000" />
       <workItem from="1606200072760" duration="5456000" />
       <workItem from="1606358360301" duration="16146000" />
-      <workItem from="1606406361167" duration="1903000" />
+      <workItem from="1606406361167" duration="2714000" />
     </task>
     <servers />
   </component>
