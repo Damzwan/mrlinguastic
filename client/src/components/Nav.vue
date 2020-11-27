@@ -76,15 +76,18 @@
     </nav>
 
     <ul class="sidenav green darken-4" ref="nav1">
-      <li v-for="(item, index) in sidenavObjects" :key="index" v-on:click="closeSideNav(true)">
+      <li><a class="subheader" style="font-size: 20px; color: white">Subjects</a></li>
+      <div v-for="(item, index) in sidenavObjects" :key="index" v-on:click="closeSideNav(true)">
         <div class="divider light-green darken-4" v-if="item.title === 'Donate'"></div>
-
-        <router-link v-bind:to="item.path">
-          <span class="white-text center">{{ item.title }}</span>
-          <span class="badge" v-if="item.badge">Coming soon</span>
-          <i class="material-icons left">{{ item.icon }}</i>
-        </router-link>
-      </li>
+        <li v-if="item.title === 'Donate'"><a class="subheader" style="font-size: 20px; color: white">Extra's</a></li>
+        <li>
+          <router-link v-bind:to="item.path">
+            <span class="white-text center">{{ item.title }}</span>
+            <span class="badge" v-if="item.badge">Coming soon</span>
+            <i class="material-icons left">{{ item.icon }}</i>
+          </router-link>
+        </li>
+      </div>
     </ul>
 
     <ul class="sidenav green darken-4" ref="nav2">
@@ -267,6 +270,9 @@ export default defineComponent({
     const sidenavObjects = [
       {title: "Vocabulary", icon: "translate", badge: false, path: "/"},
       {title: "Grammer", icon: "border_color", badge: true, path: "/"},
+      {title: "Reading", icon: "library_books", badge: true, path: "/"},
+      {title: "Listening", icon: "hearing", badge: true, path: "/"},
+      {title: "Chat", icon: "chat_bubble_outline", badge: true, path: "/"},
       {title: "Donate", icon: "attach_money", badge: false, path: "/donate"},
       {title: "About", icon: "info", badge: false, path: "/about"},
     ];
