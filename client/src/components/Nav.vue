@@ -76,6 +76,12 @@
     </nav>
 
     <ul class="sidenav green darken-4" ref="nav1">
+      <li>
+        <a class="subheader" style="font-size: 25px; color: white">Mr.Linguastic</a>
+        <img src="../assets/notduolingologo.png" alt="rip" style="position: absolute; left: 190px; top: 5px"
+             width="40px" height="40px">
+      </li>
+      <div class="divider"></div>
       <li><a class="subheader" style="font-size: 20px; color: white">Subjects</a></li>
       <div v-for="(item, index) in sidenavObjects" :key="index" v-on:click="closeSideNav(true)">
         <div class="divider light-green darken-4" v-if="item.title === 'Donate'"></div>
@@ -88,6 +94,21 @@
           </router-link>
         </li>
       </div>
+      <li style="position: absolute;bottom: 10%">
+        <div class="divider" style="margin-bottom: 10px"></div>
+        <div class="row">
+          <div class="col s3">
+            <img src="../assets/notduolingologo.png" alt="rip" width="60px" height="60px">
+          </div>
+          <div class="col s9" style="line-height: 25px">
+            <a style="font-size: 14px; color: white; line-height: 5px">Hey Pssssssttt... Press on this very beautiful button to download me 🦍🦍🦍</a>
+          </div>
+          <div class="col s10 offset-s1">
+            <a @click="logOut" class="btn green" style="width: 100%; height: 35px;">Download</a>
+          </div>
+        </div>
+        <div class="divider"></div>
+      </li>
     </ul>
 
     <ul class="sidenav green darken-4" ref="nav2">
@@ -103,6 +124,13 @@
         </div>
         <div class="divider"></div>
       </li>
+      <li><a class="subheader" style="font-size: 20px; color: white">Communities</a>
+        <i
+            class="material-icons right unselectable question-btn tooltipped"
+            style="color: white; top: -35px; right: 120px; position: relative;"
+            data-tooltip="In communities you can find voclists from other people and share yours as well!">help
+        </i>
+      </li>
       <li>
         <a class="unselectable modal-trigger" href="#communityModal">
           <span class="white-text center unselectable">Join Community</span>
@@ -116,8 +144,15 @@
                width="24px" height="24px" style="top: 12px; position: relative;">
         </a>
       </li>
+      <div class="divider"></div>
       <li>
-        <div class="divider"></div>
+        <a class="subheader" style="font-size: 20px; color: white">Groups</a>
+        <i class="material-icons right unselectable tooltipped"
+           style="color: white; top: -35px; right: 170px; position: relative"
+           data-tooltip="You can join a group with a link or create your own group. In a group you can share voclists with other members.">help
+        </i>
+      </li>
+      <li>
         <a @click="openGroupModal" class="unselectable">
           <span class="white-text center unselectable">Create Group</span>
           <i class="material-icons unselectable">group_add</i>
@@ -206,6 +241,7 @@ export default defineComponent({
       sidenav1.value = M.Sidenav.init(nav1.value);
       sidenav2.value = M.Sidenav.init(nav2.value, {edge: "right"});
       groupModal.value = M.Modal.init(modalElement.value)
+      M.Tooltip.init(document.querySelectorAll(".tooltipped"));
       M.Modal.init(communityModalElem.value)
     });
 
