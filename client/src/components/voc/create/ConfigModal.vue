@@ -113,6 +113,7 @@ export default defineComponent({
     });
 
     onUnmounted(() => {
+      modal.value.close();
       modal.value.destroy();
       // if (selects.value) selects.value.forEach(select => select.destroy())
       if (tooltips.value) tooltips.value.forEach(tooltip => tooltip.destroy())

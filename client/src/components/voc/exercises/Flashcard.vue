@@ -4,21 +4,7 @@
       <FlashcardCarousel v-bind:words="list.words" v-bind:from-lang="list.settings.langSettings.fromLang"></FlashcardCarousel>
     </div>
 
-    <div style="margin-top: 100px" v-else>
-      <div class="preloader-wrapper big active centered-img">
-        <div class="spinner-layer spinner-blue-only">
-          <div class="circle-clipper left">
-            <div class="circle"></div>
-          </div>
-          <div class="gap-patch">
-            <div class="circle"></div>
-          </div>
-          <div class="circle-clipper right">
-            <div class="circle"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Loader v-else></Loader>
 
   </div>
 </template>
@@ -34,6 +20,7 @@ import M from "materialize-css"
 import FlashcardCarousel from "@/components/voc/exercises/FlashcardCarousel.vue";
 import {isOfflineList} from "@/use/general";
 import Carousel = M.Carousel;
+import Loader from "@/components/Loader.vue"
 
 interface State {
   restored: boolean;
@@ -43,7 +30,8 @@ interface State {
 export default defineComponent({
   components: {
     WordInfoModal,
-    FlashcardCarousel
+    FlashcardCarousel,
+    Loader
   },
   setup() {
     const db = inject<Localdb>("db");

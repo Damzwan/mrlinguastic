@@ -305,7 +305,7 @@ export default defineComponent({
 
     const sidenavObjects = [
       {title: "Vocabulary", icon: "translate", badge: false, path: "/"},
-      {title: "Grammer", icon: "border_color", badge: true, path: "/"},
+      {title: "Grammar", icon: "border_color", badge: true, path: "/"},
       {title: "Reading", icon: "library_books", badge: true, path: "/"},
       {title: "Listening", icon: "hearing", badge: true, path: "/"},
       {title: "Chat", icon: "chat_bubble_outline", badge: true, path: "/"},
