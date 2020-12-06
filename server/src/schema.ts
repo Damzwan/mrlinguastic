@@ -41,6 +41,7 @@ export const typeDefs = gql`
 
     type Query{
         user(oid: String!): User
+        lastUpdated(oid: String!): String!
         translateWord(word: String!, fromLang: String!, toLang: String!): [String]
         translateWords(words: [String!], fromLang: String!, toLang: String!): [String]
         voclist(voclistId: String!): Voclist
@@ -52,24 +53,25 @@ export const typeDefs = gql`
     }
 
     type Mutation{
-        updateVoclist(list: VoclistInput!, changedBlobs: [String!], oid: String!): Boolean
+        updateVoclist(list: VoclistInput!, changedBlobs: [String!], oid: String!, lastUpdated: String!): Boolean
         addSharedVoclist(userId: String!, vocId: String!): Boolean
-        deleteVoclist(userId: String!, vocId: String!): Boolean
+        deleteVoclist(userId: String!, vocId: String!, lastUpdated: String!): Boolean
         saveImg(img: String!): String!
         removeImgs(imgs: [String!]): Boolean
         copyImgs(imgs: [String]): [String]
-        createGroup(groupInfo: GroupInput!, userId: String!): String
+        createGroup(groupInfo: GroupInput!, userId: String!, lastUpdated: String!): String
         addVoclistToGroup(groupId: String!, vocId: String!): Boolean
         removeVoclistFromGroup(groupId: String!, vocId: String!): Boolean
-        addUserToGroup(userId: String!, groupId: String!): String
-        removeUserFromGroup(userId: String!, groupId: String!): Boolean
-        copyVoclist(voclistId: String!, userId: String!): Voclist
+        addUserToGroup(userId: String!, groupId: String!, lastUpdated:String!): String
+        removeUserFromGroup(userId: String!, groupId: String!, lastUpdated: String!): Boolean
+        copyVoclist(voclistId: String!, userId: String!, lastUpdated:String!): Voclist
     }
 
     type User @entity{
         _id: ID! @id
         voclists: [BasicVoclist!] @link
         groups: [Group!] @link
+        lastUpdated: String @column
     }
 
     input UserInput{

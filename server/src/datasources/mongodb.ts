@@ -28,10 +28,15 @@ export class MongoAPI {
         let user: UserDbObject = await this.db.collection<UserDbObject>(Collections.Users).findOne({_id: oid})
 
         if (!user) {
-            user = {_id: oid, voclists: [], groups: []};
+            user = {_id: oid, voclists: [], groups: [], lastUpdated: new Date().toISOString()};
             await this.db.collection<UserDbObject>(Collections.Users).insertOne(user);
         }
         return user;
+    }
+
+    async getLastUpdated(oid: string): Promise<string>{
+        const user: any = await this.db.collection(Collections.Users).findOne({_id: oid}, {projection: {lastUpdated: 1, _id: 0}})
+        return user.lastUpdated;
     }
 
     async getEntityByCollectionAndId<T>(collection: Collections, id: string): Promise<T> {
@@ -62,17 +67,17 @@ export class MongoAPI {
         await this.db.collection(collection).deleteOne({_id: id})
     }
 
-    async addVoclist(userId: string, vocId: string) {
+    async addVoclist(userId: string, vocId: string, lastUpdated: string) {
         const user = await this.getUser(userId);
-        if (!user.voclists.includes(vocId)) {
-            user.voclists.push(vocId);
-            await this.updateEntity(Collections.Users, userId, user);
-        }
+        if (!user.voclists.includes(vocId)) user.voclists.push(vocId);
+        user.lastUpdated = lastUpdated;
+        await this.updateEntity(Collections.Users, userId, user);
     }
 
-    async removeVoclist(userId: string, vocId: string) {
+    async removeVoclist(userId: string, vocId: string, lastUpdated: string) {
         const user = await this.getUser(userId);
         user.voclists.splice(user.voclists.indexOf(vocId), 1);
+        user.lastUpdated = lastUpdated;
         await this.updateEntity(Collections.Users, userId, user);
     }
 
@@ -105,7 +110,7 @@ export class MongoAPI {
         return voclist
     }
 
-    async createGroup(groupInfo: GroupInput, userId: string) {
+    async createGroup(groupInfo: GroupInput, userId: string, lastUpdated: string) {
         const id: string = new ObjectId().toHexString();
         const newGroup: GroupDbObject = {
             _id: id,
@@ -117,6 +122,7 @@ export class MongoAPI {
 
         const user = await this.getUser(userId);
         user.groups.push(id);
+        user.lastUpdated = lastUpdated;
 
         await Promise.all([this.updateEntity(Collections.Users, userId, user), this.updateEntity(Collections.Groups, id, newGroup)])
         return id;
@@ -135,19 +141,21 @@ export class MongoAPI {
         await this.updateEntity(Collections.Groups, groupId, group);
     }
 
-    async addUserToGroup(groupId: string, userId: string) {
+    async addUserToGroup(groupId: string, userId: string, lastUpdated: string) {
         const objects = await Promise.all([this.getUser(userId), this.getEntityByCollectionAndId<GroupDbObject>(Collections.Groups, groupId)]);
         if (objects[0].groups.includes(groupId)) return;
 
         objects[0].groups.push(groupId);
+        objects[0].lastUpdated = lastUpdated;
         objects[1].members.push(userId);
         Promise.all([this.updateEntity(Collections.Users, userId, objects[0]), this.updateEntity(Collections.Groups, groupId, objects[1])]).then();
         return objects[1].name;
     }
 
-    async removeUserFromGroup(groupId: string, userId: string) {
+    async removeUserFromGroup(groupId: string, userId: string, lastUpdated: string) {
         const objects = await Promise.all([this.getUser(userId), this.getEntityByCollectionAndId<GroupDbObject>(Collections.Groups, groupId)]);
         objects[0].groups.splice(objects[0].groups.indexOf(groupId), 1);
+        objects[0].lastUpdated = lastUpdated;
         objects[1].members.splice(objects[1].members.indexOf(userId), 1);
 
         if (objects[1].members.length == 0) await Promise.all([this.updateEntity(Collections.Users, userId, objects[0]), this.deleteEntity(Collections.Groups, groupId)]);

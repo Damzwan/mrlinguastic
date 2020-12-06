@@ -52,7 +52,7 @@ import M from "materialize-css";
 import ConfigModal from "./ConfigModal.vue";
 import {ImportedWords} from "@/components/voc/create/OcrModal.vue";
 import Loader from "@/components/Loader.vue"
-import {cleanWord, getBlobUrl, getCountry, getExampleWord, wrongMessage} from "@/use/general";
+import {cleanWord, getBlobUrl, getCountry, getExampleWord, newLastUpdated, wrongMessage} from "@/use/general";
 import {useUpdateVoclistMutation, Voclist, VoclistInput, VoclistSettings, Word} from "@/gen-types";
 import {AuthModule} from "@/use/authModule";
 import {Localdb} from "@/use/localdb";
@@ -133,7 +133,8 @@ export default defineComponent({
         updateVoclistOnline({
           list: list as VoclistInput,
           changedBlobs: state.blobsToRemove,
-          oid: auth.getOid().value
+          oid: auth.getOid().value,
+          lastUpdated: newLastUpdated()
         })
       }
       replaceList(list);

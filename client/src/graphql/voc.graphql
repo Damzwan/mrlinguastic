@@ -21,6 +21,7 @@ query getVoices{
 query getUser($oid: String!){
     user(oid: $oid){
         _id
+        lastUpdated
         voclists{
             _id
             lastEdited
@@ -119,24 +120,28 @@ query getExamples($from: String!, $to: String!, $fromLang: String!, $toLang: Str
     }
 }
 
-mutation updateVoclist($list: VoclistInput!, $changedBlobs: [String!], $oid: String!){
-    updateVoclist(list: $list, changedBlobs: $changedBlobs, oid: $oid)
+query getLastUpdated($oid: String!){
+    lastUpdated(oid: $oid)
+}
+
+mutation updateVoclist($list: VoclistInput!, $changedBlobs: [String!], $oid: String!, $lastUpdated: String!){
+    updateVoclist(list: $list, changedBlobs: $changedBlobs, oid: $oid, lastUpdated: $lastUpdated)
 }
 
 mutation saveImg($img: String!){
     saveImg(img: $img)
 }
 
-mutation deleteVoclist($userId: String!, $vocId: String!){
-    deleteVoclist(userId: $userId, vocId: $vocId)
+mutation deleteVoclist($userId: String!, $vocId: String!, $lastUpdated: String!){
+    deleteVoclist(userId: $userId, vocId: $vocId, lastUpdated: $lastUpdated)
 }
 
 mutation addVoclistToUser($userId: String!, $vocId: String!){
     addSharedVoclist(userId: $userId, vocId: $vocId)
 }
 
-mutation createGroup($groupInfo: GroupInput!, $userId: String!){
-    createGroup(groupInfo: $groupInfo, userId: $userId)
+mutation createGroup($groupInfo: GroupInput!, $userId: String!, $lastUpdated: String!){
+    createGroup(groupInfo: $groupInfo, userId: $userId, lastUpdated: $lastUpdated)
 }
 
 mutation addVoclistToGroup($groupId: String!, $vocId: String!){
@@ -147,16 +152,16 @@ mutation removeVoclistFromGroup($groupId: String!, $vocId: String!){
     removeVoclistFromGroup(groupId: $groupId, vocId: $vocId)
 }
 
-mutation addUserToGroup($groupId: String!, $userId: String!){
-    addUserToGroup(groupId: $groupId, userId: $userId)
+mutation addUserToGroup($groupId: String!, $userId: String!, $lastUpdated: String!){
+    addUserToGroup(groupId: $groupId, userId: $userId, lastUpdated: $lastUpdated)
 }
 
-mutation removeUserFromGroup($groupId: String!, $userId: String!){
-    removeUserFromGroup(groupId: $groupId, userId: $userId)
+mutation removeUserFromGroup($groupId: String!, $userId: String!, $lastUpdated: String!){
+    removeUserFromGroup(groupId: $groupId, userId: $userId, lastUpdated: $lastUpdated)
 }
 
-mutation copyVoclist($voclistId: String!, $userId: String!){
-    copyVoclist(userId: $userId,voclistId: $voclistId){
+mutation copyVoclist($voclistId: String!, $userId: String!, $lastUpdated: String!){
+    copyVoclist(userId: $userId,voclistId: $voclistId, lastUpdated: $lastUpdated){
         _id
         words{
             from

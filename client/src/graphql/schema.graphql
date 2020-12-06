@@ -29,17 +29,17 @@ type LangSettings {
 
 type Mutation {
     addSharedVoclist(userId: String!, vocId: String!): Boolean
-    addUserToGroup(groupId: String!, userId: String!): String
+    addUserToGroup(groupId: String!, lastUpdated: String!, userId: String!): String
     addVoclistToGroup(groupId: String!, vocId: String!): Boolean
     copyImgs(imgs: [String]): [String]
-    copyVoclist(userId: String!, voclistId: String!): Voclist
-    createGroup(groupInfo: GroupInput!, userId: String!): String
-    deleteVoclist(userId: String!, vocId: String!): Boolean
+    copyVoclist(lastUpdated: String!, userId: String!, voclistId: String!): Voclist
+    createGroup(groupInfo: GroupInput!, lastUpdated: String!, userId: String!): String
+    deleteVoclist(lastUpdated: String!, userId: String!, vocId: String!): Boolean
     removeImgs(imgs: [String!]): Boolean
-    removeUserFromGroup(groupId: String!, userId: String!): Boolean
+    removeUserFromGroup(groupId: String!, lastUpdated: String!, userId: String!): Boolean
     removeVoclistFromGroup(groupId: String!, vocId: String!): Boolean
     saveImg(img: String!): String!
-    updateVoclist(changedBlobs: [String!], list: VoclistInput!, oid: String!): Boolean
+    updateVoclist(changedBlobs: [String!], lastUpdated: String!, list: VoclistInput!, oid: String!): Boolean
 }
 
 type Query {
@@ -47,6 +47,7 @@ type Query {
     getImages(lang: String!, word: String!): [String!]
     getVoices: [Voice]
     group(groupId: String!): Group
+    lastUpdated(oid: String!): String!
     translateWord(fromLang: String!, toLang: String!, word: String!): [String]
     translateWords(fromLang: String!, toLang: String!, words: [String!]): [String]
     user(oid: String!): User
@@ -62,6 +63,7 @@ type Sentence {
 type User {
     _id: ID!
     groups: [Group!]
+    lastUpdated: String
     voclists: [BasicVoclist!]
 }
 

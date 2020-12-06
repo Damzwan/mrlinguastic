@@ -51,7 +51,7 @@ import {useDeleteVoclistMutation, useRemoveImgsMutation, Voclist} from "@/gen-ty
 import {Localdb} from "@/use/localdb";
 import VocCard from "@/components/voc/VocCard.vue";
 import Loader from "@/components/Loader.vue";
-import {correctMessage, isOffline, wrongMessage} from "@/use/general";
+import {correctMessage, isOffline, newLastUpdated, wrongMessage} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
 import {useVoclistUpdater} from "@/use/listUpdater";
 
@@ -87,7 +87,7 @@ export default defineComponent({
       if (navigator.onLine) {
         removeVoclistFromState(selectedList.value);
         if (auth.getOid().value) removeVoclist({
-          vocId: selectedList.value._id, userId: auth.getOid().value
+          vocId: selectedList.value._id, userId: auth.getOid().value, lastUpdated: newLastUpdated()
         })
         else {
           const offlineList = await db.getItem<Voclist>(selectedList.value._id, "voclists");

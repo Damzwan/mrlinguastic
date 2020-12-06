@@ -21,7 +21,24 @@
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Nav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Nav.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/VocSelection.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/VocSelection.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/groups/Group.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/groups/Group.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/graphql/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/graphql/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/graphql/voc.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/graphql/voc.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/general.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/general.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/lazyQueries.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/lazyQueries.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/listUpdater.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/listUpdater.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/localdb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/localdb.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/urlHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/urlHandler.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/mongodb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/datasources/mongodb.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen-types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resolvers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/resolvers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/schema.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,6 +142,7 @@
       <workItem from="1606200072760" duration="5456000" />
       <workItem from="1606358360301" duration="16146000" />
       <workItem from="1606406361167" duration="2714000" />
+      <workItem from="1607260095949" duration="5337000" />
     </task>
     <servers />
   </component>

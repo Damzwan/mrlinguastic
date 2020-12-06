@@ -83,6 +83,20 @@ export class Localdb {
         return lists;
     }
 
+    async getAllKeys(storeName: string) {
+        const transaction = this.db.transaction([storeName]);
+        const store = transaction.objectStore(storeName);
+        const req = store.getAllKeys();
+
+        const _ids: IDBValidKey[] = await new Promise(resolve => {
+            req.onsuccess = function () {
+                resolve(req.result)
+            }
+        })
+
+        return _ids;
+    }
+
 
     async restoreVocList(_id: string): Promise<Voclist | null> {
         return await this.getItem<Voclist>(_id, "voclists");
@@ -222,12 +236,21 @@ export class Localdb {
         await this.save("user", user);
     }
 
-    async resetLocalDb(voclists: Voclist[], groups: BasicGroupInfo[]) {
-        this.clearStore("voclists").then(() => {
-            voclists.forEach(list => {
+    async updateUser(voclists: Voclist[], groups: BasicGroupInfo[]) {
+        const dbListIds = await this.getAllKeys("voclists");
+
+        const listsToSave = voclists.map(list => list._id)
+        const listsToRemove = dbListIds.filter(listId => !listsToSave.includes(listId.toString()))
+
+        for (const list of voclists) {
+            const storedList = await this.getItem(list._id, "voclists");
+            if (!storedList) {
+                list.lastEdited = null;
                 this.save("voclists", list)
-            })
-        })
-        this.resetUser(voclists.map(list => list._id), groups).then();
+            }
+        }
+        listsToRemove.forEach((listId) => {this.deleteItem(listId.toString(), "voclists");})
+
+        this.resetUser(listsToSave, groups);
     }
 }

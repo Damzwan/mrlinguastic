@@ -61,7 +61,7 @@ import {
   useRemoveVoclistFromGroupMutation,
   Voclist
 } from "@/gen-types";
-import {correctMessage, getCountry} from "@/use/general";
+import {correctMessage, getCountry, newLastUpdated} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
 import GroupVocCard from "@/components/voc/groups/GroupVocCard.vue";
 import Loader from "@/components/Loader.vue";
@@ -125,7 +125,11 @@ export default defineComponent({
 
     async function addVoclistToUser(list: Voclist) {
       if (auth.getOid().value) {
-        copyVoclist({voclistId: list._id, userId: auth.getOid().value}).then(async voclist => {
+        copyVoclist({
+          voclistId: list._id,
+          userId: auth.getOid().value,
+          lastUpdated: newLastUpdated()
+        }).then(async voclist => {
           db.save("voclists", voclist.data.copyVoclist).then(() => db.addListToUser(voclist.data.copyVoclist._id))
           addVoclist(voclist.data.copyVoclist);
           correctMessage("added voclist to collection!");
@@ -167,7 +171,11 @@ export default defineComponent({
       removeGroup(localStorage.getItem("group"));
       context.root.$router.push("/");
       correctMessage("left the group")
-      if (auth.getOid().value) leaveGroupMutation({userId: auth.getOid().value, groupId: localStorage.getItem("group")})
+      if (auth.getOid().value) leaveGroupMutation({
+        userId: auth.getOid().value,
+        groupId: localStorage.getItem("group"),
+        lastUpdated: newLastUpdated()
+      })
       else db.removeGroupFromUser(localStorage.getItem("group"));
     }
 

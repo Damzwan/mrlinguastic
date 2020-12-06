@@ -15,9 +15,10 @@ export function useVoclistUpdater() {
         const listFromState = getOnlineListFromState(vocId);
         let offlineList: Voclist | null = await db.getItem<Voclist>(vocId, "voclists")
 
-        if ((!listFromState || !auth.getOid().value) && offlineList) return offlineList; //online lists not yet fetched, we rely on a offline copy
-        if (offlineList && new Date(listFromState.lastEdited) <= new Date(offlineList.lastEdited)) return offlineList //no update is needed
+        if ((!listFromState || !auth.getOid().value) && offlineList.lastEdited) return offlineList; //online lists not yet fetched, we rely on a offline copy
+        if (offlineList.lastEdited && new Date(listFromState.lastEdited) <= new Date(offlineList.lastEdited)) return offlineList //no update is needed
 
+        console.log("retrieving words of list...")
         getWords(null, {vocId: listFromState._id})
 
         return await new Promise<Voclist>((resolve) => {
@@ -31,7 +32,7 @@ export function useVoclistUpdater() {
                 }
                 else {
                     offlineList.words = words.value.words;
-                    offlineList.lastEdited = localStorage.getItem("lastEdited");
+                    offlineList.lastEdited = listFromState.lastEdited;
                 }
                 db.save("voclists", offlineList)
                 resolve(offlineList);

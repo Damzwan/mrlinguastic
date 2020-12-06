@@ -1,6 +1,6 @@
 import M from "materialize-css";
 import moment from "moment";
-import {BasicVoclist, Voclist} from "@/gen-types";
+import {BasicVoclist, Voclist, Word} from "@/gen-types";
 
 export type langCode = "en" | "fr" | "it" | "nl"
 type langMap = { [key in langCode]: string };
@@ -129,5 +129,25 @@ export function convertToBasicVoclist(list: Voclist): BasicVoclist {
         creator: list.creator,
         settings: list.settings
     }
+}
+
+export function convertToNormalVoclist(list: BasicVoclist): Voclist {
+    return {
+        _id: list._id,
+        lastEdited: list.lastEdited,
+        words: new Array<Word>(list.wordsLength),
+        creator: list.creator,
+        settings: list.settings
+    }
+}
+
+export function newLastUpdated(){
+    const date = new Date().toISOString();
+    localStorage.setItem("lastUpdated", date);
+    return date;
+}
+
+export function getLastUpdated(){
+    return localStorage.getItem("lastUpdated")
 }
 

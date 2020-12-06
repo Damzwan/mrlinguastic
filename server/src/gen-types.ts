@@ -93,6 +93,7 @@ export type MutationUpdateVoclistArgs = {
   list: VoclistInput;
   changedBlobs?: Maybe<Array<Scalars['String']>>;
   oid: Scalars['String'];
+  lastUpdated: Scalars['String'];
 };
 
 
@@ -105,6 +106,7 @@ export type MutationAddSharedVoclistArgs = {
 export type MutationDeleteVoclistArgs = {
   userId: Scalars['String'];
   vocId: Scalars['String'];
+  lastUpdated: Scalars['String'];
 };
 
 
@@ -126,6 +128,7 @@ export type MutationCopyImgsArgs = {
 export type MutationCreateGroupArgs = {
   groupInfo: GroupInput;
   userId: Scalars['String'];
+  lastUpdated: Scalars['String'];
 };
 
 
@@ -144,23 +147,27 @@ export type MutationRemoveVoclistFromGroupArgs = {
 export type MutationAddUserToGroupArgs = {
   userId: Scalars['String'];
   groupId: Scalars['String'];
+  lastUpdated: Scalars['String'];
 };
 
 
 export type MutationRemoveUserFromGroupArgs = {
   userId: Scalars['String'];
   groupId: Scalars['String'];
+  lastUpdated: Scalars['String'];
 };
 
 
 export type MutationCopyVoclistArgs = {
   voclistId: Scalars['String'];
   userId: Scalars['String'];
+  lastUpdated: Scalars['String'];
 };
 
 export type Query = {
   __typename?: 'Query';
   user?: Maybe<User>;
+  lastUpdated: Scalars['String'];
   translateWord?: Maybe<Array<Maybe<Scalars['String']>>>;
   translateWords?: Maybe<Array<Maybe<Scalars['String']>>>;
   voclist?: Maybe<Voclist>;
@@ -173,6 +180,11 @@ export type Query = {
 
 
 export type QueryUserArgs = {
+  oid: Scalars['String'];
+};
+
+
+export type QueryLastUpdatedArgs = {
   oid: Scalars['String'];
 };
 
@@ -235,6 +247,7 @@ export type User = {
   _id: Scalars['ID'];
   voclists?: Maybe<Array<BasicVoclist>>;
   groups?: Maybe<Array<Group>>;
+  lastUpdated?: Maybe<Scalars['String']>;
 };
 
 export type UserInput = {
@@ -493,22 +506,23 @@ export type LangSettingsResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  updateVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUpdateVoclistArgs, 'list' | 'oid'>>;
+  updateVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUpdateVoclistArgs, 'list' | 'oid' | 'lastUpdated'>>;
   addSharedVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddSharedVoclistArgs, 'userId' | 'vocId'>>;
-  deleteVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteVoclistArgs, 'userId' | 'vocId'>>;
+  deleteVoclist?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteVoclistArgs, 'userId' | 'vocId' | 'lastUpdated'>>;
   saveImg?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationSaveImgArgs, 'img'>>;
   removeImgs?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveImgsArgs, never>>;
   copyImgs?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType, RequireFields<MutationCopyImgsArgs, never>>;
-  createGroup?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationCreateGroupArgs, 'groupInfo' | 'userId'>>;
+  createGroup?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationCreateGroupArgs, 'groupInfo' | 'userId' | 'lastUpdated'>>;
   addVoclistToGroup?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddVoclistToGroupArgs, 'groupId' | 'vocId'>>;
   removeVoclistFromGroup?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveVoclistFromGroupArgs, 'groupId' | 'vocId'>>;
-  addUserToGroup?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationAddUserToGroupArgs, 'userId' | 'groupId'>>;
-  removeUserFromGroup?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveUserFromGroupArgs, 'userId' | 'groupId'>>;
-  copyVoclist?: Resolver<Maybe<ResolversTypes['Voclist']>, ParentType, ContextType, RequireFields<MutationCopyVoclistArgs, 'voclistId' | 'userId'>>;
+  addUserToGroup?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationAddUserToGroupArgs, 'userId' | 'groupId' | 'lastUpdated'>>;
+  removeUserFromGroup?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveUserFromGroupArgs, 'userId' | 'groupId' | 'lastUpdated'>>;
+  copyVoclist?: Resolver<Maybe<ResolversTypes['Voclist']>, ParentType, ContextType, RequireFields<MutationCopyVoclistArgs, 'voclistId' | 'userId' | 'lastUpdated'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'oid'>>;
+  lastUpdated?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryLastUpdatedArgs, 'oid'>>;
   translateWord?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType, RequireFields<QueryTranslateWordArgs, 'word' | 'fromLang' | 'toLang'>>;
   translateWords?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType, RequireFields<QueryTranslateWordsArgs, 'fromLang' | 'toLang'>>;
   voclist?: Resolver<Maybe<ResolversTypes['Voclist']>, ParentType, ContextType, RequireFields<QueryVoclistArgs, 'voclistId'>>;
@@ -529,6 +543,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   voclists?: Resolver<Maybe<Array<ResolversTypes['BasicVoclist']>>, ParentType, ContextType>;
   groups?: Resolver<Maybe<Array<ResolversTypes['Group']>>, ParentType, ContextType>;
+  lastUpdated?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
@@ -607,6 +622,7 @@ export type UserDbObject = {
   _id: string,
   voclists?: Maybe<Array<BasicVoclistDbObject['_id']>>,
   groups?: Maybe<Array<GroupDbObject['_id']>>,
+  lastUpdated?: Maybe<string>,
 };
 
 export type BasicVoclistDbObject = {

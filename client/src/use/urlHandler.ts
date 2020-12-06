@@ -1,7 +1,7 @@
 import {useGetBasicGroupInfoQueryLazy, useGetVoclistQueryLazy} from "@/use/lazyQueries";
 import {useAddUserToGroupMutation, useCopyImgsMutation, useCopyVoclistMutation, Voclist} from "@/gen-types";
 import {addGroup, addVoclist} from "@/use/state";
-import {correctMessage, wrongMessage} from "@/use/general";
+import {correctMessage, newLastUpdated, wrongMessage} from "@/use/general";
 import {inject, watch} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
 import {AuthModule} from "@/use/authModule";
@@ -19,7 +19,7 @@ export function useUrlHandler() {
     const auth = inject<AuthModule>("auth")
 
     async function getSharedVoclistOnline(voclistId: string) {
-        const voclist = await copyVoclist({voclistId: voclistId, userId: auth.getOid().value})
+        const voclist = await copyVoclist({voclistId: voclistId, userId: auth.getOid().value, lastUpdated: newLastUpdated()})
         if (voclist) {
             addVoclist(voclist.data?.copyVoclist as Voclist);
             correctMessage("added voclist");
@@ -47,7 +47,7 @@ export function useUrlHandler() {
     }
 
     async function getSharedGroupOnline(groupId: string, userId: string) {
-        const group = await addUserToGroup({userId: userId, groupId: groupId});
+        const group = await addUserToGroup({userId: userId, groupId: groupId, lastUpdated: newLastUpdated()});
         if (group.data.addUserToGroup) {
             addGroup({_id: groupId, name: group.data.addUserToGroup});
             correctMessage("added group!");

@@ -101,7 +101,8 @@
             <img src="../assets/notduolingologo.png" alt="rip" width="60px" height="60px">
           </div>
           <div class="col s9" style="line-height: 25px">
-            <a style="font-size: 14px; color: white; line-height: 5px">Hey Pssssssttt... Press on this very beautiful button to download me 🦍🦍🦍</a>
+            <a style="font-size: 14px; color: white; line-height: 5px">Hey Pssssssttt... Press on this very beautiful
+              button to download me 🦍🦍🦍</a>
           </div>
           <div class="col s10 offset-s1">
             <a @click="logOut" class="btn green" style="width: 100%; height: 35px;">Download</a>
@@ -214,7 +215,7 @@
 <script lang="ts">
 import {defineComponent, inject, onMounted, ref} from "@vue/composition-api";
 import M from "materialize-css";
-import {Community, correctMessage, getCommunities, wrongMessage} from "@/use/general";
+import {Community, correctMessage, getCommunities, newLastUpdated, wrongMessage} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
 import {Route} from "vue-router";
 import {useAddUserToGroupMutation, useCreateGroupMutation} from "@/gen-types";
@@ -273,7 +274,7 @@ export default defineComponent({
       if (name.value != "") {
         const id = await createGroupMutation({
           groupInfo: {name: name.value, description: description.value},
-          userId: auth.getOid().value
+          userId: auth.getOid().value, lastUpdated: newLastUpdated()
         })
         correctMessage("created group!")
         if (id.data.createGroup) addGroup({name: name.value, _id: id.data.createGroup});
@@ -298,7 +299,7 @@ export default defineComponent({
 
     function joinCommunity(community: Community) {
       addGroup({_id: community._id, name: community.name})
-      auth.getOid().value ? addUserToGroup({userId: auth.getOid().value, groupId: community._id}) :
+      auth.getOid().value ? addUserToGroup({userId: auth.getOid().value, groupId: community._id, lastUpdated: newLastUpdated()}) :
           db.addGroupToUser({_id: community._id, name: community.name});
       correctMessage("Joined community!");
     }

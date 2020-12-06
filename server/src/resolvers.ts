@@ -12,6 +12,8 @@ export const resolv: Resolvers = {
     Query: {
         user: async (_: any, args) =>
             args.oid != "" ? await mongoAPI.getUser(args.oid) : null,
+        lastUpdated: async (_: any, args) =>
+            await mongoAPI.getLastUpdated(args.oid),
         translateWord: async (_: any, args, {dataSources}: { dataSources: any }) => {
             if (args.word == "" || args.fromLang == "" || args.toLang == "") return [""];
             let translatedWord;
@@ -39,7 +41,7 @@ export const resolv: Resolvers = {
     Mutation: {
         updateVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
             args.changedBlobs.forEach(blob => dataSources.azureAPI.deleteBlob(blob, "images"));
-            await Promise.all([mongoAPI.updateEntity(Collections.Voclists, args.list._id, args.list), mongoAPI.addVoclist(args.oid, args.list._id)]);
+            await Promise.all([mongoAPI.updateEntity(Collections.Voclists, args.list._id, args.list), mongoAPI.addVoclist(args.oid, args.list._id, args.lastUpdated)]);
             return true;
         },
         saveImg: async (_: any, args, {dataSources}: { dataSources: any }) => {
@@ -55,15 +57,12 @@ export const resolv: Resolvers = {
         deleteVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
             const words = await mongoAPI.getWordsFromVoclist(args.vocId);
             words.forEach(word => word.img ? dataSources.azureAPI.deleteBlob(word.img, "images") : null)
-            await Promise.all([mongoAPI.deleteEntity(Collections.Voclists, args.vocId), mongoAPI.removeVoclist(args.userId, args.vocId)]);
-            return true;
-        },
-        addSharedVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
-            await mongoAPI.addVoclist(args.userId, args.vocId);
+            await Promise.all([mongoAPI.deleteEntity(Collections.Voclists, args.vocId),
+                mongoAPI.removeVoclist(args.userId, args.vocId, args.lastUpdated)]);
             return true;
         },
         createGroup: async (_: any, args, {dataSources}: { dataSources: any }) => {
-            return await mongoAPI.createGroup(args.groupInfo, args.userId);
+            return await mongoAPI.createGroup(args.groupInfo, args.userId, args.lastUpdated);
         },
         addVoclistToGroup: async (_: any, args, {dataSources}: { dataSources: any }) => {
             await mongoAPI.addVoclistToGroup(args.groupId, args.vocId);
@@ -74,10 +73,10 @@ export const resolv: Resolvers = {
             return true;
         },
         addUserToGroup: async (_: any, args, {dataSources}: { dataSources: any }) => {
-            return await mongoAPI.addUserToGroup(args.groupId, args.userId);
+            return await mongoAPI.addUserToGroup(args.groupId, args.userId, args.lastUpdated);
         },
         removeUserFromGroup: async (_: any, args, {dataSources}: { dataSources: any }) => {
-            await mongoAPI.removeUserFromGroup(args.groupId, args.userId);
+            await mongoAPI.removeUserFromGroup(args.groupId, args.userId, args.lastUpdated);
             return true;
         },
         copyVoclist: async (_: any, args, {dataSources}: { dataSources: any }) => {
@@ -85,7 +84,7 @@ export const resolv: Resolvers = {
             voclist._id = new ObjectId().toHexString();
             voclist.words.forEach(word => word.img = dataSources.azureAPI.copyBlob(word.img));
             mongoAPI.updateEntity(Collections.Voclists, voclist._id, voclist).then();
-            mongoAPI.addVoclist(args.userId, voclist._id).then();
+            mongoAPI.addVoclist(args.userId, voclist._id, args.lastUpdated).then();
             return voclist;
         }
     },

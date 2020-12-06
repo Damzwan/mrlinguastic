@@ -8,7 +8,7 @@ import {
     GetExamplesQuery,
     GetExamplesQueryVariables, GetImagesDocument,
     GetImagesQuery,
-    GetImagesQueryVariables,
+    GetImagesQueryVariables, GetLastUpdatedDocument, GetLastUpdatedQuery, GetLastUpdatedQueryVariables,
     GetUserDocument,
     GetUserQuery,
     GetUserQueryVariables,
@@ -58,4 +58,8 @@ export function useGetImagesQueryLazy() {
 
 export function useGetWordsQueryLazy() {
     return VueApolloComposable.useLazyQuery<GetWordsQuery, GetWordsQueryVariables>(GetWordsDocument);
+}
+
+export function useGetLastUpdatedQueryLazy() {
+    return VueApolloComposable.useLazyQuery<GetLastUpdatedQuery, GetLastUpdatedQueryVariables>(GetLastUpdatedDocument);
 }
