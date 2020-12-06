@@ -94,7 +94,7 @@
           </router-link>
         </li>
       </div>
-      <li style="position: absolute;bottom: 10%">
+      <li style="position: absolute;bottom: 10%" v-if="showInstallPromotion">
         <div class="divider" style="margin-bottom: 10px"></div>
         <div class="row">
           <div class="col s3">
@@ -105,7 +105,7 @@
               button to download me 🦍🦍🦍</a>
           </div>
           <div class="col s10 offset-s1">
-            <a @click="logOut" class="btn green" style="width: 100%; height: 35px;">Download</a>
+            <a @click="installApp" class="btn green" style="width: 100%; height: 35px;">Download</a>
           </div>
         </div>
         <div class="divider"></div>
@@ -238,6 +238,8 @@ export default defineComponent({
     const {mutate: createGroupMutation} = useCreateGroupMutation(null);
     const {mutate: addUserToGroup} = useAddUserToGroupMutation({});
 
+    const showInstallPromotion = ref(false);
+
     onMounted(() => {
       sidenav1.value = M.Sidenav.init(nav1.value);
       sidenav2.value = M.Sidenav.init(nav2.value, {edge: "right"});
@@ -299,7 +301,11 @@ export default defineComponent({
 
     function joinCommunity(community: Community) {
       addGroup({_id: community._id, name: community.name})
-      auth.getOid().value ? addUserToGroup({userId: auth.getOid().value, groupId: community._id, lastUpdated: newLastUpdated()}) :
+      auth.getOid().value ? addUserToGroup({
+            userId: auth.getOid().value,
+            groupId: community._id,
+            lastUpdated: newLastUpdated()
+          }) :
           db.addGroupToUser({_id: community._id, name: community.name});
       correctMessage("Joined community!");
     }
@@ -315,6 +321,22 @@ export default defineComponent({
     ];
 
     const isVocCreatePage = ref(context.root.$route.path.includes("create")); //flip boolean if we are on the voc create page
+
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      showInstallPromotion.value = true;
+    });
+
+    function installApp(){
+      showInstallPromotion.value = false;
+      deferredPrompt.prompt();
+    }
+
+    window.addEventListener('appinstalled', () => {
+      correctMessage("Grazie Mille!!!")
+    });
 
     return {
       openSideNav,
@@ -337,7 +359,9 @@ export default defineComponent({
       communityModalElem,
       joinCommunity,
       logOut,
-      wordsLoading
+      wordsLoading,
+      showInstallPromotion,
+      installApp
     };
   },
   watch: {

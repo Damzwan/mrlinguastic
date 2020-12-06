@@ -21,20 +21,34 @@
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/App.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/Nav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Nav.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/VocSelection.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/VocSelection.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/groups/Group.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/groups/Group.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/graphql/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/graphql/schema.graphql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/graphql/voc.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/graphql/voc.graphql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/use/general.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/general.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/use/lazyQueries.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/lazyQueries.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/use/listUpdater.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/listUpdater.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/use/localdb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/localdb.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/use/urlHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/urlHandler.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.996a54ba.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/create.5b654825.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/exercise.cd395571.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/group.ab7d733b.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.f0fd2869.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.f0fd2869.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/chunk-2d0a3358.770e7681.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/chunk-2d0a3358.770e7681.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/chunk-2d0e4814.eaf0a016.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/chunk-2d0e4814.eaf0a016.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/chunk-487dade2.3036f444.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/chunk-487dade2.3036f444.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/chunk-844c2b76.afd6a36f.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/chunk-844c2b76.afd6a36f.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/chunk-9a02aacc.ca9717b9.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/chunk-9a02aacc.ca9717b9.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/create.3243cae3.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/create.3243cae3.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/exercise.1df2c625.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/exercise.1df2c625.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/group.621d2e1f.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/group.621d2e1f.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/precache-manifest.e82209708218d1162b41ce5c9d7b7f07.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/report.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/service-worker.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/datasources/mongodb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/datasources/mongodb.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen-types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/resolvers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/resolvers.ts" afterDir="false" />
