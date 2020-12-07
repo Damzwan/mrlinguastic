@@ -1,5 +1,5 @@
 <template>
-  <div class="carousel-item" style="cursor: pointer"
+  <div class="carousel-item" style="cursor: pointer; user-select: none; outline: 0 none;"
        :class="{'text-card': type === 'text', 'img-card': type === 'image'}" @click="cardClicked($event)">
 
     <transition name="flip">

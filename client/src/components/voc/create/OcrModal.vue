@@ -8,8 +8,8 @@
 
         <div v-if="state.importState === ImportState.NoFileUploaded"
              style="height: 100%; width: 100%">
-          <p class="flow-text center">Select an image or text file to import your words from 🐱‍🐉<br> Or
-            paste an image using ctrl+V</p>
+          <p class="flow-text center">Select an image or text file to import your words from 🧠<br> Or
+            paste an image/text with ctrl+V 🤯🧠</p>
           <div class="file-field input-field">
             <div class="btn">
               <span>File</span>
@@ -231,16 +231,26 @@ export default defineComponent({
     }
 
     function pasteImage(event) {
-      if (event.clipboardData == false) return;
+      if (event.clipboardData == false || state.importState != ImportState.NoFileUploaded) return;
       const items = event.clipboardData.items;
       if (items == null) return;
       for (let i = 0; i < items.length; i++) {
-        if (items[i].type.indexOf("image") == -1) continue;
-        state.importState = ImportState.Img;
-        const blob = items[i].getAsFile();
-        const URLObj = window.URL || window.webkitURL;
-        const url = URLObj.createObjectURL(blob);
-        setTimeout(createCropper, 100, url); //TODO stupid hack :/
+        if (items[i].type.indexOf("image") != -1) {
+          state.importState = ImportState.Img;
+          const blob = items[i].getAsFile();
+          const URLObj = window.URL || window.webkitURL;
+          const url = URLObj.createObjectURL(blob);
+          setTimeout(createCropper, 100, url); //TODO stupid hack :/
+          return;
+        }
+        else if (items[i].type.indexOf("text") != -1){
+          const clipboardData = event.clipboardData;
+          const pastedData = clipboardData.getData('Text');
+          state.importedText = pastedData.split("\n");
+          state.importedText = state.importedText.map(line => line.toLowerCase())
+          state.importState = ImportState.ReadyToImport;
+          return;
+        }
       }
     }
 
@@ -296,15 +306,20 @@ export default defineComponent({
       let elem = document.getElementById("firstWord") as HTMLInputElement;
       const firstWord = elem.value;
       const startIndex = state.importedText[0].indexOf(firstWord);
-      let splitter: string = null;
 
       const userLang = langSelect.value.value;
       if (dontTranslateWords.value) {
         elem = document.getElementById("splitter") as HTMLInputElement;
         const secondWord = elem.value;
-        splitter = state.importedText[0].charAt(state.importedText[0].indexOf(secondWord) - 1);
+        const splitterStart = state.importedText[0].indexOf(firstWord) + firstWord.length;
+        const splitterEnd = state.importedText[0].lastIndexOf(secondWord) - 1;
+        console.log(splitterStart)
+        console.log(splitterEnd)
+        const splitter = state.importedText[0].substring(splitterStart, splitterEnd);
+        console.log(splitter);
+
         state.importedWords.from = state.importedText.map(line => cleanWord(line.substring(startIndex, line.lastIndexOf(splitter))))
-        state.importedWords.to = state.importedText.map(line => cleanWord(line.substring(line.lastIndexOf(splitter) + 1)));
+        state.importedWords.to = state.importedText.map(line => cleanWord(line.substring(line.lastIndexOf(splitter) + splitter.length)));
         if (userLang != props.langSettings.fromLang) swapWords();
         state.importState = ImportState.Imported;
       } else {

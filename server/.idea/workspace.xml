@@ -21,38 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Nav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Nav.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.996a54ba.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/create.5b654825.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/exercise.cd395571.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/group.ab7d733b.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.f0fd2869.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.f0fd2869.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/chunk-2d0a3358.770e7681.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/chunk-2d0a3358.770e7681.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/chunk-2d0e4814.eaf0a016.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/chunk-2d0e4814.eaf0a016.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/chunk-487dade2.3036f444.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/chunk-487dade2.3036f444.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/chunk-844c2b76.afd6a36f.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/chunk-844c2b76.afd6a36f.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/chunk-9a02aacc.ca9717b9.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/chunk-9a02aacc.ca9717b9.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/create.3243cae3.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/create.3243cae3.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/exercise.1df2c625.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/exercise.1df2c625.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/group.621d2e1f.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/group.621d2e1f.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/precache-manifest.e82209708218d1162b41ce5c9d7b7f07.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/report.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/report.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/service-worker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/datasources/mongodb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/datasources/mongodb.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen-types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resolvers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/resolvers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/schema.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +125,7 @@
       <workItem from="1606200072760" duration="5456000" />
       <workItem from="1606358360301" duration="16146000" />
       <workItem from="1606406361167" duration="2714000" />
-      <workItem from="1607260095949" duration="5337000" />
+      <workItem from="1607260095949" duration="5456000" />
     </task>
     <servers />
   </component>

@@ -9,7 +9,14 @@
                style="width: 100px;height: 100px; margin-top: 20px" @click="setUrl(imgUrl)">
         </div>
       </div>
-      <Loader v-if="!imagesLoaded"></Loader>
+      <Loader v-if="!imagesLoaded && imagesToLoad.length > 0"></Loader>
+      <div v-if="imagesToLoad.length === 0">
+        <h6 class="center">We did not find any matching image 😭</h6>
+        <h6 class="center">If you would still like to have an image, please insert a valid image location below</h6>
+        <input type="text" class="center" ref="imgUrlInput"
+               placeholder="e.g: https://cdn.pixabay.com/photo/2020/08/15/18/26/european-bee-eater-5491117_1280.jpg">
+        <i class="material-icons unselectable" @click="setUrl(imgUrlInput.value)" style="color: #26a69a; font-size: 50px; position: absolute; right: 20px">play_arrow</i>
+      </div>
     </div>
     <div v-else-if="selectedWord" style="overflow: hidden">
       <h5 class="center">🖼 Selected image 🖼</h5>
@@ -50,6 +57,8 @@ export default defineComponent({
     const modalElement = ref<HTMLElement>(null);
     const modal = ref<Modal>(null);
 
+    const imgUrlInput:HTMLInputElement = ref(null);
+
     let counter = 0;
 
     //switch a boolean as soon as all images are loaded
@@ -87,8 +96,14 @@ export default defineComponent({
       imagesLoaded.value = false;
     })
 
-    return {imagesLoaded, onImgLoad, modalElement, setUrl, swapImg, getBlobUrl}
+    return {imagesLoaded, onImgLoad, modalElement, setUrl, swapImg, getBlobUrl, imgUrlInput}
 
   },
 });
 </script>
+
+<style scoped>
+::placeholder {
+  color: #424242;
+}
+</style>

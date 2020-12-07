@@ -17,7 +17,7 @@
 
     <div class="modal" ref="difficultyModalElem">
       <div class="modal-content">
-        <h4 class="center">🎮 SpaceInvaders 🎮</h4>
+        <h4 class="center">SpaceInvaders</h4>
         <h5 class="center">Type the translation of the words before they reach the lower part of the screen!</h5>
         <h6 class="center">Please select your <b>difficulty</b> and the amount of <b>lives</b> you would like to have
         </h6>
@@ -57,12 +57,10 @@
     <div class="modal" ref="modalElem">
       <div class="modal-content">
 
-        <div class="modal-btns">
-          <i class="material-icons unselectable" style="font-size: 50px" @click="$router.push('/')">home</i>
-          <i class="material-icons unselectable" style="font-size: 50px" @click="playAgain">autorenew</i>
-        </div>
+        <i class="material-icons unselectable" style="font-size: 40px; left: 5px; position: fixed" @click="$router.push('/')">home</i>
+        <i class="material-icons unselectable" style="font-size: 40px; right: 5px; position: fixed" @click="playAgain">autorenew</i>
 
-        <h5 class="center">{{ isVictory ? "😎 Victory 😎" : "😭 Defeat 😭" }}</h5>
+        <h4 class="center">{{ isVictory ? "😎 Victory 😎" : "😭 Defeat 😭" }}</h4>
         <div v-if="mistakes.length > 0">
           <div class="divider"></div>
           <h4 class="center" style="margin-top: 20px">Mistakes</h4>
@@ -239,6 +237,8 @@ export default defineComponent({
     })
 
     onUnmounted(() => {
+      modal.value.close();
+      difficultyModal.value.close();
       modal.value.destroy();
       difficultyModal.value.destroy();
     })
