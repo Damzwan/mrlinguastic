@@ -8,11 +8,10 @@
       <a class="modal-trigger" href="#shareModal" ref="shareTrigger"></a>
     </div>
 
-    <div class="section">
-      <h5 class="center-align hide-on-large-only">🐉 Choose or create a voc list 🐉</h5>
-      <h4 class="center-align hide-on-med-and-down">🐉 Choose or create a voc list 🐉</h4>
+    <div style="margin-bottom: 20px">
+      <h4 class="center-align">👩‍🎓 Vocabulary 👩‍🎓</h4>
+      <div class="divider"></div>
     </div>
-    <div class="divider" style="margin-bottom: 30px"></div>
 
     <div class="fixed-action-btn">
       <div @click="goToCreatePage" class="btn-floating btn-large red" :class="{disabled: isOffline()}">
@@ -32,6 +31,13 @@
     </div>
 
     <div class="row" v-if="userLists" style="margin-bottom: 70px">
+      <div v-if="userLists.length === 0">
+        <div class="col s10 offset-s1"><p class="flow-text center">You haven't created any lists yet</p></div>
+        <div class="col s10 offset-s1"><p class="flow-text center">Press the red button below to create one</p></div>
+        <div class="col s10 offset-s1"><p class="flow-text center">Or download online lists in the language you want by joining a
+          <a href="#" data-target="nav2" class="sidenav-trigger">community</a></p></div>
+      </div>
+
       <div class="col l4 m6 s12" v-for="list in userLists" :key="list._id">
         <VocCard v-bind:list="list" :is-offline="false" v-on:remove="removeOnlineList" v-on:pdf="openPdfModal"
                  v-on:download="download"

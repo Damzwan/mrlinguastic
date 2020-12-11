@@ -58,7 +58,7 @@
                   {{ voice.DisplayName }} ({{ voice.ShortName.substring(3, 5).toUpperCase() }})
                 </option>
               </select>
-              <label>To Voice</label>
+              <label>Voice</label>
             </div>
           </div>
         </div>

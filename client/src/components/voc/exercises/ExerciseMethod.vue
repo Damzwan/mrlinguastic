@@ -1,6 +1,6 @@
 <template>
   <div class="col l4 m6 s12">
-    <div class="card" style="background-color: #ead9a1">
+    <div class="card" style="background-color: #ead9a1; height: 160px">
       <div class="card-tabs">
         <ul class="tabs tabs-fixed-width" ref="tabs">
           <li class="tab" v-for="(i) in filterRoutes(exerciseMethod)" :key="i">

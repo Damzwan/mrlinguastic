@@ -1,5 +1,5 @@
 <template>
-  <div class="carousel-item" style="cursor: pointer; user-select: none; outline: 0 none;"
+  <div class="carousel-item"
        :class="{'text-card': type === 'text', 'img-card': type === 'image'}" @click="cardClicked($event)">
 
     <transition name="flip">
@@ -109,7 +109,7 @@ export default defineComponent({
 
 @media only screen and (min-width: 992px) {
   .text-card {
-    width: 700px !important;
+    width: 400px !important;
   }
 
   .img-card {

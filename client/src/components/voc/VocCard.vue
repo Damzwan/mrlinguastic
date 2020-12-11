@@ -1,6 +1,6 @@
 <template>
   <div class="card horizontal hoverable unselectable"
-       style="background-color: #ead9a1"
+       style="background-color: #ead9a1; height: 130px"
        @click="selectList">
 
     <div class="card-content" @click="toExercises" style="width: 100%; height: 100%;">
@@ -13,7 +13,7 @@
         }}</p>
 
       <div class="row">
-        <div class="col s5">
+        <div class="col s3">
           <p style="font-weight: bold; font-size: 15px;">
             {{ list.wordsLength ? list.wordsLength : (list.words ? list.words.length : 0) }}
             words</p>
@@ -45,7 +45,7 @@
         <div class="action-item" v-for="(card_item, index) in itemsBot" :key="index"
              v-on:click="actionHandler(card_item)">
           <!--          hack to flip the card-->
-          <span v-bind:class="(index===2)?'card-title':''"
+          <span v-if="index === 2" class="card-title"
                 style="width: 100%; height: 100%; position: absolute; z-index: 2"></span>
           <i class="material-icons icon">{{ card_item.icon }}</i>
           <p class="action-text">{{ card_item.title }}</p>
@@ -182,13 +182,13 @@ export default defineComponent({
 }
 
 .icon {
-  margin-top: 15px;
+  margin-top: 5px;
   color: white;
   font-size: 30px;
 }
 
 .action-text {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: bold;
   color: white;
   position: relative;
@@ -199,5 +199,7 @@ export default defineComponent({
   position: absolute;
   color: gray;
   font-size: 12px;
+  right: 5px;
+  bottom: 5px;
 }
 </style>

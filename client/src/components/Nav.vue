@@ -94,8 +94,8 @@
           </router-link>
         </li>
       </div>
-      <li style="position: absolute;bottom: 10%" v-if="showInstallPromotion">
-        <div class="divider" style="margin-bottom: 10px"></div>
+      <div class="divider"></div>
+      <li style="position: relative; margin-top: 10px" v-if="showInstallPromotion">
         <div class="row">
           <div class="col s3">
             <img src="../assets/notduolingologo.png" alt="rip" width="60px" height="60px">
@@ -112,7 +112,7 @@
       </li>
     </ul>
 
-    <ul class="sidenav green darken-4" ref="nav2">
+    <ul class="sidenav green darken-4" ref="nav2" id="nav2">
       <li>
         <div class="user-view">
           <a><img class="circle" src="../assets/country-flags/china.svg" alt="Profile picture" width="64px"

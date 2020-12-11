@@ -14,7 +14,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6bf64ff9-4956-4a50-a243-639565bc4023" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/fonts/MaterialIcons-Regular.012cf6a1.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/fonts/MaterialIcons-Regular.570eb838.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/fonts/MaterialIcons-Regular.a37b0c01.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/fonts/MaterialIcons-Regular.e79bfd88.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/img/china.7f8455b7.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/img/france.968aaa24.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/android-chrome-192x192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/android-chrome-512x512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/apple-touch-icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/favicon-16x16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/favicon-32x32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/mstile-150x150.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/img/icons/safari-pinned-tab.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/img/italy.612e617f.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/img/united-kingdom.e5564902.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/js/chunk-2d216214.e39f12c4.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/js/chunk-2d216214.e39f12c4.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/js/chunk-2d216257.256ee085.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/js/chunk-2d216257.256ee085.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/robots.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/public/service-worker.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,16 +69,16 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\damia\Documents\mrlinguastic\client\src\assets\country-flags" />
-      <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc\create" />
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc\groups" />
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components" />
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc" />
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc\Create" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\damia\Documents\mrlinguastic\client\src\assets\country-flags" />
+      <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -106,7 +129,8 @@
       <workItem from="1606954573452" duration="5337000" />
       <workItem from="1607100013954" duration="7532000" />
       <workItem from="1607259845841" duration="9998000" />
-      <workItem from="1607300329008" duration="6104000" />
+      <workItem from="1607300329008" duration="7830000" />
+      <workItem from="1607709108530" duration="6861000" />
     </task>
     <servers />
   </component>

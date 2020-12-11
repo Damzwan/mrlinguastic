@@ -1,6 +1,6 @@
 <template>
   <div class="card horizontal hoverable unselectable"
-       style="background-color: #ead9a1">
+       style="background-color: #ead9a1; height: 130px">
 
     <div class="card-content" style="width: 100%" @click="showList">
       <i class="material-icons right" style="font-size: 35px; position: absolute; right: 15px; color: red"
@@ -69,42 +69,11 @@ export default defineComponent({
 
 
 <style scoped>
-.action-row {
-  left: 0;
-  height: 51%;
-  position: absolute;
-  width: 100%;
-}
-
-.action-item {
-  display: inline-block;
-  text-align: center;
-  background-color: #2e7d32;
-  width: 33.33%;
-  height: 100%;
-}
-
-.action-item:hover {
-  background-color: #1b5e20;
-}
-
-.icon {
-  margin-top: 15px;
-  color: white;
-  font-size: 30px;
-}
-
-.action-text {
-  font-size: 20px;
-  font-weight: bold;
-  color: white;
-  position: relative;
-  top: -30%;
-}
-
 .footer {
   position: absolute;
   color: gray;
   font-size: 12px;
+  right: 5px;
+  bottom: 5px;
 }
 </style>
