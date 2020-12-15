@@ -86,6 +86,7 @@ export type Mutation = {
   addUserToGroup?: Maybe<Scalars['String']>;
   removeUserFromGroup?: Maybe<Scalars['Boolean']>;
   copyVoclist?: Maybe<Voclist>;
+  changeProfilePic?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -161,6 +162,13 @@ export type MutationRemoveUserFromGroupArgs = {
 export type MutationCopyVoclistArgs = {
   voclistId: Scalars['String'];
   userId: Scalars['String'];
+  lastUpdated: Scalars['String'];
+};
+
+
+export type MutationChangeProfilePicArgs = {
+  userId: Scalars['String'];
+  newImg: Scalars['String'];
   lastUpdated: Scalars['String'];
 };
 
@@ -248,6 +256,7 @@ export type User = {
   voclists?: Maybe<Array<BasicVoclist>>;
   groups?: Maybe<Array<Group>>;
   lastUpdated?: Maybe<Scalars['String']>;
+  profilePic?: Maybe<Scalars['String']>;
 };
 
 export type UserInput = {
@@ -518,6 +527,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addUserToGroup?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationAddUserToGroupArgs, 'userId' | 'groupId' | 'lastUpdated'>>;
   removeUserFromGroup?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveUserFromGroupArgs, 'userId' | 'groupId' | 'lastUpdated'>>;
   copyVoclist?: Resolver<Maybe<ResolversTypes['Voclist']>, ParentType, ContextType, RequireFields<MutationCopyVoclistArgs, 'voclistId' | 'userId' | 'lastUpdated'>>;
+  changeProfilePic?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationChangeProfilePicArgs, 'userId' | 'newImg' | 'lastUpdated'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -544,6 +554,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   voclists?: Resolver<Maybe<Array<ResolversTypes['BasicVoclist']>>, ParentType, ContextType>;
   groups?: Resolver<Maybe<Array<ResolversTypes['Group']>>, ParentType, ContextType>;
   lastUpdated?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  profilePic?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
@@ -623,6 +634,7 @@ export type UserDbObject = {
   voclists?: Maybe<Array<BasicVoclistDbObject['_id']>>,
   groups?: Maybe<Array<GroupDbObject['_id']>>,
   lastUpdated?: Maybe<string>,
+  profilePic?: Maybe<string>,
 };
 
 export type BasicVoclistDbObject = {

@@ -8,7 +8,8 @@ import {v1 as uuidv1} from 'uuid';
 export interface UserDbObject {
     _id: string;
     voclists: string[],
-    groups: BasicGroupInfo[]
+    groups: BasicGroupInfo[],
+    profilePic: string
 }
 
 export class Localdb {
@@ -180,7 +181,8 @@ export class Localdb {
         const user: UserDbObject = {
             _id: "0",
             voclists: [],
-            groups: []
+            groups: [],
+            profilePic: null
         }
 
         await this.save("user", user)
@@ -226,17 +228,24 @@ export class Localdb {
         }
     }
 
-    async resetUser(voclistIds: string[], groups: BasicGroupInfo[]) {
+    async changeProfilePic(newPic: string){
+        const user = await this.getItem<UserDbObject>("0", "user");
+        user.profilePic = newPic;
+        await this.save("user", user);
+    }
+
+    async resetUser(voclistIds: string[], groups: BasicGroupInfo[], profilePic: string) {
         const user: UserDbObject = {
             _id: "0",
             voclists: voclistIds,
-            groups: groups
+            groups: groups,
+            profilePic: profilePic
         };
 
         await this.save("user", user);
     }
 
-    async updateUser(voclists: Voclist[], groups: BasicGroupInfo[]) {
+    async updateUser(voclists: Voclist[], groups: BasicGroupInfo[], profilePic: string) {
         const dbListIds = await this.getAllKeys("voclists");
 
         const listsToSave = voclists.map(list => list._id)
@@ -251,6 +260,6 @@ export class Localdb {
         }
         listsToRemove.forEach((listId) => {this.deleteItem(listId.toString(), "voclists");})
 
-        this.resetUser(listsToSave, groups);
+        this.resetUser(listsToSave, groups, profilePic);
     }
 }

@@ -28,7 +28,7 @@ export class MongoAPI {
         let user: UserDbObject = await this.db.collection<UserDbObject>(Collections.Users).findOne({_id: oid})
 
         if (!user) {
-            user = {_id: oid, voclists: [], groups: [], lastUpdated: new Date().toISOString()};
+            user = {_id: oid, voclists: [], groups: [], lastUpdated: new Date().toISOString(), profilePic: "daniel1.jpg"};
             await this.db.collection<UserDbObject>(Collections.Users).insertOne(user);
         }
         return user;
@@ -160,5 +160,10 @@ export class MongoAPI {
 
         if (objects[1].members.length == 0) await Promise.all([this.updateEntity(Collections.Users, userId, objects[0]), this.deleteEntity(Collections.Groups, groupId)]);
         else await Promise.all([this.updateEntity(Collections.Users, userId, objects[0]), this.updateEntity(Collections.Groups, groupId, objects[1])])
+    }
+
+    async changeProfilePic(id: string, pic: string, lastUpdated: string){
+        await this.db.collection(Collections.Users).updateOne({_id: id}, {$set: {profilePic: pic, lastUpdated: lastUpdated}}, {upsert: true})
+        return true;
     }
 }

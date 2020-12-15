@@ -21,7 +21,18 @@
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Nav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Nav.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/graphql/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/graphql/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/graphql/voc.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/graphql/voc.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/localdb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/localdb.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/state.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/state.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datasources/mongodb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/datasources/mongodb.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen-types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resolvers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/resolvers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/schema.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,25 +137,13 @@
       <workItem from="1606358360301" duration="16146000" />
       <workItem from="1606406361167" duration="2714000" />
       <workItem from="1607260095949" duration="5456000" />
+      <workItem from="1607900504601" duration="2399000" />
+      <workItem from="1607989171426" duration="2493000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-    <option name="exactExcludedFiles">
-      <list>
-        <option value="$PROJECT_DIR$/src/datasources/yandex.js" />
-        <option value="$PROJECT_DIR$/src/datasources/reverso.js.map" />
-        <option value="$PROJECT_DIR$/src/datasources/yandex.js.map" />
-        <option value="$PROJECT_DIR$/src/datasources/pixabay.js.map" />
-        <option value="$PROJECT_DIR$/src/datasources/mongodb.js.map" />
-        <option value="$PROJECT_DIR$/src/datasources/azure.js.map" />
-        <option value="$PROJECT_DIR$/src/datasources/reverso.js" />
-        <option value="$PROJECT_DIR$/src/datasources/pixabay.js" />
-        <option value="$PROJECT_DIR$/src/datasources/mongodb.js" />
-        <option value="$PROJECT_DIR$/src/datasources/azure.js" />
-      </list>
-    </option>
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.env" />
@@ -165,6 +164,10 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="208" y="157" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1607989295747">
+      <screen x="0" y="0" width="1504" height="1003" />
+    </state>
+    <state x="208" y="157" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1504.1003@0.0.1504.1003" timestamp="1607989295747" />
     <state x="519" y="304" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1606202118794">
       <screen x="0" y="0" width="1504" height="1003" />
     </state>
@@ -172,11 +175,14 @@
     <state x="533" y="257" key="FileChooserDialogImpl" timestamp="1605009821240">
       <screen x="0" y="0" width="1504" height="1003" />
     </state>
-    <state x="533" y="257" key="FileChooserDialogImpl/0.0.1504.1003/198.-1080.1920.1080@0.0.1504.1003" timestamp="1597653444629" />
     <state x="533" y="257" key="FileChooserDialogImpl/0.0.1504.1003@0.0.1504.1003" timestamp="1605009821240" />
     <state x="254" y="147" key="SettingsEditor" timestamp="1605522725679">
       <screen x="0" y="0" width="1504" height="1003" />
     </state>
     <state x="254" y="147" key="SettingsEditor/0.0.1504.1003@0.0.1504.1003" timestamp="1605522725679" />
+    <state x="415" y="216" width="672" height="678" key="search.everywhere.popup" timestamp="1607993881757">
+      <screen x="0" y="0" width="1504" height="1003" />
+    </state>
+    <state x="415" y="216" width="672" height="678" key="search.everywhere.popup/0.0.1504.1003@0.0.1504.1003" timestamp="1607993881757" />
   </component>
 </project>

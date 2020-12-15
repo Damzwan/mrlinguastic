@@ -86,7 +86,10 @@ export const resolv: Resolvers = {
             mongoAPI.updateEntity(Collections.Voclists, voclist._id, voclist).then();
             mongoAPI.addVoclist(args.userId, voclist._id, args.lastUpdated).then();
             return voclist;
-        }
+        },
+        changeProfilePic: async (_: any, args, {dataSources}: { dataSources: any }) => {
+            return await mongoAPI.changeProfilePic(args.userId, args.newImg, args.lastUpdated);
+        },
     },
     User: {
         voclists: async (_user, _args) => {

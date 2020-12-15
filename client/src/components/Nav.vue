@@ -28,8 +28,12 @@
           <ul class="right">
             <li>
               <a @click="openSideNav(false)">
-                <img :src="require(`@/assets/country-flags/china.svg`)" width="30px" height="30px" v-if="loggedIn"
-                     style="top: 10px; position: relative;" alt="profile picture">
+                <div v-if="loggedIn">
+                  <img :src="require(`@/assets/country-flags/china.svg`)" width="40px" height="40px" v-if="!profilePic"
+                       style="top: 10px; position: relative;" alt="profile picture">
+                  <img :src="getBlobUrl(profilePic)" v-else
+                       alt="profile pic" width="40px" height="40px" style="top: 10px; position: relative;" class="circle">
+                </div>
                 <i class="material-icons" style="font-size: 30px;" v-else>account_circle</i>
               </a>
             </li>
@@ -115,9 +119,13 @@
     <ul class="sidenav green darken-4" ref="nav2" id="nav2">
       <li>
         <div class="user-view">
-          <a><img class="circle" src="../assets/country-flags/china.svg" alt="Profile picture" width="64px"
-                  height="64px"></a>
           <div v-if="user">
+            <a>
+              <img class="circle" src="../assets/country-flags/china.svg" alt="Profile picture" width="64px"
+                   height="64px" v-if="!profilePic">
+              <a href="#profilePicModal" class="modal-trigger" v-else><img class="circle" :src="getBlobUrl(profilePic)" alt="Profile picture" width="64px"
+                   height="64px"></a>
+            </a>
             <a><span class="white-text name">{{ user }}</span></a>
             <a @click="logOut" class="btn green" style="width: 100px; height: 35px;">log out!</a>
           </div>
@@ -209,18 +217,36 @@
         </div>
       </div>
     </div>
+
+    <div class="modal" ref="profilePicModalElem" id="profilePicModal">
+      <div class="modal-content">
+        <h4 class="center">🖼 Choose profile picture 🖼</h4>
+        <div class="divider"></div>
+        <div class="row section">
+          <div class="col s6 m4" v-for="(profilePic, index) in profilePics" :key="index">
+            <img :src="getBlobUrl(profilePic)" :alt="index" class="circle hoverable centered-img unselectable"
+                 style="width: 100px;height: 100px; margin-top: 20px" @click="changeProfilePic(profilePic)">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script lang="ts">
 import {defineComponent, inject, onMounted, ref} from "@vue/composition-api";
 import M from "materialize-css";
-import {Community, correctMessage, getCommunities, newLastUpdated, wrongMessage} from "@/use/general";
+import {Community, correctMessage, getBlobUrl, getCommunities, newLastUpdated, wrongMessage} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
 import {Route} from "vue-router";
-import {useAddUserToGroupMutation, useCreateGroupMutation} from "@/gen-types";
-import {addGroup, communities, groups, sendEvent, wordsLoading} from "@/use/state";
+import {useAddUserToGroupMutation, useChangeProfilePicMutation, useCreateGroupMutation} from "@/gen-types";
+import {addGroup, communities, groups, sendEvent, wordsLoading, profilePic, changeProfilePicState} from "@/use/state";
 import {Localdb} from "@/use/localdb";
+import Modal = M.Modal;
 
 export default defineComponent({
   setup(props, context) {
@@ -235,10 +261,16 @@ export default defineComponent({
     const modalElement = ref<HTMLElement>(null);
     const communityModalElem = ref<HTMLElement>(null);
 
+    const profilePicModalElem = ref<HTMLElement>(null);
+    const profilePicModal = ref<Modal>(null);
+
+
     const {mutate: createGroupMutation} = useCreateGroupMutation(null);
     const {mutate: addUserToGroup} = useAddUserToGroupMutation({});
+    const {mutate: changeProfilePicOnline} = useChangeProfilePicMutation({});
 
     const showInstallPromotion = ref(false);
+    const profilePics = ["daniel1.jpg", "daniel2.jpg", "daniel3.jpg","daniel4.jpg", "daniel5.jpg", "daniel6.jpg"]
 
     onMounted(() => {
       sidenav1.value = M.Sidenav.init(nav1.value);
@@ -246,6 +278,7 @@ export default defineComponent({
       groupModal.value = M.Modal.init(modalElement.value)
       M.Tooltip.init(document.querySelectorAll(".tooltipped"));
       M.Modal.init(communityModalElem.value)
+      profilePicModal.value = M.Modal.init(profilePicModalElem.value)
     });
 
     function openSideNav(left: boolean) {
@@ -329,21 +362,32 @@ export default defineComponent({
       showInstallPromotion.value = true;
     });
 
-    function installApp(){
+    function installApp() {
       showInstallPromotion.value = false;
       deferredPrompt.prompt();
+    }
+
+    function chooseProfilePic() {
+      console.log("si")
     }
 
     window.addEventListener('appinstalled', () => {
       correctMessage("Grazie Mille!!!")
     });
 
+    function changeProfilePic(img: string){
+      changeProfilePicState(img);
+      correctMessage("Profile Picture changed!")
+      profilePicModal.value.close();
+      changeProfilePicOnline({userId: auth.getOid().value, pic: img, lastUpdated: newLastUpdated()})
+      db.changeProfilePic(img);
+    }
+
     return {
       openSideNav,
       closeSideNav,
       sidenavObjects,
       isVocCreatePage,
-      saveList,
       logIn,
       loggedIn: auth.getOid(),
       user: auth.getUser(),
@@ -361,7 +405,13 @@ export default defineComponent({
       logOut,
       wordsLoading,
       showInstallPromotion,
-      installApp
+      installApp,
+      profilePic,
+      getBlobUrl,
+      chooseProfilePic,
+      profilePicModalElem,
+      profilePics,
+      changeProfilePic
     };
   },
   watch: {

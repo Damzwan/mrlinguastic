@@ -63,7 +63,8 @@ export default Vue.extend({
               _id: user._id,
               voclists: (await Promise.all(user.voclists.map(vocId => db.getItem<Voclist>(vocId, "voclists"))))
                   .map(list => convertToBasicVoclist(list)),
-              groups: user.groups
+              groups: user.groups,
+              profilePic: user.profilePic
             });
           } else getUserOnline(null, {oid: auth.getOid().value})
         })
@@ -71,7 +72,7 @@ export default Vue.extend({
 
       watch(user, async () => {
         setUser(user.value.user as User);
-        db.updateUser(user.value.user.voclists.map(list => convertToNormalVoclist(list)), user.value.user.groups).then(() => {
+        db.updateUser(user.value.user.voclists.map(list => convertToNormalVoclist(list)), user.value.user.groups, user.value.user.profilePic).then(() => {
           localStorage.setItem("lastUpdated", user.value.user.lastUpdated)
         })
         await checkForSharedItems(auth.getOid().value);

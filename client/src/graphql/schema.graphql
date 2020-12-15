@@ -31,6 +31,7 @@ type Mutation {
     addSharedVoclist(userId: String!, vocId: String!): Boolean
     addUserToGroup(groupId: String!, lastUpdated: String!, userId: String!): String
     addVoclistToGroup(groupId: String!, vocId: String!): Boolean
+    changeProfilePic(lastUpdated: String!, newImg: String!, userId: String!): Boolean
     copyImgs(imgs: [String]): [String]
     copyVoclist(lastUpdated: String!, userId: String!, voclistId: String!): Voclist
     createGroup(groupInfo: GroupInput!, lastUpdated: String!, userId: String!): String
@@ -64,6 +65,7 @@ type User {
     _id: ID!
     groups: [Group!]
     lastUpdated: String
+    profilePic: String
     voclists: [BasicVoclist!]
 }
 

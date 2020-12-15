@@ -12,6 +12,7 @@ interface State {
     groups: Group[]
     onlineVoclists: BasicVoclist[] | null
     downloadedLists: Voclist[] | null,
+    profilePic: string,
     event: string | null,
     wordsLoading: number
 }
@@ -19,6 +20,7 @@ interface State {
 const state = reactive<State>({
     groups: null,
     onlineVoclists: null,
+    profilePic: null,
     downloadedLists: null,
     event: null,
     wordsLoading: 0
@@ -27,6 +29,7 @@ const state = reactive<State>({
 function setUser(newUser: User) {
     state.groups = newUser.groups;
     state.onlineVoclists = newUser.voclists
+    state.profilePic = newUser.profilePic;
 }
 
 function setDownloadedLists(lists: Voclist[]) {
@@ -101,6 +104,10 @@ function resetWordsLoading() {
     state.wordsLoading = 0;
 }
 
+function changeProfilePicState(newPic: string){
+    state.profilePic = newPic;
+}
+
 const userLists = computed(() => state.onlineVoclists ? state.onlineVoclists : null);
 
 const groups = computed(() => state.groups ? state.groups.filter(group => !getCommunity(group._id)) : null);
@@ -113,6 +120,9 @@ const event = computed(() => state.event)
 
 const wordsLoading = computed(() => state.wordsLoading)
 
+const profilePic = computed(() => state.profilePic)
+
+
 export {
     setUser,
     userLists,
@@ -124,6 +134,7 @@ export {
     groups,
     communities,
     downloadedLists,
+    profilePic,
     setDownloadedLists,
     replaceDownloadedVoclist,
     event,
@@ -132,5 +143,6 @@ export {
     wordsLoading,
     incrementWordsLoading,
     decrementWordsLoading,
-    resetWordsLoading
+    resetWordsLoading,
+    changeProfilePicState
 }

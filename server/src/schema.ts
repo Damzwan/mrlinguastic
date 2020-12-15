@@ -65,6 +65,7 @@ export const typeDefs = gql`
         addUserToGroup(userId: String!, groupId: String!, lastUpdated:String!): String
         removeUserFromGroup(userId: String!, groupId: String!, lastUpdated: String!): Boolean
         copyVoclist(voclistId: String!, userId: String!, lastUpdated:String!): Voclist
+        changeProfilePic(userId: String!, newImg: String!, lastUpdated:String!): Boolean
     }
 
     type User @entity{
@@ -72,6 +73,7 @@ export const typeDefs = gql`
         voclists: [BasicVoclist!] @link
         groups: [Group!] @link
         lastUpdated: String @column
+        profilePic: String @column
     }
 
     input UserInput{

@@ -41,6 +41,7 @@ query getUser($oid: String!){
             name
             _id
         }
+        profilePic
     }
 }
 
@@ -193,5 +194,9 @@ mutation removeImgs($imgs: [String!]){
 
 mutation copyImgs($imgs: [String]){
     copyImgs(imgs: $imgs)
+}
+
+mutation changeProfilePic($userId: String!, $pic: String!, $lastUpdated: String!){
+    changeProfilePic(userId: $userId, newImg: $pic, lastUpdated: $lastUpdated)
 }
 
