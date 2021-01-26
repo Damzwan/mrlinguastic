@@ -72,12 +72,15 @@ export function useUrlHandler() {
         const voclistId = new URLSearchParams(sharedLink).get("oid");
         const groupId = new URLSearchParams(sharedLink).get("groupId");
 
+        console.log(sharedLink)
+        console.log(voclistId);
+
         if (userId) await Promise.all([voclistId ? getSharedVoclistOnline(voclistId) : null,
             groupId ? getSharedGroupOnline(groupId, userId) : null]);
         else await Promise.all([voclistId ? getSharedVoclistOffline(voclistId) : null,
             groupId ? getSharedGroupOffline(groupId) : null])
 
-        window.history.replaceState({}, document.title, "/#/"); //remove url parameters
+        window.history.replaceState({}, document.title, "/#/home"); //remove url parameters
     }
 
     return {checkForSharedItems}

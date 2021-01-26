@@ -158,6 +158,7 @@ export default defineComponent({
       removeAllToasts();
       if (attempt === state.currentWord.to) {
         correctMessage("Correct! 🤓")
+        window.navigator.vibrate(100);
         list.value.words.splice(list.value.words.indexOf(state.currentWord), 1);
         if (list.value.words.length === 0) {
           end();
@@ -165,7 +166,7 @@ export default defineComponent({
         }
       } else {
         wrongMessage("😂😂 Wrong! 😂😂")
-        window.navigator.vibrate(200);
+        window.navigator.vibrate([100, 30, 200]);
 
         const key = state.currentWord.from + "-" + state.currentWord.to;
         const failures = categorizedFailedAttempts[key] ? categorizedFailedAttempts[key] : [];

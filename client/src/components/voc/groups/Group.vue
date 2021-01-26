@@ -152,7 +152,7 @@ export default defineComponent({
     }
 
     function copyGroupLink() {
-      const url = `${window.location.origin}/?groupId=${localStorage.getItem("group")}#/`
+      const url = `${window.location.origin}/?groupId=${localStorage.getItem("group")}#/home`
 
       if (navigator.share) {
         navigator.share({

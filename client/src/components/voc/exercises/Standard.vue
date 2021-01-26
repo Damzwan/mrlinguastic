@@ -177,14 +177,14 @@ export default defineComponent({
       to.value.classList.add("valid");
       correctMessage("Correct! 🤓")
       list.value.words.splice(list.value.words.indexOf(state.currentWord), 1);
-      window.navigator.vibrate(200);
+      window.navigator.vibrate(100);
     }
 
     function handleWrongAnswer(attempt: string) {
       to.value.classList.remove("valid");
       to.value.classList.add("invalid");
       wrongMessage("😂😂 Wrong! 😂😂")
-      window.navigator.vibrate([100, 100]);
+      window.navigator.vibrate([100, 30, 200]);
 
       failedAttempts.value.push({from: state.currentWord.from, attempt: attempt, to: state.currentWord.to});
 

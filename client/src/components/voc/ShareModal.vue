@@ -55,7 +55,7 @@ export default defineComponent({
     }
 
     function copyListLink() {
-      const url = `${window.location.origin}/?oid=${props.list._id}#/`
+      const url = `${window.location.origin}/?oid=${props.list._id}#/home`
       if (navigator.share) {
         navigator.share({
           title: 'mrlinguastic voclist',
