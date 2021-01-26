@@ -1,8 +1,8 @@
 <template>
-  <div class="modal fullscreen-modal" ref="modalElement" id="exampleModal">
+  <div class="modal fullscreen-modal" ref="modalElement" id="exampleModal"  :style="{backgroundImage: 'url(' + require('../../../assets/triangle2.svg') + ')'}">
     <div class="modal-content" v-if="selectedWord">
       <i class="material-icons right unselectable close-btn modal-close">close</i>
-      <h4 class="center">example sentences</h4>
+      <h4 class="center">Example sentences</h4>
       <p class="flow-text center">Create a sentence with <b>{{ selectedWord.from }}</b> in the first text box
         and create sentences with <b>{{ selectedWord.to }}</b> in the boxes below</p>
       <div class="divider" style="margin-bottom: 20px"></div>
@@ -11,7 +11,7 @@
                   v-bind:fromWord="selectedWord.from" v-bind:toWord="selectedWord.to"></ExampleDiv>
       <div class="row">
         <div class="col s12 valign-wrapper">
-          <i class="material-icons centered-img unselectable" style="font-size: 50px; color: gray"
+          <i class="material-icons centered-img unselectable" style="font-size: 50px; color: black"
              @click="addSentence">add</i>
         </div>
       </div>
@@ -25,6 +25,7 @@ import {Sentence, Word} from "@/gen-types";
 import M from "materialize-css"
 import ExampleDiv from "@/components/voc/create/ExampleDiv.vue"
 import Modal = M.Modal;
+import {setShouldCloseWordDiv} from "@/use/state";
 
 export default defineComponent({
   props: {
@@ -47,8 +48,12 @@ export default defineComponent({
       props.selectedWord.sentences = props.selectedWord.sentences.filter(sentence => sentence != sentenceToRemove)
     }
 
+    function enableCloseDiv(){
+      setShouldCloseWordDiv(true);
+    }
+
     onMounted(() => {
-      modal.value = M.Modal.init(modalElement.value)
+      modal.value = M.Modal.init(modalElement.value, {onCloseEnd: enableCloseDiv})
     })
 
     onUnmounted(() => {
@@ -59,3 +64,11 @@ export default defineComponent({
   }
 });
 </script>
+
+<style scoped>
+
+.divider {
+  background-color: black;
+}
+
+</style>

@@ -7,15 +7,15 @@
       <table class="centered striped">
         <thead>
         <tr>
-          <th>From</th>
-          <th>To</th>
+          <th style="font-size: 2rem">From</th>
+          <th style="font-size: 2rem">To</th>
         </tr>
         </thead>
 
         <tbody>
         <tr v-for="(word, i) in list.words" :key="i" @mouseover="currWord = word">
-          <td>{{ word.from }}</td>
-          <td>{{ word.to }}</td>
+          <td style="font-size: 2rem">{{ word.from }}</td>
+          <td style="font-size: 2rem">{{ word.to }}</td>
           <td style="width: 180px" v-if="!hasSmallScreen()">
             <a href="#exampleModal" class="modal-trigger" style="color: black"><i class="material-icons icon">format_list_numbered</i></a>
             <a href="#infoModal" class="modal-trigger" style="color: black"><i class="material-icons icon left-margin">info_outline</i></a>

@@ -14,7 +14,7 @@ import {provide, watch} from "@vue/composition-api";
 import {setDownloadedLists, setUser} from "@/use/state";
 import {AuthModule} from "@/use/authModule";
 import {Localdb, UserDbObject} from "@/use/localdb";
-import Nav from "./components/Nav.vue";
+import Nav from "./components/Nav/Nav.vue";
 import {useUrlHandler} from "@/use/urlHandler";
 import {useGetLastUpdatedQueryLazy, useGetUserQueryLazy} from "@/use/lazyQueries";
 import {convertToBasicVoclist, convertToNormalVoclist, getLastUpdated} from "@/use/general";

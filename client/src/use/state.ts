@@ -14,7 +14,8 @@ interface State {
     downloadedLists: Voclist[] | null,
     profilePic: string,
     event: string | null,
-    wordsLoading: number
+    wordsLoading: number,
+    shouldCloseWordDiv: boolean
 }
 
 const state = reactive<State>({
@@ -23,7 +24,8 @@ const state = reactive<State>({
     profilePic: null,
     downloadedLists: null,
     event: null,
-    wordsLoading: 0
+    wordsLoading: 0,
+    shouldCloseWordDiv: true
 })
 
 function setUser(newUser: User) {
@@ -108,6 +110,10 @@ function changeProfilePicState(newPic: string){
     state.profilePic = newPic;
 }
 
+function setShouldCloseWordDiv(bool: boolean){
+    state.shouldCloseWordDiv = bool;
+}
+
 const userLists = computed(() => state.onlineVoclists ? state.onlineVoclists : null);
 
 const groups = computed(() => state.groups ? state.groups.filter(group => !getCommunity(group._id)) : null);
@@ -121,6 +127,8 @@ const event = computed(() => state.event)
 const wordsLoading = computed(() => state.wordsLoading)
 
 const profilePic = computed(() => state.profilePic)
+
+const shouldCloseWordDiv = computed(() => state.shouldCloseWordDiv)
 
 
 export {
@@ -144,5 +152,7 @@ export {
     incrementWordsLoading,
     decrementWordsLoading,
     resetWordsLoading,
-    changeProfilePicState
+    changeProfilePicState,
+    shouldCloseWordDiv,
+    setShouldCloseWordDiv
 }

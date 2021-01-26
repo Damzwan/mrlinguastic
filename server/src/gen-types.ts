@@ -25,15 +25,6 @@ export type AdditionalEntityFields = {
   type?: Maybe<Scalars['String']>;
 };
 
-export type BasicVoclist = {
-  __typename?: 'BasicVoclist';
-  _id: Scalars['ID'];
-  settings: VoclistSettings;
-  lastEdited: Scalars['String'];
-  wordsLength: Scalars['Int'];
-  creator: Scalars['String'];
-};
-
 export enum CacheControlScope {
   Public = 'PUBLIC',
   Private = 'PRIVATE'
@@ -45,31 +36,71 @@ export enum Collections {
   Groups = 'Groups'
 }
 
-export type Group = {
-  __typename?: 'Group';
-  _id: Scalars['ID'];
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  members?: Maybe<Array<User>>;
-  voclists?: Maybe<Array<BasicVoclist>>;
+export type Query = {
+  __typename?: 'Query';
+  user?: Maybe<User>;
+  lastUpdated: Scalars['String'];
+  translateWord?: Maybe<Array<Maybe<Scalars['String']>>>;
+  translateWords?: Maybe<Array<Maybe<Scalars['String']>>>;
+  voclist?: Maybe<Voclist>;
+  group?: Maybe<Group>;
+  words?: Maybe<Array<Word>>;
+  getImages?: Maybe<Array<Scalars['String']>>;
+  getVoices?: Maybe<Array<Maybe<Voice>>>;
+  getExamples?: Maybe<Array<Sentence>>;
 };
 
-export type GroupInput = {
-  name: Scalars['String'];
-  description: Scalars['String'];
+
+export type QueryUserArgs = {
+  oid: Scalars['String'];
 };
 
-export type LangSettings = {
-  __typename?: 'LangSettings';
+
+export type QueryLastUpdatedArgs = {
+  oid: Scalars['String'];
+};
+
+
+export type QueryTranslateWordArgs = {
+  word: Scalars['String'];
   fromLang: Scalars['String'];
   toLang: Scalars['String'];
-  toVoice: Scalars['String'];
 };
 
-export type LangSettingsInput = {
+
+export type QueryTranslateWordsArgs = {
+  words?: Maybe<Array<Scalars['String']>>;
   fromLang: Scalars['String'];
   toLang: Scalars['String'];
-  toVoice: Scalars['String'];
+};
+
+
+export type QueryVoclistArgs = {
+  voclistId: Scalars['String'];
+};
+
+
+export type QueryGroupArgs = {
+  groupId: Scalars['String'];
+};
+
+
+export type QueryWordsArgs = {
+  voclistId: Scalars['String'];
+};
+
+
+export type QueryGetImagesArgs = {
+  word: Scalars['String'];
+  lang: Scalars['String'];
+};
+
+
+export type QueryGetExamplesArgs = {
+  from: Scalars['String'];
+  to?: Maybe<Scalars['String']>;
+  fromLang: Scalars['String'];
+  toLang: Scalars['String'];
 };
 
 export type Mutation = {
@@ -172,84 +203,6 @@ export type MutationChangeProfilePicArgs = {
   lastUpdated: Scalars['String'];
 };
 
-export type Query = {
-  __typename?: 'Query';
-  user?: Maybe<User>;
-  lastUpdated: Scalars['String'];
-  translateWord?: Maybe<Array<Maybe<Scalars['String']>>>;
-  translateWords?: Maybe<Array<Maybe<Scalars['String']>>>;
-  voclist?: Maybe<Voclist>;
-  group?: Maybe<Group>;
-  words?: Maybe<Array<Word>>;
-  getImages?: Maybe<Array<Scalars['String']>>;
-  getVoices?: Maybe<Array<Maybe<Voice>>>;
-  getExamples?: Maybe<Array<Sentence>>;
-};
-
-
-export type QueryUserArgs = {
-  oid: Scalars['String'];
-};
-
-
-export type QueryLastUpdatedArgs = {
-  oid: Scalars['String'];
-};
-
-
-export type QueryTranslateWordArgs = {
-  word: Scalars['String'];
-  fromLang: Scalars['String'];
-  toLang: Scalars['String'];
-};
-
-
-export type QueryTranslateWordsArgs = {
-  words?: Maybe<Array<Scalars['String']>>;
-  fromLang: Scalars['String'];
-  toLang: Scalars['String'];
-};
-
-
-export type QueryVoclistArgs = {
-  voclistId: Scalars['String'];
-};
-
-
-export type QueryGroupArgs = {
-  groupId: Scalars['String'];
-};
-
-
-export type QueryWordsArgs = {
-  voclistId: Scalars['String'];
-};
-
-
-export type QueryGetImagesArgs = {
-  word: Scalars['String'];
-  lang: Scalars['String'];
-};
-
-
-export type QueryGetExamplesArgs = {
-  from: Scalars['String'];
-  to?: Maybe<Scalars['String']>;
-  fromLang: Scalars['String'];
-  toLang: Scalars['String'];
-};
-
-export type Sentence = {
-  __typename?: 'Sentence';
-  from: Scalars['String'];
-  to?: Maybe<Array<Scalars['String']>>;
-};
-
-export type SentenceInput = {
-  from: Scalars['String'];
-  to?: Maybe<Array<Scalars['String']>>;
-};
-
 export type User = {
   __typename?: 'User';
   _id: Scalars['ID'];
@@ -270,6 +223,15 @@ export type Voclist = {
   words?: Maybe<Array<Word>>;
   creator?: Maybe<Scalars['String']>;
   lastEdited?: Maybe<Scalars['String']>;
+};
+
+export type BasicVoclist = {
+  __typename?: 'BasicVoclist';
+  _id: Scalars['ID'];
+  settings: VoclistSettings;
+  lastEdited: Scalars['String'];
+  wordsLength: Scalars['Int'];
+  creator: Scalars['String'];
 };
 
 export type VoclistInput = {
@@ -293,11 +255,17 @@ export type VoclistSettingsInput = {
   langSettings: LangSettingsInput;
 };
 
-export type Voice = {
-  __typename?: 'Voice';
-  DisplayName?: Maybe<Scalars['String']>;
-  Gender?: Maybe<Scalars['String']>;
-  ShortName?: Maybe<Scalars['String']>;
+export type LangSettings = {
+  __typename?: 'LangSettings';
+  fromLang: Scalars['String'];
+  toLang: Scalars['String'];
+  toVoice: Scalars['String'];
+};
+
+export type LangSettingsInput = {
+  fromLang: Scalars['String'];
+  toLang: Scalars['String'];
+  toVoice: Scalars['String'];
 };
 
 export type Word = {
@@ -315,6 +283,38 @@ export type WordInput = {
   img?: Maybe<Scalars['String']>;
   toAudio?: Maybe<Scalars['String']>;
   sentences?: Maybe<Array<SentenceInput>>;
+};
+
+export type Sentence = {
+  __typename?: 'Sentence';
+  from: Scalars['String'];
+  to?: Maybe<Array<Scalars['String']>>;
+};
+
+export type SentenceInput = {
+  from: Scalars['String'];
+  to?: Maybe<Array<Scalars['String']>>;
+};
+
+export type Voice = {
+  __typename?: 'Voice';
+  DisplayName?: Maybe<Scalars['String']>;
+  Gender?: Maybe<Scalars['String']>;
+  ShortName?: Maybe<Scalars['String']>;
+};
+
+export type Group = {
+  __typename?: 'Group';
+  _id: Scalars['ID'];
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  members?: Maybe<Array<User>>;
+  voclists?: Maybe<Array<BasicVoclist>>;
+};
+
+export type GroupInput = {
+  name: Scalars['String'];
+  description: Scalars['String'];
 };
 
 
@@ -381,7 +381,7 @@ export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   info: GraphQLResolveInfo
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}> = (obj: T, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
@@ -395,58 +395,58 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Query: ResolverTypeWrapper<{}>;
-  String: ResolverTypeWrapper<Scalars['String']>;
-  User: ResolverTypeWrapper<UserDbObject>;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
-  BasicVoclist: ResolverTypeWrapper<BasicVoclistDbObject>;
-  VoclistSettings: ResolverTypeWrapper<VoclistSettings>;
-  LangSettings: ResolverTypeWrapper<LangSettings>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
-  Group: ResolverTypeWrapper<GroupDbObject>;
-  Voclist: ResolverTypeWrapper<VoclistDbObject>;
-  Word: ResolverTypeWrapper<Word>;
-  Sentence: ResolverTypeWrapper<Sentence>;
-  Voice: ResolverTypeWrapper<Voice>;
-  Mutation: ResolverTypeWrapper<{}>;
-  VoclistInput: VoclistInput;
-  VoclistSettingsInput: VoclistSettingsInput;
-  LangSettingsInput: LangSettingsInput;
-  WordInput: WordInput;
-  SentenceInput: SentenceInput;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  GroupInput: GroupInput;
   AdditionalEntityFields: AdditionalEntityFields;
+  String: ResolverTypeWrapper<Scalars['String']>;
   CacheControlScope: CacheControlScope;
   Collections: Collections;
+  Query: ResolverTypeWrapper<{}>;
+  Mutation: ResolverTypeWrapper<{}>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  User: ResolverTypeWrapper<UserDbObject>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
   UserInput: UserInput;
+  Voclist: ResolverTypeWrapper<VoclistDbObject>;
+  BasicVoclist: ResolverTypeWrapper<BasicVoclistDbObject>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
+  VoclistInput: VoclistInput;
+  VoclistSettings: ResolverTypeWrapper<VoclistSettings>;
+  VoclistSettingsInput: VoclistSettingsInput;
+  LangSettings: ResolverTypeWrapper<LangSettings>;
+  LangSettingsInput: LangSettingsInput;
+  Word: ResolverTypeWrapper<Word>;
+  WordInput: WordInput;
+  Sentence: ResolverTypeWrapper<Sentence>;
+  SentenceInput: SentenceInput;
+  Voice: ResolverTypeWrapper<Voice>;
+  Group: ResolverTypeWrapper<GroupDbObject>;
+  GroupInput: GroupInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Query: {};
+  AdditionalEntityFields: AdditionalEntityFields;
   String: Scalars['String'];
+  Query: {};
+  Mutation: {};
+  Boolean: Scalars['Boolean'];
   User: UserDbObject;
   ID: Scalars['ID'];
-  BasicVoclist: BasicVoclistDbObject;
-  VoclistSettings: VoclistSettings;
-  LangSettings: LangSettings;
-  Int: Scalars['Int'];
-  Group: GroupDbObject;
-  Voclist: VoclistDbObject;
-  Word: Word;
-  Sentence: Sentence;
-  Voice: Voice;
-  Mutation: {};
-  VoclistInput: VoclistInput;
-  VoclistSettingsInput: VoclistSettingsInput;
-  LangSettingsInput: LangSettingsInput;
-  WordInput: WordInput;
-  SentenceInput: SentenceInput;
-  Boolean: Scalars['Boolean'];
-  GroupInput: GroupInput;
-  AdditionalEntityFields: AdditionalEntityFields;
   UserInput: UserInput;
+  Voclist: VoclistDbObject;
+  BasicVoclist: BasicVoclistDbObject;
+  Int: Scalars['Int'];
+  VoclistInput: VoclistInput;
+  VoclistSettings: VoclistSettings;
+  VoclistSettingsInput: VoclistSettingsInput;
+  LangSettings: LangSettings;
+  LangSettingsInput: LangSettingsInput;
+  Word: Word;
+  WordInput: WordInput;
+  Sentence: Sentence;
+  SentenceInput: SentenceInput;
+  Voice: Voice;
+  Group: GroupDbObject;
+  GroupInput: GroupInput;
 };
 
 export type UnionDirectiveArgs = {   discriminatorField?: Maybe<Scalars['String']>;
@@ -489,29 +489,17 @@ export type CacheControlDirectiveArgs = {   maxAge?: Maybe<Scalars['Int']>;
 
 export type CacheControlDirectiveResolver<Result, Parent, ContextType = any, Args = CacheControlDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type BasicVoclistResolvers<ContextType = any, ParentType extends ResolversParentTypes['BasicVoclist'] = ResolversParentTypes['BasicVoclist']> = {
-  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  settings?: Resolver<ResolversTypes['VoclistSettings'], ParentType, ContextType>;
-  lastEdited?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  wordsLength?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
-};
-
-export type GroupResolvers<ContextType = any, ParentType extends ResolversParentTypes['Group'] = ResolversParentTypes['Group']> = {
-  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  members?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>;
-  voclists?: Resolver<Maybe<Array<ResolversTypes['BasicVoclist']>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
-};
-
-export type LangSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['LangSettings'] = ResolversParentTypes['LangSettings']> = {
-  fromLang?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  toLang?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  toVoice?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'oid'>>;
+  lastUpdated?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryLastUpdatedArgs, 'oid'>>;
+  translateWord?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType, RequireFields<QueryTranslateWordArgs, 'word' | 'fromLang' | 'toLang'>>;
+  translateWords?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType, RequireFields<QueryTranslateWordsArgs, 'fromLang' | 'toLang'>>;
+  voclist?: Resolver<Maybe<ResolversTypes['Voclist']>, ParentType, ContextType, RequireFields<QueryVoclistArgs, 'voclistId'>>;
+  group?: Resolver<Maybe<ResolversTypes['Group']>, ParentType, ContextType, RequireFields<QueryGroupArgs, 'groupId'>>;
+  words?: Resolver<Maybe<Array<ResolversTypes['Word']>>, ParentType, ContextType, RequireFields<QueryWordsArgs, 'voclistId'>>;
+  getImages?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType, RequireFields<QueryGetImagesArgs, 'word' | 'lang'>>;
+  getVoices?: Resolver<Maybe<Array<Maybe<ResolversTypes['Voice']>>>, ParentType, ContextType>;
+  getExamples?: Resolver<Maybe<Array<ResolversTypes['Sentence']>>, ParentType, ContextType, RequireFields<QueryGetExamplesArgs, 'from' | 'fromLang' | 'toLang'>>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
@@ -530,32 +518,13 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   changeProfilePic?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationChangeProfilePicArgs, 'userId' | 'newImg' | 'lastUpdated'>>;
 };
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'oid'>>;
-  lastUpdated?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryLastUpdatedArgs, 'oid'>>;
-  translateWord?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType, RequireFields<QueryTranslateWordArgs, 'word' | 'fromLang' | 'toLang'>>;
-  translateWords?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType, RequireFields<QueryTranslateWordsArgs, 'fromLang' | 'toLang'>>;
-  voclist?: Resolver<Maybe<ResolversTypes['Voclist']>, ParentType, ContextType, RequireFields<QueryVoclistArgs, 'voclistId'>>;
-  group?: Resolver<Maybe<ResolversTypes['Group']>, ParentType, ContextType, RequireFields<QueryGroupArgs, 'groupId'>>;
-  words?: Resolver<Maybe<Array<ResolversTypes['Word']>>, ParentType, ContextType, RequireFields<QueryWordsArgs, 'voclistId'>>;
-  getImages?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType, RequireFields<QueryGetImagesArgs, 'word' | 'lang'>>;
-  getVoices?: Resolver<Maybe<Array<Maybe<ResolversTypes['Voice']>>>, ParentType, ContextType>;
-  getExamples?: Resolver<Maybe<Array<ResolversTypes['Sentence']>>, ParentType, ContextType, RequireFields<QueryGetExamplesArgs, 'from' | 'fromLang' | 'toLang'>>;
-};
-
-export type SentenceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Sentence'] = ResolversParentTypes['Sentence']> = {
-  from?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  to?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
-};
-
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   voclists?: Resolver<Maybe<Array<ResolversTypes['BasicVoclist']>>, ParentType, ContextType>;
   groups?: Resolver<Maybe<Array<ResolversTypes['Group']>>, ParentType, ContextType>;
   lastUpdated?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   profilePic?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type VoclistResolvers<ContextType = any, ParentType extends ResolversParentTypes['Voclist'] = ResolversParentTypes['Voclist']> = {
@@ -564,21 +533,30 @@ export type VoclistResolvers<ContextType = any, ParentType extends ResolversPare
   words?: Resolver<Maybe<Array<ResolversTypes['Word']>>, ParentType, ContextType>;
   creator?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lastEdited?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type BasicVoclistResolvers<ContextType = any, ParentType extends ResolversParentTypes['BasicVoclist'] = ResolversParentTypes['BasicVoclist']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  settings?: Resolver<ResolversTypes['VoclistSettings'], ParentType, ContextType>;
+  lastEdited?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  wordsLength?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  creator?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type VoclistSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['VoclistSettings'] = ResolversParentTypes['VoclistSettings']> = {
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   langSettings?: Resolver<ResolversTypes['LangSettings'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type VoiceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Voice'] = ResolversParentTypes['Voice']> = {
-  DisplayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  Gender?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  ShortName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+export type LangSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['LangSettings'] = ResolversParentTypes['LangSettings']> = {
+  fromLang?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  toLang?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  toVoice?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type WordResolvers<ContextType = any, ParentType extends ResolversParentTypes['Word'] = ResolversParentTypes['Word']> = {
@@ -587,21 +565,43 @@ export type WordResolvers<ContextType = any, ParentType extends ResolversParentT
   img?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   toAudio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   sentences?: Resolver<Maybe<Array<ResolversTypes['Sentence']>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SentenceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Sentence'] = ResolversParentTypes['Sentence']> = {
+  from?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  to?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type VoiceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Voice'] = ResolversParentTypes['Voice']> = {
+  DisplayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  Gender?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  ShortName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type GroupResolvers<ContextType = any, ParentType extends ResolversParentTypes['Group'] = ResolversParentTypes['Group']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  members?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>;
+  voclists?: Resolver<Maybe<Array<ResolversTypes['BasicVoclist']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
-  BasicVoclist?: BasicVoclistResolvers<ContextType>;
-  Group?: GroupResolvers<ContextType>;
-  LangSettings?: LangSettingsResolvers<ContextType>;
-  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  Sentence?: SentenceResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   Voclist?: VoclistResolvers<ContextType>;
+  BasicVoclist?: BasicVoclistResolvers<ContextType>;
   VoclistSettings?: VoclistSettingsResolvers<ContextType>;
-  Voice?: VoiceResolvers<ContextType>;
+  LangSettings?: LangSettingsResolvers<ContextType>;
   Word?: WordResolvers<ContextType>;
+  Sentence?: SentenceResolvers<ContextType>;
+  Voice?: VoiceResolvers<ContextType>;
+  Group?: GroupResolvers<ContextType>;
 };
 
 
@@ -637,6 +637,14 @@ export type UserDbObject = {
   profilePic?: Maybe<string>,
 };
 
+export type VoclistDbObject = {
+  _id: string,
+  settings?: Maybe<VoclistSettingsDbObject>,
+  words?: Maybe<Array<WordDbObject>>,
+  creator?: Maybe<string>,
+  lastEdited?: Maybe<string>,
+};
+
 export type BasicVoclistDbObject = {
   _id: string,
   settings: VoclistSettingsDbObject,
@@ -657,22 +665,6 @@ export type LangSettingsDbObject = {
   toVoice: string,
 };
 
-export type GroupDbObject = {
-  _id: string,
-  name: string,
-  description?: Maybe<string>,
-  members?: Maybe<Array<UserDbObject['_id']>>,
-  voclists?: Maybe<Array<BasicVoclistDbObject['_id']>>,
-};
-
-export type VoclistDbObject = {
-  _id: string,
-  settings?: Maybe<VoclistSettingsDbObject>,
-  words?: Maybe<Array<WordDbObject>>,
-  creator?: Maybe<string>,
-  lastEdited?: Maybe<string>,
-};
-
 export type WordDbObject = {
   from: string,
   to: string,
@@ -686,3 +678,10 @@ export type SentenceDbObject = {
   to?: Maybe<Array<string>>,
 };
 
+export type GroupDbObject = {
+  _id: string,
+  name: string,
+  description?: Maybe<string>,
+  members?: Maybe<Array<UserDbObject['_id']>>,
+  voclists?: Maybe<Array<BasicVoclistDbObject['_id']>>,
+};

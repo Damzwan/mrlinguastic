@@ -2,9 +2,6 @@ import M from "materialize-css";
 import moment from "moment";
 import {BasicVoclist, Voclist, Word} from "@/gen-types";
 
-export type langCode = "en" | "fr" | "it" | "nl"
-type langMap = { [key in langCode]: string };
-
 export interface Community {
     _id: string,
     country: string,
@@ -48,13 +45,33 @@ export function normalMessage(text: string) {
  * @param code the country code in ISO 3166-2 format
  * @return the country matching the country code
  */
-export const getCountry = function (code: langCode) {
-    const items: langMap = {"en": "united-kingdom", "fr": "france", "it": "italy", "nl": "netherlands"}
+export const getCountry = function (code: string) {
+    const items = {
+        "en": "united-kingdom",
+        "fr": "france",
+        "it": "italy",
+        "nl": "netherlands",
+        "de": "germany",
+        "pt": "portugal",
+        "es": "spain",
+        "ro": "romania",
+        "ru": "russia"
+    }
     return items[code];
 }
 
-export const getLang = function (code: langCode) {
-    const items: langMap = {"en": "english", "fr": "french", "it": "italian", "nl": "dutch"}
+export const getLang = function (code: string) {
+    const items = {
+        "en": "english",
+        "fr": "french",
+        "it": "italian",
+        "nl": "dutch",
+        "de": "german",
+        "pt": "portugese",
+        "es": "spanish",
+        "ro": "romanian",
+        "ru": "russian"
+    }
     return items[code];
 }
 
@@ -62,17 +79,32 @@ export const getLang = function (code: langCode) {
  * @param code the country code in ISO 3166-2 format
  * @return an example word matching the country code
  */
-export const getExampleWord = function (code: langCode) {
-    const items: langMap = {"en": "hello", "fr": "bonjour", "it": "ciao", "nl": "hallo"}
+export const getExampleWord = function (code: string) {
+    const items = {
+        "en": "hello",
+        "fr": "bonjour",
+        "it": "ciao",
+        "nl": "hallo",
+        "de": "hallo",
+        "pt": "olá",
+        "es": "hola",
+        "ro": "salut",
+        "ru": "Здравствуйте"
+    }
     return items[code];
 }
 
-export const getSymbols = function (code: langCode) {
+export const getSymbols = function (code: string) {
     const items = {
         "en": [],
         "fr": ["é", "è", "ç", "à", "ù", "ê", "â", "î", "ô", "û", "ë", "ï", "ü"],
         "it": ["à", "è", "é", "ì", "ò", "ó", "ù"],
-        "nl": []
+        "nl": [],
+        "de": ["ä", "ö", "ü", "é", "ß"],
+        "pt": ["ã", "á", "à", "â", "ç", "é", "ê", "í", "õ", "ó", "ô", "ú", "ü"],
+        "es": ["á", "é", "í", "ó", "ú", "ü", "ñ", "¿"],
+        "ro": ["ă", "â", "î", "ș", "ş", "ț", "ţ"],
+        "ru": ["🤣🤣🤣"]
     }
     return items[code];
 }
@@ -105,11 +137,17 @@ export function formatDate(date: string) {
     return moment(new Date(date)).format("lll");
 }
 
-const communities: Community[] = [{_id: "5fbfb207f21c541728fd3af3", country: "united-kingdom", name: "English"}, {
-    _id: "5fbfb248f21c541728fd3af4", country: "france", name: "French"
-}, {_id: "5fbfb270f21c541728fd3af5", country: "italy", name: "Italian"}, {
-    _id: "5fbfb3abf21c541728fd3af6", country: "netherlands", name: "Dutch"
-}]
+const communities: Community[] = [
+    {_id: "5fbfb3abf21c541728fd3af6", country: "netherlands", name: "Dutch"},
+    {_id: "5fbfb207f21c541728fd3af3", country: "united-kingdom", name: "English"}, {
+    _id: "5fbfb248f21c541728fd3af4", country: "france", name: "French"},
+    {_id: "600d8e19e8058e12582bcdda", country: "germany", name: "German"},
+    {_id: "5fbfb270f21c541728fd3af5", country: "italy", name: "Italian"},
+    {_id: "600d8de5e8058e12582bcdd9", country: "portugal", name: "Portuguese"},
+    {_id: "600d907ae8058e12582bcddc", country: "romania", name: "Romanian"},
+    {_id: "600d94b4e8058e12582bcddd", country: "russia", name: "Russian"},
+    {_id: "600d8f92e8058e12582bcddb", country: "spain", name: "Spanish"},
+]
 
 export function getCommunity(id: string) {
     for (const community of communities)
@@ -141,13 +179,17 @@ export function convertToNormalVoclist(list: BasicVoclist): Voclist {
     }
 }
 
-export function newLastUpdated(){
+export function newLastUpdated() {
     const date = new Date().toISOString();
     localStorage.setItem("lastUpdated", date);
     return date;
 }
 
-export function getLastUpdated(){
+export function getLastUpdated() {
     return localStorage.getItem("lastUpdated")
+}
+
+export function isLarge(): boolean {
+    return window.innerWidth > 1200;
 }
 

@@ -1,8 +1,5 @@
 <template>
   <div>
-    <ExerciseFinished v-on:continue="$router.push('stats')"></ExerciseFinished>
-    <a href="#exerciseFinishedModal" class="modal-trigger" ref="finishBtn"></a>
-
     <div class="row" v-if="list">
       <WordInfoModal v-bind:word="state.currentWord.from"
                      v-bind:from-lang="list.settings.langSettings.fromLang"></WordInfoModal>
@@ -12,7 +9,7 @@
 
         <div class="input-field">
           <div v-if="type === 'text'">
-            <input disabled type="text" class="validate" style="text-align: center; font-size: 20px; opacity: 1"
+            <input disabled type="text" class="validate" style="text-align: center; font-size: 25px; opacity: 1; color: black"
                    v-model="state.currentWord.from">
             <img role="img"
                  :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.fromLang)}.svg`)"
@@ -88,10 +85,10 @@ import {
   isOfflineList, removeAllToasts,
   wrongMessage
 } from "@/use/general";
-import ExerciseFinished from "@/components/voc/exercises/ExerciseFinished.vue";
 import M from "materialize-css"
 import Loader from "@/components/Loader.vue"
 import Dropdown = M.Dropdown;
+import router from "@/router";
 
 //used to make use of typescript typing
 interface State {
@@ -108,11 +105,10 @@ export interface FailedAttempt {
 
 export default defineComponent({
   components: {
-    ExerciseFinished,
     WordInfoModal: () => import(/* webpackPrefetch: true */ '@/components/voc/exercises/WordInfoModal.vue'),
     Loader
   },
-  setup() {
+  setup(props, context) {
 
     const type = localStorage.getItem("exerciseType");
     const list = ref<Voclist>(null);
@@ -120,8 +116,6 @@ export default defineComponent({
     const categorizedFailedAttempts: { [word: string]: string[] } = {};
 
     const to = ref<HTMLInputElement>(null);
-    const finishBtn = ref<HTMLLinkElement>(null);
-
     const audio = new Audio();
     const dropdowns = ref<Dropdown[]>(null);
 
@@ -141,11 +135,11 @@ export default defineComponent({
     const db = inject<Localdb>("db");
 
     function end() {
-      finishBtn.value.click();
       localStorage.setItem("failedAttempts", JSON.stringify(categorizedFailedAttempts));
       localStorage.setItem("duration", (Math.ceil((new Date().getTime() - startTime.getTime()) / 60000)).toString())
       localStorage.setItem("wordAmount", wordAmount.toString())
       localStorage.setItem("mistakes", mistakes.toString())
+      router.push('stats')
     }
 
     function setNextWord() {
@@ -183,13 +177,14 @@ export default defineComponent({
       to.value.classList.add("valid");
       correctMessage("Correct! 🤓")
       list.value.words.splice(list.value.words.indexOf(state.currentWord), 1);
+      window.navigator.vibrate(200);
     }
 
     function handleWrongAnswer(attempt: string) {
       to.value.classList.remove("valid");
       to.value.classList.add("invalid");
       wrongMessage("😂😂 Wrong! 😂😂")
-      window.navigator.vibrate(200);
+      window.navigator.vibrate([100, 100]);
 
       failedAttempts.value.push({from: state.currentWord.from, attempt: attempt, to: state.currentWord.to});
 
@@ -248,7 +243,6 @@ export default defineComponent({
       checkWord,
       getHint,
       failedAttempts,
-      finishBtn,
       type,
       getBlobUrl,
       playAudio,

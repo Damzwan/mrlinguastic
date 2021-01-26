@@ -41,6 +41,7 @@ import M from "materialize-css"
 import {getBlobUrl} from "@/use/general";
 import Loader from "@/components/Loader.vue"
 import Modal = M.Modal;
+import {setShouldCloseWordDiv, shouldCloseWordDiv} from "@/use/state";
 
 export default defineComponent({
   props: {
@@ -84,8 +85,12 @@ export default defineComponent({
       props.selectedWord.img = null;
     }
 
+    function enableCloseDiv(){
+      setShouldCloseWordDiv(true);
+    }
+
     onMounted(() => {
-      modal.value = M.Modal.init(modalElement.value);
+      modal.value = M.Modal.init(modalElement.value, {onCloseEnd: enableCloseDiv});
     })
 
     onUnmounted(() => {

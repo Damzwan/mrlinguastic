@@ -14,38 +14,40 @@
     </div>
 
     <div class="fixed-action-btn">
-      <div @click="goToCreatePage" class="btn-floating btn-large red" :class="{disabled: isOffline()}">
+      <div @click="goToCreatePage" class="btn-floating btn-large red waves-effect waves-light" :class="{disabled: isOffline()}">
         <i class="large material-icons" style="font-size: 35px;">add</i>
       </div>
     </div>
 
-    <div v-if="downloadedLists && downloadedLists.length > 0">
-      <h5 class="center">Downloaded</h5>
-      <div class="row">
-        <div class="col l4 m6 s12" v-for="list in downloadedLists" :key="list._id">
-          <VocCard v-bind:list="list" :is-offline="true" v-on:remove="removeDownloadedList"
-                   v-on:pdf="openPdfModal" v-on:select-list="selectList"></VocCard>
+    <div :class="{container: isLarge()}">
+      <div v-if="downloadedLists && downloadedLists.length > 0">
+        <h5 class="center">Downloaded</h5>
+        <div class="row">
+          <div class="col l4 m6 s12" v-for="list in downloadedLists" :key="list._id">
+            <VocCard v-bind:list="list" :is-offline="true" v-on:remove="removeDownloadedList"
+                     v-on:pdf="openPdfModal" v-on:select-list="selectList"></VocCard>
+          </div>
+        </div>
+        <div class="divider" style="margin-bottom: 30px"></div>
+      </div>
+
+      <div class="row" v-if="userLists" style="margin-bottom: 70px">
+        <div v-if="userLists.length === 0">
+          <div class="col s10 offset-s1"><p class="flow-text center">You haven't created any lists yet</p></div>
+          <div class="col s10 offset-s1"><p class="flow-text center">Press the red button below to create one</p></div>
+          <div class="col s10 offset-s1"><p class="flow-text center">Or download online lists in the language you want
+            by joining a
+            <a href="#" data-target="nav2" class="sidenav-trigger">community</a></p></div>
+        </div>
+
+        <div class="col l4 m6 s12" v-for="list in userLists" :key="list._id">
+          <VocCard v-bind:list="list" :is-offline="false" v-on:remove="removeOnlineList" v-on:pdf="openPdfModal"
+                   v-on:download="download"
+                   v-on:share="share" v-on:select-list="selectList"></VocCard>
         </div>
       </div>
-      <div class="divider" style="margin-bottom: 30px"></div>
+      <Loader v-else></Loader>
     </div>
-
-    <div class="row" v-if="userLists" style="margin-bottom: 70px">
-      <div v-if="userLists.length === 0">
-        <div class="col s10 offset-s1"><p class="flow-text center">You haven't created any lists yet</p></div>
-        <div class="col s10 offset-s1"><p class="flow-text center">Press the red button below to create one</p></div>
-        <div class="col s10 offset-s1"><p class="flow-text center">Or download online lists in the language you want by joining a
-          <a href="#" data-target="nav2" class="sidenav-trigger">community</a></p></div>
-      </div>
-
-      <div class="col l4 m6 s12" v-for="list in userLists" :key="list._id">
-        <VocCard v-bind:list="list" :is-offline="false" v-on:remove="removeOnlineList" v-on:pdf="openPdfModal"
-                 v-on:download="download"
-                 v-on:share="share" v-on:select-list="selectList"></VocCard>
-      </div>
-    </div>
-
-    <Loader v-else></Loader>
 
   </div>
 </template>
@@ -57,7 +59,7 @@ import {useDeleteVoclistMutation, useRemoveImgsMutation, Voclist} from "@/gen-ty
 import {Localdb} from "@/use/localdb";
 import VocCard from "@/components/voc/VocCard.vue";
 import Loader from "@/components/Loader.vue";
-import {correctMessage, isOffline, newLastUpdated, wrongMessage} from "@/use/general";
+import {correctMessage, isLarge, isOffline, newLastUpdated, wrongMessage} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
 import {useVoclistUpdater} from "@/use/listUpdater";
 
@@ -152,7 +154,8 @@ export default defineComponent({
       pdfTrigger,
       shareTrigger,
       selectList,
-      goToCreatePage
+      goToCreatePage,
+      isLarge
     }
   }
 });
@@ -161,5 +164,9 @@ export default defineComponent({
 <style scoped>
 .divider {
   background-color: black !important;
+}
+
+.container {
+  width: 80% !important;
 }
 </style>

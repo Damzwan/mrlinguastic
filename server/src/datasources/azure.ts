@@ -31,7 +31,7 @@ export class azureAPI extends DataSource {
      * @param to the language to be translated to
      * @return the translated word
      */
-    async translateWord(word: string, from: string, to: string): Promise<string> {
+    async translateWord(word: string, from: string, to: string): Promise<string[]> {
         let options = {
             method: 'POST',
             baseUrl: "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0",
@@ -54,7 +54,7 @@ export class azureAPI extends DataSource {
 
         return await new Promise(resolve => {
             request(options, function (err, res, body) {
-                resolve(body[0]["translations"][0]["text"]); //TODO maybe we should send multiple possible translations as well
+                resolve(body[0]["translations"].map(item => item.text)); //TODO maybe we should send multiple possible translations as well
             });
         });
     }

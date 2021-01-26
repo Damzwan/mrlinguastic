@@ -1,6 +1,6 @@
 <template>
   <div class="col l4 m6 s12">
-    <div class="card" style="background-color: #ead9a1; height: 160px">
+    <div class="card" style="background-color: #ead9a1; height: 130px">
       <div class="card-tabs">
         <ul class="tabs tabs-fixed-width" ref="tabs">
           <li class="tab" v-for="(i) in filterRoutes(exerciseMethod)" :key="i">
@@ -13,9 +13,9 @@
 
       <div v-for="(i) in filterRoutes(exerciseMethod)" :key="i"
            v-bind:id="`${exerciseMethod.icon}${i}`">
-        <div class="card-content center-align" @click="goToExercise(exerciseMethod.routes[i])" style="cursor: pointer;">
-          <div class="row" style="margin-bottom: 0">
-            <div class="col s2"><i class="material-icons medium unselectable rounded-icon">{{ exerciseMethod.icon }}</i>
+        <div class="card-content center-align" @click="goToExercise(exerciseMethod.routes[i])" style="cursor: pointer; padding: 7px 10px 5px 24px" >
+          <div class="row">
+            <div class="col s1"><i class="material-icons unselectable rounded-icon" style="font-size: 3.4rem">{{ exerciseMethod.icon }}</i>
             </div>
             <div class="col s8 offset-s2">
               <h4 class="unselectable">{{ exerciseMethod.text }}</h4>

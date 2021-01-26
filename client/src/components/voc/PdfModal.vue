@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="modal fullscreen-modal" ref="pdfModal" id="pdfModal">
+    <div class="modal fullscreen-modal" ref="pdfModal" id="pdfModal" :style="{backgroundImage: 'url(' + require('../../assets/triangle2.svg') + ')'}">
       <div class="modal-content" style="height: 100%">
         <i class="material-icons right unselectable close-btn modal-close">close</i>
         <h3 class="center">📋 Export to Flashcards 📋</h3>
@@ -230,5 +230,17 @@ export default defineComponent({
     max-height: 70% !important;
     top: initial !important;
   }
+}
+
+.divider {
+  background-color: black;
+}
+
+label {
+  color: black;
+}
+
+.select-wrapper input.select-dropdown {
+  border-bottom: 1px solid #000000 !important;
 }
 </style>

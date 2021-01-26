@@ -4,14 +4,14 @@
       <h4 class="center-align">🏋️‍♀ Exercises 🏋️‍♀</h4>
       <div class="divider"></div>
     </div>
-    <div class="row" v-if="exerciseMethods">
-      <div v-for="(method, index) in exerciseMethods" :key="index">
-        <ExerciseMethod v-bind:exerciseMethod="method"
-                        v-if="method.requirements.map(req => req.condition).includes(true)"></ExerciseMethod>
+      <div class="row" v-if="exerciseMethods">
+        <div v-for="(method, index) in exerciseMethods" :key="index">
+          <ExerciseMethod v-bind:exerciseMethod="method"
+                          v-if="method.requirements.map(req => req.condition).includes(true)"></ExerciseMethod>
+        </div>
       </div>
+      <Loader v-else></Loader>
     </div>
-    <Loader v-else></Loader>
-  </div>
 </template>
 
 <script lang="ts">
@@ -19,7 +19,7 @@ import {defineComponent, inject, ref} from "@vue/composition-api";
 import ExerciseMethod, {ExerciseMethods} from "@/components/voc/exercises/ExerciseMethod.vue";
 import {Localdb} from "@/use/localdb";
 import {Voclist} from "@/gen-types";
-import {isOfflineList} from "@/use/general";
+import {isLarge, isOfflineList} from "@/use/general";
 import Loader from "@/components/Loader.vue"
 import {useVoclistUpdater} from "@/use/listUpdater";
 
@@ -108,7 +108,7 @@ export default defineComponent({
         if (isOfflineList()) db.getItem<Voclist>(localStorage.getItem("_id"), "downloadedVoclists").then(nlist => exerciseSetup(nlist))
         else updateVoclist(localStorage.getItem("_id")).then(voclist => exerciseSetup(voclist))
 
-        return {exerciseMethods}
+        return {exerciseMethods, isLarge}
       }
     }
 );
@@ -118,4 +118,5 @@ export default defineComponent({
 .divider {
   background-color: black !important;
 }
+
 </style>

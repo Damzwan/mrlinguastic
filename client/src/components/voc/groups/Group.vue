@@ -30,7 +30,7 @@
       <p class="flow-text center">{{ result.group.description }}</p>
       <div class="divider"></div>
 
-      <div class="row" style="margin-top: 30px">
+      <div class="row" style="margin-top: 30px" :class="{container: isLarge()}">
         <div class="col l4 m6 s12" v-for="(list, i) in result.group.voclists" :key="i">
           <GroupVocCard :list="list" v-on:remove="removeListFromGroup"
                         v-on:showList="showList"></GroupVocCard>
@@ -61,7 +61,7 @@ import {
   useRemoveVoclistFromGroupMutation,
   Voclist
 } from "@/gen-types";
-import {correctMessage, getCountry, newLastUpdated} from "@/use/general";
+import {correctMessage, getCountry, isLarge, newLastUpdated} from "@/use/general";
 import {AuthModule} from "@/use/authModule";
 import GroupVocCard from "@/components/voc/groups/GroupVocCard.vue";
 import Loader from "@/components/Loader.vue";
@@ -176,7 +176,7 @@ export default defineComponent({
         groupId: localStorage.getItem("group"),
         lastUpdated: newLastUpdated()
       })
-      else db.removeGroupFromUser(localStorage.getItem("group"));
+      db.removeGroupFromUser(localStorage.getItem("group"));
     }
 
     async function showList(list: BasicVoclist) {
@@ -203,7 +203,8 @@ export default defineComponent({
       selectedList,
       modal,
       oid: auth.getOid(),
-      isModalOpen
+      isModalOpen,
+      isLarge
     }
   },
 });

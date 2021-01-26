@@ -4,7 +4,7 @@
   "description": "",
   "main": "build/index.js",
   "engines": {
-    "node": "12.16.3"
+    "node": "15.6.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -35,7 +35,7 @@
     "xmlbuilder": "^15.1.1"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "1.17.6",
+    "@graphql-codegen/cli": "^1.20.1",
     "@graphql-codegen/typescript": "1.17.6",
     "@graphql-codegen/typescript-mongodb": "^1.17.6",
     "@graphql-codegen/typescript-resolvers": "^1.17.6",

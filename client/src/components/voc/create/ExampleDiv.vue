@@ -1,7 +1,7 @@
 <template>
   <div class="row rounded z-depth-1">
     <div class="material-icons unselectable" style="right: 30px; position: absolute" @click="removeSentence">close</div>
-    <div class="col s12">
+    <div class="col s12" style="background-color: #ead9a1">
       <input type="text" class="no-border-bottom no-margin" placeholder="Hello, my name is Damian"
              :value="value.from" v-bind:class="{'invalid': !value.from.includes(fromWord) && value.from.length > 0}"
              v-on:input="updateFrom" v-on:keyup.enter="focusFirstTranslation(`0${value.from}`)" v-insta-focus/>
@@ -16,7 +16,7 @@
       <div class="divider"></div>
       <div style="height: 3rem; width: 100%" class="col s12 valign-wrapper">
         <i class="material-icons unselectable tooltipped centered-img" data-tooltip="Add extra Sentence"
-           style="font-size: 2.5rem;color: #1b5e20" @click="addSentenceTranslation">add_circle</i>
+           style="font-size: 2.5rem;color: darkorange" @click="addSentenceTranslation">add_circle</i>
       </div>
     </div>
   </div>
@@ -89,6 +89,14 @@ export default defineComponent({
   position: absolute;
   right: 35px;
   margin-top: 12px;
+}
+
+.divider {
+  background-color: black;
+}
+
+::placeholder {
+  color: black;
 }
 
 </style>

@@ -33,7 +33,7 @@
 import {defineComponent, onMounted, onUnmounted, ref,} from "@vue/composition-api";
 import {useAddVoclistToGroupMutation, Voclist} from "@/gen-types";
 import M from "materialize-css";
-import {correctMessage, getCountry, langCode} from "@/use/general";
+import {Community, correctMessage, getCountry} from "@/use/general";
 import {communities, groups} from "@/use/state";
 import Modal = M.Modal;
 
@@ -46,8 +46,7 @@ export default defineComponent({
     const shareModal = ref<Modal>(null);
     const clickedAddToGroup = ref(false);
     const clickedAddToCommunity = ref(false);
-    const community = communities.value.length > 0 ? communities.value.reduce((acc, community) =>
-        community.country == getCountry(props.list.settings.langSettings.toLang as langCode) ? acc = community : acc) : null;
+    const community = ref<Community>(null);
 
     const {mutate: addListToGroup} = useAddVoclistToGroupMutation({});
 
@@ -83,8 +82,13 @@ export default defineComponent({
       addListToGroup({vocId: props.list._id, groupId: communityId});
     }
 
+    function update(){
+      community.value = communities.value.length > 0 ? communities.value.reduce((acc, community) =>
+          community.country == getCountry(props.list.settings.langSettings.toLang) ? acc = community : acc) : null;
+    }
+
     onMounted(() => {
-      shareModal.value = M.Modal.init(modal.value, {onCloseEnd: reset})
+      shareModal.value = M.Modal.init(modal.value, {onCloseEnd: reset, onOpenStart: update})
     })
 
     onUnmounted(() => {

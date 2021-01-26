@@ -15,7 +15,7 @@
 
     <div class="row" v-if="type === 'image'">
       <div class="col s12 m6 l4 offset-m3 offset-l4 input-field">
-        <input type="text" disabled class="center" style="font-size: 20px; color: black"
+        <input type="text" disabled class="center" style="font-size: 35px; color: black"
                :value="state.showTranslation ? state.currWord.to : ''">
       </div>
     </div>

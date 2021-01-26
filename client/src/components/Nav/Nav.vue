@@ -1,24 +1,28 @@
 <template>
   <div style="z-index: 1005">
+    <GroupModal></GroupModal>
+    <ProfilePicModal></ProfilePicModal>
+    <CommunityModal></CommunityModal>
+
     <nav>
       <div class="nav-wrapper green darken-4">
         <router-link to="/" class="brand-logo center hide-on-med-and-down">Mr.Linguastic</router-link>
-        <router-link to="/" class="brand-logo center hide-on-med-and-down"><img src="../assets/notduolingologo.png"
-                                                                                alt="" width="55px" height="55px"
+        <router-link to="/" class="brand-logo center hide-on-med-and-down"><img src="../../assets/notduolingologo.png"
+                                                                                alt="" width="35px" height="35px"
                                                                                 style="margin-top: 5px; margin-left: 250px">
         </router-link>
-        <router-link to="/" class="brand-logo center hide-on-med-and-down"><img src="../assets/notduolingologo.png"
-                                                                                alt="" width="55px" height="55px"
+        <router-link to="/" class="brand-logo center hide-on-med-and-down"><img src="../../assets/notduolingologo.png"
+                                                                                alt="" width="35px" height="35px"
                                                                                 style="margin-top: 5px; margin-right: 250px">
         </router-link>
         <router-link to="/" class="brand-logo center hide-on-large-only">
-          <img src="../assets/notduolingologo.png" alt="" width="45px" height="45px" style="margin-top: 5px">
+          <img src="../../assets/notduolingologo.png" alt="" width="35px" height="35px" style="margin-top: 5px">
         </router-link>
 
         <ul class="left">
           <li>
-            <a v-on:click="openSideNav(true)">
-              <i class="material-icons" style="font-size: 30px;">menu</i>
+            <a v-on:click="openSideNav(true)" style="width: 40px; height: 40px">
+              <i class="material-icons" style="position: absolute; width: 40px; left:5px; font-size: 30px">menu</i>
             </a>
           </li>
         </ul>
@@ -27,13 +31,9 @@
         <div v-if="!isVocCreatePage">
           <ul class="right">
             <li>
-              <a @click="openSideNav(false)">
-                <div v-if="loggedIn">
-                  <img :src="require(`@/assets/country-flags/china.svg`)" width="40px" height="40px" v-if="!profilePic"
-                       style="top: 10px; position: relative;" alt="profile picture">
-                  <img :src="getBlobUrl(profilePic)" v-else
-                       alt="profile pic" width="40px" height="40px" style="top: 10px; position: relative;" class="circle">
-                </div>
+              <a @click="openSideNav(false)" style="width: 55px; height: 40px">
+                <img :src="getBlobUrl(profilePic)" v-if="profilePic"
+                     alt="profile pic" width="36px" height="36px" style="top: 2px; position: relative;" class="circle">
                 <i class="material-icons" style="font-size: 30px;" v-else>account_circle</i>
               </a>
             </li>
@@ -82,7 +82,7 @@
     <ul class="sidenav green darken-4" ref="nav1">
       <li>
         <a class="subheader" style="font-size: 25px; color: white">Mr.Linguastic</a>
-        <img src="../assets/notduolingologo.png" alt="rip" style="position: absolute; left: 190px; top: 5px"
+        <img src="../../assets/notduolingologo.png" alt="rip" style="position: absolute; left: 190px; top: 5px"
              width="40px" height="40px">
       </li>
       <div class="divider"></div>
@@ -102,7 +102,7 @@
       <li style="position: relative; margin-top: 10px" v-if="showInstallPromotion">
         <div class="row">
           <div class="col s3">
-            <img src="../assets/notduolingologo.png" alt="rip" width="60px" height="60px">
+            <img src="../../assets/notduolingologo.png" alt="rip" width="60px" height="60px">
           </div>
           <div class="col s9" style="line-height: 25px">
             <a style="font-size: 14px; color: white; line-height: 5px">Hey Pssssssttt... Press on this very beautiful
@@ -121,7 +121,7 @@
         <div class="user-view">
           <div v-if="user">
             <a>
-              <img class="circle" src="../assets/country-flags/china.svg" alt="Profile picture" width="64px"
+              <img class="circle" src="../../assets/country-flags/china.svg" alt="Profile picture" width="64px"
                    height="64px" v-if="!profilePic">
               <a href="#profilePicModal" class="modal-trigger" v-else><img class="circle" :src="getBlobUrl(profilePic)" alt="Profile picture" width="64px"
                    height="64px"></a>
@@ -162,7 +162,7 @@
         </i>
       </li>
       <li>
-        <a @click="openGroupModal" class="unselectable">
+        <a href="#groupModal" class="unselectable modal-trigger">
           <span class="white-text center unselectable">Create Group</span>
           <i class="material-icons unselectable">group_add</i>
         </a>
@@ -173,67 +173,6 @@
           <i class="material-icons unselectable">group</i></a>
       </li>
     </ul>
-
-    <!--    Maybe lazy load this as well-->
-    <div class="modal" ref="modalElement">
-      <div class="modal-content">
-        <h4 class="center">Create Group</h4>
-        <div class="divider"></div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input placeholder="Placeholder" id="groupName" type="text">
-            <label for="groupName">Name</label>
-          </div>
-          <div class="input-field col s12">
-            <input id="description" type="text">
-            <label for="description">Description</label>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <div class="modal-close waves-effect waves-green btn" @click="createGroup">Create group</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal" ref="communityModalElem" id="communityModal">
-      <div class="modal-content" v-if="communities">
-        <h4 class="center">Join a community</h4>
-        <div class="divider"></div>
-        <div class="collection">
-          <a class="collection-item row" v-for="(community, i) in getCommunities()" :key="i">
-            <div class="col s9 m10">
-              <img :src="require(`@/assets/country-flags/${community.country}.svg`)" alt="flag" class="left"
-                   width="24px" height="24px" style="position: relative; margin-right: 10px">
-              {{ community.name }} community
-            </div>
-            <div class="col s3 m2">
-              <a class="waves-effect waves-green btn" @click="joinCommunity(community)"
-                 :class="{disabled: communities.includes(community)}">Join</a>
-            </div>
-          </a>
-        </div>
-        <div class="modal-footer">
-          <div class="modal-close waves-effect waves-green btn-flat">Close</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal" ref="profilePicModalElem" id="profilePicModal">
-      <div class="modal-content">
-        <h4 class="center">🖼 Choose profile picture 🖼</h4>
-        <div class="divider"></div>
-        <div class="row section">
-          <div class="col s6 m4" v-for="(profilePic, index) in profilePics" :key="index">
-            <img :src="getBlobUrl(profilePic)" :alt="index" class="circle hoverable centered-img unselectable"
-                 style="width: 100px;height: 100px; margin-top: 20px" @click="changeProfilePic(profilePic)">
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
-      </div>
-    </div>
-
   </div>
 </template>
 
@@ -247,8 +186,15 @@ import {useAddUserToGroupMutation, useChangeProfilePicMutation, useCreateGroupMu
 import {addGroup, communities, groups, sendEvent, wordsLoading, profilePic, changeProfilePicState} from "@/use/state";
 import {Localdb} from "@/use/localdb";
 import Modal = M.Modal;
+import ConfigModal from "@/components/voc/create/ConfigModal.vue";
+import Loader from "@/components/Loader.vue";
 
 export default defineComponent({
+  components: {
+    GroupModal: () => import('./GroupModal.vue'),
+    CommunityModal: () => import('./CommunityModal.vue'),
+    ProfilePicModal: () => import('./ProfilePicModal.vue'),
+  },
   setup(props, context) {
     const auth = inject<AuthModule>("auth");
     const sidenav1 = ref<M.Sidenav>(null);
@@ -257,28 +203,13 @@ export default defineComponent({
     const nav1 = ref<HTMLElement>(null)
     const nav2 = ref<HTMLElement>(null)
 
-    const groupModal = ref<M.Modal>(null);
-    const modalElement = ref<HTMLElement>(null);
-    const communityModalElem = ref<HTMLElement>(null);
-
-    const profilePicModalElem = ref<HTMLElement>(null);
-    const profilePicModal = ref<Modal>(null);
-
-
-    const {mutate: createGroupMutation} = useCreateGroupMutation(null);
-    const {mutate: addUserToGroup} = useAddUserToGroupMutation({});
-    const {mutate: changeProfilePicOnline} = useChangeProfilePicMutation({});
 
     const showInstallPromotion = ref(false);
-    const profilePics = ["daniel1.jpg", "daniel2.jpg", "daniel3.jpg","daniel4.jpg", "daniel5.jpg", "daniel6.jpg"]
 
     onMounted(() => {
       sidenav1.value = M.Sidenav.init(nav1.value);
       sidenav2.value = M.Sidenav.init(nav2.value, {edge: "right"});
-      groupModal.value = M.Modal.init(modalElement.value)
       M.Tooltip.init(document.querySelectorAll(".tooltipped"));
-      M.Modal.init(communityModalElem.value)
-      profilePicModal.value = M.Modal.init(profilePicModalElem.value)
     });
 
     function openSideNav(left: boolean) {
@@ -291,10 +222,6 @@ export default defineComponent({
       else sidenav2.value.close();
     }
 
-    function saveList() {
-      correctMessage("Saved!");
-    }
-
     function logIn() {
       if (!auth.getOid().value && navigator.onLine) auth.login();
     }
@@ -303,44 +230,12 @@ export default defineComponent({
       if (navigator.onLine) auth.logout();
     }
 
-    async function createGroup() {
-      const name = document.getElementById("groupName") as HTMLInputElement;
-      const description = document.getElementById("description") as HTMLInputElement;
-      if (name.value != "") {
-        const id = await createGroupMutation({
-          groupInfo: {name: name.value, description: description.value},
-          userId: auth.getOid().value, lastUpdated: newLastUpdated()
-        })
-        correctMessage("created group!")
-        if (id.data.createGroup) addGroup({name: name.value, _id: id.data.createGroup});
-      }
-    }
-
-    function openGroupModal() {
-      if (!navigator.onLine) wrongMessage("must be online to create a list");
-      else if (!auth.getOid().value) wrongMessage("can't make groups when not logged in!");
-      else groupModal.value.open();
-    }
-
     function goToGroup(id: string) {
       closeSideNav(false);
       if (!navigator.onLine) wrongMessage("must be online")
       localStorage.setItem("group", id);
       if (context.root.$route.path == "/group") sendEvent("new group") //we are already in the group page
       else context.root.$router.push("group");
-    }
-
-    const db = inject<Localdb>("db");
-
-    function joinCommunity(community: Community) {
-      addGroup({_id: community._id, name: community.name})
-      auth.getOid().value ? addUserToGroup({
-            userId: auth.getOid().value,
-            groupId: community._id,
-            lastUpdated: newLastUpdated()
-          }) :
-          db.addGroupToUser({_id: community._id, name: community.name});
-      correctMessage("Joined community!");
     }
 
     const sidenavObjects = [
@@ -367,21 +262,9 @@ export default defineComponent({
       deferredPrompt.prompt();
     }
 
-    function chooseProfilePic() {
-      console.log("si")
-    }
-
     window.addEventListener('appinstalled', () => {
       correctMessage("Grazie Mille!!!")
     });
-
-    function changeProfilePic(img: string){
-      changeProfilePicState(img);
-      correctMessage("Profile Picture changed!")
-      profilePicModal.value.close();
-      changeProfilePicOnline({userId: auth.getOid().value, pic: img, lastUpdated: newLastUpdated()})
-      db.changeProfilePic(img);
-    }
 
     return {
       openSideNav,
@@ -393,25 +276,16 @@ export default defineComponent({
       user: auth.getUser(),
       nav1,
       nav2,
-      createGroup,
-      openGroupModal,
-      modalElement,
       goToGroup,
       groups,
       communities,
       getCommunities,
-      communityModalElem,
-      joinCommunity,
       logOut,
       wordsLoading,
       showInstallPromotion,
       installApp,
       profilePic,
       getBlobUrl,
-      chooseProfilePic,
-      profilePicModalElem,
-      profilePics,
-      changeProfilePic
     };
   },
   watch: {
@@ -432,5 +306,10 @@ export default defineComponent({
     left: -10%;
     width: 120%;
   }
+}
+
+nav, nav .nav-wrapper i, nav a.sidenav-trigger, nav a.sidenav-trigger i {
+  height: 40px;
+  line-height: 40px;
 }
 </style>

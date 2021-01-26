@@ -14,8 +14,8 @@
             <label for="title" class="active">Title</label>
           </div>
 
-          <div class="input-field col s12">
-            <textarea id="description" class="materialize-textarea" v-model="settings.description"></textarea>
+          <div class="input-field col s12" style="margin-bottom: 50px">
+            <input type="text" id="description" class="materialize-textarea" v-model="settings.description"/>
             <label for="description" class="active">Some information about the list</label>
           </div>
 
@@ -23,12 +23,17 @@
             <div class="input-field col s12 m6">
               <select class="icons" ref="fromLangElement" v-model="settings.langSettings.fromLang">
                 <option value="" disabled selected>Choose your Language</option>
+                <option value="nl" :data-icon="getCountryFlag('netherlands')">Dutch</option>
                 <option value="en" :data-icon="getCountryFlag('united-kingdom')">English</option>
                 <option value="fr" :data-icon="getCountryFlag('france')">French</option>
+                <option value="de" :data-icon="getCountryFlag('germany')">German</option>
                 <option value="it" :data-icon="getCountryFlag('italy')">Italian</option>
-                <option value="nl" :data-icon="getCountryFlag('netherlands')">Dutch</option>
+                <option value="pt" :data-icon="getCountryFlag('portugal')">Portuguese</option>
+                <option value="ro" :data-icon="getCountryFlag('romania')">Romanian</option>
+                <option value="ru" :data-icon="getCountryFlag('russia')">Russian</option>
+                <option value="es" :data-icon="getCountryFlag('spain')">Spanish</option>
               </select>
-              <label>
+              <label style="transform: translateY(0px) scale(0.8)">
                 From Language
                 <i class="material-icons right unselectable question-btn tooltipped"
                    data-tooltip="The language from which you'd like to translate from. This should be your mother language in most cases"
@@ -42,12 +47,17 @@
             <div class="input-field col s12 m6">
               <select class="icons" ref="toLangElement" v-model="settings.langSettings.toLang">
                 <option value="" disabled selected>Choose your Language</option>
+                <option value="nl" :data-icon="getCountryFlag('netherlands')">Dutch</option>
                 <option value="en" :data-icon="getCountryFlag('united-kingdom')">English</option>
                 <option value="fr" :data-icon="getCountryFlag('france')">French</option>
+                <option value="de" :data-icon="getCountryFlag('germany')">German</option>
                 <option value="it" :data-icon="getCountryFlag('italy')">Italian</option>
-                <option value="nl" :data-icon="getCountryFlag('netherlands')">Dutch</option>
+                <option value="pt" :data-icon="getCountryFlag('portugal')">Portuguese</option>
+                <option value="ro" :data-icon="getCountryFlag('romania')">Romanian</option>
+                <option value="ru" :data-icon="getCountryFlag('russia')">Russian</option>
+                <option value="es" :data-icon="getCountryFlag('spain')">Spanish</option>
               </select>
-              <label>To Language<i class="material-icons right unselectable question-btn tooltipped"
+              <label style="transform: translateY(0px) scale(0.8)">To Language<i class="material-icons right unselectable question-btn tooltipped"
                                    data-tooltip="This should be the language you would like to learn">live_help</i>
               </label>
             </div>
@@ -58,7 +68,7 @@
                   {{ voice.DisplayName }} ({{ voice.ShortName.substring(3, 5).toUpperCase() }})
                 </option>
               </select>
-              <label>Voice</label>
+              <label style="transform: translateY(0px) scale(0.8)">Voice</label>
             </div>
           </div>
         </div>
@@ -202,6 +212,9 @@ input:not([type]):disabled, input:not([type])[readonly="readonly"], input[type="
 
 label {
   color: black;
+  font-size: 18px;
+  opacity: 0.6;
+  transform: translateY(-20px) scale(0.8);
 }
 
 .select-wrapper input.select-dropdown {
@@ -217,11 +230,15 @@ input:not([type]):disabled, input:not([type])[readonly="readonly"], input[type="
   border-bottom: 1px dotted #000000;
 }
 
-label {
-  color: black;
-}
-
 .select-wrapper input.select-dropdown {
   border-bottom: 1px solid #000000 !important;
+}
+
+input{
+  font-size: 20px !important;
+}
+
+select{
+  font-size: 20px !important;
 }
 </style>

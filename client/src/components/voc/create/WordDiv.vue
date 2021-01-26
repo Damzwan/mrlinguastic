@@ -18,7 +18,7 @@
           <i class="material-icons right unselectable word-btn" @click="remove"
              style="margin-right: 10px; color: #8b0000">close</i>
 
-          <a href="#imgModal" class="modal-trigger">
+          <a href="#imgModal" class="modal-trigger" @click="setShouldCloseWordDiv(false)">
             <i class="material-icons right unselectable word-btn" style="color: black"
                v-if="!word.img"
                @click="fillImgModal">image</i>
@@ -28,7 +28,7 @@
                   alt="img not available"></div>
           </a>
 
-          <a href="#exampleModal" class="modal-trigger">
+          <a href="#exampleModal" class="modal-trigger" @click="setShouldCloseWordDiv(false)">
             <i class="material-icons right unselectable word-btn"
                style="color: black">format_list_numbered</i>
           </a>
@@ -48,8 +48,9 @@
 import {defineComponent, onMounted, onUnmounted, reactive, ref, watch,} from "@vue/composition-api";
 import M, {Collapsible} from "materialize-css";
 import {useGetExamplesQuery, useGetImagesQuery, useSaveImgMutation, Word} from "@/gen-types";
-import {getBlobUrl, getLang, langCode} from "@/use/general";
-import {decrementWordsLoading, incrementWordsLoading} from "@/use/state";
+import {getBlobUrl, getLang} from "@/use/general";
+import {decrementWordsLoading, incrementWordsLoading, setShouldCloseWordDiv, shouldCloseWordDiv} from "@/use/state";
+import {useGetImagesQueryLazy, useTranslateWordQueryLazy} from "@/use/lazyQueries";
 
 export default defineComponent({
   props: {
@@ -62,7 +63,7 @@ export default defineComponent({
     const collapsibleElement = ref(null);
     const state = reactive({disabled: true}); //when a Word is in its collapsed state it
     const toAudio = document.createElement("audio");
-    let savedImgs = [];
+    let savedImgs = null;
     let requestsWaiting = 0;
 
     const {mutate: saveImgToServer} = useSaveImgMutation(null);
@@ -71,8 +72,8 @@ export default defineComponent({
       incrementWordsLoading();
       requestsWaiting++;
       const {result: examples} = useGetExamplesQuery({
-        fromLang: getLang(props.fromLang as langCode),
-        toLang: getLang(props.toLang as langCode),
+        fromLang: getLang(props.fromLang),
+        toLang: getLang(props.toLang),
         from: props.word.from,
         to: props.word.to
       });
@@ -84,26 +85,13 @@ export default defineComponent({
       })
     }
 
-    const {result: imgUrls} = useGetImagesQuery({word: props.word.from, lang: props.fromLang})
+    const {result: imgUrlsLazy, load: executeLazyImageSearch} = useGetImagesQueryLazy();
 
-    //request already cached...
-    if (!imgUrls.value){
-      incrementWordsLoading();
-      requestsWaiting++;
-    }
-
-    watch(imgUrls, () => {
-      savedImgs = imgUrls.value.getImages;
-      if (!props.word.img && savedImgs.length > 0) {
+    if (!props.word.img) getImagesLazy().then(async () => {
+      if (savedImgs.length > 0) {
         props.word.img = savedImgs[0]
-        saveImgToServer({img: savedImgs[0]}).then(result => {
-          props.word.img = result.data.saveImg;
-          decrementWordsLoading()
-          requestsWaiting--;
-        })
-      } else {
-        decrementWordsLoading();
-        requestsWaiting--;
+        const res = await saveImgToServer({img: savedImgs[0]});
+        props.word.img = res.data.saveImg;
       }
     })
 
@@ -130,8 +118,28 @@ export default defineComponent({
       collapsibleInstance.value.destroy();
     })
 
+    async function getImagesLazy() {
+      executeLazyImageSearch(null, {word: props.word.from, lang: props.fromLang});
+
+      //request already cached...
+      if (!imgUrlsLazy.value) {
+        incrementWordsLoading();
+        requestsWaiting++;
+      }
+
+      return await new Promise(resolve => {
+        watch(imgUrlsLazy, () => {
+          savedImgs = imgUrlsLazy.value.getImages;
+          decrementWordsLoading();
+          requestsWaiting--;
+          resolve();
+        })
+
+      })
+    }
 
     function closeCollapsible() {
+      if (!shouldCloseWordDiv.value) return;
       if (collapsibleInstance) collapsibleInstance.value.close(0);
       const hack = collapsibleInstance.value as any;
       collapsibleElement.value.addEventListener("click", hack._handleCollapsibleClickBound); //we add the click event listener again
@@ -142,7 +150,8 @@ export default defineComponent({
       for (let i = 0; i < requestsWaiting; i++) decrementWordsLoading();
     }
 
-    function fillImgModal() {
+    async function fillImgModal() {
+      if (!savedImgs) await getImagesLazy();
       context.emit("fill-img-modal", savedImgs)
     }
 
@@ -174,6 +183,7 @@ export default defineComponent({
       playToAudio,
       getBlobUrl,
       selectWord,
+      setShouldCloseWordDiv
     };
   },
 });

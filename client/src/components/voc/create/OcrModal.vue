@@ -206,7 +206,7 @@ export default defineComponent({
 
     onMounted(() => {
       tooltip.value = M.Tooltip.init(document.getElementById("infoTip"));
-      modal.value = M.Modal.init(modalElement.value, {inDuration: 0, outDuration: 0, onCloseEnd: reset});
+      modal.value = M.Modal.init(modalElement.value, {onCloseEnd: reset});
     })
 
     onUnmounted(() => {
@@ -312,11 +312,9 @@ export default defineComponent({
         elem = document.getElementById("splitter") as HTMLInputElement;
         const secondWord = elem.value;
         const splitterStart = state.importedText[0].indexOf(firstWord) + firstWord.length;
-        const splitterEnd = state.importedText[0].lastIndexOf(secondWord) - 1;
-        console.log(splitterStart)
-        console.log(splitterEnd)
+        let splitterEnd = state.importedText[0].lastIndexOf(secondWord) - 1;
+        if (splitterStart == splitterEnd) splitterEnd += 1;
         const splitter = state.importedText[0].substring(splitterStart, splitterEnd);
-        console.log(splitter);
 
         state.importedWords.from = state.importedText.map(line => cleanWord(line.substring(startIndex, line.lastIndexOf(splitter))))
         state.importedWords.to = state.importedText.map(line => cleanWord(line.substring(line.lastIndexOf(splitter) + splitter.length)));

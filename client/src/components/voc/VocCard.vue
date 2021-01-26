@@ -1,9 +1,9 @@
 <template>
   <div class="card horizontal hoverable unselectable"
-       style="background-color: #ead9a1; height: 130px"
+       style="background-color: #ead9a1; height: 110px"
        @click="selectList">
 
-    <div class="card-content" @click="toExercises" style="width: 100%; height: 100%;">
+    <div class="card-content" @click="toExercises" style="width: 100%; height: 100%; padding: 10px 24px 5px 24px">
       <span class="card-title">
         {{ list.settings.title }}
         <i class="material-icons right activator" style="font-size: 35px;" v-on:click.prevent>more_vert</i>
@@ -13,7 +13,7 @@
         }}</p>
 
       <div class="row">
-        <div class="col s3">
+        <div class="col s4">
           <p style="font-weight: bold; font-size: 15px;">
             {{ list.wordsLength ? list.wordsLength : (list.words ? list.words.length : 0) }}
             words</p>
@@ -184,15 +184,15 @@ export default defineComponent({
 .icon {
   margin-top: 5px;
   color: white;
-  font-size: 30px;
+  font-size: 25px;
 }
 
 .action-text {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: bold;
   color: white;
   position: relative;
-  top: -30%;
+  top: -35%;
 }
 
 .footer {

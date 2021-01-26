@@ -1,7 +1,6 @@
 <template>
   <div>
     <ExerciseFinished v-on:continue="$router.push('stats')"></ExerciseFinished>
-    <a href="#exerciseFinishedModal" class="modal-trigger" ref="finishBtn"></a>
 
     <div class="row" v-if="list">
       <WordInfoModal v-bind:word="state.currentWord.from" v-bind:from-lang="list.settings.langSettings.fromLang"></WordInfoModal>
@@ -52,6 +51,7 @@ import {correctMessage, getBlobUrl, getCountry, isOfflineList, removeAllToasts, 
 import ExerciseFinished from "@/components/voc/exercises/ExerciseFinished.vue";
 import WordInfoModal from "@/components/voc/exercises/WordInfoModal.vue";
 import Loader from "@/components/Loader.vue"
+import router from "@/router";
 
 //used to make use of typescript typing
 interface State {
@@ -66,12 +66,10 @@ export default defineComponent({
     WordInfoModal,
     Loader
   },
-  setup() {
+  setup(props, context) {
 
     const list = ref<Voclist>(null);
     const categorizedFailedAttempts: { [word: string]: string[] } = {};
-
-    const finishBtn = ref<HTMLLinkElement>(null);
 
     let wordsCopy: Word[];
     let mistakes = 0;
@@ -92,11 +90,11 @@ export default defineComponent({
     const db = inject<Localdb>("db");
 
     function end() {
-      finishBtn.value.click();
       localStorage.setItem("failedAttempts", JSON.stringify(categorizedFailedAttempts));
       localStorage.setItem("duration", (Math.ceil((new Date().getTime() - startTime.getTime()) / 60000)).toString())
       localStorage.setItem("wordAmount", wordsCopy.length.toString())
       localStorage.setItem("mistakes", mistakes.toString())
+      router.push('stats')
     }
 
     function setNextWord() {
@@ -194,7 +192,7 @@ export default defineComponent({
       document.removeEventListener("keyup", handleKeyup);
     })
 
-    return {list, state, getCountry, checkWord, finishBtn, optionColors, arrows, type, getBlobUrl, isOfflineList}
+    return {list, state, getCountry, checkWord, optionColors, arrows, type, getBlobUrl, isOfflineList}
 
   },
 });

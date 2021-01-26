@@ -18,7 +18,6 @@ export function useVoclistUpdater() {
         if ((!listFromState || !auth.getOid().value) && offlineList.lastEdited) return offlineList; //online lists not yet fetched, we rely on a offline copy
         if (offlineList.lastEdited && new Date(listFromState.lastEdited) <= new Date(offlineList.lastEdited)) return offlineList //no update is needed
 
-        console.log("retrieving words of list...")
         getWords(null, {vocId: listFromState._id})
 
         return await new Promise<Voclist>((resolve) => {

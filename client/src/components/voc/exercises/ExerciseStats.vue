@@ -60,7 +60,7 @@
       </div>
     </div>
 
-    <div>
+    <div v-if="ordered.length > 0">
       <h4 class="center">👹 Failed attempts 👹</h4>
       <div style="margin-left: 10px; margin-right: 10px; margin-top: 20px">
         <ul class="collapsible" ref="failureCollapsible">
@@ -80,6 +80,10 @@
           </li>
         </ul>
       </div>
+    </div>
+    <div v-else>
+      <h4 class="center">You made no mistakes!</h4>
+      <h4 class="center">🤓🤓🤓</h4>
     </div>
   </div>
 </template>

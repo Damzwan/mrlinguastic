@@ -15,14 +15,11 @@ export const resolv: Resolvers = {
         lastUpdated: async (_: any, args) =>
             await mongoAPI.getLastUpdated(args.oid),
         translateWord: async (_: any, args, {dataSources}: { dataSources: any }) => {
-            if (args.word == "" || args.fromLang == "" || args.toLang == "") return [""];
-            let translatedWord;
-            if (args.word.split(" ").length == 1) translatedWord = await dataSources.yandexAPI.dictionaryLookup(args.word, args.fromLang, args.toLang)
-            return translatedWord ? translatedWord : [await dataSources.azureAPI.translateWord(args.word, args.fromLang, args.toLang)]
+            return await dataSources.azureAPI.translateWord(args.word, args.fromLang, args.toLang)
         },
         translateWords: async (_: any, args, {dataSources}: { dataSources: any }) => {
             if (args.words.length == 0 || args.fromLang == "" || args.toLang == "") return [""];
-            return await Promise.all(args.words.map(word => dataSources.azureAPI.translateWord(word, args.fromLang, args.toLang)));
+            return await Promise.all(args.words.map(word => dataSources.azureAPI.translateWord(word, args.fromLang, args.toLang)[0]));
         },
         getImages: async (_: any, args, {dataSources}: { dataSources: any }) =>
             await dataSources.pixabayAPI.getImages(args.word, args.lang),

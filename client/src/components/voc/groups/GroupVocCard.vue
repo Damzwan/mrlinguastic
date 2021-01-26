@@ -1,8 +1,8 @@
 <template>
   <div class="card horizontal hoverable unselectable"
-       style="background-color: #ead9a1; height: 130px">
+       style="background-color: #ead9a1; height: 110px">
 
-    <div class="card-content" style="width: 100%" @click="showList">
+    <div class="card-content" style="width: 100%;  padding: 10px 24px 5px 24px" @click="showList">
       <i class="material-icons right" style="font-size: 35px; position: absolute; right: 15px; color: red"
          @click="$emit('remove', list)" v-if="list.creator === oid">
         close</i>
@@ -14,7 +14,7 @@
         }}</p>
 
       <div class="row">
-        <div class="col s5">
+        <div class="col s4">
           <p style="font-weight: bold; font-size: 15px;">{{ list.wordsLength }} words</p>
         </div>
         <div class="col s1" style="margin-right: 10px">
