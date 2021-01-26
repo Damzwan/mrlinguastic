@@ -20,12 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/ShareModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/ShareModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/Standard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/Standard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/groups/Group.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/groups/Group.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/use/urlHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/urlHandler.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/List.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

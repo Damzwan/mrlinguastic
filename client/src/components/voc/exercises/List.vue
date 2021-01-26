@@ -7,8 +7,8 @@
       <table class="centered striped">
         <thead>
         <tr>
-          <th style="font-size: 1.5rem">From</th>
-          <th style="font-size: 1.5rem">To</th>
+          <th style="font-size: 1.5rem">{{getLang(list.settings.langSettings.fromLang)}}</th>
+          <th style="font-size: 1.5rem">{{getLang(list.settings.langSettings.toLang)}}</th>
         </tr>
         </thead>
 
@@ -45,7 +45,7 @@
 import {defineComponent, inject, onUnmounted, onUpdated, ref} from "@vue/composition-api";
 import {Localdb} from "@/use/localdb";
 import {Voclist, Word} from "@/gen-types";
-import {isOfflineList} from "@/use/general";
+import {getLang, isOfflineList} from "@/use/general";
 import M from "materialize-css"
 import Dropdown = M.Dropdown;
 
@@ -91,7 +91,7 @@ export default defineComponent({
       dropdowns.value.forEach(dropdown => dropdown.destroy())
     })
 
-    return {list, currWord, playAudio, hasSmallScreen}
+    return {list, currWord, playAudio, hasSmallScreen, getLang}
   },
 });
 </script>
