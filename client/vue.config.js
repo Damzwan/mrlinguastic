@@ -25,7 +25,8 @@ module.exports = {
         },
         manifestOptions: {
             background_color: "#1b5e20",
-            description: "Learn a language how you want it"
+            description: "A Community Driven Language Learning Platform",
+            start_url: "/home"
         },
         workboxOptions: {
             skipWaiting: true

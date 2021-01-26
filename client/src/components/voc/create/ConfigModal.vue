@@ -4,7 +4,7 @@
          :style="{backgroundImage: 'url(' + require('../../../assets/triangle2.svg') + ')'}">
       <div class="modal-content">
         <i class="material-icons right unselectable close-btn modal-close"
-           @click="!listAlreadyCreated() ? $router.push('/') : null">close</i>
+           @click="!listAlreadyCreated() ? $router.push('/home') : null">close</i>
         <h4 class="center">Configuration 👷‍♀️</h4>
         <p class="flow-text center">Let's configure some things before creating our voc list</p>
         <div class="row">

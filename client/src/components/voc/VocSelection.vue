@@ -138,7 +138,7 @@ export default defineComponent({
 
     function goToCreatePage() {
       localStorage.removeItem("_id");
-      ctx.root.$router.push("/create");
+      ctx.root.$router.push("/home/create");
     }
 
     return {

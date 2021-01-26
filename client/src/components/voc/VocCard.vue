@@ -53,7 +53,6 @@
       </div>
     </div>
   </div>
-  <!--  </router-link>-->
 </template>
 
 <script lang="ts">
@@ -102,7 +101,7 @@ export default defineComponent({
       else if (props.isOffline) actionNotSupportedMessage();
       else {
         localStorage.setItem("_id", props.list._id);
-        context.root.$router.push("/create");
+        context.root.$router.push("/home/create");
       }
     }
 
@@ -132,7 +131,7 @@ export default defineComponent({
       if (e.target.classList.contains("activator")) return
       if (props.isOffline) localStorage.setItem("isOfflineList", "true")
       localStorage.setItem("_id", props.list._id);
-      context.root.$router.push("/exercises");
+      context.root.$router.push("/home/exercises");
     }
 
     function actionHandler(item: Item) {

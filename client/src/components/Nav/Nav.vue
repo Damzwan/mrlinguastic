@@ -6,16 +6,16 @@
 
     <nav>
       <div class="nav-wrapper green darken-4">
-        <router-link to="/" class="brand-logo center hide-on-med-and-down">Mr.Linguastic</router-link>
-        <router-link to="/" class="brand-logo center hide-on-med-and-down"><img src="../../assets/notduolingologo.png"
+        <router-link to="/home" class="brand-logo center hide-on-med-and-down">Mr.Linguastic</router-link>
+        <router-link to="/home" class="brand-logo center hide-on-med-and-down"><img src="../../assets/notduolingologo.png"
                                                                                 alt="" width="35px" height="35px"
                                                                                 style="margin-top: 5px; margin-left: 250px">
         </router-link>
-        <router-link to="/" class="brand-logo center hide-on-med-and-down"><img src="../../assets/notduolingologo.png"
+        <router-link to="/home" class="brand-logo center hide-on-med-and-down"><img src="../../assets/notduolingologo.png"
                                                                                 alt="" width="35px" height="35px"
                                                                                 style="margin-top: 5px; margin-right: 250px">
         </router-link>
-        <router-link to="/" class="brand-logo center hide-on-large-only">
+        <router-link to="/home" class="brand-logo center hide-on-large-only">
           <img src="../../assets/notduolingologo.png" alt="" width="35px" height="35px" style="margin-top: 5px">
         </router-link>
 
@@ -40,10 +40,10 @@
           </ul>
           <ul class="right hide-on-med-and-down">
             <li>
-              <router-link to="donate" style="font-size: 1.6rem">Donate</router-link>
+              <router-link to="/home/donate" style="font-size: 1.6rem">Donate</router-link>
             </li>
             <li>
-              <router-link to="about" style="font-size: 1.6rem">About</router-link>
+              <router-link to="/home/about" style="font-size: 1.6rem">About</router-link>
             </li>
           </ul>
         </div>
@@ -234,18 +234,18 @@ export default defineComponent({
       closeSideNav(false);
       if (!navigator.onLine) wrongMessage("must be online")
       localStorage.setItem("group", id);
-      if (context.root.$route.path == "/group") sendEvent("new group") //we are already in the group page
-      else context.root.$router.push("group");
+      if (context.root.$route.path == "/home/group") sendEvent("new group") //we are already in the group page
+      else context.root.$router.push("/home/group");
     }
 
     const sidenavObjects = [
-      {title: "Vocabulary", icon: "translate", badge: false, path: "/"},
-      {title: "Grammar", icon: "border_color", badge: true, path: "/"},
-      {title: "Reading", icon: "library_books", badge: true, path: "/"},
-      {title: "Listening", icon: "hearing", badge: true, path: "/"},
-      {title: "Chat", icon: "chat_bubble_outline", badge: true, path: "/"},
-      {title: "Donate", icon: "attach_money", badge: false, path: "/donate"},
-      {title: "About", icon: "info", badge: false, path: "/about"},
+      {title: "Vocabulary", icon: "translate", badge: false, path: "/home"},
+      {title: "Grammar", icon: "border_color", badge: true, path: "/home"},
+      {title: "Reading", icon: "library_books", badge: true, path: "/home"},
+      {title: "Listening", icon: "hearing", badge: true, path: "/home"},
+      {title: "Chat", icon: "chat_bubble_outline", badge: true, path: "/home"},
+      {title: "Donate", icon: "attach_money", badge: false, path: "/home/donate"},
+      {title: "About", icon: "info", badge: false, path: "/home/about"},
     ];
 
     const isVocCreatePage = ref(context.root.$route.path.includes("create")); //flip boolean if we are on the voc create page

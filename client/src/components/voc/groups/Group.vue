@@ -169,7 +169,7 @@ export default defineComponent({
 
     function leaveGroup() {
       removeGroup(localStorage.getItem("group"));
-      context.root.$router.push("/");
+      context.root.$router.push("/home");
       correctMessage("left the group")
       if (auth.getOid().value) leaveGroupMutation({
         userId: auth.getOid().value,

@@ -28,7 +28,7 @@
       <div class="modal-content">
 
         <div class="modal-btns">
-          <i class="material-icons unselectable" style="font-size: 50px" @click="$router.push('/')">home</i>
+          <i class="material-icons unselectable" style="font-size: 50px" @click="$router.push('/home')">home</i>
           <i class="material-icons unselectable" style="font-size: 50px" @click="playAgain">autorenew</i>
         </div>
 

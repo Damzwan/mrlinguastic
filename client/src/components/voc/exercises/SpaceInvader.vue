@@ -57,7 +57,7 @@
     <div class="modal" ref="modalElem">
       <div class="modal-content">
 
-        <i class="material-icons unselectable" style="font-size: 40px; left: 5px; position: fixed" @click="$router.push('/')">home</i>
+        <i class="material-icons unselectable" style="font-size: 40px; left: 5px; position: fixed" @click="$router.push('/home')">home</i>
         <i class="material-icons unselectable" style="font-size: 40px; right: 5px; position: fixed" @click="playAgain">autorenew</i>
 
         <h4 class="center">{{ isVictory ? "😎 Victory 😎" : "😭 Defeat 😭" }}</h4>

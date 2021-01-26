@@ -15,7 +15,7 @@ import {InMemoryCache} from 'apollo-cache-inmemory'
 
 Vue.config.productionTip = false
 
-const serverUri = 'http://localhost:4000'; //TODO update in production
+const serverUri = 'https://mrlinguastic.herokuapp.com'; //TODO update in production
 
 const apolloClient = new ApolloClient({
     uri: serverUri + '/graphql',
