@@ -7,7 +7,7 @@
     <div class="row section container">
       <div class="col s12 m4">
         <div class="center promo">
-          <i>👷‍♂</i>️
+          <div class="big-icon">👷‍♂</div>️
           <p class="promo-caption">Create!</p>
           <p class="light center promo-description">Create high quality vocabulary lists in an instant!</p>
         </div>
@@ -21,7 +21,7 @@
       </div>
       <div class="col s12 m4">
         <div class="center promo">
-          <i>📨</i>
+          <div class="big-icon">📨</div>
           <p class="promo-caption">Share!</p>
           <p class="light center promo-description">Share your creations with your students, friends and family!</p>
         </div>
@@ -106,7 +106,7 @@
     <div class="row section container">
       <div class="col s12 m4">
         <div class="center promo">
-          <i>📸</i>️
+          <div class="big-icon">📸</div>️
           <p class="promo-caption">Import words</p>
           <p class="light center promo-description">Take a picture from your textbook to easily add the words you need to study</p>
         </div>
@@ -114,7 +114,7 @@
 
       <div class="col s12 m4">
         <div class="center promo">
-          <i>🃏</i>️
+          <div class="big-icon">🃏</div>️
           <p class="promo-caption">Flashcards</p>
           <p class="light center promo-description">Create flashcards from your vocabulary lists to practice offline</p>
         </div>
@@ -122,7 +122,7 @@
 
       <div class="col s12 m4">
         <div class="center promo">
-          <i>👩‍🏫</i>️
+          <div class="big-icon">👩‍🏫</div>️
           <p class="promo-caption">Perfect for teachers</p>
           <p class="light center promo-description">Share your vocabulary lists with your students</p>
         </div>
@@ -132,7 +132,7 @@
     <div class="row section container">
       <div class="col s12 m4">
         <div class="center promo">
-          <i>🤸‍♂</i>️
+          <div class="big-icon">🤸‍♂</div>️
           <p class="promo-caption">Flexible</p>
           <p class="light center promo-description">Study on any device that has a browser or download the app</p>
         </div>
@@ -140,7 +140,7 @@
 
       <div class="col s12 m4">
         <div class="center promo">
-          <i>💸</i>️
+          <div class="big-icon">💸</div>️
           <p class="promo-caption">Free</p>
           <p class="light center promo-description">No premium bullsh*t and no ads</p>
         </div>
@@ -148,7 +148,7 @@
 
       <div class="col s12 m4">
         <div class="center promo">
-          <i>🌍</i>️
+          <div class="big-icon">🌍</div>️
           <p class="promo-caption">9 languages</p>
           <p class="light center promo-description">With more to come</p>
         </div>
@@ -221,6 +221,10 @@
 }
 
 .promo i {
+  font-size: 7rem;
+}
+
+.big-icon{
   font-size: 7rem;
 }
 
