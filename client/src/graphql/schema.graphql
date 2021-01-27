@@ -23,6 +23,7 @@ type Group {
 
 type LangSettings {
     fromLang: String!
+    imgSearch: Boolean!
     toLang: String!
     toVoice: String!
 }
@@ -120,6 +121,7 @@ input GroupInput {
 
 input LangSettingsInput {
     fromLang: String!
+    imgSearch: Boolean!
     toLang: String!
     toVoice: String!
 }

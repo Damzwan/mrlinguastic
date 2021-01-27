@@ -126,7 +126,7 @@ export function cleanWord(word: string) {
         newWord = newWord.split(symbol).join('')
 
     newWord = newWord.replace(/\\/g, "");
-    return newWord;
+    return newWord.trim();
 }
 
 export function isOfflineList() {

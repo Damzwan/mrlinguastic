@@ -33,6 +33,7 @@ query getUser($oid: String!){
                     fromLang
                     toLang
                     toVoice
+                    imgSearch
                 }
                 title
             }
@@ -77,6 +78,7 @@ query getVoclist($voclistId: String!){
                 fromLang
                 toLang
                 toVoice
+                imgSearch
             }
             title
         }
@@ -98,6 +100,7 @@ query getGroup($groupId: String!){
                     fromLang
                     toLang
                     toVoice
+                    imgSearch
                 }
                 title
             }
@@ -180,6 +183,7 @@ mutation copyVoclist($voclistId: String!, $userId: String!, $lastUpdated: String
                 fromLang
                 toLang
                 toVoice
+                imgSearch
             }
             title
         }

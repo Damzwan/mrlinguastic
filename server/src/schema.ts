@@ -120,12 +120,14 @@ export const typeDefs = gql`
         fromLang: String! @column
         toLang: String! @column
         toVoice: String! @column
+        imgSearch: Boolean! @column
     }
 
     input LangSettingsInput{
         fromLang: String!
         toLang: String!
         toVoice: String!
+        imgSearch: Boolean!
     }
 
     type Word @entity(embedded: true){

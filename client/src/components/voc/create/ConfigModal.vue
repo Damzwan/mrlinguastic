@@ -70,6 +70,19 @@
               </select>
               <label style="transform: translateY(0px) scale(0.8)">Voice</label>
             </div>
+
+            <div class="input-field col s12 m5 offset-m1">
+              Auto Search For Image:
+              <div class="switch">
+                <label>
+                  Off
+                  <input type="checkbox" v-model="settings.langSettings.imgSearch">
+                  <span class="lever"></span>
+                  On
+                </label>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -178,7 +191,7 @@ export default defineComponent({
       fromLangElement,
       toLangElement,
       toVoices: voices,
-      listAlreadyCreated
+      listAlreadyCreated,
     };
   },
 });

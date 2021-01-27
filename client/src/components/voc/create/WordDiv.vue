@@ -56,7 +56,8 @@ export default defineComponent({
   props: {
     word: Object as () => Word,
     fromLang: String, //TODO this is really stupid (related to executeImageSearch and importedWords).
-    toLang: String
+    toLang: String,
+    imgSearch: Boolean
   },
   setup(props, context) {
     const collapsibleInstance = ref<Collapsible>(null);
@@ -87,7 +88,7 @@ export default defineComponent({
 
     const {result: imgUrlsLazy, load: executeLazyImageSearch} = useGetImagesQueryLazy();
 
-    if (!props.word.img) getImagesLazy().then(async () => {
+    if (!props.word.img && props.imgSearch) getImagesLazy().then(async () => {
       if (savedImgs.length > 0) {
         props.word.img = savedImgs[0]
         const res = await saveImgToServer({img: savedImgs[0]});

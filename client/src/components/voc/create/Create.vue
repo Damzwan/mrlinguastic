@@ -37,6 +37,7 @@
           <WordDiv div v-for="(word, index) in list.words" :key="index" v-bind:word="word"
                    v-bind:fromLang="list.settings.langSettings.fromLang"
                    v-bind:toLang="list.settings.langSettings.toLang"
+                   v-bind:img-search="list.settings.langSettings.imgSearch"
                    v-on:fill-img-modal="fillImgModal" v-on:remove-word="removeWord"
                    v-on:select-word="selectWord"></WordDiv>
         </div>
@@ -95,7 +96,8 @@ export default defineComponent({
         langSettings: {
           fromLang: null,
           toLang: null,
-          toVoice: null
+          toVoice: null,
+          imgSearch: true
         },
       },
       words: [],

@@ -260,12 +260,14 @@ export type LangSettings = {
   fromLang: Scalars['String'];
   toLang: Scalars['String'];
   toVoice: Scalars['String'];
+  imgSearch: Scalars['Boolean'];
 };
 
 export type LangSettingsInput = {
   fromLang: Scalars['String'];
   toLang: Scalars['String'];
   toVoice: Scalars['String'];
+  imgSearch: Scalars['Boolean'];
 };
 
 export type Word = {
@@ -556,6 +558,7 @@ export type LangSettingsResolvers<ContextType = any, ParentType extends Resolver
   fromLang?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   toLang?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   toVoice?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  imgSearch?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -663,6 +666,7 @@ export type LangSettingsDbObject = {
   fromLang: string,
   toLang: string,
   toVoice: string,
+  imgSearch: boolean,
 };
 
 export type WordDbObject = {

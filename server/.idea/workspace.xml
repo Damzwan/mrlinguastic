@@ -20,7 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/List.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/ConfigModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/ConfigModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/WordDiv.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/WordDiv.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/graphql/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/graphql/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/graphql/voc.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/graphql/voc.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/general.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/general.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen-types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/schema.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +44,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1g2ICuRdGqvOmMS9cXtNIStii6v" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -135,7 +144,9 @@
       <workItem from="1611578289138" duration="631000" />
       <workItem from="1611663391884" duration="50000" />
       <workItem from="1611663497979" duration="163000" />
-      <workItem from="1611663667289" duration="3697000" />
+      <workItem from="1611663667289" duration="3699000" />
+      <workItem from="1611752611553" duration="10000" />
+      <workItem from="1611752951638" duration="1498000" />
     </task>
     <servers />
   </component>
