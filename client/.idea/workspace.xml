@@ -15,8 +15,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6bf64ff9-4956-4a50-a243-639565bc4023" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/gen-types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/gen-types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/datasources/reverso.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/datasources/reverso.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +64,7 @@
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client\src\components\voc" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\damia\Documents\Projects\mrlinguastic\client\src\assets" />
       <recent name="C:\Users\damia\Documents\Projects\mrlinguastic\client\src\components\Nav" />
       <recent name="C:\Users\damia\Documents\mrlinguastic\client\src\assets\country-flags" />
       <recent name="C:\Users\damia\Documents\mrlinguastic vue3\client" />
@@ -137,7 +137,8 @@
       <workItem from="1611527346081" duration="590000" />
       <workItem from="1611578240719" duration="2559000" />
       <workItem from="1611663068395" duration="17112000" />
-      <workItem from="1611752628752" duration="2164000" />
+      <workItem from="1611752628752" duration="2917000" />
+      <workItem from="1611931454622" duration="7394000" />
     </task>
     <servers />
   </component>

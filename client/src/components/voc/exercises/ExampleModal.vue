@@ -1,5 +1,5 @@
 <template>
-  <div ref="modalElement" class="modal" id="exampleModal">
+  <div ref="modalElement" class="modal" id="exampleModal" :style="{backgroundImage: 'url(' + require('@/assets/triangle2.svg') + ')'}">
     <div class="modal-content">
       <h4 class="center">Example sentences for <b>{{ word.from }}</b></h4>
       <div class="divider"></div>
@@ -44,11 +44,7 @@ export default defineComponent({
 
 <style scoped>
 
-.black-divider {
-  height: 1px;
-  color: black;
-  width: 100%;
+.divider{
   background-color: black;
-  left: -50%;
 }
 </style>

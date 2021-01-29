@@ -39,3 +39,11 @@
     <p style="font-size: 20px; text-align: center; margin-top: -20px">damian.vlaicu@gmail.com</p>
   </div>
 </template>
+
+<style scoped>
+
+html *
+{
+  font-family: architectsDaughter,monospace;
+}
+</style>

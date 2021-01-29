@@ -18,7 +18,7 @@
             <div class="col s1"><i class="material-icons unselectable rounded-icon" style="font-size: 3.4rem">{{ exerciseMethod.icon }}</i>
             </div>
             <div class="col s8 offset-s2">
-              <h4 class="unselectable">{{ exerciseMethod.text }}</h4>
+              <h4 class="unselectable architects-daughter">{{ exerciseMethod.text }}</h4>
             </div>
           </div>
         </div>

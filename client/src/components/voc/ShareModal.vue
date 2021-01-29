@@ -1,5 +1,5 @@
 <template>
-  <div class="modal bottom-sheet" ref="modal" id="shareModal">
+  <div class="modal bottom-sheet" ref="modal" id="shareModal" :style="{backgroundImage: 'url(' + require('@/assets/triangle2.svg') + ')'}">
     <div class="modal-content" style="padding: 0">
       <div class="collection" v-if="!clickedAddToGroup">
         <a class="collection-item unselectable" @click="copyListLink">
@@ -110,4 +110,16 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
+.collection-item{
+  background-color: initial;
+  color: black !important;
+  border-bottom: 1px solid #000000;
+}
+
+.collection {
+  border: initial !important;
+  overflow: hidden;
+  position: relative;
+}
 </style>

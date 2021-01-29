@@ -110,4 +110,8 @@ body {
 .fade-leave-active {
   opacity: 0
 }
+
+html * {
+  font-family: architectsDaughter, monospace;
+}
 </style>

@@ -54,3 +54,12 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.architects-daughter{
+    font-family: architectsDaughter, monospace;
+}
+
+@font-face {
+    font-family: "architectsDaughter";
+    src: url('assets/architectsDaughter.ttf');
+}

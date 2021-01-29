@@ -3,7 +3,7 @@
     <WordInfoModal v-bind:fromLang="fromLang" v-bind:word="state.currWord.from"></WordInfoModal>
     <ExampleModal :word="state.currWord"></ExampleModal>
 
-    <h3 class="center">Flashcards</h3>
+    <h3 class="center architects-daughter">Flashcards</h3>
     <div class="divider" style="background-color: black"></div>
     <h4 class="center" style="margin-bottom: -6vh">{{ state.index + 1 }}/{{ words.length }}</h4>
 

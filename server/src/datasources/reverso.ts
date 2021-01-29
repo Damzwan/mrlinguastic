@@ -75,6 +75,8 @@ export class reversoAPI extends DataSource {
                 examples: examples
             };
 
-        }).catch((err) => { throw new Error('reverso.net did not respond or there are no context examples for the given text.\n' + err) });
+        }).catch((err) => {
+            return {examples: []};
+        });
     }
 }

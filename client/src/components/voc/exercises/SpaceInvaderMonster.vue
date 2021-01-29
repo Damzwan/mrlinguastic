@@ -47,8 +47,9 @@ export default defineComponent({
 <style scoped>
 
 .monster {
-  outline-style: solid;
-  outline-color: red;
+  /*outline-style: solid;*/
+  /*outline-color: red;*/
+  background-color: #ead9a1;
   top: -20%;
   position: fixed;
   z-index: -1;

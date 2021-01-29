@@ -15,7 +15,7 @@
          :key="i">favorite</i>
     </div>
 
-    <div class="modal" ref="difficultyModalElem">
+    <div class="modal" ref="difficultyModalElem" :style="{backgroundImage: 'url(' + require('../../../assets/triangle2.svg') + ')'}">
       <div class="modal-content">
         <h4 class="center">SpaceInvaders</h4>
         <h5 class="center">Type the translation of the words before they reach the lower part of the screen!</h5>
@@ -295,5 +295,21 @@ export default defineComponent({
 
 ::placeholder {
   color: black;
+}
+
+.divider{
+  background-color: black;
+}
+
+.modal-footer{
+  background-color: initial;
+}
+
+label{
+  color: black;
+}
+
+input[type="range"] {
+  border: initial;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="margin-bottom: 10px">
-      <h4 class="center-align">🏋️‍♀ Exercises 🏋️‍♀</h4>
+      <h4 class="center-align architects-daughter">🏋️‍♀ Exercises 🏋️‍♀</h4>
       <div class="divider"></div>
     </div>
       <div class="row" v-if="exerciseMethods">

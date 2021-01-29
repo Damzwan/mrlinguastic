@@ -86,14 +86,14 @@
              width="40px" height="40px">
       </li>
       <div class="divider"></div>
-      <li><a class="subheader" style="font-size: 20px; color: white">Subjects</a></li>
+      <li><a class="subheader" style="font-size: 22px; color: white">Subjects</a></li>
       <div v-for="(item, index) in sidenavObjects" :key="index" v-on:click="closeSideNav(true)">
         <div class="divider light-green darken-4" v-if="item.title === 'Donate'"></div>
-        <li v-if="item.title === 'Donate'"><a class="subheader" style="font-size: 20px; color: white">Extra's</a></li>
+        <li v-if="item.title === 'Donate'"><a class="subheader" style="font-size: 22px; color: white">Extra's</a></li>
         <li>
           <router-link v-bind:to="item.path">
-            <span class="white-text center">{{ item.title }}</span>
-            <span class="badge" v-if="item.badge">Coming soon</span>
+            <span class="white-text center" style="font-size: 16px !important;">{{ item.title }}</span>
+            <span class="badge" style="font-size: 14px" v-if="item.badge">Coming soon</span>
             <i class="material-icons left">{{ item.icon }}</i>
           </router-link>
         </li>
@@ -133,17 +133,17 @@
         </div>
         <div class="divider"></div>
       </li>
-      <li><a class="subheader" style="font-size: 20px; color: white">Communities</a>
+      <li><a class="subheader" style="font-size: 22px !important; color: white">Communities</a>
         <i
             class="material-icons right unselectable question-btn tooltipped"
-            style="color: white; top: -35px; right: 120px; position: relative;"
+            style="color: white; top: -35px; right: 100px; position: relative;"
             data-tooltip="In communities you can find voclists from other people and share yours as well!">help
         </i>
       </li>
       <li>
         <a class="unselectable modal-trigger" href="#communityModal">
           <span class="white-text center unselectable">Join Community</span>
-          <i class="material-icons unselectable">group_add</i>
+          <i class="material-icons">group_add</i>
         </a>
       </li>
       <li v-for="(community) in communities" :key="community._id">
@@ -157,7 +157,7 @@
       <li>
         <a class="subheader" style="font-size: 20px; color: white">Groups</a>
         <i class="material-icons right unselectable tooltipped"
-           style="color: white; top: -35px; right: 170px; position: relative"
+           style="color: white; top: -35px; right: 150px; position: relative"
            data-tooltip="You can join a group with a link or create your own group. In a group you can share voclists with other members.">help
         </i>
       </li>
@@ -311,5 +311,14 @@ export default defineComponent({
 nav, nav .nav-wrapper i, nav a.sidenav-trigger, nav a.sidenav-trigger i {
   height: 40px;
   line-height: 40px;
+}
+
+html * :not(.material-icons)
+{
+  font-family: architectsDaughter,monospace;
+}
+
+.sidenav li > a .unselectable {
+  font-size: 16px !important;
 }
 </style>

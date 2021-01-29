@@ -5,7 +5,7 @@
     <transition name="flip">
       <div style="height: 400px;background-color: #ead9a1" class="z-depth-2" v-if="type === 'text'"
            v-bind:key="triggerAnimation">
-        <p class="center" style="font-size: 2.5rem; padding-top: 50px">{{ flipped ? word.to : word.from }}</p>
+        <p class="center architects-daughter" style="font-size: 2.5rem; padding-top: 50px">{{ flipped ? word.to : word.from }}</p>
         <div style="position: absolute; bottom: -100px; right: 5px">
           <a href="#exampleModal" class="modal-trigger" style="color: black"><i class="material-icons card-icon">format_list_numbered</i></a>
           <a href="#infoModal" class="modal-trigger" style="color: black;">

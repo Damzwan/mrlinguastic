@@ -5,7 +5,7 @@
     <i class="material-icons unselectable" style="position: absolute; font-size: 45px; color: black; right: 0"
        @click="$router.back()">replay</i>
     <div style="margin-bottom: 20px">
-      <h4 class="center-align">🏆 Stats 🏆</h4>
+      <h4 class="center-align architects-daughter">🏆 Stats 🏆</h4>
       <div class="divider"></div>
     </div>
 

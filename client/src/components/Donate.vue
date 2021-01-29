@@ -50,3 +50,11 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+
+html * :not(.material-icons)
+{
+  font-family: architectsDaughter,monospace;
+}
+</style>

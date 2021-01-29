@@ -9,7 +9,7 @@
     </div>
 
     <div style="margin-bottom: 20px">
-      <h4 class="center-align">👩‍🎓 Vocabulary 👩‍🎓</h4>
+      <h4 class="center-align architects-daughter">👩‍🎓 Vocabulary 👩‍🎓</h4>
       <div class="divider"></div>
     </div>
 

@@ -14,7 +14,7 @@
       </div>
       <div class="col s12 m4">
         <div class="center promo">
-          <i>📜🖋</i>️
+          <div class="big-icon">📜🖋</div>️
           <p class="promo-caption">Practice!</p>
           <p class="light center promo-description">Up to 10 ways to practice your vocabulary lists!</p>
         </div>
@@ -70,27 +70,27 @@
         <h4 style="font-weight: bold">We do the heavy lifting for you 🏋️‍♂️🏋️‍♀</h4>
         <p class="flow-text">For every word, Mr.Linguastic automatically:</p>
         <div class="row">
-          <div class="col s12">
+          <div class="col s10 valign-wrapper offset-s2">
             <i class="material-icons promo-advantage-icon">translate</i> <span class="promo-advantage-text">Translates</span>
           </div>
         </div>
         <div class="row">
-          <div class="col s12">
+          <div class="col s10 valign-wrapper offset-s2">
             <i class="material-icons promo-advantage-icon">image</i> <span class="promo-advantage-text">Finds an Image</span>
           </div>
         </div>
         <div class="row">
-          <div class="col s12">
+          <div class="col s10 valign-wrapper offset-s2">
             <i class="material-icons promo-advantage-icon">format_list_numbered</i> <span class="promo-advantage-text">Finds examples</span>
           </div>
         </div>
         <div class="row">
-          <div class="col s12">
+          <div class="col s10 valign-wrapper offset-s2">
             <i class="material-icons promo-advantage-icon">info_outline</i> <span class="promo-advantage-text">Finds information</span>
           </div>
         </div>
         <div class="row">
-          <div class="col s12">
+          <div class="col s10 valign-wrapper offset-s2">
             <i class="material-icons promo-advantage-icon">volume_up</i> <span class="promo-advantage-text">Adds audio</span>
           </div>
         </div>
@@ -176,7 +176,7 @@
         <div class="col m1"><img :src="require('@/assets/country-flags/italy.svg')" alt="Italian" width="50px"></div>
       </div>
 
-      <div class="row valign-wrapper">
+      <div class="row valign-wrapper" style="justify-content: center !important;">
         <div class="col m1"><img :src="require('@/assets/country-flags/portugal.svg')" alt="Portuguese" width="50px"></div>
         <div class="col m1"><img :src="require('@/assets/country-flags/romania.svg')" alt="Romanian" width="50px"></div>
         <div class="col m1"><img :src="require('@/assets/country-flags/russia.svg')" alt="Russian" width="50px"></div>
@@ -239,6 +239,6 @@
 }
 
 .valign-wrapper{
-  justify-content: center;
+  justify-content: left !important;
 }
 </style>
