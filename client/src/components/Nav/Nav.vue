@@ -85,9 +85,9 @@
         <img src="../../assets/notduolingologo.png" alt="rip" style="position: absolute; left: 190px; top: 5px"
              width="40px" height="40px">
       </li>
-      <div class="divider"></div>
+      <ul class="divider"></ul>
       <li><a class="subheader" style="font-size: 22px; color: white">Subjects</a></li>
-      <div v-for="(item, index) in sidenavObjects" :key="index" v-on:click="closeSideNav(true)">
+      <ul v-for="(item, index) in sidenavObjects" :key="index" v-on:click="closeSideNav(true)">
         <div class="divider light-green darken-4" v-if="item.title === 'Donate'"></div>
         <li v-if="item.title === 'Donate'"><a class="subheader" style="font-size: 22px; color: white">Extra's</a></li>
         <li>
@@ -97,8 +97,8 @@
             <i class="material-icons left">{{ item.icon }}</i>
           </router-link>
         </li>
-      </div>
-      <div class="divider"></div>
+      </ul>
+      <ul class="divider"></ul>
       <li style="position: relative; margin-top: 10px" v-if="showInstallPromotion">
         <div class="row">
           <div class="col s3">
@@ -109,7 +109,7 @@
               button to download me 🦍🦍🦍</a>
           </div>
           <div class="col s10 offset-s1">
-            <a @click="installApp" class="btn green" style="width: 100%; height: 35px;">Download</a>
+            <a @click="installApp" class="btn" style="width: 100%; height: 35px;">Download</a>
           </div>
         </div>
         <div class="divider"></div>
@@ -164,7 +164,7 @@
       <li>
         <a href="#groupModal" class="unselectable modal-trigger">
           <span class="white-text center unselectable">Create Group</span>
-          <i class="material-icons unselectable">group_add</i>
+          <i class="material-icons">group_add</i>
         </a>
       </li>
       <li v-for="(group) in groups" :key="group._id">
@@ -311,11 +311,6 @@ export default defineComponent({
 nav, nav .nav-wrapper i, nav a.sidenav-trigger, nav a.sidenav-trigger i {
   height: 40px;
   line-height: 40px;
-}
-
-html * :not(.material-icons)
-{
-  font-family: architectsDaughter,monospace;
 }
 
 .sidenav li > a .unselectable {

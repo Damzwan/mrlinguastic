@@ -111,7 +111,7 @@ body {
   opacity: 0
 }
 
-html * {
+html * :not(.material-icons) {
   font-family: architectsDaughter, monospace;
 }
 </style>

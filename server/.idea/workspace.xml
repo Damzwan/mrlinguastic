@@ -22,25 +22,20 @@
     <list default="true" id="5eca4748-db59-466b-8e32-593713263915" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/assets/global.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/About.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/About.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/Donate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Donate.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/Nav/Nav.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Nav/Nav.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/Nav/ProfilePicModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Nav/ProfilePicModal.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/components/Promo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/Promo.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/ShareModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/ShareModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/VocSelection.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/VocSelection.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExampleModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExampleModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseMethod.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseMethod.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseStats.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/ExerciseStats.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/Exercises.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/Exercises.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/FlashcardCarousel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/FlashcardCarousel.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/FlashcardItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/FlashcardItem.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/SpaceInvader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/SpaceInvader.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/SpaceInvaderMonster.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/SpaceInvaderMonster.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/exercises/WordInfoModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/exercises/WordInfoModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/VocCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/VocCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/voc/create/Create.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/global.css" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/global.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/router/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/listUpdater.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/listUpdater.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/localdb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/localdb.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/use/state.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/use/state.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/vue.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/datasources/reverso.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/datasources/reverso.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,6 +155,7 @@
       <workItem from="1611752951638" duration="1981000" />
       <workItem from="1611931378472" duration="64000" />
       <workItem from="1611938839083" duration="677000" />
+      <workItem from="1612270055520" duration="3037000" />
     </task>
     <servers />
   </component>

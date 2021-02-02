@@ -9,7 +9,8 @@ export interface UserDbObject {
     _id: string;
     voclists: string[],
     groups: BasicGroupInfo[],
-    profilePic: string
+    profilePic: string,
+    voclistUpdateManager: Record<string, boolean>
 }
 
 export class Localdb {
@@ -182,7 +183,8 @@ export class Localdb {
             _id: "0",
             voclists: [],
             groups: [],
-            profilePic: null
+            profilePic: null,
+            voclistUpdateManager: {}
         }
 
         await this.save("user", user)
@@ -234,14 +236,13 @@ export class Localdb {
         await this.save("user", user);
     }
 
-    async resetUser(voclistIds: string[], groups: BasicGroupInfo[], profilePic: string) {
+    async resetUser(voclistIds: string[], groups: BasicGroupInfo[], profilePic: string, voclistUpdateManager: Record<string, boolean>) {
         const user: UserDbObject = {
             _id: "0",
             voclists: voclistIds,
             groups: groups,
-            profilePic: profilePic
-        };
-
+            profilePic: profilePic,
+            voclistUpdateManager: voclistUpdateManager};
         await this.save("user", user);
     }
 
@@ -250,16 +251,19 @@ export class Localdb {
 
         const listsToSave = voclists.map(list => list._id)
         const listsToRemove = dbListIds.filter(listId => !listsToSave.includes(listId.toString()))
+        const voclistUpdateManager = {};
 
         for (const list of voclists) {
-            const storedList = await this.getItem(list._id, "voclists");
+            const storedList: Voclist = await this.getItem(list._id, "voclists");
             if (!storedList) {
-                list.lastEdited = null;
+                voclistUpdateManager[list._id] = true;
                 this.save("voclists", list)
             }
+            else if (new Date(storedList.lastEdited) < new Date(list.lastEdited)) voclistUpdateManager[list._id] = true;
         }
+
         listsToRemove.forEach((listId) => {this.deleteItem(listId.toString(), "voclists");})
 
-        this.resetUser(listsToSave, groups, profilePic);
+        await this.resetUser(listsToSave, groups, profilePic, voclistUpdateManager);
     }
 }

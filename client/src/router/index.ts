@@ -8,7 +8,7 @@ const routes: Array<RouteConfig> = [
     {
         path: '/',
         name: 'Promo Page',
-        component: Promo
+        component: () => import(/* webpackChunkName: "promo" */ '@/components/Promo.vue')
     },
     {
         path: '/home',
@@ -48,7 +48,7 @@ const routes: Array<RouteConfig> = [
     {
         path: '/home/exercises/stats',
         name: 'Exercise statistics',
-        component: () => import(/* webpackChunkName: "exercise" */ '@/components/voc/exercises/ExerciseStats.vue')
+        component: () => import(/* webpackChunkName: "exercise-stats" */ '@/components/voc/exercises/ExerciseStats.vue')
     },
     {
         path: '/home/exercises/spaceinvader',

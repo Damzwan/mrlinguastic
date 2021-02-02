@@ -15,7 +15,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6bf64ff9-4956-4a50-a243-639565bc4023" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/datasources/reverso.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/datasources/reverso.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../server/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +138,9 @@
       <workItem from="1611578240719" duration="2559000" />
       <workItem from="1611663068395" duration="17112000" />
       <workItem from="1611752628752" duration="2917000" />
-      <workItem from="1611931454622" duration="7394000" />
+      <workItem from="1611931454622" duration="7584000" />
+      <workItem from="1611940092594" duration="871000" />
+      <workItem from="1612264857668" duration="9336000" />
     </task>
     <servers />
   </component>

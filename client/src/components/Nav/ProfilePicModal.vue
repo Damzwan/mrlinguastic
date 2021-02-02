@@ -4,7 +4,7 @@
     <div class="modal-content">
       <h4 class="center">🖼 Choose profile picture 🖼</h4>
       <div class="divider"></div>
-      <div class="row section">
+      <div class="row section" v-if="opened">
         <div class="col s6 m4" v-for="(profilePic, index) in profilePics" :key="index">
           <img :src="getBlobUrl(profilePic)" :alt="index" class="circle hoverable centered-img unselectable"
                style="width: 100px;height: 100px; margin-top: 20px" @click="changeProfilePic(profilePic)">
@@ -41,11 +41,16 @@ export default defineComponent({
     const {mutate: changeProfilePicOnline} = useChangeProfilePicMutation({});
     const db = inject<Localdb>("db");
     const auth = inject<AuthModule>("auth");
+    const opened = ref<boolean>(false);
 
     const profilePics = ["daniel1.jpg", "daniel2.jpg", "daniel3.jpg","daniel4.jpg", "daniel5.jpg", "daniel6.jpg"]
 
+    function onOpen(){
+      opened.value = true;
+    }
+
     onMounted(() => {
-      profilePicModal.value = M.Modal.init(profilePicModalElem.value)
+      profilePicModal.value = M.Modal.init(profilePicModalElem.value, {onOpenStart: onOpen})
     });
 
 
@@ -62,6 +67,7 @@ export default defineComponent({
       getBlobUrl,
       profilePicModalElem,
       profilePics,
+      opened
     }
 
   },

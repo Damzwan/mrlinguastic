@@ -8,22 +8,22 @@
       <div class="col s12 m4">
         <div class="center promo">
           <div class="big-icon">👷‍♂</div>️
-          <p class="promo-caption">Create!</p>
+          <p class="promo-caption">Create</p>
           <p class="light center promo-description">Create high quality vocabulary lists in an instant!</p>
         </div>
       </div>
       <div class="col s12 m4">
         <div class="center promo">
           <div class="big-icon">📜🖋</div>️
-          <p class="promo-caption">Practice!</p>
+          <p class="promo-caption">Practice</p>
           <p class="light center promo-description">Up to 10 ways to practice your vocabulary lists!</p>
         </div>
       </div>
       <div class="col s12 m4">
         <div class="center promo">
           <div class="big-icon">📨</div>
-          <p class="promo-caption">Share!</p>
-          <p class="light center promo-description">Share your creations with your students, friends and family!</p>
+          <p class="promo-caption">Share</p>
+          <p class="light center promo-description">Share your creations with friends, family or students!</p>
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
 
     <div class="row section">
       <div class="col m6 s12 center-align offset-m3">
-        <h4 style="font-weight: bold">Study what you want, how you want it!</h4>
+        <h4 style="font-weight: bold">Study what you want, how you want!</h4>
         <p class="flow-text">Mr.Linguastic gives you complete freedom to study whatever you like. No content is locked
           behind a progression system or a paywall.</p>
       </div>
@@ -44,7 +44,7 @@
 
     <div class="row section hide-on-small-and-down">️
       <div class="col m6 center-align offset-m3">
-        <h4 style="font-weight: bold">We do the heavy lifting for you 🏋️‍♂️🏋️‍♀</h4>
+        <h4 style="font-weight: bold">🏋️‍♂ We do the heavy lifting for you 🏋️‍♂</h4>
         <p class="flow-text">For every word, Mr.Linguastic automatically:</p>
         <div class="row">
           <div class="col m5 valign-wrapper offset-m1"><i class="material-icons promo-advantage-icon">translate</i> <span
@@ -67,7 +67,7 @@
 
     <div class="row section hide-on-med-and-up">️
       <div class="col m6 center-align offset-m3">
-        <h4 style="font-weight: bold">We do the heavy lifting for you 🏋️‍♂️🏋️‍♀</h4>
+        <h4 style="font-weight: bold">We do the heavy lifting for you 🏋️‍♀</h4>
         <p class="flow-text">For every word, Mr.Linguastic automatically:</p>
         <div class="row">
           <div class="col s10 valign-wrapper offset-s2">
@@ -134,7 +134,7 @@
         <div class="center promo">
           <div class="big-icon">🤸‍♂</div>️
           <p class="promo-caption">Flexible</p>
-          <p class="light center promo-description">Study on any device that has a browser or download the app</p>
+          <p class="light center promo-description">Study with any browser or download the app</p>
         </div>
       </div>
 
@@ -150,7 +150,7 @@
         <div class="center promo">
           <div class="big-icon">🌍</div>️
           <p class="promo-caption">9 languages</p>
-          <p class="light center promo-description">With more to come</p>
+          <p class="light center promo-description">With more to come!!!</p>
         </div>
       </div>
     </div>

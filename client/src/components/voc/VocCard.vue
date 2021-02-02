@@ -20,11 +20,11 @@
         </div>
         <div class="col s1" style="margin-right: 10px">
           <img :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.fromLang)}.svg`)"
-               width="25px" height="25px"/>
+               width="25px" height="25px" alt="fromLanguage"/>
         </div>
         <div class="col s1">
           <img :src="require(`@/assets/country-flags/${getCountry(list.settings.langSettings.toLang)}.svg`)"
-               width="25px" height="25px"/>
+               width="25px" height="25px" alt="toLanguage"/>
         </div>
       </div>
 

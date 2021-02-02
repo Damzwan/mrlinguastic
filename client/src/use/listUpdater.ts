@@ -2,7 +2,7 @@ import {useGetWordsQueryLazy} from "@/use/lazyQueries";
 import {getOnlineListFromState} from "@/use/state";
 import {BasicVoclist, Voclist} from "@/gen-types";
 import {inject, unref, watch} from "@vue/composition-api";
-import {Localdb} from "@/use/localdb";
+import {Localdb, UserDbObject} from "@/use/localdb";
 import {AuthModule} from "@/use/authModule";
 
 export function useVoclistUpdater() {
@@ -16,8 +16,12 @@ export function useVoclistUpdater() {
         let offlineList: Voclist | null = await db.getItem<Voclist>(vocId, "voclists")
 
         if ((!listFromState || !auth.getOid().value) && offlineList.lastEdited) return offlineList; //online lists not yet fetched, we rely on a offline copy
-        if (offlineList.lastEdited && new Date(listFromState.lastEdited) <= new Date(offlineList.lastEdited)) return offlineList //no update is needed
 
+        const user = await db.getItem<UserDbObject>("0", "user");
+        if (!user.voclistUpdateManager[vocId]) return offlineList;
+
+        delete user.voclistUpdateManager[vocId];
+        db.save("user", user);
         getWords(null, {vocId: listFromState._id})
 
         return await new Promise<Voclist>((resolve) => {

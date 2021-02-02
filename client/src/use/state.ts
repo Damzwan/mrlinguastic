@@ -47,6 +47,7 @@ function replaceList(newList: Voclist) {
         if (state.onlineVoclists[i]._id == newList._id) {
             state.onlineVoclists[i].wordsLength = newList.words.length;
             state.onlineVoclists[i].settings = newList.settings;
+            state.onlineVoclists[i].lastEdited = newList.lastEdited;
             return;
         }
     }

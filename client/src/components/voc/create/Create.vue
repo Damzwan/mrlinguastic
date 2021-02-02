@@ -59,6 +59,7 @@ import {AuthModule} from "@/use/authModule";
 import {Localdb} from "@/use/localdb";
 import {replaceList, resetWordsLoading} from "@/use/state";
 import {useTranslateWordQueryLazy} from "@/use/lazyQueries";
+import {useVoclistUpdater} from "@/use/listUpdater";
 
 //used to make use of typescript typing
 interface State {
@@ -116,11 +117,12 @@ export default defineComponent({
 
     const {result: translatedWord, load: executeTranslate} = useTranslateWordQueryLazy();
     const {mutate: updateVoclistOnline} = useUpdateVoclistMutation(null); //TODO fix better name xd
+    const {updateVoclist} = useVoclistUpdater();
 
     resetWordsLoading();
 
     function restoreVoclist() {
-      db.restoreVocList(localStorage.getItem("_id")).then(async restoredList => {
+      updateVoclist(localStorage.getItem("_id")).then(async restoredList => {
         Object.assign(list, restoredList);
         state.restored = true;
       })
@@ -132,11 +134,13 @@ export default defineComponent({
     function finalSave() {
       if (!localStorage.getItem("_id")) return;
       if (auth.getOid().value && list && list.settings) {
+        const lastUpdated = newLastUpdated();
+        list.lastEdited = lastUpdated;
         updateVoclistOnline({
           list: list as VoclistInput,
           changedBlobs: state.blobsToRemove,
           oid: auth.getOid().value,
-          lastUpdated: newLastUpdated()
+          lastUpdated: lastUpdated
         })
       }
       replaceList(list);
