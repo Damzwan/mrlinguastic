@@ -1,2 +1,2 @@
 # mrlinguastic
-A language learning app that is going to beat the world!
+A community based language learning app developed with Vue and Node.js
